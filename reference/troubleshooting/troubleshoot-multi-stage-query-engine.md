@@ -6,7 +6,7 @@ description: Troubleshoot issues with the multi-stage query engine (v2).
 
 Learn how to [troubleshoot errors](troubleshoot-multi-stage-query-engine.md#troubleshoot-errors) when using the multi-stage query engine (v2), and see [multi-stage query engine limitations](troubleshoot-multi-stage-query-engine.md#limitations-of-the-multi-stage-query-engine).
 
-Find instructions on [how to enable the multi-stage query engine](v2-multi-stage-query-engine.md), or see a high-level overview of [how the multi-stage query engine works](../multi-stage-engine.md).
+Find instructions on [how to enable the multi-stage query engine](../../developers/advanced/v2-multi-stage-query-engine.md), or see a high-level overview of [how the multi-stage query engine works](../multi-stage-engine.md).
 
 ## Limitations of the multi-stage query engine
 
@@ -188,7 +188,7 @@ In the single-stage engine, these aggregations would always result in a `DOUBLE`
 
 ### NULL function support
 
-Null handling is not supported when tables use table based null storing. You have to use column based null storing instead. See [null handling support](null-value-support.md).
+Null handling is not supported when tables use table based null storing. You have to use column based null storing instead. See [null handling support](../../developers/advanced/null-value-support.md).
 
 ### Custom transform function support
 

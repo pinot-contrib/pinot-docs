@@ -4,7 +4,7 @@
 
 If you are deploying using the helm chart with Kubernetes, see the tutorial on setting up Prometheus and Grafana to monitor Pinot.
 
-[https://docs.pinot.apache.org/users/tutorials/monitor-pinot-using-prometheus-and-grafana](https://docs.pinot.apache.org/users/tutorials/monitor-pinot-using-prometheus-and-grafana)
+[Monitor Pinot using Prometheus and Grafana](../tutorials/monitor-pinot-using-prometheus-and-grafana.md)
 
 ## Key Metrics to Watch
 

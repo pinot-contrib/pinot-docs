@@ -14,11 +14,11 @@ There are two parts to the process: task generation and task execution.
 
 ### Task generation
 
-The task generator (running on the Pinot controller) creates tasks to be run by a [Pinot minion](https://docs.pinot.apache.org/basics/components/minion).
+The task generator (running on the Pinot controller) creates tasks to be run by a [Pinot minion](../../basics/components/cluster/minion.md).
 
 The task generator determines the window start and end time based on the provided configuration. It then checks to see if any of the completed segments are eligible by checking their start and end time, beginning with the segment with the earliest time. Eligible segments must overlap with that window, as shown in the diagram below:
 
-![Real-Time to Offline Job - Selecting eligible segments](../../img/realtime-offline.png) _Real-time to offline job Selecting eligible segments_
+![Real-Time to Offline Job - Selecting eligible segments](../../.gitbook/assets/realtime-offline.png) _Real-time to offline job Selecting eligible segments_
 
 There must be at least one completed/flushed segment in the real-time table, otherwise the task won't try to create any offline segments.
 
@@ -47,7 +47,7 @@ The task only moves completed (`ONLINE`) segments of the real-time table. If the
 ### Configure the real-time to offline job
 
 1. Start a Pinot minion (link).
-2. Add `RealtimeToOfflineSegmentsTask` to the task configuration of your real-time table. For details on each property, see the [configuration section below](pinot-managed-offline-flows/#tasktypeconfigsmaprealtimetoofflinesegmentstask-configuration).
+2. Add `RealtimeToOfflineSegmentsTask` to the task configuration of your real-time table. For details on each property, see the [configuration section below](#tasktypeconfigsmap.realtimetoofflinesegmentstask-configuration).
 
 ```
 "tableName": "myTable_REALTIME",
@@ -69,7 +69,7 @@ The task only moves completed (`ONLINE`) segments of the real-time table. If the
 ```
 
 3. Create the corresponding offline table.
-4. Enable the `PinotTaskManager` periodic task using one of the two methods described in [Auto-schedule](https://docs.pinot.apache.org/basics/components/minion#auto-schedule).
+4. Enable the `PinotTaskManager` periodic task using one of the two methods described in [Auto-schedule](../../basics/components/cluster/minion.md#auto-schedule).
 5. Restart the controller.
 
 ## `taskTypeConfigsMap.RealtimeToOfflineSegmentsTask` configuration

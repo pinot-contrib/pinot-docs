@@ -51,7 +51,7 @@ Segments are the basic unit of data storage and processing in Pinot. When a quer
 * Realtime segments that are being ingested, where some indexes (like range indexes) cannot be used.
 * Data distribution, specially min and max values for columns, which can affect the query plan.
 
-Given a Pinot query can touch thousands of segments, Pinot tries to minimize the number of [different queries](#user-content-fn-1)[^1] shown when explaining a query. By default, Pinot tries to analyze the plan for each segment and returns a simplified plan. How this simplification is done depends on the query engine, you can read more about that below.
+Given a Pinot query can touch thousands of segments, Pinot tries to minimize the number of different queries[^1] shown when explaining a query. By default, Pinot tries to analyze the plan for each segment and returns a simplified plan. How this simplification is done depends on the query engine, you can read more about that below.
 
 There is a verbose mode that can be used to show the plan for each segment. This mode is activated by setting the `explainPlanVerbose` query option to true, prefixing `SET explainPlanVerbose=true;` to the explain plan sentence.
 
@@ -83,7 +83,7 @@ Independently of how it is activated, once this mode is enabled, `EXPLAIN PLAN F
 
 #### Verbose and brief mode
 
-As explained in `Different plans for different segments`, by default Pinot tries to minimize the number of [different query](#user-content-fn-3)[^3] shown when explaining a query. In multi-stage, the brief mode includes all different plans, but each equivalent plan is aggregated. For example, if the same plan is executed on 100 segments, the brief mode will show it only once and stats like the number of docs will be summed.
+As explained in `Different plans for different segments`, by default Pinot tries to minimize the number of different query[^3] shown when explaining a query. In multi-stage, the brief mode includes all different plans, but each equivalent plan is aggregated. For example, if the same plan is executed on 100 segments, the brief mode will show it only once and stats like the number of docs will be summed.
 
 In the verbose mode, one plan is shown per segment, including the segment name and all the segment specific information. This may be useful to know which segments are not using indexes, or which segments are using a different data distribution.
 

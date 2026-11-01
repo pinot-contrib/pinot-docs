@@ -28,13 +28,13 @@ From this screen, we can edit or delete the table, edit or adjust its schema, as
 
 For example, if we want to add _yearID_ to the list of inverted indexes, click on **Edit Table,** add the extra column, and click **Save:**
 
-![Edit Table](../../.gitbook/assets/edit-baseball-stats-table-config.png)
+![Edit Table](../../.gitbook/assets/.unused/edit-baseball-stats-table-config.png)
 
 ## Query Console
 
 Let's run some queries on the data in the Pinot cluster. Navigate to [Query Console](http://localhost:9000/#/query) to see the querying interface.
 
-We can see our `baseballStats` table listed on the left (you will see `meetupRSVP` or `airlineStats` if you used the streaming or the hybrid [quick start](https://docs.pinot.apache.org/basics/getting-started/running-pinot-in-docker)). Click on the table name to display all the names along with the data types of the columns of the table.
+We can see our `baseballStats` table listed on the left (you will see `meetupRSVP` or `airlineStats` if you used the streaming or the hybrid [quick start](../getting-started/running-pinot-in-docker.md)). Click on the table name to display all the names along with the data types of the columns of the table.
 
 You can also execute a sample query `select * from baseballStats limit 10` by typing it in the text box and clicking the **Run Query** button.
 

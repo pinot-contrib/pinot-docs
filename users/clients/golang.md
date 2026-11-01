@@ -21,7 +21,7 @@ git clone git@github.com:startreedata/pinot-client-go.git
 cd pinot-client-go
 ```
 
-3. Build and run the example application to query from the [Pinot batch quickstart](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally).
+3. Build and run the example application to query from the [Pinot batch quickstart](../../basics/getting-started/running-pinot-locally.md).
 
 ```
 go build ./examples/batch-quickstart

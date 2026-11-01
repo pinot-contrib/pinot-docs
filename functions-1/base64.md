@@ -20,7 +20,7 @@ Encoding scheme follows [java.util.Base64.Encoder](https://docs.oracle.com/javas
 ## Usage Examples
 
 {% hint style="info" %}
-For better readability, the following examples converts string `hello!` into BYTES using [toUtf8](https://docs.pinot.apache.org/configuration-reference/functions/utf8) function and converts the decoded BYTES into string using [fromUtf8](https://docs.pinot.apache.org/configuration-reference/functions/utf8).
+For better readability, the following examples converts string `hello!` into BYTES using [toUtf8](utf8.md) function and converts the decoded BYTES into string using [fromUtf8](utf8.md).
 {% endhint %}
 
 ```sql
@@ -42,7 +42,7 @@ FROM ignoreMe
 | hello!  |
 
 {% hint style="info" %}
-Note that without UTF8 string conversion, returned BYTES will be represented as a Hex string following Pinot's [BYTES column representation](https://docs.pinot.apache.org/users/user-guide-query/querying-pinot#bytes-column). See the example below.
+Note that without UTF8 string conversion, returned BYTES will be represented as a Hex string following Pinot's [BYTES column representation](../users/user-guide-query/querying-pinot.md#bytes-column). See the example below.
 {% endhint %}
 
 ```sql

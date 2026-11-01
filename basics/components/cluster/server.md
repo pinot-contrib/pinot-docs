@@ -26,7 +26,7 @@ Pinot servers are modeled as Helix participants, hosting Pinot tables (referred 
 
 ## Starting a server
 
-Make sure you've [set up Zookeeper](./#setup-a-pinot-cluster). If you're using Docker, make sure to [pull the Pinot Docker image](./#setup-a-pinot-cluster). To start a server:
+Make sure you've [set up Zookeeper](./#set-up-a-pinot-cluster). If you're using Docker, make sure to [pull the Pinot Docker image](./#set-up-a-pinot-cluster). To start a server:
 
 ```
 Usage: StartServer

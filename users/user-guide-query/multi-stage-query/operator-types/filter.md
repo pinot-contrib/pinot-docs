@@ -14,7 +14,7 @@ Filter operations apply a predicate to each row and only keep the rows that sati
 
 It is important to notice that filter operators can only be optimized using indexes when they are executed in the leaf stage. The reason for that is that the intermediate stages don't have access to the actual segments. This is why the engine will try to push down the filter operation to the leaf stage whenever possible.
 
-As explained in [explain-plan-multiple-stages](../../query-syntax/explain-plan-multiple-stages.md), the explain plan in the multi-stage query engine does not indicate whether indexes are used or not.
+As explained in [explain-plan-multiple-stages](../../query-syntax/explain-plan-multi-stage.md), the explain plan in the multi-stage query engine does not indicate whether indexes are used or not.
 
 ### Blocking nature
 
@@ -61,7 +61,7 @@ Is saying that the filter is applying the condition `$5 > 2` which means that on
 
 ### How to know if indexes are used
 
-As explained in [explain-plan-multiple-stages](../../query-syntax/explain-plan-multiple-stages.md), the explain plan in the multi-stage query engine does not directly indicate whether indexes are used or not.
+As explained in [explain-plan-multiple-stages](../../query-syntax/explain-plan-multi-stage.md), the explain plan in the multi-stage query engine does not directly indicate whether indexes are used or not.
 
 Apache Pinot contributors are working on improving this, but it is not yet available. Meanwhile, we need an indirect approach to get that information.
 
@@ -69,4 +69,4 @@ First, we need to know on which stage the filter is being used. If the filter is
 
 But what about the leaf filters executed in the stage? Not all filters in the leaf stage can use indexes. The only way to know if the filter is using indexes is to use single-stage explain plan. In order to do so you need to transform the leaf stage into a single-stage query. This is a manual process that can be tedious but ends up not being so difficult once you get used to it.
 
-See [understanding-multi-stage-query](../understanding-multi-stage-query.md) for more information.
+See [segment explain plans](../explain-plan-1.md#segment-plan) for more information.

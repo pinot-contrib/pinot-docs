@@ -414,7 +414,7 @@ bin/pinot-admin.sh AddTable \
 
 ### Use `sortedColumn` with streaming tables
 
-For [streaming](advanced-pinot-setup.md#streaming-table-creation) tables, you can use a sorted index with `sortedColumn` to sort data when generating segments as the segment is created. See [Real-time tables](../../basics/indexing/forward-index.md#real-time-tables) for more information.
+For [streaming](advanced-pinot-setup.md#streaming-table-creation) tables, you can use a sorted index with `sortedColumn` to sort data when generating segments as the segment is created. See [Real-time tables](../../basics/indexing/forward-index.md#sorted-forward-index-with-run-length-encoding) for more information.
 
 A sorted forward index can be used as an inverted index with better performance, but with the limitation that the search is only applied to one column per table. See [Sorted inverted index](../../basics/indexing/inverted-index.md#sorted-inverted-index) to learn more.
 

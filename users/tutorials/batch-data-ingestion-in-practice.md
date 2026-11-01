@@ -253,7 +253,7 @@ cd spark-2.4.6-bin-hadoop2.7
 ./bin/spark-shell --master 'local[2]'
 ```
 
-Build latest Pinot Distribution following this [Wiki](https://docs.pinot.apache.org/getting-started/running-pinot-locally#build-from-source-or-download-the-distribution).
+Build latest Pinot Distribution following this [Wiki](../../basics/getting-started/running-pinot-locally.md#download-apache-pinot).
 
 Below command shows how to use spark-submit command to submit a spark job using `pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`.
 

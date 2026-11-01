@@ -129,7 +129,7 @@ Flink connector supports backfilling full upsert tables where each record contai
 **Requirements:**
 1. **Partitioning**: Data must be partitioned using the same strategy as the upstream stream (e.g., Kafka)
 2. **Parallelism**: Flink job parallelism must match the number of upstream stream/table partitions
-3. **Comparison Column**: The values of the comparison column  must have ordering consistent with the upstream stream. This ensures that Pinot can correctly resolve which record is the latest for a given key. See [Pinot upsert comparison column docs](https://docs.pinot.apache.org/manage-data/data-import/upsert-and-dedup/upsert#comparison-column) for important considerations.
+3. **Comparison Column**: The values of the comparison column  must have ordering consistent with the upstream stream. This ensures that Pinot can correctly resolve which record is the latest for a given key. See [Pinot upsert comparison column docs](../upsert-and-dedup/upsert.md#comparison-column) for important considerations.
 
 **Example:**
 

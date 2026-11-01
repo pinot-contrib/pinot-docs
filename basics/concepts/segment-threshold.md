@@ -10,7 +10,7 @@ When data is first ingested from a streaming provider like Kafka, Pinot stores t
 
 This segment is on the disk of the server(s) processing a particular partition from the streaming provider.
 
-However, it's not until a segment is committed that the segment is written to the [deep store](https://docs.pinot.apache.org/basics/components/deep-store). The segment threshold decides when that should happen.
+However, it's not until a segment is committed that the segment is written to the [deep store](../components/table/segment/deep-store.md). The segment threshold decides when that should happen.
 
 ## Why is the segment threshold important?
 

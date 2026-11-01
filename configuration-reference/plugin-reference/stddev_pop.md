@@ -12,7 +12,7 @@ Returns the population standard deviation of a numerical column.
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```sql
 SELECT STDDEV_POP(numberOfGames) AS stddev 

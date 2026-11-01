@@ -147,7 +147,7 @@ Click on Prometheus and set HTTP URL to `http://prometheus-server.prometheus.svc
 
 Once data source is added, we can import a Pinot dashboard:
 
-![Grafana Import Button](../../.gitbook/assets/grafana-import-pinot-dashboard\).png)
+![Grafana Import Button](../../.gitbook/assets/grafana-import-pinot-dashboard.png)
 
 A sample Pinot dashboard JSON is:
 
@@ -157,7 +157,7 @@ sample-pinot-dashboard
 
 Upload this file and select Prometheus as data source to finish the import:
 
-![Grafana Import Page](../../.gitbook/assets/grafana-import\).png)
+![Grafana Import Page](../../.gitbook/assets/grafana-import.png)
 
 Then you can explore and make your own Pinot dashboard.
 
