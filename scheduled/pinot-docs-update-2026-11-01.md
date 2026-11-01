@@ -553,3 +553,29 @@
 
 ### Notifications
 - No Slack (no-op run stays quiet).
+
+## Run run-20261101T210124Z-966 — 2026-11-01T21:04:30Z UTC — no-op
+
+**Outcome:** No new docs-relevant upstream PRs. Checkpoint unchanged.
+
+### Coverage
+- Durable checkpoint read from automation-state branch: `last_processed_merged_at=2026-10-31T11:11:36Z`.
+- apache/pinot upstream/master HEAD: `e9be2ee2` (#20110), merged exactly at the checkpoint.
+- Inventory of merges strictly after checkpoint (three agreeing methods):
+  - **search/issues** `is:merged merged:2026-10-31..2026-11-02`: 5 PRs (#19998, #20068, #20077, #20107, #20110), all with precise merged_at ≤ checkpoint and all already in the ledger.
+  - **pulls API** precise `merged_at` for each boundary PR: max = `2026-10-31T11:11:36Z` (#20110), == checkpoint; none strictly after.
+  - **git log** upstream/master: HEAD == #20110 at the inclusive boundary, nothing newer.
+- Ledger: 35 entries, current with master tip. **0 gaps**, **0 PRs after checkpoint**.
+
+### Decisions
+- New docs-relevant PRs: **0**. No docs PRs created, no upstream comments, no checkpoint advance.
+
+### Preflight
+- gh auth OK as `xiangfu0`. apache/pinot: WRITE (push+triage+comment). pinot-contrib/pinot-docs: ADMIN.
+- Durable store read/write verified via automation-state branch; lease acquired (create-if-absent) and released via Contents API CAS. Note: Contents API PUTs with large base64 bodies must use `--input <json-file>` (argv length limit), not `-f content=`.
+
+### Blockers
+- None.
+
+### Notifications
+- No Slack (no-op run stays quiet).
