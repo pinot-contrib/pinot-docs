@@ -8,7 +8,7 @@ description: >-
 
 The [Compressed Probability Counting(CPC) Sketch](https://datasketches.apache.org/docs/CPC/CPC.html) enables extremely space-efficient cardinality estimation.  The stored CPC sketch can consume about 40% less space than an HLL sketch of comparable accuracy.  Pinot can aggregate multiple existing CPC sketches together to get a total distinct count or estimated directly from raw values.
 
-For exact distinct counting, see [DISTINCTCOUNT](distinctcount.md).
+For exact distinct counting, see [DISTINCTCOUNT](../../functions-1/distinctcount.md).
 
 ## Signature
 
@@ -22,7 +22,7 @@ For exact distinct counting, see [DISTINCTCOUNT](distinctcount.md).
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```sql
 select distinctCountCpcSketch(teamID) AS value

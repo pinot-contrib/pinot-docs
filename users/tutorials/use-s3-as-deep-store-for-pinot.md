@@ -406,7 +406,7 @@ tableSpec: {schemaURI: 'http://localhost:9000/tables/airlineStats/schema', table
 
 #### Set up Spark Cluster (Skip if you already have one)
 
-Follow this [page](https://docs.pinot.apache.org/users/tutorials/batch-data-ingestion-in-practice#executing-the-job-using-spark) to setup a local spark cluster.
+Follow this [page](batch-data-ingestion-in-practice.md#executing-the-job-using-spark) to setup a local spark cluster.
 
 #### Submit Spark Job
 

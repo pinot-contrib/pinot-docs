@@ -4,7 +4,7 @@ description: The Docker instructions on this page are still WIP
 
 # Stream ingestion example
 
-This example assumes you have set up your cluster using [Pinot in Docker](https://docs.pinot.apache.org/basics/getting-started/advanced-pinot-setup).
+This example assumes you have set up your cluster using [Pinot in Docker](../../developers/advanced/advanced-pinot-setup.md).
 
 ## Data Stream
 

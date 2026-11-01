@@ -7,7 +7,7 @@ description: This page talks about support for text search in Pinot.
 {% hint style="info" %}
 This text index method is recommended over the experimental [native text index](native-text-index.md).
 
-Click to skip the background info and go straight to the procedure [to enable this text index](text-search-support.md#enable-a-text-index).
+Click to skip the background info and go straight to the procedure [to enable this text index](text-search-support.md#enable-a-per-column-text-index).
 {% endhint %}
 
 ## Why do we need text search?

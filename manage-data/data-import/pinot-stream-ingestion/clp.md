@@ -83,7 +83,7 @@ Assuming the user wants to encode `message` and `logPath` as in the example, the
 ```
 
 * `stream.kafka.decoder.prop.fieldsForClpEncoding` is a comma-separated list of names for fields that should be encoded with CLP.
-* We use [variable-length dictionaries](../../../configuration-reference/table/#table-index-config) for the logtype and dictionary variables since their length can vary significantly.
+* We use [variable-length dictionaries](../../../configuration-reference/table.md#table-index-config) for the logtype and dictionary variables since their length can vary significantly.
 
 ### Schema
 

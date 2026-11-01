@@ -9,7 +9,7 @@ description: >-
 
 
 {% hint style="info" %}
-**Important:** To query using Windows functions, you must enable Pinot's [multi-stage query engine (v2)](https://docs.pinot.apache.org/reference/cluster-1). See how to [enable and use the multi-stage query engine (v2](https://docs.pinot.apache.org/developers/advanced/v2-multi-stage-query-engine)).
+**Important:** To query using Windows functions, you must enable Pinot's [multi-stage query engine (v2)](../../../reference/multi-stage-engine.md). See how to [enable and use the multi-stage query engine (v2)](../../../developers/advanced/v2-multi-stage-query-engine.md).
 {% endhint %}
 
 ## Window Functions overview
@@ -71,7 +71,7 @@ frame_end:
 * `windowFunction` refers to the window function used, see supported [window functions](windows-functions.md).
 * `window` is the window definition / windowing mechanism, see supported [window mechanism](windows-functions.md#window-mechanism-over-clause).
 
-You can jump to the [examples](windows-functions.md#examples-of-windows-functions) section to see more concrete use cases of window functions in Pinot.
+You can jump to the [examples](windows-functions.md#window-aggregate-query-examples) section to see more concrete use cases of window functions in Pinot.
 
 ### Example window function query layout
 
@@ -121,7 +121,7 @@ If no `ORDER BY` clause is specified, the window frame will always be `RANGE BET
 
 If there is no `FRAME`, no `PARTITION BY`, and no `ORDER BY` clause specified in the OVER clause (empty `OVER`), the whole result set is regarded as one partition, and there's one frame in the window.
 
-The `OVER` clause applies a specified supported [windows function](windows-functions.md#window-aggregate-functions) to compute values over a group of rows and return a single result for each row. The `OVER` clause specifies how the rows are arranged and how the aggregation is done on those rows.
+The `OVER` clause applies a specified supported [windows function](windows-functions.md#window-functions) to compute values over a group of rows and return a single result for each row. The `OVER` clause specifies how the rows are arranged and how the aggregation is done on those rows.
 
 Inside the over clause, there are three optional components: `PARTITION BY` clause, `ORDER BY` clause, and `FRAME` clause.
 

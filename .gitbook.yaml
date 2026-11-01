@@ -13,7 +13,7 @@ redirects:
     basics/components/server: basics/components/cluster/server.md
     basics/components/minion: basics/components/cluster/minion.md
     basics/components/tenant: basics/components/cluster/tenant.md
-    basics/components/segment: basics/components/table/segment.md
+    basics/components/segment: basics/components/table/segment/README.md
     basics/components/deep-store: basics/components/table/segment/deep-store.md
     basics/components/schema: basics/components/table/schema.md
     basics/concepts: basics/concepts/readme.md

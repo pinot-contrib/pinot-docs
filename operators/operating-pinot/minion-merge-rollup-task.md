@@ -51,7 +51,7 @@ This feature uses the pinot-minions and the Helix Task Executor framework, which
   }
 ```
 
-3. Enable PinotTaskManager (disabled by default) by adding the `controller.task` properties below to your [controller conf](https://docs.pinot.apache.org/configuration-reference/controller), and then restart the controller (required).
+3. Enable PinotTaskManager (disabled by default) by adding the `controller.task` properties below to your [controller conf](../../configuration-reference/controller.md), and then restart the controller (required).
 
 ```
 controller.task.scheduler.enabled=true

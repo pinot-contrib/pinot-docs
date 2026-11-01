@@ -12,7 +12,7 @@ Returns the sample variance of a numerical column.
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```sql
 SELECT VAR_SAMP(numberOfGames) AS variance 

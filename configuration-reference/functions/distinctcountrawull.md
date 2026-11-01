@@ -10,7 +10,7 @@ The [UltraLogLog Sketch](https://arxiv.org/abs/2308.16862) from Dynatrace is a v
 
 Pinot uses an production-ready Java implementation available in [Hash4j](https://github.com/dynatrace-oss/hash4j/tree/main) available under the Apache license.
 
-For exact distinct counting, see [DISTINCTCOUNT](distinctcount.md).  This function call returns the sketch encoded as hexadecimal to the user.
+For exact distinct counting, see [DISTINCTCOUNT](../../functions-1/distinctcount.md).  This function call returns the sketch encoded as hexadecimal to the user.
 
 ## Signature
 
@@ -21,7 +21,7 @@ For exact distinct counting, see [DISTINCTCOUNT](distinctcount.md).  This functi
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```sql
 select distinctCountRawULL(teamID) AS value

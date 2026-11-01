@@ -245,7 +245,9 @@ bin/pinot-admin.sh AddTable -schemaFile /tmp/pinot/schema-stream.json -tableConf
 
 Navigate to [localhost:9000/#/query](http://localhost:9000/#/query) and click on the `events` table to run a query that shows the first 10 rows in this table.
 
-![Querying the events table](../../../img/events-kafka-query.png) _Querying the events table_
+```sql
+SELECT * FROM events LIMIT 10;
+```
 
 ## Kafka ingestion guidelines
 
@@ -420,7 +422,7 @@ Remember to follow the [schema evolution guidelines](../../../users/tutorials/sc
 
 #### Tell Pinot where to find an Avro schema
 
-There is a standalone utility to generate the schema from an Avro file. See \[infer the pinot schema from the avro schema and JSON data]\([https://docs.pinot.apache.org/basics/data-import/complex-type#infer-the-pinot-schema-from-the-avro-schema-and-json-data](https://docs.pinot.apache.org/basics/data-import/complex-type#infer-the-pinot-schema-from-the-avro-schema-and-json-data)) for details.
+There is a standalone utility to generate the schema from an Avro file. See [infer the Pinot schema from the Avro schema and JSON data](../complex-type/README.md#infer-the-pinot-schema-from-the-avro-schema-and-json-data) for details.
 
 To avoid errors like `The Avro schema must be provided`, designate the location of the schema in your `streamConfigs` section. For example, if your current section contains the following:
 

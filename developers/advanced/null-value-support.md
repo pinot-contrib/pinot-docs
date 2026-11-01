@@ -62,7 +62,7 @@ We recommend configuring column based null storing, which lets you specify null 
 
 To enable column based null handling:
 
-1. Set [enableColumnBasedNullHandling](../../configuration-reference/schema.md#Schema) to `true` in the schema configuration before ingesting data.
+1. Set [enableColumnBasedNullHandling](../../configuration-reference/schema.md#schema) to `true` in the schema configuration before ingesting data.
 2. Then specify which columns are not nullable using the `notNull` field spec, which defaults to false.
 
 ```json
@@ -94,8 +94,8 @@ This is the only way to enable null storing in Pinot before 1.1.0, but it is dep
 
 When table based null storing is enabled, all columns will be considered nullable. To enable this mode you need to:
 
-1. Enable the `nullHandlingEnabled` configuration in [tableIndexConfig.nullHandlingEnabled](../../configuration-reference/table/#table-index-config)
-2. Disable  [enableColumnBasedNullHandling](../../configuration-reference/schema.md#Schema) in the schema.
+1. Enable the `nullHandlingEnabled` configuration in [tableIndexConfig.nullHandlingEnabled](../../configuration-reference/table.md#table-index-config)
+2. Disable  [enableColumnBasedNullHandling](../../configuration-reference/schema.md#schema) in the schema.
 
 {% hint style="warning" %}
 Remember `nullHandlingEnabled` table configuration enables table based null handling while `enableNullHandling` is the query option that enables advanced null handling at query time. See [advanced null handling support](null-value-support.md#advanced-null-handling-support) for more information.
@@ -201,7 +201,7 @@ Given that neither `count` or `mode` function will ignore `null` values as expec
 Advanced null handling has two requirements:
 
 1. Segments must store null values (see [storing nulls at ingestion time](null-value-support.md#store-nulls-at-ingestion-time)).
-2. The query must enable null handling by setting the `enableNullHandling` [query option](../../users/user-guide-query/query-options.md#enable-null-handling) to `true`.
+2. The query must enable null handling by setting the `enableNullHandling` [query option](../../users/user-guide-query/query-options.md#supported-query-options) to `true`.
 
 The later can be done in one of the following ways:
 
@@ -258,7 +258,7 @@ The following example queries work when the null value is not used in a dataset.
 
 #### Filter for default null value(s) specified in your schema
 
-1. Specify a _default null value_ (`defaultNullValue`) in your [schema](https://docs.pinot.apache.org/basics/components/table/schema) for dimension fields, (`dimensionFieldSpecs`), metric fields (`metricFieldSpecs)`, and date time fields (`dateTimeFieldSpecs`).
+1. Specify a _default null value_ (`defaultNullValue`) in your [schema](../../basics/components/table/schema.md) for dimension fields, (`dimensionFieldSpecs`), metric fields (`metricFieldSpecs)`, and date time fields (`dateTimeFieldSpecs`).
 2. Ingest the data.
 3. To filter out the specified _default null value_, for example, you could write a query like the following:
 

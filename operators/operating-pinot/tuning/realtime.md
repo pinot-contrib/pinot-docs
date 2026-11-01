@@ -24,7 +24,7 @@ If you don't want to use memory-mapping, set `pinot.server.instance.realtime.all
 
 The number of rows in a consuming segment needs to be balanced. Having too many rows can result in memory pressure. On the other hand, having too few rows results in having too many small segments. Having too many segments can be detrimental to query performance, and also increase pressure on the Helix.
 
-The recommended way to do this is to use the `realtime.segment.flush.threshold.segment.size` setting as described in [StreamConfigs Section](../../../configuration-reference/table.md#realtime-table-config). You can run the administrative tool `pinot-admin.sh RealtimeProvisioningHelper` that will help you to come up with an optimal setting for the segment size.
+The recommended way to do this is to use the `realtime.segment.flush.threshold.segment.size` setting as described in [StreamConfigs Section](../../../configuration-reference/table.md#real-time-table-config). You can run the administrative tool `pinot-admin.sh RealtimeProvisioningHelper` that will help you to come up with an optimal setting for the segment size.
 
 ### Moving completed segments to different hosts
 
@@ -97,7 +97,7 @@ This tool can help decide the optimum segment size and number of hosts for your 
 
 1. If you have an offline segment, you can use that.
 2. You can provision a test version of your table with some minimum number of hosts that can consume the stream, let it create a few segments with large enough number of rows (say, 500k to 1M rows), and use one of those segments to run the command. You can drop the test version table, and re-provision it once the command outputs some parameters to set.
-3. If you don't have a segment in hand or provisioning of a test version of your table is not an easy option, you can provide [schema which is decorated with data characteristics](../../configuration-recommendation-engine.md#1.-data-characteristics). Then the tool generates a segment based on the provided characteristics behind the scene and proceeds with the real-time analysis. In case the characteristics of real data is very different, you may need to modify the parameters. You can always change the config after you get segments from real data.
+3. If you don't have a segment in hand or provisioning of a test version of your table is not an easy option, you can provide [schema which is decorated with data characteristics](../../configuration-recommendation-engine.md#id-1.-data-characteristics). Then the tool generates a segment based on the provided characteristics behind the scene and proceeds with the real-time analysis. In case the characteristics of real data is very different, you may need to modify the parameters. You can always change the config after you get segments from real data.
 
 As of Pinot version 0.5.0, this command has been improved to display the number of pages mapped, as well as take in the push frequency as an argument if the real-time table being provisioned is a part of a hybrid table. If you are using an older version of this command, download a later version and re-run the command. The arguments to the command are as follows:
 
@@ -110,7 +110,7 @@ As of Pinot version 0.5.0, this command has been improved to display the number 
 * `maxUsableHostMemory`: This is the total memory available in each host for hosting `retentionHours` worth of data (_i.e._ "hot" data) of this table. Remember to leave some for query processing (or other tables, if you have them in the same hosts). If your latency needs to be very low, this value should not exceed the physical memory available to store pinot segments of this table, on each host in your cluster. On the other hand, if you are trying to lower cost and can take higher latencies, consider specifying a bigger value here. Pinot will leave the rest to the Operating System to page memory back in as necessary.
 * `retentionHours` : This argument should specify how many hours of data will typically be queried on your table. It is assumed that these are the most recent hours. If `pushFrequency` is specified, then it is assumed that the older data will be served by the offline table, and the value is derived automatically. For example, if `pushFrequency` is `daily`, this value defaults to `72`. If `hourly`, then `24`. If `weekly`, then `8d`. If `monthly`, then `32d`. If neither `pushFrequency` nor `retentionHours` is specified, then this value is assumed to be the retention time of the real-time table (e.g. if the table is retained for 6 months, then it is assumed that most queries will retrieve all six months of data). As an example, if you have a real-time only table with a 21 day retention, and expect that 90% of your queries will be for the most recent 3 days, you can specify a `retentionHours` value of 72. This will help you configure a system that performs much better for most of your queries while taking a performance hit for those that occasionally query older data.
 * `ingestionRate` : Specify the average number of rows ingested per second per partition of your stream.
-* `schemaWithMetadataFile` : This is needed if you do not have a sample segment from the topic to be ingested. This argument allows you to specify [a schema file with additional information](../../configuration-recommendation-engine.md#1.-data-characteristics) to describe the data characteristics (like number of unique values each column can have, etc.).
+* `schemaWithMetadataFile` : This is needed if you do not have a sample segment from the topic to be ingested. This argument allows you to specify [a schema file with additional information](../../configuration-recommendation-engine.md#id-1.-data-characteristics) to describe the data characteristics (like number of unique values each column can have, etc.).
 * `numRows` : This is an optional argument if you want the tool to generate a segment for you. If it is not give, then a default value of `10000` is used.
 
 One you run the command, it produces an output as below:
@@ -122,7 +122,7 @@ RealtimeProvisioningHelperCommand -tableConfigFile /Users/ssubrama/tmp/samza/rea
 Note:
 
 * Table retention and push frequency ignored for determining retentionHours
-* See https://docs.pinot.apache.org/operators/operating-pinot/tuning/realtime
+* See [Real-time tuning](realtime.md)
 
 Memory used per host (Active/Mapped)
 

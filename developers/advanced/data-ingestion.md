@@ -34,7 +34,7 @@ In either mode, Pinot servers store the ingested rows in volatile memory until e
 > 1. A certain number of rows are consumed
 > 2. The consumption has gone on for a certain length of time
 
-(See [StreamConfigs Section](../../configuration-reference/table.md#realtime-table-config) on how to set these values, or have pinot compute them for you)
+(See [StreamConfigs Section](../../configuration-reference/table.md#real-time-table-config) on how to set these values, or have pinot compute them for you)
 
 Upon reaching either one of these limits, the servers do the following:
 

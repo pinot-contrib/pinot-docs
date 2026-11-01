@@ -133,7 +133,7 @@ If you need strong internode authentication at the transport layer, enable 2-way
 
 Pinot supports this via `*.tls.client.auth.enabled=true`. See:
 
-* [Configuring TLS/SSL](configuring-tls-ssl.md#2-way-tls)
+* [Configuring TLS/SSL](configuring-tls-ssl.md#id-2-way-tls)
 
 ### Authentication and authorization (controller + broker)
 
