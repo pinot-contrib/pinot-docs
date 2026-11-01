@@ -332,13 +332,13 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261101T170114Z-21216",
+  "last_run_id": "run-20261101T180256Z-2310",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261101T180256Z-2310",
+    "status": "held",
+    "acquired_at": "2026-11-01T18:03:49Z",
     "prev_holder": "run-20261101T170114Z-21216",
-    "acquired_at": "2026-11-01T17:01:58Z",
-    "released_at": "2026-11-01T17:02:12Z"
+    "released_at": null
   },
   "last_run_summary": "0 PRs merged after checkpoint 2026-10-31T11:11:36Z. Reconciled three ways: search/issues (total_count=0 for merged:>checkpoint), pulls API (newest merged == #20110 @ checkpoint, already ledgered as not_relevant), commits/master (tip e9be2ee20 == #20110 @ checkpoint; since=checkpoint returns only the boundary commit). Local /workspace/pinot origin is fork xiangfu0/pinot (stale); triage used apache/pinot API as authoritative. Checkpoint unchanged; no docs PRs, no upstream comments, no Slack (no-op)."
 }
