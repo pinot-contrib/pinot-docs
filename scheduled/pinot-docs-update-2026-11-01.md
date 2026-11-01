@@ -129,3 +129,37 @@
 
 ### Notifications
 - No Slack (no-op run stays quiet).
+
+---
+
+## Run run-20261101T060202Z-1234 — 2026-11-01T06:03Z (hourly scheduled, no-op)
+
+### Coverage
+- Checkpoint read from durable `automation-state` branch: `last_processed_merged_at=2026-10-31T11:11:36Z`.
+- Merged apache/pinot PRs strictly after checkpoint: **0**.
+- `search/issues` (merged:>=2026-10-31) returned 5 PRs — 20110, 20107, 20077, 20068, 19998 — all with
+  `merged_at <= checkpoint` and all already present in the 35-entry processed ledger.
+- Reconciled against upstream/master HEAD `e9be2ee2` (#20110, at the inclusive boundary);
+  `git log upstream/master --since=checkpoint` = 1 commit (the boundary PR). 0 gaps.
+
+### Decisions
+- No new docs-relevant PRs. No triage required.
+
+### Created / merged
+- None (no docs PR created or merged; no upstream comment).
+
+### Validation
+- N/A (no docs changes produced this run).
+
+### Durable state
+- Lock acquired (commit 1754ab9) and released (commit d567f88) via Contents API PUT with blob-SHA CAS.
+- Checkpoint UNCHANGED. `last_successful_run` -> 2026-11-01T06:03:03Z.
+
+### Access verification (this run)
+- apache/pinot permission = `write`; pinot-contrib/pinot-docs permission = `admin` (read-only preflight, no test PRs/Slack).
+
+### Blockers
+- None.
+
+### Notifications
+- No Slack (no-op run stays quiet).
