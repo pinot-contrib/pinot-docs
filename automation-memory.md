@@ -1787,3 +1787,16 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
   pulls API sort=updated newest==#20110 @ checkpoint, commits/master HEAD==#20110 @ checkpoint). 0 gaps; ledger (35 entries) current with master.
 - Reminder: local checkout origin = fork `xiangfu0/pinot` (stale HEAD #19809); always inventory via apache/pinot API.
 - No docs-relevant work: no docs PR, no upstream comment, no Slack (no-op stays quiet). Checkpoint UNCHANGED. last_successful_run -> 2026-11-01T14:03:05Z.
+
+### 2026-11-01T16:03:03Z (run-20261101T150115Z-18694 — scheduled triage run — no-op; memory entry backfilled by next run)
+- Prior run persisted state (last_run_id, released lock) but did not append memory/report sections; reconstructed from its durable last_run_summary. Checkpoint UNCHANGED at 2026-10-31T11:11:36Z; 0 PRs after checkpoint.
+
+### 2026-11-01T16:03:03Z (run-20261101T160113Z-857 — scheduled triage run — no-op)
+- Preflight OK: gh auth as `xiangfu0` (GH_TOKEN). Permissions: apache/pinot=WRITE (push+triage), pinot-contrib/pinot-docs=ADMIN
+  (real perms despite the `gh-tentrix-wrap` "unauthenticated" stderr warning; Contents API PUT writes succeed). Durable
+  `automation-state` read; checkpoint `2026-10-31T11:11:36Z`; prior lock `released` by run-20261101T150115Z-18694 (no overlap).
+- Lock acquired+released via Contents API PUT with blob-SHA CAS (state 22a4269c -> daa6e287 acquire -> 3754fbe8 release).
+- Inventory: merged apache/pinot PRs strictly after checkpoint: **0** (three agreeing methods — search/issues total_count=0,
+  pulls API sort=updated newest==#20110 @ checkpoint, commits/master `since=checkpoint` returns only the boundary commit). 0 gaps; 35-entry ledger current with master tip e9be2ee20 (#20110).
+- Reminder: local checkout origin = fork `xiangfu0/pinot` (stale HEAD #19809); always inventory via apache/pinot API.
+- No docs-relevant work: no docs PR, no upstream comment, no Slack (no-op stays quiet). Checkpoint UNCHANGED. last_successful_run -> 2026-11-01T16:03:03Z.
