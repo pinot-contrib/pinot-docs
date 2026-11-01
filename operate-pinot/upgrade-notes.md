@@ -15,7 +15,7 @@ For guidance on running the cross-release compatibility tester and the
 recommended component upgrade order, see
 [Upgrading Pinot](upgrading-pinot-cluster.md).
 
-## Upcoming Release
+## 1.6.0
 
 ### Deprecated table properties marked for future removal
 
