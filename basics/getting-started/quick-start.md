@@ -13,7 +13,7 @@ Pinot ships with `QuickStart` commands that launch Pinot components in a single 
     You must have either [installed Pinot locally](running-pinot-locally.md) or [have Docker installed if you want to use the Pinot Docker image](running-pinot-in-docker.md). The examples are available in each option and work the same. The decision of which to choose depends on your installation preference and how you generally like to work. If you don't know which to choose, using Docker will make your cleanup easier after you are done with the examples.
 *   **Pinot versions in examples**
 
-    The Docker-based examples on this page use `apachepinot/pinot:1.5.0`, matching this documentation snapshot.
+    The Docker-based examples on this page use `apachepinot/pinot:1.5.1`, matching this documentation snapshot.
 
     The local install-based examples that are run using the launcher scripts will use the Apache Pinot version you installed.
 *   **Stopping a running example**
@@ -50,7 +50,7 @@ This example demonstrates how to do batch processing with Pinot. The command:
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:1.5.0 QuickStart \
+    apachepinot/pinot:1.5.1 QuickStart \
     -type batch
 ```
 {% endtab %}
@@ -82,7 +82,7 @@ This example demonstrates how to import and query JSON documents in Pinot. The c
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:1.5.0 QuickStart \
+    apachepinot/pinot:1.5.1 QuickStart \
     -type batch_json_index
 ```
 {% endtab %}
@@ -114,7 +114,7 @@ This example demonstrates how to do batch processing in Pinot where the the data
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:1.5.0 QuickStart \
+    apachepinot/pinot:1.5.1 QuickStart \
     -type batch_complex_type
 ```
 {% endtab %}
@@ -147,7 +147,7 @@ This example demonstrates how to do stream processing with Pinot. The command:
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:1.5.0 QuickStart \
+    apachepinot/pinot:1.5.1 QuickStart \
     -type stream
 ```
 {% endtab %}
@@ -180,7 +180,7 @@ This example demonstrates how to do stream processing with JSON documents in Pin
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:1.5.0 QuickStart \
+    apachepinot/pinot:1.5.1 QuickStart \
     -type stream_json_index
 ```
 {% endtab %}
@@ -213,7 +213,7 @@ This example demonstrates how to do stream processing in Pinot with RealtimeToOf
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:1.5.0 QuickStart \
+    apachepinot/pinot:1.5.1 QuickStart \
     -type realtime_minion
 ```
 {% endtab %}
@@ -246,7 +246,7 @@ This example demonstrates how to do stream processing in Pinot where the stream 
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:1.5.0 QuickStart \
+    apachepinot/pinot:1.5.1 QuickStart \
     -type stream_complex_type
 ```
 {% endtab %}
@@ -279,7 +279,7 @@ This example demonstrates how to do [stream processing with upsert](../../manage
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:1.5.0 QuickStart \
+    apachepinot/pinot:1.5.1 QuickStart \
     -type upsert
 ```
 {% endtab %}
@@ -312,7 +312,7 @@ This example demonstrates how to do [stream processing with upsert](../../manage
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:1.5.0 QuickStart \
+    apachepinot/pinot:1.5.1 QuickStart \
     -type upsert_json_index
 ```
 {% endtab %}
@@ -346,7 +346,7 @@ This example demonstrates how to do hybrid stream and batch processing with Pino
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:1.5.0 QuickStart \
+    apachepinot/pinot:1.5.1 QuickStart \
     -type hybrid
 ```
 {% endtab %}
@@ -380,7 +380,7 @@ This example demonstrates how to do joins in Pinot using the [Lookup UDF](../../
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:1.5.0 QuickStart \
+    apachepinot/pinot:1.5.1 QuickStart \
     -type join
 ```
 {% endtab %}
@@ -412,7 +412,7 @@ This example demonstrates how to use logical tables in Pinot, which provide a un
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:1.5.0 QuickStart \
+    apachepinot/pinot:1.5.1 QuickStart \
     -type LOGICAL_TABLE
 ```
 {% endtab %}
@@ -454,7 +454,7 @@ fetch{table="meetupRsvp_REALTIME",filter="",ts_column="__metadata$recordTimestam
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:1.5.0 QuickStart \
+    apachepinot/pinot:1.5.1 QuickStart \
     -type time_series
 ```
 {% endtab %}

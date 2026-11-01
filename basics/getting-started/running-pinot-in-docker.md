@@ -15,12 +15,12 @@ Get started setting up a Pinot cluster with Docker using the guide below.
   * Swap: 4 GB
   * Disk Image size: 60 GB
 
-The Pinot 1.5.0 Docker image is published at `apachepinot/pinot:1.5.0`. View a list of [all published tags on Docker Hub](https://hub.docker.com/r/apachepinot/pinot/tags).
+The Pinot 1.5.1 Docker image is published at `apachepinot/pinot:1.5.1`. View a list of [all published tags on Docker Hub](https://hub.docker.com/r/apachepinot/pinot/tags).
 
-Pull the 1.5.0 Docker image onto your machine by running the following command:
+Pull the 1.5.1 Docker image onto your machine by running the following command:
 
 ```bash
-docker pull apachepinot/pinot:1.5.0
+docker pull apachepinot/pinot:1.5.1
 ```
 
 ## Set up a cluster
@@ -40,7 +40,7 @@ docker run \
     -p 8000:8000 \
     -p 7050:7050 \
     -p 6000:6000 \
-    apachepinot/pinot:1.5.0 QuickStart \
+    apachepinot/pinot:1.5.1 QuickStart \
     -type batch
 ```
 
@@ -83,7 +83,7 @@ docker network create -d bridge pinot-demo
 Export the necessary docker image tags for Pinot, Zookeeper, and Kafka.
 
 ```
-export PINOT_IMAGE=apachepinot/pinot:1.5.0
+export PINOT_IMAGE=apachepinot/pinot:1.5.1
 export ZK_IMAGE=zookeeper:3.9.2
 export KAFKA_IMAGE= bitnami/kafka:3.6
 ```
@@ -182,9 +182,9 @@ docker container ls -a
 ```
 CONTAINER ID   IMAGE                     COMMAND                  CREATED              STATUS              PORTS                                                       NAMES
 accc70bc7f07   bitnami/kafka:3.6         "/opt/bitnami/script…"   About a minute ago   Up About a minute   0.0.0.0:9092->9092/tcp                                      kafka
-1b8b80395959   apachepinot/pinot:1.5.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8097/tcp, 8099/tcp, 9000/tcp, 0.0.0.0:8098->8098/tcp   pinot-server
-134a67eec957   apachepinot/pinot:1.5.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp             pinot-broker
-4fcc72cb7302   apachepinot/pinot:1.5.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp                       pinot-controller
+1b8b80395959   apachepinot/pinot:1.5.1   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8097/tcp, 8099/tcp, 9000/tcp, 0.0.0.0:8098->8098/tcp   pinot-server
+134a67eec957   apachepinot/pinot:1.5.1   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp             pinot-broker
+4fcc72cb7302   apachepinot/pinot:1.5.1   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp                       pinot-controller
 144304524f6c   zookeeper:3.9.2           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, 8080/tcp        pinot-zookeeper
 ```
 
@@ -195,7 +195,7 @@ accc70bc7f07   bitnami/kafka:3.6         "/opt/bitnami/script…"   About a minu
 Optionally, export the necessary docker image tags for Pinot, Zookeeper, and Kafka.
 
 ```
-export PINOT_IMAGE=apachepinot/pinot:1.5.0
+export PINOT_IMAGE=apachepinot/pinot:1.5.1
 export ZK_IMAGE=zookeeper:3.9.2
 export KAFKA_IMAGE=bitnami/kafka:3.6
 ```
@@ -251,7 +251,7 @@ services:
       replicas: ${KAFKA_REPLICAS:-0}  # Default to 0, meaning Kafka won't start unless KAFKA_REPLICAS is set
 
   pinot-controller:
-    image: ${PINOT_IMAGE:-apachepinot/pinot:1.5.0}
+    image: ${PINOT_IMAGE:-apachepinot/pinot:1.5.1}
     command: "StartController -zkAddress pinot-zookeeper:2181"
     container_name: "pinot-controller"
     restart: unless-stopped
@@ -272,7 +272,7 @@ services:
       start_period: 10s
 
   pinot-broker:
-    image: ${PINOT_IMAGE:-apachepinot/pinot:1.5.0}
+    image: ${PINOT_IMAGE:-apachepinot/pinot:1.5.1}
     command: "StartBroker -zkAddress pinot-zookeeper:2181"
     container_name: "pinot-broker"
     restart: unless-stopped
@@ -293,7 +293,7 @@ services:
       start_period: 10s
 
   pinot-server:
-    image: ${PINOT_IMAGE:-apachepinot/pinot:1.5.0}
+    image: ${PINOT_IMAGE:-apachepinot/pinot:1.5.1}
     command: "StartServer -zkAddress pinot-zookeeper:2181"
     container_name: "pinot-server"
     restart: unless-stopped
@@ -343,9 +343,9 @@ docker container ls -a
 ```
 CONTAINER ID   IMAGE                     COMMAND                  CREATED          STATUS                        PORTS                                                       NAMES
 f34a046ac69f   bitnami/kafka:3.6         "/opt/bitnami/script…"   9 minutes ago    Up About a minute (healthy)   0.0.0.0:9092->9092/tcp                                      kafka
-f28021bd5b1d   apachepinot/pinot:1.5.0   "./bin/pinot-admin.s…"   18 minutes ago   Up About a minute (healthy)   8096-8097/tcp, 8099/tcp, 9000/tcp, 0.0.0.0:8098->8098/tcp   pinot-server
-e938453054b0   apachepinot/pinot:1.5.0   "./bin/pinot-admin.s…"   18 minutes ago   Up About a minute (healthy)   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp             pinot-broker
-e0d0c71303a8   apachepinot/pinot:1.5.0   "./bin/pinot-admin.s…"   18 minutes ago   Up About a minute (healthy)   8096-8099/tcp, 0.0.0.0:9000->9000/tcp                       pinot-controller
+f28021bd5b1d   apachepinot/pinot:1.5.1   "./bin/pinot-admin.s…"   18 minutes ago   Up About a minute (healthy)   8096-8097/tcp, 8099/tcp, 9000/tcp, 0.0.0.0:8098->8098/tcp   pinot-server
+e938453054b0   apachepinot/pinot:1.5.1   "./bin/pinot-admin.s…"   18 minutes ago   Up About a minute (healthy)   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp             pinot-broker
+e0d0c71303a8   apachepinot/pinot:1.5.1   "./bin/pinot-admin.s…"   18 minutes ago   Up About a minute (healthy)   8096-8099/tcp, 0.0.0.0:9000->9000/tcp                       pinot-controller
 4be5f168f252   zookeeper:3.9.2           "/docker-entrypoint.…"   18 minutes ago   Up About a minute (healthy)   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, 8080/tcp        pinot-zookeeper
 ```
 

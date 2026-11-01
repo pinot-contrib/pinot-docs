@@ -28,10 +28,10 @@ Download the distribution or build from source by selecting one of the following
 
 {% tabs %}
 {% tab title="Download the release" %}
-Download the 1.5.0 binary release from the [Apache archive](https://archive.apache.org/dist/pinot/apache-pinot-1.5.0/), or use this command:
+Download the 1.5.1 binary release from the [Apache archive](https://archive.apache.org/dist/pinot/apache-pinot-1.5.1/), or use this command:
 
 ```bash
-PINOT_VERSION=1.5.0
+PINOT_VERSION=1.5.1
 
 wget https://archive.apache.org/dist/pinot/apache-pinot-$PINOT_VERSION/apache-pinot-$PINOT_VERSION-bin.tar.gz
 ```
@@ -70,13 +70,13 @@ Check out Pinot:
 ```bash
 git clone https://github.com/apache/pinot.git
 cd pinot
-git checkout release-1.5.0
+git checkout release-1.5.1
 ```
 
 Build Pinot:
 
 {% hint style="info" %}
-Pinot 1.5.0 requires JDK 11 or later; its default bytecode target is Java 11.
+Pinot 1.5.1 requires JDK 11 or later; its default bytecode target is Java 11.
 {% endhint %}
 
 ```bash
