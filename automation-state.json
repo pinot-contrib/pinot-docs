@@ -334,11 +334,11 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261101T120131Z-1112",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261101T130132Z-974",
+    "status": "acquired",
     "prev_holder": "run-20261101T120131Z-1112",
-    "acquired_at": "2026-11-01T12:01:51Z",
-    "released_at": "2026-11-01T12:02:55Z"
+    "acquired_at": "2026-11-01T13:01:41Z",
+    "released_at": null
   },
   "last_run_summary": "0 PRs merged after checkpoint 2026-10-31T11:11:36Z (live apache/pinot master tip = #20110 @ 2026-10-31T11:11:36Z, == checkpoint). Reconciled against live REST pulls API + master commit log; all 15 most-recent master PRs already in ledger. Checkpoint unchanged; no docs PRs created."
 }
