@@ -32,7 +32,7 @@ As described in the Pinot [Components](components/), Pinot has four node types:
 * [Server](components/cluster/server.md)
 * [Minion](components/cluster/minion.md)
 
-![](../.gitbook/assets/Pinot-architecture.svg)
+![](../.gitbook/assets/Pinot-Architecture.svg)
 
 ### Apache Helix and ZooKeeper
 
