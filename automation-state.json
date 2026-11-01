@@ -334,11 +334,10 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261101T160113Z-857",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "prev_holder": "run-20261101T160113Z-857",
-    "acquired_at": "2026-11-01T16:01:28Z",
-    "released_at": "2026-11-01T16:02:09Z"
+    "holder": "run-20261101T170114Z-21216",
+    "status": "held",
+    "acquired_at": "2026-11-01T17:01:58Z",
+    "prev_holder": "run-20261101T160113Z-857"
   },
   "last_run_summary": "0 PRs merged after checkpoint 2026-10-31T11:11:36Z. Reconciled three ways: search/issues (total_count=0 for merged:>checkpoint), pulls API (closed sort=updated desc; newest merged == #20110 @ checkpoint, already in ledger as not_relevant), commits/master API (tip e9be2ee20 == #20110 @ checkpoint; since=checkpoint returns only the checkpoint commit itself). Note: local /workspace/pinot checkout origin is fork xiangfu0/pinot (tip #19809), stale vs apache/pinot; triage uses apache/pinot API, which is authoritative. Checkpoint unchanged; no docs PRs created; no upstream comments; no Slack (no-op)."
 }
