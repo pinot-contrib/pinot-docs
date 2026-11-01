@@ -2,7 +2,7 @@
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
  "last_processed_merged_at": "2026-10-31T11:11:36Z",
- "last_successful_run": "2026-11-01T02:04:30Z",
+ "last_successful_run": "2026-11-01T03:02:38Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -341,7 +341,7 @@
   "docs_prs_created": 0,
   "coverage": "Preflight OK (auth xiangfu0; apache/pinot WRITE push+triage, pinot-docs ADMIN; durable read + CAS lock acquire verified via Contents API PUT, SHA f8fcf578->074fa311). Fetched apache/pinot upstream master HEAD e9be2ee2 (#20110) merged exactly at checkpoint 2026-10-31T11:11:36Z. Inventoried merges strictly after checkpoint three agreeing ways: (A) search/issues is:merged merged:>checkpoint = total_count 0; (B) git log upstream/master --since=checkpoint = only #20110 at the inclusive boundary (committer 2026-10-31T11:11:36Z UTC), nothing newer; (C) pulls API state=closed sort=updated desc per_page=60 = 0 merged strictly after checkpoint. Bounded gap reconciliation: top 100 closed PRs by created desc, max(merged_at)=2026-10-31T11:11:36Z (==checkpoint, #20110 already ledgered not_relevant), 0 merged strictly after. 0 new PRs; no docs-relevant work. Checkpoint unchanged. No Slack (no-op)."
  },
- "last_run_id": "run-20261101T010113Z-846",
+ "last_run_id": "run-20261101T030145Z-1299",
  "lock": {
   "holder": "run-20261101T020123Z-921",
   "acquired_at": "2026-11-01T02:01:23Z",
