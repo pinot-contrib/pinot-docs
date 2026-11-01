@@ -495,3 +495,32 @@
 
 ### Notifications
 - No Slack (no-op run stays quiet).
+
+## Run run-20261101T190122Z-996 — 2026-11-01T19:03:09Z UTC — no-op
+
+**Outcome:** No new docs-relevant upstream PRs. Checkpoint unchanged.
+
+### Coverage
+- Durable checkpoint read from automation-state branch: `last_processed_merged_at=2026-10-31T11:11:36Z` (lease acquired via Contents API blob-SHA CAS, state SHA 7113fd3a -> acc7c2a0).
+- apache/pinot master tip (live API `repos/apache/pinot/commits/master`): `e9be2ee2` (#20110), committed exactly at checkpoint `2026-10-31T11:11:36Z`; already ledgered as not_relevant.
+- Inventory of merges strictly after checkpoint (three agreeing methods):
+  - **search/issues API** `repo:apache/pinot is:pr is:merged merged:>=2026-10-31`: 5 PRs (20110, 20107, 19998, 20077, 20068), all at/before checkpoint and already ledgered; 0 strictly after.
+  - **pulls API** `state=closed&sort=updated&direction=desc` (3 pages): max(merged_at) == checkpoint; 0 merged strictly after.
+  - **commits API** `repos/apache/pinot/commits?sha=master&since=2026-10-31T11:11:37Z`: 0 commits. 0 gaps.
+- Note: local `/workspace/pinot` origin is the `xiangfu0/pinot` fork (stale HEAD #19809, 2026-10-09); used live apache/pinot GitHub API as authoritative for inventory/reconciliation.
+
+### Decisions
+- New docs-relevant PRs: **0**. No docs PRs created, no upstream comments, no checkpoint advance.
+
+### Validation
+- N/A (no docs changes produced this run).
+
+### Preflight
+- gh auth OK as `xiangfu0` (GH_TOKEN). apache/pinot: WRITE (push+triage); pinot-contrib/pinot-docs: ADMIN (perms_push=true). automation-state branch present. Read-only preflight (no test PRs/Slack).
+- Durable store read/write verified; lease acquired (run-20261101T190122Z-996) and released via Contents API blob-SHA CAS.
+
+### Blockers
+- None.
+
+### Notifications
+- No Slack (no-op run stays quiet).
