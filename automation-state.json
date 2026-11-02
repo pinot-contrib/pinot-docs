@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-02T10:38:40Z",
-  "last_successful_run": "2026-11-02T15:02:35Z",
+  "last_successful_run": "2026-11-02T16:04:49Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -346,13 +346,22 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261102T150129Z-ib",
   "lock": {
-    "holder": "run-20261102T160136Z-ib",
-    "status": "held",
-    "prev_holder": "run-20261102T150129Z-ib",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261102T160136Z-ib",
     "acquired_at": "2026-11-02T16:01:36Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-02T16:31:36Z"
+    "released_at": "2026-11-02T16:04:49Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No merged apache/pinot PRs strictly after checkpoint 2026-11-02T10:38:40Z. Three-way reconcile (search API=0, closed-PR pulls list=0, master commit log=0). Most recent merged #20119 at boundary already processed (not_relevant). Checkpoint unchanged. Durable state via GitHub Contents REST API (session-git-hooks block bare-branch push).",
+  "last_run_summary": {
+    "run_id": "run-20261102T160136Z-ib",
+    "run_utc": "2026-11-02T16:04:49Z",
+    "result": "noop",
+    "candidates_examined": [
+      20088,
+      20119
+    ],
+    "note": "No PRs merged after checkpoint 2026-11-02T10:38:40Z; both candidates already processed (not_relevant). No docs PRs created."
+  },
   "run_history_note": ""
 }
