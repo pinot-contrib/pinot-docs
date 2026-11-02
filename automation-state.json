@@ -346,11 +346,11 @@
   "last_run_result": "no-op: 2 merged PRs in window (20088 already processed, 20119 test-only refactor). 0 docs-relevant, 0 docs PRs created.",
   "last_run_id": "run-20261102T110140Z-1075",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261102T120114Z-827",
+    "status": "held",
+    "acquired_at": "2026-11-02T12:01:29Z",
     "prev_holder": "run-20261102T110140Z-1075",
-    "acquired_at": "2026-11-02T11:01:49Z",
-    "released_at": "2026-11-02T11:03:00Z"
+    "lease_expires_at": "2026-11-02T12:31:29Z"
   },
   "last_run_summary": {
     "run_id": "run-20261102T110140Z-1075",
