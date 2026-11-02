@@ -269,3 +269,29 @@ Inventoried merged apache/pinot PRs strictly after checkpoint `2026-11-02T07:14:
 - Checkpoint **unchanged** at `2026-11-02T07:14:43Z` (no new processed work).
 - `last_successful_run` -> 2026-11-02T10:02:56Z.
 - No Slack notification (no-op run).
+
+---
+
+## Run 2026-11-02T11:03:41Z (run-20261102T110140Z-1075) — 1 PR triaged, not-relevant
+
+### Coverage
+- Window: merged_at strictly after prior checkpoint `2026-11-02T07:14:43Z`.
+- Merged apache/pinot PRs in window: **2** — #20088 (at checkpoint boundary, already ledgered not_relevant) and #20119 (new).
+- Reconciled search/issues API against apache/master commits; commit 9fe9d4d8 (#20119) is the only new one after 2b0da67b (#20088). No gaps.
+
+### Decisions
+- **#20119 — not_relevant.** Pure unit-test refactor in `pinot-controller/.../retention/RetentionManagerTest.java` (+10/-4): extracts a `stubSizeRetentionResourceManager` helper so the hybrid-retention-override test spies a plain `RetentionManager` for subclass-suite reuse. No main source, config, API, default, or documented behavior change. Follow-up to the #20088 extension-point refactor. https://github.com/apache/pinot/pull/20119
+
+### Created / merged docs PRs
+- None.
+
+### Validation
+- Not applicable (no docs changes this run).
+
+### Blockers
+- None.
+
+### State
+- Checkpoint **advanced** to `2026-11-02T10:38:40Z` (#20119 merged_at, fully triaged).
+- `last_successful_run` -> 2026-11-02T11:03:41Z.
+- No Slack notification (no docs PRs created this run).
