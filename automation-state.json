@@ -346,11 +346,11 @@
   "last_run_result": "no-op: 0 merged PRs after checkpoint 2026-11-02T10:38:40Z (master tip #20119, already processed). 0 docs-relevant, 0 docs PRs created.",
   "last_run_id": "run-20261102T120114Z-827",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261102T130123Z-10316",
+    "status": "held",
+    "acquired_at": "2026-11-02T13:01:31Z",
     "prev_holder": "run-20261102T120114Z-827",
-    "acquired_at": "2026-11-02T12:01:29Z",
-    "released_at": "2026-11-02T12:03:02Z"
+    "lease_expires_at": null
   },
   "last_run_summary": {
     "run_id": "run-20261102T120114Z-827",
