@@ -334,11 +334,11 @@
   "last_run_result": "no-op",
   "last_run_id": "run-20261102T000111Z-795",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "prev_holder": "run-20261102T000111Z-795",
-    "acquired_at": "2026-11-02T00:01:46Z",
-    "released_at": "2026-11-02T00:02:33Z"
+    "holder": "run-20261102T020119Z-876",
+    "status": "held",
+    "acquired_at": "2026-11-02T02:01:19Z",
+    "lease_expires_at": "2026-11-02T02:31:19Z",
+    "prev_holder": "run-20261102T000111Z-795"
   },
   "last_run_summary": {
     "run_id": "run-20261102T000111Z-795",
