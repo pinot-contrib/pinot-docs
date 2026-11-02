@@ -295,3 +295,29 @@ Inventoried merged apache/pinot PRs strictly after checkpoint `2026-11-02T07:14:
 - Checkpoint **advanced** to `2026-11-02T10:38:40Z` (#20119 merged_at, fully triaged).
 - `last_successful_run` -> 2026-11-02T11:03:41Z.
 - No Slack notification (no docs PRs created this run).
+
+---
+
+## Run 2026-11-02T12:02:48Z (run-20261102T120114Z-827) — no-op, no new upstream PRs
+
+### Coverage
+- Window: merged_at strictly after checkpoint `2026-11-02T10:38:40Z`.
+- Merged apache/pinot PRs in window: **0**.
+- Verified three ways: `gh pr list` merged (100-PR window back to 2026-10-19, 0 after checkpoint); GitHub search API `is:merged merged:>2026-11-02T10:38:40Z` total_count=0; apache/pinot master tip is commit 9fe9d4d8 (#20119, merged 2026-11-02T10:38:39Z) — the checkpoint PR itself, already ledgered. No pagination gaps.
+
+### Decisions
+- None (no PRs to triage).
+
+### Created / merged docs PRs
+- None.
+
+### Validation
+- Not applicable (no docs changes this run).
+
+### Blockers
+- None.
+
+### State
+- Checkpoint **unchanged** at `2026-11-02T10:38:40Z` (no new work; not advanced past unprocessed work).
+- `last_successful_run` -> 2026-11-02T12:02:48Z.
+- Durable lock acquired/released via CAS. No Slack notification (no docs PRs created).
