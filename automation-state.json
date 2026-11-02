@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-02T10:38:40Z",
-  "last_successful_run": "2026-11-02T16:04:49Z",
+  "last_successful_run": "2026-11-02T17:02:57Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -344,24 +344,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261102T150129Z-ib",
+  "last_run_id": "run-20261102T170134Z-ib",
   "lock": {
-    "holder": "run-20261102T170134Z-ib",
-    "status": "held",
-    "prev_holder": "run-20261102T160136Z-ib",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261102T170134Z-ib",
     "acquired_at": "2026-11-02T17:01:34Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-02T17:31:34Z"
+    "released_at": "2026-11-02T17:02:57Z",
+    "lease_expires_at": null
   },
   "last_run_summary": {
-    "run_id": "run-20261102T160136Z-ib",
-    "run_utc": "2026-11-02T16:04:49Z",
+    "run_id": "run-20261102T170134Z-ib",
+    "run_utc": "2026-11-02T17:02:57Z",
     "result": "noop",
     "candidates_examined": [
-      20088,
-      20119
+      20119,
+      20088
     ],
-    "note": "No PRs merged after checkpoint 2026-11-02T10:38:40Z; both candidates already processed (not_relevant). No docs PRs created."
+    "note": "No PRs merged to apache/pinot master after checkpoint 2026-11-02T10:38:40Z (reconciled via search API, pulls API, and commits API — all agree; zero commits after checkpoint). Both nearest candidates (#20119, #20088) already processed as not_relevant. No docs PRs created. Checkpoint unchanged."
   },
   "run_history_note": ""
 }
