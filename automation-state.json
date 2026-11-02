@@ -346,12 +346,12 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261102T140146Z-1147",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261102T150129Z-ib",
+    "status": "held",
     "prev_holder": "run-20261102T140146Z-1147",
-    "acquired_at": "2026-11-02T14:02:45Z",
-    "released_at": "2026-11-02T14:03:30Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-02T15:01:37Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-02T15:51:37Z"
   },
   "last_run_summary": "No merged apache/pinot PRs strictly after checkpoint 2026-11-02T10:38:40Z. Three-way reconcile (search API, closed-PR list, master commit log) all 0. Most recent merged #20119 at boundary already processed (not_relevant). Checkpoint unchanged. Note: durable state persisted via GitHub Contents REST API because session-git-hooks block bare-branch git push (require cs_ prefix); token (xiangfu0) has push:true/admin:true on pinot-docs via REST.",
   "run_history_note": ""
