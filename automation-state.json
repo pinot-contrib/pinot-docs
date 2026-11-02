@@ -340,11 +340,11 @@
   "last_run_result": "no-op",
   "last_run_id": "run-20261102T070158Z-1335",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261102T090144Z-1213",
+    "status": "held",
     "prev_holder": "run-20261102T070158Z-1335",
-    "acquired_at": "2026-11-02T07:01:58Z",
-    "released_at": "2026-11-02T07:01:58Z"
+    "acquired_at": "2026-11-02T09:03:10Z",
+    "released_at": null
   },
   "last_run_summary": {
     "run_id": "run-20261102T070158Z-1335",
