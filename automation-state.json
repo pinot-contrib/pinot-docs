@@ -473,12 +473,12 @@
   "last_run_result": "no-op",
   "last_run_id": "run-20261102T220117Z-10836",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261102T230138Z-1076",
+    "status": "held",
     "prev_holder": "run-20261102T220117Z-10836",
-    "acquired_at": "2026-11-02T22:01:24Z",
-    "released_at": "2026-11-02T22:03:34Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-02T23:01:45Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-02T23:51:45Z"
   },
   "last_run_summary": "9 new merged apache/pinot PRs after checkpoint 2026-11-02T10:38:40Z, all triaged not-relevant; checkpoint advanced to 2026-11-02T21:41:46Z (#20125). Coverage verified three ways: Search API (total_count=9), Pulls API closed-by-updated cross-check (same 9), and apache/master commit reconciliation (9 commits after #20119; PR refs #20114,20123,20124,20125,20126,20127,20130,20131,20132 match exactly). 8 are single-file pom.xml dependabot version bumps; #20114 is an internal segment-store SPI extension point (new no-op loadMappedMetadata hook + protected mapped SegmentMetadataImpl ctor, follow-up to #19998/docs #1159, no user-facing surface change). No docs PRs created; no upstream comments; no Slack notification.",
   "run_history_note": "",
