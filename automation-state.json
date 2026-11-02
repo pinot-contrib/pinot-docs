@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-31T11:11:36Z",
-  "last_successful_run": "2026-11-01T23:04:40Z",
+  "last_successful_run": "2026-11-02T00:02:33Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -332,22 +332,22 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no-op",
-  "last_run_id": "run-20261101T230119Z-11849",
+  "last_run_id": "run-20261102T000111Z-795",
   "lock": {
-    "holder": "run-20261102T000111Z-795",
-    "status": "held",
-    "prev_holder": "run-20261101T230119Z-11849",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261102T000111Z-795",
     "acquired_at": "2026-11-02T00:01:46Z",
-    "released_at": null
+    "released_at": "2026-11-02T00:02:33Z"
   },
   "last_run_summary": {
-    "run_id": "run-20261101T230119Z-11849",
-    "run_utc": "2026-11-01T23:04:40Z",
+    "run_id": "run-20261102T000111Z-795",
+    "run_utc": "2026-11-02T00:02:33Z",
     "result": "no-op",
     "checkpoint_merged_at": "2026-10-31T11:11:36Z",
     "new_docs_prs": [],
     "blockers": "none",
-    "coverage": "0 PRs merged strictly after checkpoint 2026-10-31T11:11:36Z. Verified 3 ways: (1) search repo:apache/pinot is:pr is:merged merged:>2026-10-31T11:11:36Z => 0 (also >=11:11:37Z => 0); (2) apache/pinot master HEAD = e9be2ee (#20110) committed exactly at checkpoint, already in ledger as not_relevant; (3) pulls API closed/updated-desc page of 50 => 0 with merged_at strictly after checkpoint. Local /workspace/pinot origin is shallow fork xiangfu0/pinot; reconciled against apache/pinot via gh api."
+    "coverage": "0 PRs merged strictly after checkpoint 2026-10-31T11:11:36Z. Verified 3 ways: (1) search/issues merged:>2026-10-31T11:11:36Z => 0 (and >=next-second => 0); (2) apache/pinot master HEAD = e9be2ee20 (#20110) committed exactly at checkpoint, already ledgered not_relevant, no later commits; (3) pulls API state=closed sort=updated per_page=50 => no merged_at strictly after checkpoint. Local /workspace/pinot origin is shallow fork xiangfu0/pinot; reconciled against apache/pinot via gh api."
   },
   "run_history_note": ""
 }
