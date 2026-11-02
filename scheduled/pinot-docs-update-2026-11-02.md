@@ -175,3 +175,34 @@ Inventoried merged apache/pinot PRs strictly after checkpoint `2026-10-31T11:11:
 - Checkpoint **unchanged** (no advance past unprocessed/failed work; none existed).
 - `last_successful_run` -> 2026-11-02T07:01:58Z.
 - No Slack notification (no-op runs stay quiet).
+
+---
+
+## Run 2026-11-02T08:03:05Z (run-20261102T080125Z-912) — 1 PR triaged (not-relevant)
+
+### Preflight
+- GitHub auth: `xiangfu0` (GH_TOKEN). apache/pinot = WRITE (pull/push/triage), pinot-contrib/pinot-docs = ADMIN.
+- Durable state read from `automation-state` branch; no prior lease present (no concurrent run).
+- Lease acquired via Contents API PUT; released at end of run.
+
+### Coverage
+Inventoried merged apache/pinot PRs strictly after checkpoint `2026-10-31T11:11:36Z`. **1 new PR: #20088.** Verified two independent ways:
+1. **Search API** — `repo:apache/pinot is:pr is:merged merged:>=2026-10-31` filtered strictly > checkpoint => [20088].
+2. **Git reconcile** — against apache/master: the only commit after checkpoint commit `e9be2ee2` (#20110) is `2b0da67b` (#20088). No gaps.
+
+### Decisions
+- **#20088 — not_relevant.** "Extract hybrid table retention check into overridable shouldEnableHybridTableRetentionStrategy method." Internal extensibility refactor in controller `RetentionManager`: extracts the existing `_isHybridTableRetentionStrategyEnabled` gate into a new `protected` overridable method `shouldEnableHybridTableRetentionStrategy(realtimeTableConfig, offlineTableConfig)` for per-table subclass overrides; the default implementation returns the same flag, so behavior is identical. Also makes `manageRetentionForRealtimeTable` package-private with `@VisibleForTesting`. The referenced config `ControllerConf.ENABLE_HYBRID_TABLE_RETENTION_STRATEGY` (default `false`, runtime cluster-config updatable) pre-exists and is only referenced in Javadoc/tests — not added or changed. 1 main source file + 1 test file. No new config/default/query-option/function/documented user-facing surface. Not docs-relevant.
+
+### Created / merged docs PRs
+- None.
+
+### Validation
+- Not applicable (no docs changes this run).
+
+### Blockers
+- None.
+
+### State
+- Checkpoint **advanced** to `2026-11-02T07:14:43Z` (#20088 merged_at; fully triaged, not-relevant).
+- `last_successful_run` -> 2026-11-02T08:03:05Z.
+- No Slack notification (non-relevant decision; no docs PR created).
