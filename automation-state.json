@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-02T07:14:43Z",
-  "last_successful_run": "2026-11-02T10:02:30Z",
+  "last_processed_merged_at": "2026-11-02T10:38:40Z",
+  "last_successful_run": "2026-11-02T11:03:00Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20088,
-    "upstream_url": "https://github.com/apache/pinot/pull/20088",
+    "upstream_pr": 20119,
+    "upstream_url": "https://github.com/apache/pinot/pull/20119",
     "docs_pr": null,
     "docs_url": null,
     "decision": "not_relevant",
-    "note": "No docs PR: internal extensibility refactor, not docs-relevant."
+    "note": "Test-only refactor (RetentionManagerTest helper extraction); not docs-relevant."
   },
   "processed_prs": {
     "19862": {
@@ -334,27 +334,38 @@
       "reason": "Internal extensibility refactor in the controller RetentionManager. Extracts the existing _isHybridTableRetentionStrategyEnabled gate into a new protected overridable method shouldEnableHybridTableRetentionStrategy(realtimeTableConfig, offlineTableConfig) so subclasses can decide the hybrid-retention strategy per table; the default implementation returns the same flag and preserves identical behavior. Also makes manageRetentionForRealtimeTable package-private with @VisibleForTesting. No new config, default, query option, function, or documented user-facing surface: the referenced ControllerConf.ENABLE_HYBRID_TABLE_RETENTION_STRATEGY config (default false, runtime-updatable via cluster config) pre-exists and is only mentioned in Javadoc/tests, not added or changed by this PR. One main source file + one test file. Not docs-relevant.",
       "merged_at": "2026-11-02T07:14:43Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20088"
+    },
+    "20119": {
+      "decision": "not_relevant",
+      "reason": "Pure unit-test refactor. Modifies only pinot-controller/.../retention/RetentionManagerTest.java (+10/-4): extracts a stubSizeRetentionResourceManager helper so createRetentionManagerWithHybridRetentionOverride spies a plain RetentionManager (constructed directly) instead of a size-retention variant, letting subclass test suites reuse the override. No main source, config, API, function, default, or documented user-facing behavior changes. Follow-up to the #20088 extension-point refactor (itself already triaged not_relevant). Not docs-relevant.",
+      "merged_at": "2026-11-02T10:38:40Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20119"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op",
-  "last_run_id": "run-20261102T100132Z-1081",
+  "last_run_result": "no-op: 2 merged PRs in window (20088 already processed, 20119 test-only refactor). 0 docs-relevant, 0 docs PRs created.",
+  "last_run_id": "run-20261102T110140Z-1075",
   "lock": {
-    "holder": "run-20261102T110140Z-1075",
-    "status": "held",
-    "prev_holder": "run-20261102T100132Z-1081",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261102T110140Z-1075",
     "acquired_at": "2026-11-02T11:01:49Z",
-    "expires_at": "2026-11-02T11:51:50Z",
-    "released_at": null
+    "released_at": "2026-11-02T11:03:00Z"
   },
   "last_run_summary": {
-    "run_id": "run-20261102T100132Z-1081",
-    "run_utc": "2026-11-02T10:02:30Z",
-    "result": "no-op",
-    "checkpoint_merged_at": "2026-11-02T07:14:43Z",
-    "new_docs_prs": [],
-    "blockers": "none",
-    "coverage": "0 PRs merged strictly after checkpoint 2026-11-02T07:14:43Z. Verified 3 ways: (1) search/issues repo:apache/pinot is:pr is:merged merged:>checkpoint => total_count 0; (2) repos/apache/pinot/pulls state=closed sort=updated per_page=100 x3 pages filtered merged_at>checkpoint => []; (3) commits?sha=master since=checkpoint+1s => []; master HEAD 2b0da67bc4 (#20088) committed exactly at checkpoint, already ledgered not_relevant. Durable automation-state read + API Contents CAS write verified (lease acquire+release round-trip OK). Preflight read-only: authed xiangfu0; apache/pinot WRITE, pinot-contrib/pinot-docs ADMIN. No docs PRs created, no Slack sent."
+    "run_id": "run-20261102T110140Z-1075",
+    "run_utc": "2026-11-02T11:03:00Z",
+    "window_from_exclusive_merged_at": "2026-11-02T07:14:43Z",
+    "merged_prs_in_window": [
+      20088,
+      20119
+    ],
+    "newly_processed": [
+      20119
+    ],
+    "docs_relevant": [],
+    "docs_prs_created": [],
+    "checkpoint_advanced_to": "2026-11-02T10:38:40Z"
   },
   "run_history_note": ""
 }
