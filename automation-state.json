@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-02T10:38:40Z",
-  "last_successful_run": "2026-11-02T19:05:23Z",
+  "last_successful_run": "2026-11-02T20:02:36Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -355,10 +355,5 @@
   },
   "last_run_summary": "0 new merged apache/pinot PRs after checkpoint 2026-11-02T10:38:40Z. Verified via Search API, Pulls API (recent pages), and apache/master commit reconciliation; newest merged PR #20119 equals checkpoint and already triaged. No docs PRs created.",
   "run_history_note": "",
-  "lease": {
-    "run_id": "run-20261102T200129Z-1008",
-    "acquired_at": "2026-11-02T20:01:29Z",
-    "expires_at": "2026-11-02T20:31:29Z",
-    "host": "intentlab-remote"
-  }
+  "lease": null
 }
