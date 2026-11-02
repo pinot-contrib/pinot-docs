@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-02T10:38:40Z",
-  "last_successful_run": "2026-11-02T12:03:02Z",
+  "last_successful_run": "2026-11-02T13:02:15Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -343,25 +343,15 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op: 0 merged PRs after checkpoint 2026-11-02T10:38:40Z (master tip #20119, already processed). 0 docs-relevant, 0 docs PRs created.",
-  "last_run_id": "run-20261102T120114Z-827",
+  "last_run_result": "noop",
+  "last_run_id": "run-20261102T130123Z-10316",
   "lock": {
-    "holder": "run-20261102T130123Z-10316",
-    "status": "held",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261102T130123Z-10316",
     "acquired_at": "2026-11-02T13:01:31Z",
-    "prev_holder": "run-20261102T120114Z-827",
-    "lease_expires_at": null
+    "released_at": "2026-11-02T13:02:15Z"
   },
-  "last_run_summary": {
-    "run_id": "run-20261102T120114Z-827",
-    "run_utc": "2026-11-02T12:03:02Z",
-    "window_from_exclusive_merged_at": "2026-11-02T10:38:40Z",
-    "merged_prs_in_window": [],
-    "newly_processed": [],
-    "docs_relevant": [],
-    "docs_prs_created": [],
-    "checkpoint_advanced_to": "2026-11-02T10:38:40Z",
-    "coverage_note": "0 PRs via gh pr list (100-window to 2026-10-19) and search API merged:>checkpoint total_count=0; master tip #20119."
-  },
+  "last_run_summary": "No merged PRs strictly after checkpoint 2026-11-02T10:38:40Z. Only #20119 at boundary already processed (not_relevant). Checkpoint unchanged.",
   "run_history_note": ""
 }
