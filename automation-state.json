@@ -344,13 +344,14 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261102T130123Z-10316",
+  "last_run_id": "run-20261102T140146Z-1147",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261102T140146Z-1147",
+    "status": "held",
+    "acquired_at": "2026-11-02T14:02:45Z",
     "prev_holder": "run-20261102T130123Z-10316",
-    "acquired_at": "2026-11-02T13:01:31Z",
-    "released_at": "2026-11-02T13:02:15Z"
+    "released_at": null,
+    "lease_expires_at": "2026-11-02T14:52:45Z"
   },
   "last_run_summary": "No merged PRs strictly after checkpoint 2026-11-02T10:38:40Z. Only #20119 at boundary already processed (not_relevant). Checkpoint unchanged.",
   "run_history_note": ""
