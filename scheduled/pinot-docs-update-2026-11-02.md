@@ -459,3 +459,43 @@ Merged apache/pinot PRs strictly after checkpoint `2026-11-02T10:38:40Z`: **0**.
   - #20114 "Let segment directories serve mapped segment metadata" — **not_relevant**: internal segment-store SPI extension-point change (verified merge commit `63cd8e006`, 5 files +78/-6, only 3 main source). Adds a new no-op default hook `SegmentDirectory#loadMappedMetadata()` (ImmutableSegmentLoader now calls it on any directory when mapped metadata is enabled, replacing an `instanceof SegmentLocalFSDirectory` check), makes the mapped `SegmentMetadataImpl` ctor `protected` for subclassing, and reads `detachedCopy()`'s index dir from `getIndexDir()`. All additive; nothing changes with mapped metadata disabled. Follow-up to #19998 (docs PR #1159); the enabling config is pre-existing and unchanged. No new config/default/query-option/function/table-config/wire-format; changed APIs are internal `@InterfaceAudience.Private` segment-store SPI not documented by pinot-docs.
 - **Docs PRs:** none. **Upstream comments:** none. **Validation:** n/a (no docs changes). **Blockers:** none.
 - **State:** checkpoint **advanced** to `2026-11-02T21:41:46Z` (#20125 merged_at, the max of the 9; all fully triaged). `last_successful_run` -> 2026-11-02T22:04:04Z. Lease acquired+released via Contents/Git-Data API CAS; no overlap. No Slack (no-op / non-relevant stays quiet).
+
+## Run: run-20261102T230138Z-1076
+- **Started (UTC):** 2026-11-02T23:01:38Z
+- **Completed (UTC):** 2026-11-02T23:05:57Z
+- **Result:** docs PR created and merged (1 docs-relevant PR of 4 new)
+- **Checkpoint:** advanced `2026-11-02T21:41:46Z` → `2026-11-02T23:01:35Z` (#20122 merged_at, max of the 4 fully-processed)
+
+### Preflight
+- GitHub auth: `xiangfu0` (GH_TOKEN). Auth-gated collaborator check: apache/pinot = `write`, pinot-contrib/pinot-docs = `admin`.
+- Durable state read from `automation-state` branch; prior lock `released` by run-20261102T220117Z-10836 (no stale lock, no overlap).
+- Lease acquired via Contents API PUT with blob-SHA compare-and-swap (blob 050b504c → lock commit 17f20ca); released in the final atomic state write.
+
+### Coverage
+Inventoried merged apache/pinot PRs strictly after checkpoint `2026-11-02T21:41:46Z`. **4 new PRs** (#20115, #20122, #20128, #20129). Verified three independent ways:
+1. **Search API** — `repo:apache/pinot is:pr is:merged merged:>2026-11-02T21:41:46Z` => total_count=4.
+2. **Pulls API** — state=closed, sort=updated desc, filtered `merged_at > checkpoint` => same 4.
+3. **Master commits** — apache/pinot master commit listing: the 4 commits after boundary commit #20125 (merged exactly at the checkpoint) are #20115, #20129, #20128, #20122, matching exactly. No gaps.
+
+### Decisions
+| PR | Title | Decision | Notes |
+|---|---|---|---|
+| [#20129](https://github.com/apache/pinot/pull/20129) | Bump software.amazon.awssdk:bom 2.57.4→2.57.7 | not_relevant | Dependabot, single pom.xml (+1/-1). |
+| [#20128](https://github.com/apache/pinot/pull/20128) | Bump enforcer-api 3.6.3→3.7.0 | not_relevant | Dependabot, single pom.xml (+1/-1), build-plugin API. |
+| [#20122](https://github.com/apache/pinot/pull/20122) | Bump org.mongodb:bson 5.13.0→5.14.0 | not_relevant | Dependabot, single pom.xml (+1/-1). |
+| [#20115](https://github.com/apache/pinot/pull/20115) | Add option to require an existing server data directory | **docs_created** | New server config `pinot.server.instance.dataDir.failOnMissing` (default false). See below. |
+
+### #20115 — docs created
+- **Feature.** New server config `pinot.server.instance.dataDir.failOnMissing`. Verified from merged code (commit `3ac4b6e6`): constant `CommonConstants.Server.CONFIG_OF_INSTANCE_DATA_DIR_FAIL_ON_MISSING` = `pinot.server.instance.dataDir.failOnMissing`, default `DEFAULT_INSTANCE_DATA_DIR_FAIL_ON_MISSING = false`.
+- **Behavior:** when `true`, server startup fails (before joining Helix or serving queries) if the instance `dataDir` is missing, instead of auto-creating it — for deployments that prepare disks separately. Only the instance `dataDir` is checked (`consumerDir` and tier data dirs are still created on demand); the existing writability check is preserved; the check verifies directory existence only, not whether the intended disk is mounted. Enforced in `HelixInstanceDataManager.initInstanceDataDir` via `Preconditions.checkState`. Added in 1.7.0.
+- **Docs change:** one row added to `reference/configuration-reference/server.md` immediately after `pinot.server.instance.dataDir`.
+- **Docs PR:** [pinot-contrib/pinot-docs#1160](https://github.com/pinot-contrib/pinot-docs/pull/1160) — squash merged 2026-11-02T23:05:57Z (merge commit `2eb7d07`).
+- **Upstream comment:** https://github.com/apache/pinot/pull/20115#issuecomment-6590725869
+
+### Validation
+- `git diff --check`: clean (no whitespace errors).
+- `uv run --with pyyaml python scripts/validate-docs.py --summary-only`: **RESULT: PASS** (638 files, 3560 links). 10 broken anchors are pre-existing warnings unrelated to the single config-table row added.
+- Docs PR checks: "Validate changed docs" SUCCESS, "Full docs audit (informational)" SUCCESS; mergeable CLEAN.
+
+### Notifications
+- Slack summary sent (1 new docs PR created+merged).
