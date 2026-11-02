@@ -354,5 +354,11 @@
     "lease_expires_at": null
   },
   "last_run_summary": "0 new merged apache/pinot PRs after checkpoint 2026-11-02T10:38:40Z. Verified via Search API, Pulls API (recent pages), and apache/master commit reconciliation; newest merged PR #20119 equals checkpoint and already triaged. No docs PRs created.",
-  "run_history_note": ""
+  "run_history_note": "",
+  "lease": {
+    "run_id": "run-20261102T200129Z-1008",
+    "acquired_at": "2026-11-02T20:01:29Z",
+    "expires_at": "2026-11-02T20:31:29Z",
+    "host": "intentlab-remote"
+  }
 }
