@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-02T10:38:40Z",
-  "last_successful_run": "2026-11-02T18:02:35Z",
+  "last_successful_run": "2026-11-02T19:05:23Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -344,15 +344,15 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no-op",
-  "last_run_id": "run-20261102T180235Z-lv",
+  "last_run_id": "run-20261102T190140Z-kn",
   "lock": {
-    "holder": "run-20261102T190140Z-kn",
-    "status": "held",
-    "prev_holder": null,
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261102T190140Z-kn",
     "acquired_at": "2026-11-02T19:01:40Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-02T19:13:40Z"
+    "released_at": "2026-11-02T19:05:23Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "0 new merged apache/pinot PRs after checkpoint 2026-11-02T10:38:40Z (verified via Search API, Pulls API, master commits). No docs PRs. Checkpoint unchanged.",
+  "last_run_summary": "0 new merged apache/pinot PRs after checkpoint 2026-11-02T10:38:40Z. Verified via Search API, Pulls API (recent pages), and apache/master commit reconciliation; newest merged PR #20119 equals checkpoint and already triaged. No docs PRs created.",
   "run_history_note": ""
 }

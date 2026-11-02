@@ -405,3 +405,36 @@ Inventoried merged apache/pinot PRs strictly after checkpoint `2026-11-02T10:38:
 - Checkpoint **unchanged** (no advance past unprocessed/failed work; none existed).
 - `last_successful_run` -> 2026-11-02T18:02:35Z; `last_run_id` -> run-20261102T180235Z-lv.
 - No Slack notification (no-op runs stay quiet).
+
+## Run: run-20261102T190140Z-kn
+- **Started (UTC):** 2026-11-02T19:05:23Z
+- **Result:** no-op (no new docs-relevant upstream PRs)
+- **Checkpoint (unchanged):** last_processed_merged_at = `2026-11-02T10:38:40Z`
+
+### Preflight
+- gh auth: `xiangfu0` (GH_TOKEN). apache/pinot = write; pinot-contrib/pinot-docs = admin. Read-only preflight; no test PRs/Slack.
+- Durable `automation-state` branch read OK; lease acquired+released via Contents API CAS. No stale lock / no overlap.
+- Pinot checkout on fork `xiangfu0/pinot` (stale, 206 behind apache/master); inventory done via apache/pinot API + `apache/master` fetch.
+
+### Coverage
+Merged apache/pinot PRs strictly after checkpoint `2026-11-02T10:38:40Z`: **0**. Three agreeing methods:
+1. **Search API** — `is:pr is:merged merged:>=2026-11-02` filtered strictly > checkpoint => 0 (returns only #20119@checkpoint + older #20088, both ledgered).
+2. **Pulls API** — `state=closed sort=updated per_page=100` pages 1–2 (162 merged sampled; max merged_at = checkpoint exactly), filtered `merged_at > checkpoint` => 0.
+3. **Master commits** — `git log apache/master --since=checkpoint` => 0; HEAD = `9fe9d4d8f` (#20119) at the checkpoint boundary, already ledgered `not_relevant`.
+
+### Decisions
+- None. No PRs to triage.
+
+### Created / merged docs PRs
+- None.
+
+### Validation
+- Not applicable (no docs changes this run).
+
+### Blockers
+- None.
+
+### State
+- Checkpoint **unchanged** (no advance past unprocessed/failed work; none existed).
+- `last_successful_run` -> 2026-11-02T19:05:23Z; `last_run_id` -> run-20261102T190140Z-kn.
+- No Slack notification (no-op runs stay quiet).
