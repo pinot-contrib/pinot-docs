@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-03T13:59:56Z",
-  "last_successful_run": "2026-11-03T14:02:46Z",
+  "last_successful_run": "2026-11-03T15:02:25Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -578,16 +578,16 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no_op",
-  "last_run_id": "run-20261103T140123Z-1033-opus48",
+  "last_run_id": "run-20261103T150133Z-1011-opus48",
   "lock": {
-    "holder": "run-20261103T150133Z-1011-opus48",
-    "status": "held",
-    "prev_holder": null,
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261103T150133Z-1011-opus48",
     "acquired_at": "2026-11-03T15:01:33Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-03T15:31:33Z"
+    "released_at": "2026-11-03T15:02:25Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "Triaged 4 upstream PRs merged after prior checkpoint (#20141,#20142,#20143,#20144), all Dependabot pom.xml version bumps -> not_relevant. No docs PRs created. Checkpoint advanced to 2026-11-03T13:59:56Z.",
+  "last_run_summary": "No upstream PRs merged after checkpoint 2026-11-03T13:59:56Z (master HEAD #20144). Reconciled recent master commits against ledger: all present. No docs PRs created. Checkpoint unchanged.",
   "run_history_note": "",
   "lease": null
 }
