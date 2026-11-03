@@ -542,16 +542,20 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop_no_new_prs",
-  "last_run_id": "run-20261103T070126Z-956",
+  "last_run_id": "run-20261103T080140Z-986",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261103T080140Z-986",
+    "status": "held",
     "prev_holder": "run-20261103T070126Z-956",
-    "acquired_at": "2026-11-03T07:01:26Z",
-    "released_at": "2026-11-03T07:03:30Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-03T08:01:40Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T08:26:40Z"
   },
   "last_run_summary": "No merged upstream PRs after checkpoint 2026-11-03T05:06:57Z (PR #20135). Coverage verified three ways: search API (merged:>=2026-11-03T05:06:00Z -> only #20135), pulls list API (newest merge #20135 @05:06:57Z), and master commit log (tip 772f772338 = #20135 @05:06:56Z). No docs PRs created. Checkpoint unchanged.",
   "run_history_note": "",
-  "lease": null
+  "lease": {
+    "holder": "run-20261103T080140Z-986",
+    "acquired_at": "2026-11-03T08:01:40Z",
+    "expires_at": "2026-11-03T08:26:40Z"
+  }
 }
