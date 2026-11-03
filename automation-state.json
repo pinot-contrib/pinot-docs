@@ -580,12 +580,12 @@
   "last_run_result": "no_op",
   "last_run_id": "run-20261103T140123Z-1033-opus48",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "prev_holder": "run-20261103T140123Z-1033-opus48",
-    "acquired_at": "2026-11-03T14:01:33Z",
-    "released_at": "2026-11-03T14:02:46Z",
-    "lease_expires_at": null
+    "holder": "run-20261103T150133Z-1011-opus48",
+    "status": "held",
+    "prev_holder": null,
+    "acquired_at": "2026-11-03T15:01:33Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T15:31:33Z"
   },
   "last_run_summary": "Triaged 4 upstream PRs merged after prior checkpoint (#20141,#20142,#20143,#20144), all Dependabot pom.xml version bumps -> not_relevant. No docs PRs created. Checkpoint advanced to 2026-11-03T13:59:56Z.",
   "run_history_note": "",
