@@ -596,11 +596,11 @@
   "last_run_summary": "Run run-20261103T160118Z-opus48: inventoried merged PRs strictly after checkpoint 2026-11-03T13:59:56Z. One new PR found (#20138, merged 2026-11-03T15:13:50Z); classified not_relevant (internal-only realtime indexing error-log wording change, single file, no user-facing/config/metric/API change). PRs #20141/#20142/#20143/#20144 already processed (merged at/before checkpoint). Reconciled against apache/pinot master commits. No docs PR created. Checkpoint advanced to 2026-11-03T15:13:50Z.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261103T170201Z-opus48",
+    "status": "held",
     "prev_holder": "run-20261103T160118Z-opus48",
-    "acquired_at": "2026-11-03T16:01:35Z",
-    "released_at": "2026-11-03T16:03:04Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-03T17:02:01Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T17:52:01Z"
   }
 }
