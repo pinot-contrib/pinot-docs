@@ -287,3 +287,12 @@ Verified three independent ways, all agreeing on **0 new PRs**:
   - **#20138** — "Include column name in realtime indexing error logs" (merged 2026-11-03T15:13:50Z) → **not_relevant**. Internal-only logging change in `MutableSegmentImpl.recordIndexingError`: adds the column name to realtime indexing error log messages and rewords them (`failed to index value with {}` → `Failed to index value for column: {} with index: {}`). Single source file (`pinot-segment-local`); verified via `pulls/20138/files` (1 file). No change to metric names, the `indexingError` metric-key format, `ServerMeter.INDEXING_FAILURES`, configs, public APIs, or any documented user-facing behavior. Log text is not documented in pinot-docs.
 - **Created/merged links:** none. **Validation:** no docs changes, none needed. **Blockers:** none. **Slack:** not sent (no new docs PRs).
 - **Durable state:** checkpoint **ADVANCED** `2026-11-03T13:59:56Z` → `2026-11-03T15:13:50Z`; ledger 58 → 59 entries; `last_successful_run` → 2026-11-03T16:03:40Z.
+
+## Run 2026-11-03T17:03:38Z (run-20261103T170201Z-opus48) — no-op (0 new PRs)
+- **Preflight:** gh auth OK as `xiangfu0` (GH_TOKEN). Perms (via API, real despite `gh-tentrix-wrap` "Continuing unauthenticated" stderr): apache/pinot `viewerPermission=WRITE` (comment-capable); pinot-contrib/pinot-docs `viewerPermission=ADMIN` (create/merge). Durable `automation-state` branch read via Contents API.
+- **Durable state:** read checkpoint `last_processed_merged_at = 2026-11-03T15:13:50Z`; prior lease `released` by run-20261103T160118Z-opus48 — no stale lock, no overlap. 59 ledger entries.
+- **Lock:** acquired via Contents API PUT with file-SHA CAS (state SHA `f03f68db` → `204e480e`), lease expiry 17:52:01Z; released via final CAS PUT at run end.
+- **Coverage (merged apache/pinot PRs strictly after 2026-11-03T15:13:50Z):** **0 new PRs**. Three agreeing methods: (1) `search/issues is:pr is:merged merged:>2026-11-03T15:13:50Z` → 0; (2) `git log upstream/master --since=checkpoint` → 0 commits (added `upstream`=apache/pinot remote, fetched master); (3) apache/pinot master HEAD `660962fb` == #20138 merge commit @ checkpoint (already ledgered). No gaps.
+- **Decisions:** none (no new merged PRs).
+- **Created/merged links:** none. **Validation:** no docs changes, none needed. **Blockers:** none. **Slack:** not sent (no new docs PRs).
+- **Durable state:** checkpoint **UNCHANGED** `2026-11-03T15:13:50Z`; ledger 59 entries (unchanged); `last_successful_run` → 2026-11-03T17:03:38Z.
