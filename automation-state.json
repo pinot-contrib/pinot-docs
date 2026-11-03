@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-02T23:01:35Z",
-  "last_successful_run": "2026-11-03T04:02:09Z",
+  "last_successful_run": "2026-11-03T05:02:52Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -529,21 +529,25 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "noop",
-  "last_run_id": "run-20261103T040124Z-961",
+  "last_run_result": "noop_no_new_prs",
+  "last_run_id": "run-20261103T050132Z-2983",
   "lock": {
-    "holder": "run-20261103T050132Z-2983",
-    "status": "held",
-    "prev_holder": null,
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261103T050132Z-2983",
     "acquired_at": "2026-11-03T05:01:32Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-03T05:31:32Z"
+    "released_at": "2026-11-03T05:02:52Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No merged apache/pinot PRs strictly after checkpoint 2026-11-02T23:01:35Z (3 agreeing methods: Search is:merged merged:>checkpoint total_count=0; pulls API closed/updated-desc filtered merged_at>checkpoint=0; commits since=checkpoint returns only boundary commit #20122 bson bump at exactly the checkpoint, already ledgered). apache/master HEAD 25d05ce4 dated exactly at checkpoint. No-op; checkpoint unchanged. (Local origin is fork xiangfu0/pinot; reconciled against apache/pinot directly.)",
+  "last_run_summary": {
+    "run_id": "run-20261103T050132Z-2983",
+    "run_utc": "2026-11-03T05:02:52Z",
+    "result": "noop",
+    "checkpoint_at_run": "2026-11-02T23:01:35Z",
+    "new_prs_inventoried": 0,
+    "docs_prs_created": 0,
+    "notes": "No upstream PRs merged after checkpoint 2026-11-02T23:01:35Z. Verified via apache/pinot master commit log (tip=#20122, the checkpoint PR) and GitHub search API. All candidate PRs in window already in ledger."
+  },
   "run_history_note": "",
-  "lease": {
-    "holder": "run-20261103T050132Z-2983",
-    "acquired_at": "2026-11-03T05:01:32Z",
-    "expires_at": "2026-11-03T05:31:32Z"
-  }
+  "lease": null
 }
