@@ -592,23 +592,23 @@
     "inventory_window_start_exclusive": "2026-11-03T15:13:50Z",
     "note": "No upstream PRs merged after checkpoint 2026-11-03T15:13:50Z. apache/pinot master HEAD is #20138 (merged at checkpoint, already triaged not_relevant). Reconciled via commits API + PR search; all 14 recent master PRs present in ledger. Zero new PRs. Checkpoint unchanged."
   },
-  "last_run_id": "run-20261103T220144Z-opus48",
+  "last_run_id": "run-20261103T230133Z-opus48",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261103T230133Z-opus48",
+    "status": "held",
     "prev_holder": "run-20261103T220144Z-opus48",
-    "acquired_at": "2026-11-03T22:02:30Z",
-    "released_at": "2026-11-03T22:04:26Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-03T23:01:33Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T23:31:33Z"
   },
   "last_run_summary": "noop: 0 new PRs after 2026-11-03T15:13:50Z",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261103T230133Z-opus48",
+    "status": "held",
     "prev_holder": "run-20261103T220144Z-opus48",
-    "acquired_at": "2026-11-03T22:02:30Z",
-    "released_at": "2026-11-03T22:04:26Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-03T23:01:33Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T23:31:33Z"
   }
 }
