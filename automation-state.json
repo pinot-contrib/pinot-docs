@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-02T23:01:35Z",
-  "last_successful_run": "2026-11-03T00:01:14Z",
+  "last_successful_run": "2026-11-03T01:03:30Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -530,16 +530,16 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261103T000114Z-860",
+  "last_run_id": "run-20261103T010223Z-1444",
   "lock": {
-    "holder": "run-20261103T010223Z-1444",
-    "status": "held",
-    "prev_holder": "run-20261103T000114Z-860",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261103T010223Z-1444",
     "acquired_at": "2026-11-03T01:02:36Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-03T01:32:36Z"
+    "released_at": "2026-11-03T01:03:30Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No-op run. No apache/pinot PRs merged strictly after checkpoint 2026-11-02T23:01:35Z (#20122). Coverage verified three ways: Search API (total_count=0 for merged:>2026-11-02T23:01:35Z); Pulls API (closed, by-updated) newest merged is #20122 at the checkpoint exactly, nothing after; apache/master commit reconciliation (tip is 25d05ce4a #20122, no commits after). All already-triaged. Checkpoint unchanged; no docs PRs created; no Slack sent.",
+  "last_run_summary": "No-op run. No apache/pinot PRs merged strictly after checkpoint 2026-11-02T23:01:35Z (#20122). Coverage verified three ways, all agreeing on 0 PRs: Search API total_count=0 for merged:>2026-11-02T23:01:35Z; Pulls API (closed, by merged_at desc) newest merged is #20122 at exactly the checkpoint, nothing after; apache/master commit reconciliation tip is 25d05ce4a (#20122) at the checkpoint, no commits after. All already-triaged (ledger has 50 entries). Checkpoint unchanged; no docs PRs created; no Slack sent.",
   "run_history_note": "",
   "lease": null
 }
