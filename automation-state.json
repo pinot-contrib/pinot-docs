@@ -544,12 +544,12 @@
   "last_run_result": "no-op: no new merged PRs since checkpoint",
   "last_run_id": "run-20261103T080140Z-986",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261103T090153Z-1168",
+    "status": "held",
     "prev_holder": "run-20261103T080140Z-986",
-    "acquired_at": "2026-11-03T08:01:40Z",
-    "released_at": "2026-11-03T08:03:16Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-03T09:02:32Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T09:52:32Z"
   },
   "last_run_summary": {
     "run_id": "run-20261103T080140Z-986",
