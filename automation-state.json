@@ -589,5 +589,12 @@
   },
   "last_run_summary": "No upstream PRs merged after checkpoint 2026-11-03T13:59:56Z (master HEAD #20144). Reconciled recent master commits against ledger: all present. No docs PRs created. Checkpoint unchanged.",
   "run_history_note": "",
-  "lease": null
+  "lease": {
+    "holder": "run-20261103T160118Z-opus48",
+    "status": "held",
+    "prev_holder": null,
+    "acquired_at": "2026-11-03T16:01:35Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T16:51:35Z"
+  }
 }
