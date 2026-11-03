@@ -544,12 +544,12 @@
   "last_run_result": "noop_no_new_docs_prs",
   "last_run_id": "run-20261103T060126Z-995",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "prev_holder": "run-20261103T060126Z-995",
-    "acquired_at": "2026-11-03T06:01:26Z",
-    "released_at": "2026-11-03T06:03:59Z",
-    "lease_expires_at": null
+    "holder": "run-20261103T070126Z-956",
+    "status": "held",
+    "prev_holder": null,
+    "acquired_at": "2026-11-03T07:01:26Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T07:16:26Z"
   },
   "last_run_summary": "Inventoried 2 merged upstream PRs after 2026-11-02T23:01:35Z (#20134, #20135). Both classified not_relevant (query-engine bug fix with no documented behavior change; test stabilization). No docs PRs created. Checkpoint advanced to 2026-11-03T05:06:57Z.",
   "run_history_note": "",
