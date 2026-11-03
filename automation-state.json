@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-03T05:06:57Z",
-  "last_successful_run": "2026-11-03T12:06:21Z",
+  "last_processed_merged_at": "2026-11-03T12:59:34Z",
+  "last_successful_run": "2026-11-03T13:02:36Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -538,20 +538,46 @@
       "reason": "Internal integration-test stabilization only (1 file, +3/-4): TableRebalanceIntegrationTest sets periodic resource-utilization collection frequency to zero so real disk-usage collection cannot run before precheck assertions expecting WARN, and fixes a stale comment. No user-facing behavior, config, API, or documented default changes.",
       "merged_at": "2026-11-03T05:06:57Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20135"
+    },
+    "20139": {
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump: com.github.jnr:jnr-ffi 2.3.5 -> 2.3.6. Single-line pom.xml change, author dependabot[bot]. No user-facing behavior, config, API, or documented default changes.",
+      "merged_at": "2026-11-03T12:29:54Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20139"
+    },
+    "20140": {
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump: software.amazon.awssdk:bom 2.57.7 -> 2.57.8. Single-line pom.xml change, author dependabot[bot]. No user-facing behavior, config, API, or documented default changes.",
+      "merged_at": "2026-11-03T12:59:34Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20140"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "noop",
-  "last_run_id": "run-20261103T110100Z-cs_Wove8MHf9w",
+  "last_run_result": "no_op",
+  "last_run_id": "run-20261103T130127Z-953-opus48",
   "lock": {
-    "holder": "run-20261103T130127Z-953-opus48",
-    "status": "held",
-    "prev_holder": "run-20261103T120308Z-cs_eOQlezh5Ek",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261103T130127Z-953-opus48",
     "acquired_at": "2026-11-03T13:01:27Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-03T13:31:27Z"
+    "released_at": "2026-11-03T13:02:36Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No-op run 2026-11-03T11:02:36Z: no apache/pinot PRs merged strictly after checkpoint 2026-11-03T05:06:57Z (three agreeing methods: search/issues merged:>=2026-11-03 => only #20135@checkpoint & #20134 before; pulls API closed/updated-desc filtered merged_at>checkpoint => none; apache/master tip 772f7723 == #20135 @ checkpoint, nothing newer). Preflight verified apache/pinot push=true (comment) and pinot-docs admin=true (push/PR/merge) and durable state via Contents API. No docs PRs; no Slack.",
+  "last_run_summary": {
+    "run_id": "run-20261103T130127Z-953-opus48",
+    "run_utc": "2026-11-03T13:02:36Z",
+    "inventoried_after": "2026-11-03T05:06:57Z",
+    "merged_prs_found": [
+      20139,
+      20140
+    ],
+    "docs_created": [],
+    "decisions": {
+      "20139": "not_relevant",
+      "20140": "not_relevant"
+    },
+    "new_checkpoint": "2026-11-03T12:59:34Z"
+  },
   "run_history_note": "",
   "lease": null
 }

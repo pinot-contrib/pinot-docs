@@ -255,3 +255,15 @@ Verified three independent ways, all agreeing on **0 new PRs**:
 - **Coverage (merged apache/pinot PRs strictly after 2026-11-03T05:06:57Z):** 0 new PRs. Verified three agreeing ways — (1) Search API `is:pr is:merged merged:>=2026-11-03` → {#20135 @ 2026-11-03T05:06:57Z = checkpoint, #20134 @ 05:04:43Z before}, both already ledgered not_relevant; (2) `pulls` state=closed sort=updated desc, filter merged_at > checkpoint → NONE; (3) `commits?sha=master&since=checkpoint` → empty; latest master HEAD `772f7723` = PR #20135 @ checkpoint, nothing newer. All 52 ledger entries already triaged; no gaps.
 - **Decisions:** none. **Created/merged links:** none. **Validation:** no docs changes, none needed. **Blockers:** none. **Slack:** not sent (no-op).
 - **Durable state:** checkpoint UNCHANGED at `2026-11-03T05:06:57Z`; `last_successful_run` → 2026-11-03T12:06:48Z.
+
+## Run run-20261103T130127Z-953-opus48 — 2026-11-03T13:01Z (no-op; 2 PRs triaged not_relevant)
+
+- **Preflight:** gh auth OK as `xiangfu0` (GH_TOKEN). Perms (via API, real despite `gh-tentrix-wrap` unauthenticated stderr warning): apache/pinot `viewerPermission=WRITE` (comment-capable); pinot-contrib/pinot-docs `viewerPermission=ADMIN` (create/merge PRs). Durable `automation-state` branch read OK via Contents API (never raw CDN).
+- **Durable state:** read checkpoint `last_processed_merged_at = 2026-11-03T05:06:57Z`; prior lock `released` by run-20261103T120308Z-cs_eOQlezh5Ek — no stale lock, no overlap. 52 ledger entries.
+- **Lock:** acquired via Contents API PUT with blob-SHA CAS (`a6c98a2e` → `cd55572d`; commit `aa88302c`), lease expiry 13:31:27Z; released via final CAS PUT at run end.
+- **Coverage (merged apache/pinot PRs strictly after 2026-11-03T05:06:57Z):** **2 new PRs**. Search API `merged:>=2026-11-02` (19 results) and `merged:>=2026-11-03` (4 results) both agree: exactly {#20139, #20140} strictly after checkpoint. Both base=master, verified merged via `pulls/{n}` and merge-commit present on apache/pinot master (4f8a1b41, 2c5ff02a). No gaps.
+- **Decisions:**
+  - **#20139** — "Bump com.github.jnr:jnr-ffi from 2.3.5 to 2.3.6" (merged 2026-11-03T12:29:54Z) → **not_relevant**. Dependabot dependency version bump; single-line `pom.xml` change, author dependabot[bot]. No user-facing behavior/config/API/default change.
+  - **#20140** — "Bump software.amazon.awssdk:bom from 2.57.7 to 2.57.8" (merged 2026-11-03T12:59:34Z) → **not_relevant**. Dependabot dependency version bump; single-line `pom.xml` change, author dependabot[bot]. No user-facing behavior/config/API/default change.
+- **Created/merged links:** none. **Validation:** no docs changes, none needed. **Blockers:** none. **Slack:** not sent (no new docs PRs).
+- **Durable state:** checkpoint **ADVANCED** `2026-11-03T05:06:57Z` → `2026-11-03T12:59:34Z`; ledger 52 → 54 entries; `last_successful_run` → run run time 2026-11-03T13:01Z.
