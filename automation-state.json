@@ -532,14 +532,18 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261103T030131Z-1055",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261103T040124Z-961",
+    "status": "held",
     "prev_holder": "run-20261103T030131Z-1055",
-    "acquired_at": "2026-11-03T03:01:41Z",
-    "released_at": "2026-11-03T03:02:44Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-03T04:01:24Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T04:56:24Z"
   },
   "last_run_summary": "No merged apache/pinot PRs strictly after checkpoint 2026-11-02T23:01:35Z (3 agreeing methods: Search is:merged merged:>checkpoint total_count=0; pulls API closed/updated-desc filtered merged_at>checkpoint=0; git log apache/master strictly-after=0, boundary commit #20122 (bson bump, already ledgered not_relevant) at exactly the checkpoint; apache/master HEAD 25d05ce4). No-op; checkpoint unchanged.",
   "run_history_note": "",
-  "lease": null
+  "lease": {
+    "holder": "run-20261103T040124Z-961",
+    "acquired_at": "2026-11-03T04:01:24Z",
+    "expires_at": "2026-11-03T04:56:24Z"
+  }
 }
