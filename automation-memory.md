@@ -3,12 +3,12 @@
 Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 
 ## Checkpoint (current)
-- `last_processed_merged_at` = `2026-10-31T11:11:36Z` (boundary = #20110, dependabot follow-redirects lock-file bump, not_relevant)
-- `last_successful_run` = `2026-11-01T03:03:07Z`
-- `last_run_id` = `run-20261101T030145Z-1299`
-- Most recent completed docs pair: apache/pinot#19998 -> pinot-docs#1159
-  (merged 2026-10-31T04:07:00Z), upstream comment
-  https://github.com/apache/pinot/pull/19998#issuecomment-6538800286
+- `last_processed_merged_at` = `2026-11-02T23:01:35Z` (boundary = #20122, dependabot org.mongodb:bson bump, not_relevant)
+- `last_successful_run` = `2026-11-03T01:03:30Z`
+- `last_run_id` = `run-20261103T010223Z-1444`
+- Most recent completed docs pair: apache/pinot#20115 -> pinot-docs#1160
+  (merged 2026-11-02T23:04:17Z), upstream comment
+  https://github.com/apache/pinot/pull/20115#issuecomment-6590725869
 
 
 
@@ -1901,3 +1901,10 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - Inventory: merged apache/pinot PRs strictly after checkpoint: **0** (three agreeing methods — search/issues `is:merged merged:>2026-11-02T23:01:35Z` total_count=0; pulls API state=closed sort=updated desc filtered merged_at>checkpoint => []; `git log apache/master --since=checkpoint` after `git fetch apache master` => only #20122 at the boundary, already ledgered not_relevant; apache/master HEAD 25d05ce4a (#20122) committed exactly at checkpoint). No gaps.
 - Reminder: local checkout origin = fork `xiangfu0/pinot` (stale HEAD #19809); always inventory via apache/pinot API and `git fetch apache master` for reconciliation. apache remote present this run.
 - No docs-relevant work: no docs PR, no upstream comment, no Slack (no-op stays quiet). Checkpoint UNCHANGED at 2026-11-02T23:01:35Z. last_successful_run -> 2026-11-03T00:01:14Z.
+
+### 2026-11-03T01:03:30Z (run-20261103T010223Z-1444 — scheduled triage run — no-op; IntentLab-Opus 4.8)
+- Preflight OK: gh auth as `xiangfu0` (GH_TOKEN). Permissions re-verified this run via auth-gated `/collaborators/{u}/permission`: apache/pinot=`write` (comment-capable), pinot-contrib/pinot-docs=`admin` (push/create/merge). Real perms despite `gh-tentrix-wrap` "unauthenticated" stderr (GH_TOKEN fallback applies for repos outside the session manifest; `permissions` block + authed-only endpoints return real data). Durable `automation-state` read; checkpoint `2026-11-02T23:01:35Z`; prior lock `released` by run-20261103T000114Z-860 (no stale lock / no overlap).
+- Both working trees clean; `git fetch origin master` (pinot) and `git fetch origin latest` (docs) succeeded. Local pinot checkout origin = fork `xiangfu0/pinot` (stale HEAD), so inventory uses the apache/pinot API as authoritative.
+- Lease acquired via Contents API PUT with blob-SHA CAS (state blob 4d64d829 -> 714c783f). Note: the acquire PUT surfaced a 409 from `gh-tentrix-wrap` but the write had landed server-side — re-read showed `lock.holder` == this run with my exact acquired_at/lease_expires_at and all `last_*` fields still the prior run's (no other run interleaved); treated as owned and proceeded. Final no-op state write + lock release via a second CAS PUT (714c783f -> d2d64d4d; commit 529e244c). Round-trip read-back confirmed checkpoint unchanged, lock released.
+- Inventory: merged apache/pinot PRs strictly after checkpoint: **0** (three agreeing methods — search/issues `is:merged merged:>2026-11-02T23:01:35Z` total_count=0; pulls API state=closed sort=updated desc filtered merged_at>checkpoint => newest is #20122 at exactly the checkpoint, nothing after; apache/master commit listing via API => HEAD 25d05ce4a (#20122) committed exactly at checkpoint, no commits after). No gaps. All 50 ledger entries already triaged.
+- No docs-relevant work: no docs PR, no upstream comment, no Slack (no-op stays quiet). Checkpoint UNCHANGED at 2026-11-02T23:01:35Z. last_successful_run -> 2026-11-03T01:03:30Z. (Also refreshed the stale "Checkpoint (current)" header block, which earlier runs had left at 2026-10-31.)
