@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-02T23:01:35Z",
-  "last_successful_run": "2026-11-03T05:02:52Z",
+  "last_processed_merged_at": "2026-11-03T05:06:57Z",
+  "last_successful_run": "2026-11-03T06:03:59Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -526,32 +526,32 @@
       "summary": "Add new server config pinot.server.instance.dataDir.failOnMissing (constant CONFIG_OF_INSTANCE_DATA_DIR_FAIL_ON_MISSING, default DEFAULT_INSTANCE_DATA_DIR_FAIL_ON_MISSING=false). When true, server startup fails (before joining Helix or serving queries) if the instance dataDir is missing, instead of auto-creating it; useful for deployments preparing disks separately. Only the instance dataDir is checked (consumerDir and tier data dirs still created on demand); existing writability check preserved; checks existence only, not disk mount. Enforced in HelixInstanceDataManager.initInstanceDataDir via Preconditions.checkState. Added in 1.7.0. Documented one row in reference/configuration-reference/server.md after pinot.server.instance.dataDir.",
       "processed_by_run": "run-20261102T230138Z-1076",
       "processed_at": "2026-11-02T23:05:04Z"
+    },
+    "20134": {
+      "decision": "not_relevant",
+      "reason": "Query-engine bug fix: adds internal OrderByLiteralRemover query rewriter to DEFAULT_QUERY_REWRITERS_CLASS_NAMES to strip literal-only ORDER BY keys (e.g. ORDER BY 'constant' DESC, sorted_col ASC -> ORDER BY sorted_col ASC) after constant folding/ordinal resolution, and removes identifier-required constructor checks in SelectionPartiallyOrderedBy{Desc,Linear} operators. Fixes a crash/scan-direction issue for single-stage selection with literal ORDER BY keys. The query rewriter pipeline is an internal mechanism (not a documented user-facing config), and no documented default, config name, SQL-reference ORDER BY semantics, or user-facing contract changes. Pure robustness/bug fix; no docs change needed.",
+      "merged_at": "2026-11-03T05:04:43Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20134"
+    },
+    "20135": {
+      "decision": "not_relevant",
+      "reason": "Internal integration-test stabilization only (1 file, +3/-4): TableRebalanceIntegrationTest sets periodic resource-utilization collection frequency to zero so real disk-usage collection cannot run before precheck assertions expecting WARN, and fixes a stale comment. No user-facing behavior, config, API, or documented default changes.",
+      "merged_at": "2026-11-03T05:06:57Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20135"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "noop_no_new_prs",
-  "last_run_id": "run-20261103T050132Z-2983",
+  "last_run_result": "noop_no_new_docs_prs",
+  "last_run_id": "run-20261103T060126Z-995",
   "lock": {
-    "holder": "run-20261103T060126Z-995",
-    "status": "held",
-    "prev_holder": "run-20261103T050132Z-2983",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261103T060126Z-995",
     "acquired_at": "2026-11-03T06:01:26Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-03T06:56:26Z"
+    "released_at": "2026-11-03T06:03:59Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": {
-    "run_id": "run-20261103T050132Z-2983",
-    "run_utc": "2026-11-03T05:02:52Z",
-    "result": "noop",
-    "checkpoint_at_run": "2026-11-02T23:01:35Z",
-    "new_prs_inventoried": 0,
-    "docs_prs_created": 0,
-    "notes": "No upstream PRs merged after checkpoint 2026-11-02T23:01:35Z. Verified via apache/pinot master commit log (tip=#20122, the checkpoint PR) and GitHub search API. All candidate PRs in window already in ledger."
-  },
+  "last_run_summary": "Inventoried 2 merged upstream PRs after 2026-11-02T23:01:35Z (#20134, #20135). Both classified not_relevant (query-engine bug fix with no documented behavior change; test stabilization). No docs PRs created. Checkpoint advanced to 2026-11-03T05:06:57Z.",
   "run_history_note": "",
-  "lease": {
-    "holder": "run-20261103T060126Z-995",
-    "acquired_at": "2026-11-03T06:01:26Z",
-    "expires_at": "2026-11-03T06:56:26Z"
-  }
+  "lease": null
 }

@@ -149,3 +149,32 @@ Verified two independent ways, both agreeing on **0 new PRs**:
 
 ### Durable state
 - Checkpoint UNCHANGED at `2026-11-02T23:01:35Z`. `last_successful_run` → 2026-11-03T05:03:19Z. Lock acquired + released via Contents API PUT with blob-SHA CAS. State + memory + report persisted atomically.
+
+---
+
+## Run: run-20261103T060126Z-995 (UTC 2026-11-03T06:04:59Z) — TRIAGED 2 PRs, NO DOCS CHANGE
+
+**Result:** 2 new merged apache/pinot PRs inventoried and triaged; both classified **not_relevant**. No docs PRs created; no upstream comments; no Slack notification sent (no-op for docs output). Checkpoint **advanced**.
+
+### Preflight
+- Environment: `/workspace/pinot` checkout present (git repo, branch master, clean). `/workspace/pinot-docs` cloned (branch `latest`, clean, synced to origin/latest tip #1160). `gh` 2.101.0 authenticated as `xiangfu0` (GH_TOKEN). The `gh-tentrix-wrap` layer prints "unauthenticated" warnings for both repos, but the GH_TOKEN fallback applies and auth-gated endpoints return real data.
+- Access: apache/pinot = `WRITE` (viewerPermission, comment-capable); pinot-contrib/pinot-docs = `ADMIN` (push/create/merge). Durable `automation-state` branch readable + writable.
+- Durable state read via Contents API: checkpoint `last_processed_merged_at = 2026-11-02T23:01:35Z`; prior lock `released` by run-20261103T050132Z-2983 — no stale lock, no overlap.
+- Lock acquired via Contents API PUT with blob-SHA CAS (state blob `a2e6de4e` → `a02308a8`), lease expiry 2026-11-03T06:56:26Z. Ownership verified via Contents API read-back (not raw CDN).
+
+### Coverage (merged apache/pinot PRs strictly after 2026-11-02T23:01:35Z)
+- Inventory via `gh pr list --repo apache/pinot --state merged --search "merged:>=2026-11-02"` (and widened to `merged:>=2026-11-01` for boundary safety), filtered `mergedAt > checkpoint`. Boundary clean: last PR ≤ checkpoint is #20122 at exactly `2026-11-02T23:01:35Z` (already ledgered). **2 PRs strictly after:** #20134 (2026-11-03T05:04:43Z), #20135 (2026-11-03T05:06:57Z). Local checkout origin = fork `xiangfu0/pinot` (stale), so GitHub API is authoritative for inventory.
+
+### Decisions
+- **#20134 — "Handle literal ORDER BY keys in single-stage queries"** (merged 2026-11-03T05:04:43Z, +334/-47, 9 files) → **not_relevant**. Query-engine bug fix: adds an internal `OrderByLiteralRemover` query rewriter to `DEFAULT_QUERY_REWRITERS_CLASS_NAMES` that strips literal-only `ORDER BY` keys (e.g. `ORDER BY 'constant' DESC, sorted_col ASC` → `ORDER BY sorted_col ASC`) after constant folding / ordinal resolution, and removes identifier-required constructor checks in the `SelectionPartiallyOrderedBy{Desc,Linear}` operators. Fixes a crash / scan-direction selection bug for single-stage selection with literal `ORDER BY` keys (incl. constant-folded `now()`). The query-rewriter pipeline is an internal mechanism, not a documented user-facing config; verified pinot-docs has **no** page listing the default query rewriters nor documenting literal-`ORDER BY` handling (only release-note archives and unrelated function/tutorial pages match). No documented default, config name, SQL-reference `ORDER BY` semantics, or user-facing contract changed. Pure robustness/bug fix → no docs change.
+- **#20135 — "[test] Stabilize table rebalance precheck integration tests"** (merged 2026-11-03T05:06:57Z, +3/-4, 1 file) → **not_relevant**. Internal integration-test stabilization: sets periodic resource-utilization collection frequency to zero in `TableRebalanceIntegrationTest` (so real disk-usage collection can't run before precheck assertions that expect `WARN`) and corrects a stale comment. No user-facing behavior, config, API, or documented-default change.
+- Dedupe: no open/closed docs PR referencing 20134/20135; upstream comments on #20134 contain only codecov (no prior docs link).
+
+### Created / merged links
+- None (both PRs not docs-relevant).
+
+### Validation / Blockers
+- No docs changes produced, so no `git diff --check` / `validate-docs.py` needed. No blockers.
+
+### Durable state
+- Checkpoint **ADVANCED** `2026-11-02T23:01:35Z` → `2026-11-03T05:06:57Z` (both new PRs fully triaged). `last_successful_run` → 2026-11-03T06:04:59Z. Ledger now 52 entries. Lock released via Contents API CAS PUT. Read-back confirms checkpoint + released lock.

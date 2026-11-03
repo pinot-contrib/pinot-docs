@@ -3,9 +3,9 @@
 Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 
 ## Checkpoint (current)
-- `last_processed_merged_at` = `2026-11-02T23:01:35Z` (boundary = #20122, dependabot org.mongodb:bson bump, not_relevant)
-- `last_successful_run` = `2026-11-03T01:03:30Z`
-- `last_run_id` = `run-20261103T010223Z-1444`
+- `last_processed_merged_at` = `2026-11-03T05:06:57Z` (boundary = #20135, test stabilization, not_relevant)
+- `last_successful_run` = `2026-11-03T06:04:29Z`
+- `last_run_id` = `run-20261103T060126Z-995`
 - Most recent completed docs pair: apache/pinot#20115 -> pinot-docs#1160
   (merged 2026-11-02T23:04:17Z), upstream comment
   https://github.com/apache/pinot/pull/20115#issuecomment-6590725869
@@ -1922,3 +1922,12 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - Lease acquired via Contents API PUT with blob-SHA CAS (state blob 1fecac9a -> 84ddfa22 for lock). Final no-op state write + lock release via a second CAS PUT. Read-back confirmed checkpoint unchanged, lock released. (Contents API for CAS/lease verification — never the raw CDN, per 02:xx-run lesson.)
 - Inventory: merged apache/pinot PRs strictly after checkpoint: **0** (two agreeing methods — search/issues `is:merged merged:>=2026-11-02T23:01:35Z` returns only #20122 the boundary PR, nothing strictly after; `git log 25d05ce..upstream/master` empty => 0 commits after checkpoint; 13 most-recent merged PRs in window all already ledgered). No gaps. All 50 ledger entries already triaged.
 - No docs-relevant work: no docs PR, no upstream comment, no Slack (no-op stays quiet). Checkpoint UNCHANGED at 2026-11-02T23:01:35Z. last_successful_run -> 2026-11-03T05:03:38Z.
+
+
+### 2026-11-03T06:04:29Z (run-20261103T060126Z-995 — scheduled triage run — no-op, 2 PRs triaged; IntentLab-Opus 4.8)
+- Preflight OK: gh auth as `xiangfu0` (GH_TOKEN). Access: apache/pinot=`WRITE` (viewerPermission, comment-capable); pinot-contrib/pinot-docs=`ADMIN` (push/create/merge). Real perms despite `gh-tentrix-wrap` "unauthenticated" stderr warning (GH_TOKEN fallback for repos outside the session manifest). Durable `automation-state` read via Contents API; checkpoint `2026-11-02T23:01:35Z`; prior lock `released` by run-20261103T050132Z-2983 (no stale lock / no overlap).
+- Lease acquired via Contents API PUT with blob-SHA CAS (state blob a2e6de4e -> a02308a8; lock commit). Verified ownership via Contents API read-back (never raw CDN, per prior-run lesson). Final state write + lock release via second CAS PUT.
+- Inventory: merged apache/pinot PRs strictly after checkpoint via `gh pr list --search "merged:>=..."` (widened to merged:>=2026-11-01 for boundary coverage) = **2 new**: #20134, #20135. Boundary clean (#20122 at exactly checkpoint already ledgered). Local checkout origin = fork `xiangfu0/pinot` (stale), so GitHub API is authoritative for inventory.
+- **#20134** "Handle literal ORDER BY keys in single-stage queries" (merged 2026-11-03T05:04:43Z, +334/-47, 9 files) => **not_relevant**. Query-engine bug fix: adds internal `OrderByLiteralRemover` rewriter to `DEFAULT_QUERY_REWRITERS_CLASS_NAMES` (strips literal-only ORDER BY keys after constant folding/ordinal resolution) and removes identifier-required constructor checks in `SelectionPartiallyOrderedBy{Desc,Linear}` operators. Fixes a crash/scan-direction issue. The query rewriter pipeline is internal (not a documented user-facing config); verified pinot-docs has no page listing default query rewriters nor documenting literal-ORDER-BY handling (only release-notes archives + unrelated tutorials match "query rewriter"/"order by"). No documented default, config name, SQL-reference ORDER BY semantics, or user-facing contract changed. Pure robustness fix.
+- **#20135** "[test] Stabilize table rebalance precheck integration tests" (merged 2026-11-03T05:06:57Z, +3/-4, 1 file) => **not_relevant**. Internal integration-test stabilization: sets periodic resource-utilization collection frequency to zero in `TableRebalanceIntegrationTest` + stale-comment fix. No user-facing behavior/config/API/default change.
+- Dedupe: no open/closed docs PR referencing 20134/20135; upstream comments contain only codecov (no prior docs link). No docs PR created, no upstream comment, no Slack (no-op stays quiet). Checkpoint ADVANCED to 2026-11-03T05:06:57Z (both new PRs fully triaged). last_successful_run -> 2026-11-03T06:04:29Z.
