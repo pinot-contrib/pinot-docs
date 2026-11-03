@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-02T23:01:35Z",
-  "last_successful_run": "2026-11-03T02:02:47Z",
+  "last_successful_run": "2026-11-03T03:02:44Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -530,20 +530,16 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261103T020142Z-1035",
+  "last_run_id": "run-20261103T030131Z-1055",
   "lock": {
-    "holder": "run-20261103T030131Z-1055",
-    "status": "held",
-    "prev_holder": "run-20261103T020142Z-1035",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261103T030131Z-1055",
     "acquired_at": "2026-11-03T03:01:41Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-03T03:31:41Z"
+    "released_at": "2026-11-03T03:02:44Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No merged apache/pinot PRs strictly after checkpoint 2026-11-02T23:01:35Z (3 agreeing methods: search is:merged total_count=0; pulls API closed/updated-desc filtered merged_at>checkpoint=0; git log apache/master --since => only #20122 boundary commit, already ledgered not_relevant; apache/master HEAD 25d05ce4 (#20122) at exactly the checkpoint). No-op; checkpoint unchanged.",
+  "last_run_summary": "No merged apache/pinot PRs strictly after checkpoint 2026-11-02T23:01:35Z (3 agreeing methods: Search is:merged merged:>checkpoint total_count=0; pulls API closed/updated-desc filtered merged_at>checkpoint=0; git log apache/master strictly-after=0, boundary commit #20122 (bson bump, already ledgered not_relevant) at exactly the checkpoint; apache/master HEAD 25d05ce4). No-op; checkpoint unchanged.",
   "run_history_note": "",
-  "lease": {
-    "holder": "run-20261103T030131Z-1055",
-    "acquired_at": "2026-11-03T03:01:41Z",
-    "expires_at": "2026-11-03T03:31:41Z"
-  }
+  "lease": null
 }
