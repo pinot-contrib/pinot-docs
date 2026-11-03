@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-03T05:06:57Z",
-  "last_successful_run": "2026-11-03T10:04:40Z",
+  "last_successful_run": "2026-11-03T11:02:36Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -542,16 +542,16 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261103T100325Z-cs_i8ynXswcw9",
+  "last_run_id": "run-20261103T110100Z-cs_Wove8MHf9w",
   "lock": {
-    "holder": "run-20261103T110100Z-cs_Wove8MHf9w",
-    "status": "held",
-    "prev_holder": "run-20261103T100325Z-cs_i8ynXswcw9",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261103T110100Z-cs_Wove8MHf9w",
     "acquired_at": "2026-11-03T11:01:46Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-03T11:31:46Z"
+    "released_at": "2026-11-03T11:02:36Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No-op run 2026-11-03T10:04:40Z: no apache/pinot PRs merged strictly after checkpoint 2026-11-03T05:06:57Z. Preflight verified read/write access to apache/pinot (comment) and pinot-contrib/pinot-docs (push/PR/merge) and durable state. No docs PRs created; no Slack notification.",
+  "last_run_summary": "No-op run 2026-11-03T11:02:36Z: no apache/pinot PRs merged strictly after checkpoint 2026-11-03T05:06:57Z (three agreeing methods: search/issues merged:>=2026-11-03 => only #20135@checkpoint & #20134 before; pulls API closed/updated-desc filtered merged_at>checkpoint => none; apache/master tip 772f7723 == #20135 @ checkpoint, nothing newer). Preflight verified apache/pinot push=true (comment) and pinot-docs admin=true (push/PR/merge) and durable state via Contents API. No docs PRs; no Slack.",
   "run_history_note": "",
   "lease": null
 }
