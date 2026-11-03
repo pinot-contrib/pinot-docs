@@ -532,12 +532,12 @@
   "last_run_result": "noop_no_new_prs",
   "last_run_id": "run-20261103T050132Z-2983",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261103T060126Z-995",
+    "status": "held",
     "prev_holder": "run-20261103T050132Z-2983",
-    "acquired_at": "2026-11-03T05:01:32Z",
-    "released_at": "2026-11-03T05:02:52Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-03T06:01:26Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T06:56:26Z"
   },
   "last_run_summary": {
     "run_id": "run-20261103T050132Z-2983",
@@ -549,5 +549,9 @@
     "notes": "No upstream PRs merged after checkpoint 2026-11-02T23:01:35Z. Verified via apache/pinot master commit log (tip=#20122, the checkpoint PR) and GitHub search API. All candidate PRs in window already in ledger."
   },
   "run_history_note": "",
-  "lease": null
+  "lease": {
+    "holder": "run-20261103T060126Z-995",
+    "acquired_at": "2026-11-03T06:01:26Z",
+    "expires_at": "2026-11-03T06:56:26Z"
+  }
 }
