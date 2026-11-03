@@ -594,21 +594,21 @@
   },
   "last_run_id": "run-20261103T200135Z-opus48",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261103T220144Z-opus48",
+    "status": "held",
     "prev_holder": "run-20261103T200135Z-opus48",
-    "acquired_at": "2026-11-03T20:01:35Z",
-    "released_at": "2026-11-03T20:02:46Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-03T22:02:30Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T22:52:30Z"
   },
   "last_run_summary": "noop: 0 new PRs after 2026-11-03T15:13:50Z",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261103T220144Z-opus48",
+    "status": "held",
     "prev_holder": "run-20261103T200135Z-opus48",
-    "acquired_at": "2026-11-03T20:01:35Z",
-    "released_at": "2026-11-03T20:02:46Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-03T22:02:30Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T22:52:30Z"
   }
 }
