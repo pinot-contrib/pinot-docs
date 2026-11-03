@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-03T12:59:34Z",
-  "last_successful_run": "2026-11-03T13:02:36Z",
+  "last_processed_merged_at": "2026-11-03T13:59:56Z",
+  "last_successful_run": "2026-11-03T14:02:46Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -550,37 +550,44 @@
       "reason": "Dependabot dependency version bump: software.amazon.awssdk:bom 2.57.7 -> 2.57.8. Single-line pom.xml change, author dependabot[bot]. No user-facing behavior, config, API, or documented default changes.",
       "merged_at": "2026-11-03T12:59:34Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20140"
+    },
+    "20142": {
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump. Verified from merged diff: exactly one file changed (pom.xml, +1/-1), bumping org.webjars:swagger-ui from 5.34.0 to 5.34.1. No user-facing config, public API, SPI, query option, function, default, or documented behavior change. Internal build-dependency only. Not docs-relevant.",
+      "merged_at": "2026-11-03T13:29:26Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20142"
+    },
+    "20141": {
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump. Verified from merged diff: exactly one file changed (pom.xml, +1/-1), bumping com.github.jnr:jnr-constants from 0.11.2 to 0.11.3. No user-facing config, public API, SPI, query option, function, default, or documented behavior change. Internal build-dependency only. Not docs-relevant.",
+      "merged_at": "2026-11-03T13:59:26Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20141"
+    },
+    "20143": {
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump. Verified from merged diff: exactly one file changed (pom.xml, +1/-1), bumping org.apache.hadoop.thirdparty:hadoop-shaded-protobuf_3_25 from 1.5.0 to 1.6.0. No user-facing config, public API, SPI, query option, function, default, or documented behavior change. Internal build-dependency only. Not docs-relevant.",
+      "merged_at": "2026-11-03T13:59:41Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20143"
+    },
+    "20144": {
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump. Verified from merged diff: exactly one file changed (pom.xml, +1/-1), bumping com.github.jnr:jnr-posix from 3.2.5 to 3.2.6. No user-facing config, public API, SPI, query option, function, default, or documented behavior change. Internal build-dependency only. Not docs-relevant.",
+      "merged_at": "2026-11-03T13:59:56Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20144"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no_op",
-  "last_run_id": "run-20261103T130127Z-953-opus48",
+  "last_run_id": "run-20261103T140123Z-1033-opus48",
   "lock": {
-    "holder": "run-20261103T140123Z-1033-opus48",
-    "status": "held",
-    "prev_holder": "run-20261103T130127Z-953-opus48",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261103T140123Z-1033-opus48",
     "acquired_at": "2026-11-03T14:01:33Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-03T14:51:33Z"
+    "released_at": "2026-11-03T14:02:46Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": {
-    "run_id": "run-20261103T130127Z-953-opus48",
-    "run_utc": "2026-11-03T13:02:36Z",
-    "inventoried_after": "2026-11-03T05:06:57Z",
-    "merged_prs_found": [
-      20139,
-      20140
-    ],
-    "docs_created": [],
-    "decisions": {
-      "20139": "not_relevant",
-      "20140": "not_relevant"
-    },
-    "new_checkpoint": "2026-11-03T12:59:34Z"
-  },
+  "last_run_summary": "Triaged 4 upstream PRs merged after prior checkpoint (#20141,#20142,#20143,#20144), all Dependabot pom.xml version bumps -> not_relevant. No docs PRs created. Checkpoint advanced to 2026-11-03T13:59:56Z.",
   "run_history_note": "",
-  "lease": {
-    "holder": "run-20261103T140123Z-1033-opus48",
-    "expires_at": "2026-11-03T14:51:33Z"
-  }
+  "lease": null
 }
