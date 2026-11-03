@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-03T15:13:50Z",
-  "last_successful_run": "2026-11-03T17:03:01Z",
+  "last_successful_run": "2026-11-03T18:02:01Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -583,34 +583,24 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no_new_docs",
+  "last_run_result": "noop",
   "last_run_id": "run-20261103T180122Z-opus48",
   "lock": {
-    "holder": "run-20261103T180122Z-opus48",
-    "status": "held",
-    "prev_holder": "run-20261103T150133Z-1011-opus48",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261103T180122Z-opus48",
     "acquired_at": "2026-11-03T18:01:22Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-03T18:31:22Z"
+    "released_at": "2026-11-03T18:02:01Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": {
-    "run_id": "run-20261103T170201Z-opus48",
-    "run_utc": "2026-11-03T17:03:01Z",
-    "checkpoint_before": "2026-11-03T15:13:50Z",
-    "checkpoint_after": "2026-11-03T15:13:50Z",
-    "new_merged_prs_after_checkpoint": 0,
-    "docs_prs_created": [],
-    "decisions": [],
-    "coverage": "apache/pinot merged PRs strictly after 2026-11-03T15:13:50Z: 0 found (search API + master commit reconciliation agree). Master tip #20138 == checkpoint PR, already processed.",
-    "blockers": null
-  },
+  "last_run_summary": "No-op: 0 merged apache/pinot PRs strictly after checkpoint 2026-11-03T15:13:50Z (verified via search API, pulls API, and apache/master commit reconciliation). No docs PRs created. Checkpoint unchanged.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261103T180122Z-opus48",
-    "status": "held",
-    "prev_holder": "run-20261103T170201Z-opus48",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261103T180122Z-opus48",
     "acquired_at": "2026-11-03T18:01:22Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-03T18:31:22Z"
+    "released_at": "2026-11-03T18:02:01Z",
+    "lease_expires_at": null
   }
 }
