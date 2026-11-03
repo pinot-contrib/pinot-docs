@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-03T05:06:57Z",
-  "last_successful_run": "2026-11-03T08:03:16Z",
+  "last_successful_run": "2026-11-03T09:03:28Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -541,26 +541,17 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op: no new merged PRs since checkpoint",
-  "last_run_id": "run-20261103T080140Z-986",
+  "last_run_result": "noop",
+  "last_run_id": "run-20261103T090153Z-1168",
   "lock": {
-    "holder": "run-20261103T090153Z-1168",
-    "status": "held",
-    "prev_holder": "run-20261103T080140Z-986",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261103T090153Z-1168",
     "acquired_at": "2026-11-03T09:02:32Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-03T09:52:32Z"
+    "released_at": "2026-11-03T09:03:28Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": {
-    "run_id": "run-20261103T080140Z-986",
-    "completed_at": "2026-11-03T08:03:16Z",
-    "result": "no-op",
-    "checkpoint_unchanged": "2026-11-03T05:06:57Z",
-    "new_prs_found": 0,
-    "coverage": "Reconciled via GitHub search + apache/pinot upstream git log + per-PR merged_at; upstream master tip = #20135 @2026-11-03T05:06:56Z (the checkpoint PR). No PRs merged after checkpoint.",
-    "docs_prs_created": [],
-    "slack_notified": false
-  },
+  "last_run_summary": "No merged apache/pinot PRs strictly after checkpoint 2026-11-03T05:06:57Z. Inventory reconciled: 17 PRs since 2026-11-02, all at/before checkpoint and already in ledger. No docs PRs created. No Slack sent (no-op).",
   "run_history_note": "",
   "lease": null
 }
