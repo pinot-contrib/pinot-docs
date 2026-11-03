@@ -544,12 +544,12 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261103T100325Z-cs_i8ynXswcw9",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261103T110100Z-cs_Wove8MHf9w",
+    "status": "held",
     "prev_holder": "run-20261103T100325Z-cs_i8ynXswcw9",
-    "acquired_at": "2026-11-03T10:03:25Z",
-    "released_at": "2026-11-03T10:04:40Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-03T11:01:46Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T11:31:46Z"
   },
   "last_run_summary": "No-op run 2026-11-03T10:04:40Z: no apache/pinot PRs merged strictly after checkpoint 2026-11-03T05:06:57Z. Preflight verified read/write access to apache/pinot (comment) and pinot-contrib/pinot-docs (push/PR/merge) and durable state. No docs PRs created; no Slack notification.",
   "run_history_note": "",
