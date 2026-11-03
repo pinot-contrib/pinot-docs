@@ -361,3 +361,26 @@ Verified three independent, agreeing ways — **0 new PRs**:
 
 ### Durable state (post-run)
 - Checkpoint **UNCHANGED** at `2026-11-03T15:13:50Z`; ledger 59 entries (unchanged); `last_successful_run` → `2026-11-03T20:02:46Z`; `last_run_result = noop` (new_prs_processed=0, docs_prs_created=0); lock + lease `released`.
+
+---
+
+## Run 2026-11-03T21:03:40Z (run-20261103T210132Z-1097-opus48) — no-op
+
+### Durable state + lock
+- Read checkpoint `last_processed_merged_at = 2026-11-03T15:13:50Z`; no prior lock present (prev holder run-20261103T200135Z-opus48 released cleanly) — no stale lock, no overlap. 59 ledger entries, all triaged; no partial/failed work needing resume.
+- Lease acquired via Contents API PUT (new `automation-lock.json`, commit `3194f735`), lease expiry 21:51:32Z. Released via final DELETE at run end.
+
+### Coverage (merged apache/pinot PRs strictly after 2026-11-03T15:13:50Z)
+Verified two independent, agreeing ways — **0 new PRs**:
+1. Search API — `repo:apache/pinot is:pr is:merged merged:>=2026-11-03` → 9 results, every one with merged_at ≤ checkpoint ({#20134,#20135,#20138,#20139,#20140,#20141,#20142,#20143,#20144}, all ledgered).
+2. Pulls API — `state=closed base=master sort=updated direction=desc per_page=30`, filtered `merged_at > checkpoint` → 0 rows.
+- All 9 recent PRs confirmed present in ledger (no missing coverage). Local `origin` is stale fork `xiangfu0/pinot` (HEAD #19809); GitHub API authoritative.
+
+### Decisions / Created-merged links / Validation
+- None; N/A (no docs changes produced).
+
+### Blockers
+- None.
+
+### Durable state (post-run)
+- Checkpoint **UNCHANGED** at `2026-11-03T15:13:50Z`; ledger 59 entries (unchanged); `last_successful_run` → `2026-11-03T21:03:40Z`; lock released.
