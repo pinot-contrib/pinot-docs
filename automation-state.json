@@ -584,14 +584,14 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261103T190124Z-opus48",
+  "last_run_id": "run-20261103T200135Z-opus48",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261103T200135Z-opus48",
+    "status": "held",
     "prev_holder": "run-20261103T190124Z-opus48",
-    "acquired_at": "2026-11-03T19:01:31Z",
-    "released_at": "2026-11-03T19:03:15Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-03T20:01:35Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T20:31:35Z"
   },
   "last_run_summary": {
     "run_id": "run-20261103T190124Z-opus48",
@@ -605,11 +605,11 @@
   },
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261103T200135Z-opus48",
+    "status": "held",
     "prev_holder": "run-20261103T190124Z-opus48",
-    "acquired_at": "2026-11-03T19:01:31Z",
-    "released_at": "2026-11-03T19:03:15Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-03T20:01:35Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T20:31:35Z"
   }
 }
