@@ -544,12 +544,12 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261103T110100Z-cs_Wove8MHf9w",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "prev_holder": "run-20261103T110100Z-cs_Wove8MHf9w",
-    "acquired_at": "2026-11-03T11:01:46Z",
-    "released_at": "2026-11-03T11:02:36Z",
-    "lease_expires_at": null
+    "holder": "run-20261103T120308Z-cs_eOQlezh5Ek",
+    "status": "held",
+    "prev_holder": null,
+    "acquired_at": "2026-11-03T12:03:08Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T12:33:08Z"
   },
   "last_run_summary": "No-op run 2026-11-03T11:02:36Z: no apache/pinot PRs merged strictly after checkpoint 2026-11-03T05:06:57Z (three agreeing methods: search/issues merged:>=2026-11-03 => only #20135@checkpoint & #20134 before; pulls API closed/updated-desc filtered merged_at>checkpoint => none; apache/master tip 772f7723 == #20135 @ checkpoint, nothing newer). Preflight verified apache/pinot push=true (comment) and pinot-docs admin=true (push/PR/merge) and durable state via Contents API. No docs PRs; no Slack.",
   "run_history_note": "",
