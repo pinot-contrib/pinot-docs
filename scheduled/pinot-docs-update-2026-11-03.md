@@ -208,3 +208,14 @@ Verified three independent ways, all agreeing on **0 new PRs**:
 
 ### Durable state
 - Checkpoint UNCHANGED at `2026-11-03T05:06:57Z`. `last_successful_run` → 2026-11-03T07:03:30Z. Lock acquired + released via Contents API PUT with blob-SHA CAS (`a1ec4ce9`→`9ef8b256` acquire; release `329324b8`). State persisted atomically.
+
+---
+
+## Run run-20261103T080140Z-986 — 2026-11-03T08:03Z (no-op)
+
+- **Preflight:** gh auth OK as `xiangfu0`; apache/pinot perms push+triage; pinot-contrib/pinot-docs perms admin. Durable automation-state branch read OK.
+- **Durable state:** read checkpoint `last_processed_merged_at = 2026-11-03T05:06:57Z`; prior lock `released` by run-20261103T070126Z-956 — no stale lock, no overlap.
+- **Lock:** acquired via Contents API PUT with blob-SHA CAS (`8592e05b` → `c523f6a2`; commit `6be829e8`), lease expiry 08:26:40Z; released via CAS (`c523f6a2` → `f3bde224`; commit `9b482ca8`).
+- **Coverage (merged apache/pinot PRs strictly after 2026-11-03T05:06:57Z):** 0 new PRs, verified three ways — (1) Search API `merged:>=` → only #20135 (checkpoint PR, already ledgered); (2) per-PR `merged_at` on 20 newest merged PRs → none strictly after boundary; (3) apache/pinot upstream git log (depth 100) → master tip `772f7723` (#20135) @ 2026-11-03T05:06:56Z, zero commits after checkpoint.
+- **Decisions:** none. **Created/merged links:** none. **Validation:** no docs changes, none needed. **Blockers:** none. **Slack:** not sent (no-op).
+- **Durable state:** checkpoint UNCHANGED at `2026-11-03T05:06:57Z`; `last_successful_run` → 2026-11-03T08:03:16Z.
