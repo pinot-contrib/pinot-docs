@@ -532,12 +532,12 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261103T000114Z-860",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261103T010223Z-1444",
+    "status": "held",
     "prev_holder": "run-20261103T000114Z-860",
-    "acquired_at": "2026-11-03T00:01:14Z",
-    "released_at": "2026-11-03T00:01:14Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-03T01:02:36Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-03T01:32:36Z"
   },
   "last_run_summary": "No-op run. No apache/pinot PRs merged strictly after checkpoint 2026-11-02T23:01:35Z (#20122). Coverage verified three ways: Search API (total_count=0 for merged:>2026-11-02T23:01:35Z); Pulls API (closed, by-updated) newest merged is #20122 at the checkpoint exactly, nothing after; apache/master commit reconciliation (tip is 25d05ce4a #20122, no commits after). All already-triaged. Checkpoint unchanged; no docs PRs created; no Slack sent.",
   "run_history_note": "",
