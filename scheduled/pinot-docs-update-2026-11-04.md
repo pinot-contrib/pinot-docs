@@ -77,3 +77,18 @@ Verified three independent ways, all agreeing on **0 PRs**:
 - **Validation:** n/a (no docs changes).
 - **Durable state:** lease acquired + released via Contents API blob-SHA CAS; **checkpoint advanced 2026-11-03T15:13:50Z → 2026-11-04T09:01:37Z**; ledger 59 → 60; last_successful_run = 2026-11-04T09:05:43Z.
 - **Blockers:** none. Note: direct git push to `automation-state` blocked by session ref-prefix wrapper; durable writes use the GitHub Contents API (native SHA CAS), matching prior runs.
+
+
+### Run run-20261104T100129Z-opus48-1037 (2026-11-04T10:05:00Z) — DOCS PR CREATED
+- **Result:** docs PR created — **1 new docs-relevant PR (#19120)**; checkpoint advanced.
+- **Preflight:** gh auth as `xiangfu0` (GH_TOKEN). apache/pinot push=true (comment-capable); pinot-contrib/pinot-docs push+admin=true. Durable `automation-state` read+write via Contents API blob-SHA CAS (lease released cleanly by prior run run-20261104T090137Z-opus48-1081; no overlap). pinot-docs cloned fresh at `latest` (HEAD #1160, clean), rebased on origin/latest.
+- **Coverage verified (all agree: 1 PR after checkpoint `2026-11-04T09:01:37Z`):** pulls API `state=closed sort=updated desc` — single page sufficient (page-min updated_at ≤ checkpoint ⇒ complete), exactly 1 PR with merged_at>checkpoint = **#19120** (merged 2026-11-04T09:46:02Z); `pulls/19120` confirms merged, merge_commit `837acb93` present on master. Search index corroborative-only (lagging). Full coverage, no gaps.
+- **Decision #19120 → docs_created:** "Add streaming selection ORDER BY combine for physically sorted segments" (feature/performance/release-notes; opt-in, default OFF). Verified from merged `CommonConstants` + `QueryOptionsUtils`:
+  - `sortedSelectionMergeMode` — enum `OFF`/`ON`/`AUTO` (case-insensitive), default **OFF**; `ON`/`AUTO` experimental.
+  - `sortedSelectionMergeAutoMinSortedRatio` — ratio `[0,1]`, default **0.8**; server override `pinot.server.query.executor.sorted.selection.merge.auto.min.sorted.ratio`.
+  - `sortedSelectionMergeBlockSize` — positive int, default **10000**; server override `pinot.server.query.executor.sorted.selection.merge.block.size`.
+- **Docs change:** 3 rows added to `build-with-pinot/querying-and-sql/query-execution-controls/query-options.md` (Supported Query Options). `git diff --check` clean; `validate-docs.py --summary-only` ⇒ RESULT: PASS (10 broken-anchor warnings pre-existing on clean `latest`, confirmed via stash — not introduced).
+- **Created / merged links:** docs PR https://github.com/pinot-contrib/pinot-docs/pull/1161 (squash-merged, merge commit `31f07ab2`, 2026-11-04T10:04:57Z; checks CLEAN — Full docs audit pass, GitBook pass; branch deleted). Upstream comment https://github.com/apache/pinot/pull/19120#issuecomment-6628040132.
+- **Slack:** compact summary sent (new docs PR created).
+- **Durable state:** lease acquired + released via Contents API blob-SHA CAS; **checkpoint advanced 2026-11-04T09:01:37Z → 2026-11-04T09:46:02Z**; ledger 60 → 61; last_successful_run = 2026-11-04T10:05:00Z.
+- **Blockers:** none. Note: `git push` to the docs feature branch works after `gh auth setup-git` (this session's wrapper auto-prefixes the pushed ref with `cs_<sid>/`, which is fine for a feature branch and does not affect the PR). Durable `automation-state` writes continue to use the GitHub Contents API (native SHA CAS) since that branch needs a fixed canonical name.
