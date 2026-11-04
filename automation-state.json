@@ -621,12 +621,11 @@
  "last_run_summary": "No upstream PRs merged after checkpoint 2026-11-04T12:30:12Z. Swept 150 recently-updated closed PRs back to 2026-10-20; none merged after checkpoint. #20150 (tip) already processed as not_relevant. No docs action.",
  "run_history_note": "",
  "lease": {
-  "holder": null,
-  "status": "released",
-  "prev_holder": "run-20261104T190116Z-opus48-944",
-  "acquired_at": "2026-11-04T19:01:29Z",
-  "released_at": "2026-11-04T19:02:45Z",
-  "lease_expires_at": null
+  "holder": "run-20261104T200122Z-opus48-924",
+  "status": "held",
+  "acquired_at": "2026-11-04T20:01:22Z",
+  "lease_expires_at": "2026-11-04T20:31:22Z",
+  "prev_holder": "run-20261104T190116Z-opus48-944"
  },
  "recent_runs": [
   {
