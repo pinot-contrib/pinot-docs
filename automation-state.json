@@ -617,22 +617,22 @@
  "last_run_result": "no_op_no_new_prs",
  "last_run_id": "run-20261104T220136Z-opus48-1107",
  "lock": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261104T230112Z-opus48-900",
+  "status": "held",
   "prev_holder": "run-20261104T220136Z-opus48-1107",
-  "acquired_at": "2026-11-04T22:01:36Z",
-  "released_at": "2026-11-04T22:02:40Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-04T23:01:19Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-04T23:51:19Z"
  },
  "last_run_summary": "Run run-20261104T220136Z-opus48-1107: no merged apache/pinot PRs strictly after checkpoint 2026-11-04T20:44:53Z. Verified via search API and 300-PR pulls scan. No docs PRs created. Checkpoint unchanged.",
  "run_history_note": "",
  "lease": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261104T230112Z-opus48-900",
+  "status": "held",
   "prev_holder": "run-20261104T220136Z-opus48-1107",
-  "acquired_at": "2026-11-04T22:01:36Z",
-  "released_at": "2026-11-04T22:02:40Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-04T23:01:19Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-04T23:51:19Z"
  },
  "recent_runs": [
   {
