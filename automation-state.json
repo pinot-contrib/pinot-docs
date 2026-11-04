@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-03T15:13:50Z",
-  "last_successful_run": "2026-11-04T05:04:39Z",
+  "last_successful_run": "2026-11-04T06:02:41Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -584,12 +584,12 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": {
-    "run_id": "run-20261104T040117Z-opus48",
+    "run_id": "run-20261104T060113Z-opus48-858",
     "result": "no-op",
-    "utc": "2026-11-04T04:04:43Z",
+    "utc": "2026-11-04T06:02:41Z",
     "new_prs_processed": 0,
     "docs_prs_created": 0,
-    "inventory": "0 PRs merged strictly after checkpoint 2026-11-03T15:13:50Z. apache/pinot master HEAD=#20138 (merged exactly at checkpoint) already triaged (not_relevant). Reconciled via REST pulls API (sort=updated) and git log against upstream/master (real apache/pinot, fetched depth=60). Recent 9 merges #20134-#20144,#20138 all present in ledger."
+    "inventory": "0 PRs merged strictly after checkpoint 2026-11-03T15:13:50Z. apache/pinot upstream/master HEAD=#20138 (merged exactly at checkpoint) already triaged not_relevant. Reconciled via search API (9 merged PRs 2026-11-03, all <= checkpoint, all in ledger) and git log against apache/pinot upstream/master (depth 80). Last 15 master commits #20115-#20144 all present in ledger."
   },
   "last_run_id": "run-20261104T060113Z-opus48-858",
   "lock": {
@@ -600,17 +600,24 @@
     "released_at": "2026-11-04T02:04:21Z",
     "lease_expires_at": null
   },
-  "last_run_summary": "No-op: no apache/pinot PRs merged after checkpoint 2026-11-03T15:13:50Z. HEAD #20138 already triaged.",
+  "last_run_summary": "No-op: no apache/pinot PRs merged after checkpoint 2026-11-03T15:13:50Z. upstream HEAD #20138 already triaged.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261104T060113Z-opus48-858",
-    "status": "held",
-    "prev_holder": "run-20261104T050139Z-opus48-1038",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261104T060113Z-opus48-858",
     "acquired_at": "2026-11-04T06:01:36Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-04T06:31:36Z"
+    "released_at": "2026-11-04T06:02:41Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
+    {
+      "run_id": "run-20261104T060113Z-opus48-858",
+      "utc": "2026-11-04T06:02:41Z",
+      "result": "noop",
+      "new_prs": 0,
+      "checkpoint": "2026-11-03T15:13:50Z"
+    },
     {
       "run_id": "run-20261104T050139Z-opus48-1038",
       "utc": "2026-11-04T05:04:39Z",
