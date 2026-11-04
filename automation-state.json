@@ -603,11 +603,11 @@
   "last_run_summary": "No-op: no apache/pinot PRs merged after checkpoint 2026-11-03T15:13:50Z. HEAD #20138 already triaged.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "prev_holder": "run-20261104T040117Z-opus48",
-    "acquired_at": "2026-11-04T04:01:25Z",
-    "released_at": "2026-11-04T04:04:43Z",
-    "lease_expires_at": null
+    "holder": "run-20261104T050139Z-opus48-1038",
+    "status": "held",
+    "prev_holder": null,
+    "acquired_at": "2026-11-04T05:01:40Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-04T05:31:40Z"
   }
 }
