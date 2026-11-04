@@ -194,3 +194,24 @@ Verified three independent ways, all agreeing on **0 PRs**:
 **Durable state:** lock/lease acquired + released via Contents API blob-SHA CAS; **checkpoint unchanged `2026-11-04T12:30:12Z`**; ledger unchanged (62 entries); last_successful_run = 2026-11-04T16:02:54Z.
 
 **Blockers:** none. Durable writes use GitHub Contents API (native blob-SHA CAS) since direct `git push` to `automation-state` is blocked by this session's `cs_<sid>/` ref-prefix pre-push hook.
+
+---
+
+## Run run-20261104T170125Z-opus48-955 — 2026-11-04T17:02:36Z
+**Result:** no-op — **0 new PRs merged after checkpoint; checkpoint unchanged.**
+
+**Preflight:** gh auth as `xiangfu0` (GH_TOKEN; authed). Access confirmed — apache/pinot: pull/push/triage=true (comment-capable); pinot-contrib/pinot-docs: push/admin=true (create/merge). Durable `automation-state` read+write via GitHub Contents API with blob-SHA CAS. Prior lease `released` by run-20261104T160119Z-opus48-836 (released 2026-11-04T16:02:21Z — no stale lock / no overlap). `/workspace/pinot` present (origin = fork `xiangfu0/pinot`, stale HEAD #19809); apache/pinot added as `upstream` remote and used as authoritative inventory source.
+
+**Lease:** acquired via Contents API CAS on `automation-state.json` (blob SHA `22702cdf` → `a0b225e7`); released via final CAS PUT at run end.
+
+**Coverage verified (3 agreeing methods ⇒ 0 PRs after checkpoint `2026-11-04T12:30:12Z`):** (1) search/issues `is:pr is:merged merged:>=2026-11-04` => only #19907 (09:01:37Z) and #20150 (12:30:12Z), both ≤ checkpoint & already ledgered; (2) pulls API `state=closed sort=updated desc per_page=50` => newest merged = #20150 @ 12:30:12Z == checkpoint, nothing strictly after; (3) `git fetch upstream master` (real apache/pinot) HEAD == #20150 (`2974ced3`, committer 2026-11-04T12:30:11Z), `git log upstream/master --since=2026-11-04T12:30:13Z` => 0 commits. Top-of-master PRs (#20150,#19120,#19907,#20138,#20144) all already in the 62-entry ledger. Full coverage, no gaps.
+
+**Decisions:** none (no PR merged strictly after checkpoint).
+
+**Docs PRs created/merged:** none. **Slack:** not sent (no-op, no new docs PR).
+
+**Validation:** n/a (no docs changes).
+
+**Durable state:** lease acquired + released via Contents API blob-SHA CAS; **checkpoint unchanged `2026-11-04T12:30:12Z`**; ledger unchanged (62 entries); last_successful_run = 2026-11-04T17:02:36Z.
+
+**Blockers:** none. Durable writes use GitHub Contents API (native blob-SHA CAS) since direct `git push` to `automation-state` is blocked by this session's `cs_<sid>/` ref-prefix pre-push hook.
