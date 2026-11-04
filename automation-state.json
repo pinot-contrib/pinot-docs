@@ -602,22 +602,22 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261104T110113Z-opus48-849",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261104T120125Z-opus48-911",
+    "status": "held",
     "prev_holder": "run-20261104T110113Z-opus48-849",
-    "acquired_at": "2026-11-04T11:01:20Z",
-    "released_at": "2026-11-04T11:03:09Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-04T12:01:25Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-04T12:31:25Z"
   },
   "last_run_summary": "No PRs merged strictly after checkpoint 2026-11-04T09:46:02Z. Full-coverage search (merged:>=2026-11-03, paginated) and git reconciliation confirmed; latest merged upstream PR #19907 (09:01:37Z) and checkpoint PR #19120 (09:46:02Z) already processed. No-op.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261104T120125Z-opus48-911",
+    "status": "held",
     "prev_holder": "run-20261104T110113Z-opus48-849",
-    "acquired_at": "2026-11-04T11:01:20Z",
-    "released_at": "2026-11-04T11:03:09Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-04T12:01:25Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-04T12:31:25Z"
   },
   "recent_runs": [
     {
