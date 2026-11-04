@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-03T15:13:50Z",
-  "last_successful_run": "2026-11-04T08:02:30Z",
+  "last_processed_merged_at": "2026-11-04T09:01:37Z",
+  "last_successful_run": "2026-11-04T09:05:00Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -580,10 +580,16 @@
       "reason": "Internal-only logging improvement in MutableSegmentImpl.recordIndexingError: adds the column name to realtime indexing error log messages and reworks wording ('failed to index value with {}' -> 'Failed to index value for column: {} with index: {}'). Single source file (pinot-segment-local); no change to metric names, the indexingError metric key format, ServerMeter.INDEXING_FAILURES, configs, public APIs, or any documented user-facing behavior. Log message text is not documented in pinot-docs.",
       "merged_at": "2026-11-03T15:13:50Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20138"
+    },
+    "19907": {
+      "decision": "not_relevant",
+      "reason": "Internal query-execution robustness fix: TransformBlockValSet now calls QueryThreadContext.checkTermination() before each get*Values*() transform evaluation so a caller evaluating a transform once per row cannot run past the query deadline. Uses the existing termination/deadline mechanism; adds no new config key, API, or documented default, and does not change user-facing query-timeout behavior (timeout configs unchanged). +304/-0 across one source file and two new test files; labeled bug.",
+      "merged_at": "2026-11-04T09:01:37Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19907"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op: no PRs merged after checkpoint 2026-11-03T15:13:50Z; apache/pinot master HEAD=#20138 (2026-11-03T15:13:49Z) matches checkpoint; search index + API commit history agree; local fork clone is shallow depth-1 so reconciled via apache/pinot API instead.",
+  "last_run_result": "no-op (no docs PR): 1 new upstream PR after prior checkpoint (#19907, merged 2026-11-04T09:01:37Z) classified not_relevant \u2014 internal query-termination robustness fix in TransformBlockValSet, no documented user behavior/config/API/default change. Master HEAD=#19907 matches new checkpoint; search index agrees. Checkpoint advanced 2026-11-03T15:13:50Z -> 2026-11-04T09:01:37Z.",
   "last_run_id": "run-20261104T090137Z-opus48-1081",
   "lock": {
     "holder": null,
@@ -596,11 +602,12 @@
   "last_run_summary": "No-op run at 2026-11-04T07:02:34Z. 0 new upstream PRs since checkpoint. 0 docs PRs created. No Slack sent.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261104T090137Z-opus48-1081",
-    "status": "held",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261104T090137Z-opus48-1081",
     "acquired_at": "2026-11-04T09:01:37Z",
-    "lease_expires_at": "2026-11-04T09:21:37Z",
-    "prev_holder": "run-20261104T080126Z-opus48-1000"
+    "released_at": "2026-11-04T09:05:00Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -632,6 +639,15 @@
       "new_prs": 0,
       "docs_prs_created": 0,
       "checkpoint": "2026-11-03T15:13:50Z"
+    },
+    {
+      "run_id": "run-20261104T090137Z-opus48-1081",
+      "utc": "2026-11-04T09:05:00Z",
+      "result": "noop",
+      "new_prs": 1,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-04T09:01:37Z",
+      "note": "#19907 not_relevant"
     }
   ]
 }
