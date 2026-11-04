@@ -621,12 +621,12 @@
  "last_run_summary": "No-op: apache/pinot master tip is #20150 (merged 2026-11-04T12:30:12Z) == checkpoint. Reconciled via apache upstream remote and search API; zero PRs merged strictly after checkpoint. Full coverage confirmed, no docs-relevant work.",
  "run_history_note": "",
  "lease": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261104T180124Z-opus48-5837",
+  "status": "held",
   "prev_holder": "run-20261104T170125Z-opus48-955",
-  "acquired_at": "2026-11-04T17:01:25Z",
-  "released_at": "2026-11-04T17:02:36Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-04T18:01:33Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-04T18:56:33Z"
  },
  "recent_runs": [
   {
