@@ -1,8 +1,8 @@
 {
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
- "last_processed_merged_at": "2026-11-04T09:46:02Z",
- "last_successful_run": "2026-11-04T12:04:39Z",
+ "last_processed_merged_at": "2026-11-04T12:30:12Z",
+ "last_successful_run": "2026-11-04T13:02:43Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -596,36 +596,44 @@
    "merged_at": "2026-11-04T09:46:02Z",
    "upstream_url": "https://github.com/apache/pinot/pull/19120",
    "summary": "Add streaming selection ORDER BY k-way-merge combine for physically sorted segments. Documented new query options sortedSelectionMergeMode (OFF/ON/AUTO, default OFF; ON/AUTO experimental), sortedSelectionMergeAutoMinSortedRatio (default 0.8) and sortedSelectionMergeBlockSize (default 10000), plus their server-config overrides, in query-options.md."
+  },
+  "20150": {
+   "pr": 20150,
+   "merged_at": "2026-11-04T12:30:12Z",
+   "decision": "not_relevant",
+   "reason": "Dependabot bump of com.puppycrawl.tools:checkstyle 14.3.0->14.4.0; only pom.xml changed; build/dev tooling, no documented user-facing behavior change.",
+   "title": "Bump com.puppycrawl.tools:checkstyle from 14.3.0 to 14.4.0",
+   "processed_by": "run-20261104T130145Z-opus48-1225",
+   "processed_at": "2026-11-04T13:02:43Z"
   }
  },
  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
- "last_run_result": "no-op: 0 PRs merged strictly after checkpoint 2026-11-04T09:46:02Z",
- "last_run_id": "run-20261104T120125Z-opus48-911",
+ "last_run_result": "no-op: 1 PR merged after prior checkpoint (#20150), classified not_relevant (dependabot checkstyle bump). No docs PR needed.",
+ "last_run_id": "run-20261104T130145Z-opus48-1225",
  "lock": {
-  "holder": "run-20261104T130145Z-opus48-1225",
-  "status": "held",
-  "prev_holder": "run-20261104T120125Z-opus48-911",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261104T130145Z-opus48-1225",
   "acquired_at": "2026-11-04T13:01:54Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-04T13:51:54Z"
+  "released_at": "2026-11-04T13:02:43Z",
+  "lease_expires_at": null
  },
  "last_run_summary": {
-  "run_id": "run-20261104T120125Z-opus48-911",
-  "utc": "2026-11-04T12:04:39Z",
-  "new_prs_found": 0,
+  "new_prs": 1,
   "docs_prs_created": 0,
-  "decisions": [],
-  "checkpoint_unchanged": "2026-11-04T09:46:02Z",
-  "coverage": "search API + first 200 closed pulls by updated; both agree 0 merges after checkpoint"
+  "decisions": {
+   "20150": "not_relevant"
+  },
+  "checkpoint": "2026-11-04T12:30:12Z"
  },
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261104T130145Z-opus48-1225",
-  "status": "held",
-  "prev_holder": "run-20261104T120125Z-opus48-911",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261104T130145Z-opus48-1225",
   "acquired_at": "2026-11-04T13:01:54Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-04T13:51:54Z"
+  "released_at": "2026-11-04T13:02:43Z",
+  "lease_expires_at": null
  },
  "recent_runs": [
   {
@@ -691,6 +699,15 @@
    "result": "no-op",
    "new_prs": 0,
    "docs_prs": 0
+  },
+  {
+   "run_id": "run-20261104T130145Z-opus48-1225",
+   "utc": "2026-11-04T13:02:43Z",
+   "result": "noop",
+   "new_prs": 1,
+   "docs_prs_created": 0,
+   "checkpoint": "2026-11-04T12:30:12Z",
+   "note": "#20150 dependabot checkstyle bump -> not_relevant"
   }
  ]
 }
