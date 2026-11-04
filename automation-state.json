@@ -621,12 +621,12 @@
  "last_run_summary": "No-op: 0 upstream PRs merged after checkpoint 2026-11-04T12:30:12Z. Verified by 3 agreeing inventory methods (search/issues API, direct pulls API sorted by updated, apache/pinot master commits API); max merged_at == checkpoint (#20150). Full-access preflight passed. Durable store read/written via Contents API (git-push blocked by session prefix hook, consistent with prior runs). Ledger 62 unchanged.",
  "run_history_note": "",
  "lease": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261104T170125Z-opus48-955",
+  "status": "held",
   "prev_holder": "run-20261104T160119Z-opus48-836",
-  "acquired_at": "2026-11-04T16:02:21Z",
-  "released_at": "2026-11-04T16:02:21Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-04T17:01:25Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-04T17:46:25Z"
  },
  "recent_runs": [
   {
