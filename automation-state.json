@@ -592,22 +592,22 @@
   "last_run_result": "no-op (no docs PR): 1 new upstream PR after prior checkpoint (#19907, merged 2026-11-04T09:01:37Z) classified not_relevant \u2014 internal query-termination robustness fix in TransformBlockValSet, no documented user behavior/config/API/default change. Master HEAD=#19907 matches new checkpoint; search index agrees. Checkpoint advanced 2026-11-03T15:13:50Z -> 2026-11-04T09:01:37Z.",
   "last_run_id": "run-20261104T090137Z-opus48-1081",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261104T100129Z-opus48-1037",
+    "status": "held",
     "prev_holder": "run-20261104T070137Z-opus48-1106",
-    "acquired_at": "2026-11-04T07:01:37Z",
-    "released_at": "2026-11-04T07:02:34Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-04T10:01:29Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-04T10:51:38Z"
   },
   "last_run_summary": "No-op run at 2026-11-04T07:02:34Z. 0 new upstream PRs since checkpoint. 0 docs PRs created. No Slack sent.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261104T100129Z-opus48-1037",
+    "status": "held",
     "prev_holder": "run-20261104T090137Z-opus48-1081",
-    "acquired_at": "2026-11-04T09:01:37Z",
-    "released_at": "2026-11-04T09:05:00Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-04T10:01:29Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-04T10:51:38Z"
   },
   "recent_runs": [
     {
