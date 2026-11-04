@@ -2,7 +2,7 @@
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
  "last_processed_merged_at": "2026-11-04T12:30:12Z",
- "last_successful_run": "2026-11-04T16:02:21Z",
+ "last_successful_run": "2026-11-04T17:02:36Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -608,8 +608,8 @@
   }
  },
  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
- "last_run_result": "no_op",
- "last_run_id": "run-20261104T160119Z-opus48-836",
+ "last_run_result": "noop",
+ "last_run_id": "run-20261104T170125Z-opus48-955",
  "lock": {
   "holder": null,
   "status": "released",
@@ -618,15 +618,15 @@
   "released_at": "2026-11-04T16:02:21Z",
   "lease_expires_at": null
  },
- "last_run_summary": "No-op: 0 upstream PRs merged after checkpoint 2026-11-04T12:30:12Z. Verified by 3 agreeing inventory methods (search/issues API, direct pulls API sorted by updated, apache/pinot master commits API); max merged_at == checkpoint (#20150). Full-access preflight passed. Durable store read/written via Contents API (git-push blocked by session prefix hook, consistent with prior runs). Ledger 62 unchanged.",
+ "last_run_summary": "No-op: apache/pinot master tip is #20150 (merged 2026-11-04T12:30:12Z) == checkpoint. Reconciled via apache upstream remote and search API; zero PRs merged strictly after checkpoint. Full coverage confirmed, no docs-relevant work.",
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261104T170125Z-opus48-955",
-  "status": "held",
-  "prev_holder": "run-20261104T160119Z-opus48-836",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261104T170125Z-opus48-955",
   "acquired_at": "2026-11-04T17:01:25Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-04T17:46:25Z"
+  "released_at": "2026-11-04T17:02:36Z",
+  "lease_expires_at": null
  },
  "recent_runs": [
   {
@@ -728,6 +728,15 @@
    "docs_prs_created": 0,
    "checkpoint": "2026-11-04T12:30:12Z",
    "note": "0 PRs merged after checkpoint; 3 agreeing inventory methods; ledger 62 unchanged"
+  },
+  {
+   "run_id": "run-20261104T170125Z-opus48-955",
+   "utc": "2026-11-04T17:02:36Z",
+   "result": "noop",
+   "checkpoint": "2026-11-04T12:30:12Z",
+   "new_prs_processed": 0,
+   "docs_prs_created": 0,
+   "note": "No PRs merged strictly after checkpoint; coverage verified via upstream remote + search API."
   }
  ]
 }
