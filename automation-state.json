@@ -591,7 +591,7 @@
     "docs_prs_created": 0,
     "inventory": "0 PRs merged strictly after checkpoint 2026-11-03T15:13:50Z. apache/pinot master HEAD=#20138 (merged exactly at checkpoint) already triaged (not_relevant). Reconciled via REST pulls API (sort=updated) and git log against upstream/master (real apache/pinot, fetched depth=60). Recent 9 merges #20134-#20144,#20138 all present in ledger."
   },
-  "last_run_id": "run-20261104T040117Z-opus48",
+  "last_run_id": "run-20261104T060113Z-opus48-858",
   "lock": {
     "holder": null,
     "status": "released",
@@ -603,12 +603,12 @@
   "last_run_summary": "No-op: no apache/pinot PRs merged after checkpoint 2026-11-03T15:13:50Z. HEAD #20138 already triaged.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261104T060113Z-opus48-858",
+    "status": "held",
     "prev_holder": "run-20261104T050139Z-opus48-1038",
-    "acquired_at": "2026-11-04T05:01:40Z",
-    "released_at": "2026-11-04T05:04:39Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-04T06:01:36Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-04T06:31:36Z"
   },
   "recent_runs": [
     {
