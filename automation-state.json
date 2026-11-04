@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-04T09:01:37Z",
-  "last_successful_run": "2026-11-04T09:05:00Z",
+  "last_processed_merged_at": "2026-11-04T09:46:02Z",
+  "last_successful_run": "2026-11-04T10:05:00Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20115,
-    "upstream_url": "https://github.com/apache/pinot/pull/20115",
-    "docs_pr": 1160,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1160",
+    "upstream_pr": 19120,
+    "upstream_url": "https://github.com/apache/pinot/pull/19120",
+    "docs_pr": 1161,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1161",
     "decision": "docs_created",
-    "note": "Documented new server config pinot.server.instance.dataDir.failOnMissing (default false)."
+    "note": "Documented sortedSelectionMergeMode query options (streaming selection ORDER BY combine)."
   },
   "processed_prs": {
     "19862": {
@@ -586,28 +586,38 @@
       "reason": "Internal query-execution robustness fix: TransformBlockValSet now calls QueryThreadContext.checkTermination() before each get*Values*() transform evaluation so a caller evaluating a transform once per row cannot run past the query deadline. Uses the existing termination/deadline mechanism; adds no new config key, API, or documented default, and does not change user-facing query-timeout behavior (timeout configs unchanged). +304/-0 across one source file and two new test files; labeled bug.",
       "merged_at": "2026-11-04T09:01:37Z",
       "upstream_url": "https://github.com/apache/pinot/pull/19907"
+    },
+    "19120": {
+      "decision": "docs_created",
+      "docs_pr": 1161,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1161",
+      "docs_merged_at": "2026-11-04T10:04:57Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/19120#issuecomment-6628040132",
+      "merged_at": "2026-11-04T09:46:02Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19120",
+      "summary": "Add streaming selection ORDER BY k-way-merge combine for physically sorted segments. Documented new query options sortedSelectionMergeMode (OFF/ON/AUTO, default OFF; ON/AUTO experimental), sortedSelectionMergeAutoMinSortedRatio (default 0.8) and sortedSelectionMergeBlockSize (default 10000), plus their server-config overrides, in query-options.md."
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op (no docs PR): 1 new upstream PR after prior checkpoint (#19907, merged 2026-11-04T09:01:37Z) classified not_relevant \u2014 internal query-termination robustness fix in TransformBlockValSet, no documented user behavior/config/API/default change. Master HEAD=#19907 matches new checkpoint; search index agrees. Checkpoint advanced 2026-11-03T15:13:50Z -> 2026-11-04T09:01:37Z.",
-  "last_run_id": "run-20261104T090137Z-opus48-1081",
+  "last_run_result": "docs PR created: 1 new upstream PR after prior checkpoint (#19120, merged 2026-11-04T09:46:02Z) classified docs_relevant. Created+squash-merged docs PR #1161; commented upstream. Checkpoint advanced 2026-11-04T09:01:37Z -> 2026-11-04T09:46:02Z.",
+  "last_run_id": "run-20261104T100129Z-opus48-1037",
   "lock": {
-    "holder": "run-20261104T100129Z-opus48-1037",
-    "status": "held",
-    "prev_holder": "run-20261104T070137Z-opus48-1106",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261104T100129Z-opus48-1037",
     "acquired_at": "2026-11-04T10:01:29Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-04T10:51:38Z"
+    "released_at": "2026-11-04T10:05:00Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No-op run at 2026-11-04T07:02:34Z. 0 new upstream PRs since checkpoint. 0 docs PRs created. No Slack sent.",
+  "last_run_summary": "Run at 2026-11-04T10:05:00Z. 1 new upstream PR (#19120) -> docs PR #1161 (merged). Slack sent.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261104T100129Z-opus48-1037",
-    "status": "held",
-    "prev_holder": "run-20261104T090137Z-opus48-1081",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261104T100129Z-opus48-1037",
     "acquired_at": "2026-11-04T10:01:29Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-04T10:51:38Z"
+    "released_at": "2026-11-04T10:05:00Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -648,6 +658,15 @@
       "docs_prs_created": 0,
       "checkpoint": "2026-11-04T09:01:37Z",
       "note": "#19907 not_relevant"
+    },
+    {
+      "run_id": "run-20261104T100129Z-opus48-1037",
+      "utc": "2026-11-04T10:05:00Z",
+      "result": "docs_created",
+      "new_prs": 1,
+      "docs_prs_created": 1,
+      "checkpoint": "2026-11-04T09:46:02Z",
+      "note": "#19120 -> docs #1161"
     }
   ]
 }
