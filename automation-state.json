@@ -2,7 +2,7 @@
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
  "last_processed_merged_at": "2026-11-04T12:30:12Z",
- "last_successful_run": "2026-11-04T14:05:31Z",
+ "last_successful_run": "2026-11-04T15:02:51Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -611,20 +611,22 @@
  "last_run_result": "no_op",
  "last_run_id": "run-20261104T150136Z-opus48",
  "lock": {
-  "holder": "run-20261104T150136Z-opus48",
-  "status": "acquired",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261104T150136Z-opus48",
   "acquired_at": "2026-11-04T15:01:36Z",
-  "lease_expires_at": "2026-11-04T15:31:36Z",
-  "prev_holder": "run-20261104T140146Z-opus48"
+  "released_at": "2026-11-04T15:02:51Z",
+  "lease_expires_at": null
  },
  "last_run_summary": "No-op: no upstream PRs merged after checkpoint 2026-11-04T12:30:12Z. Verified via search API and direct pulls API (max merged_at == checkpoint). Full access preflight passed; durable store read/written via Contents API (git-push blocked by session prefix hook, consistent with prior runs).",
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261104T150136Z-opus48",
-  "status": "acquired",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261104T150136Z-opus48",
   "acquired_at": "2026-11-04T15:01:36Z",
-  "lease_expires_at": "2026-11-04T15:31:36Z",
-  "prev_holder": "run-20261104T140146Z-opus48"
+  "released_at": "2026-11-04T15:02:51Z",
+  "lease_expires_at": null
  },
  "recent_runs": [
   {
@@ -707,6 +709,15 @@
    "new_docs_prs": 0,
    "processed": 0,
    "checkpoint": "2026-11-04T12:30:12Z"
+  },
+  {
+   "run_id": "run-20261104T150136Z-opus48",
+   "finished_at": "2026-11-04T15:02:51Z",
+   "result": "no_op",
+   "new_prs": 0,
+   "docs_prs_created": 0,
+   "checkpoint": "2026-11-04T12:30:12Z",
+   "note": "0 PRs merged after checkpoint; 3 agreeing inventory methods; ledger 62 unchanged"
   }
  ]
 }
