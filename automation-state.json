@@ -584,7 +584,7 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no-op: no PRs merged after checkpoint 2026-11-03T15:13:50Z; apache/pinot master HEAD=#20138 (2026-11-03T15:13:49Z) matches checkpoint; search index + API commit history agree; local fork clone is shallow depth-1 so reconciled via apache/pinot API instead.",
-  "last_run_id": "run-20261104T080126Z-opus48-1000",
+  "last_run_id": "run-20261104T090137Z-opus48-1081",
   "lock": {
     "holder": null,
     "status": "released",
@@ -596,12 +596,11 @@
   "last_run_summary": "No-op run at 2026-11-04T07:02:34Z. 0 new upstream PRs since checkpoint. 0 docs PRs created. No Slack sent.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "prev_holder": "run-20261104T080126Z-opus48-1000",
-    "acquired_at": "2026-11-04T08:01:32Z",
-    "released_at": "2026-11-04T08:02:30Z",
-    "lease_expires_at": null
+    "holder": "run-20261104T090137Z-opus48-1081",
+    "status": "held",
+    "acquired_at": "2026-11-04T09:01:37Z",
+    "lease_expires_at": "2026-11-04T09:21:37Z",
+    "prev_holder": "run-20261104T080126Z-opus48-1000"
   },
   "recent_runs": [
     {
