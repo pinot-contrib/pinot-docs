@@ -2,7 +2,7 @@
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
  "last_processed_merged_at": "2026-11-04T12:30:12Z",
- "last_successful_run": "2026-11-04T19:02:45Z",
+ "last_successful_run": "2026-11-04T20:02:52Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -609,7 +609,7 @@
  },
  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
  "last_run_result": "no_op_no_new_prs",
- "last_run_id": "run-20261104T190116Z-opus48-944",
+ "last_run_id": "run-20261104T200122Z-opus48-924",
  "lock": {
   "holder": null,
   "status": "released",
@@ -618,24 +618,17 @@
   "released_at": "2026-11-04T16:02:21Z",
   "lease_expires_at": null
  },
- "last_run_summary": "No upstream PRs merged after checkpoint 2026-11-04T12:30:12Z. Swept 150 recently-updated closed PRs back to 2026-10-20; none merged after checkpoint. #20150 (tip) already processed as not_relevant. No docs action.",
+ "last_run_summary": "No PRs merged strictly after checkpoint 2026-11-04T12:30:12Z. Coverage verified via apache/master commit reconciliation (HEAD #20150 == checkpoint), search API (total_count=0), and pulls API pagination (3 pages). No docs PRs created.",
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261104T200122Z-opus48-924",
-  "status": "held",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261104T200122Z-opus48-924",
   "acquired_at": "2026-11-04T20:01:22Z",
-  "lease_expires_at": "2026-11-04T20:31:22Z",
-  "prev_holder": "run-20261104T190116Z-opus48-944"
+  "released_at": "2026-11-04T20:02:52Z",
+  "lease_expires_at": null
  },
  "recent_runs": [
-  {
-   "run_id": "run-20261104T080126Z-opus48-1000",
-   "utc": "2026-11-04T08:02:30Z",
-   "result": "noop",
-   "new_prs": 0,
-   "docs_prs_created": 0,
-   "checkpoint": "2026-11-03T15:13:50Z"
-  },
   {
    "run_id": "run-20261104T090137Z-opus48-1081",
    "utc": "2026-11-04T09:05:00Z",
@@ -730,6 +723,15 @@
    "docs_prs_created": 0,
    "checkpoint": "2026-11-04T12:30:12Z",
    "note": "no new PRs after checkpoint"
+  },
+  {
+   "run_id": "run-20261104T200122Z-opus48-924",
+   "utc": "2026-11-04T20:02:52Z",
+   "result": "noop",
+   "new_prs": 0,
+   "docs_prs_created": 0,
+   "checkpoint": "2026-11-04T12:30:12Z",
+   "note": "No PRs after checkpoint; triple-verified coverage (master commits + search API + pulls API)."
   }
  ]
 }
