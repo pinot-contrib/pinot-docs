@@ -586,21 +586,21 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261104T000138Z-opus48",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261104T010124Z-opus48",
+    "status": "held",
     "prev_holder": "run-20261104T000138Z-opus48",
-    "acquired_at": "2026-11-04T00:01:47Z",
-    "released_at": "2026-11-04T00:03:50Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-04T01:02:26Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-04T01:32:26Z"
   },
   "last_run_summary": "No merged apache/pinot PRs strictly after checkpoint 2026-11-03T15:13:50Z. Verified via search API, pulls API (3 pages updated-desc), and git fetch apache master (HEAD #20138 at checkpoint). All 10 top-of-master PRs already in 59-entry ledger. No docs work; checkpoint unchanged.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261104T010124Z-opus48",
+    "status": "held",
     "prev_holder": "run-20261104T000138Z-opus48",
-    "acquired_at": "2026-11-04T00:01:47Z",
-    "released_at": "2026-11-04T00:03:50Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-04T01:02:26Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-04T01:32:26Z"
   }
 }
