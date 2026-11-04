@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-04T09:46:02Z",
-  "last_successful_run": "2026-11-04T11:03:09Z",
+  "last_successful_run": "2026-11-04T12:04:39Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -599,25 +599,33 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "noop",
-  "last_run_id": "run-20261104T110113Z-opus48-849",
+  "last_run_result": "no-op: 0 PRs merged strictly after checkpoint 2026-11-04T09:46:02Z",
+  "last_run_id": "run-20261104T120125Z-opus48-911",
   "lock": {
-    "holder": "run-20261104T120125Z-opus48-911",
-    "status": "held",
-    "prev_holder": "run-20261104T110113Z-opus48-849",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261104T120125Z-opus48-911",
     "acquired_at": "2026-11-04T12:01:25Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-04T12:31:25Z"
+    "released_at": "2026-11-04T12:04:39Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No PRs merged strictly after checkpoint 2026-11-04T09:46:02Z. Full-coverage search (merged:>=2026-11-03, paginated) and git reconciliation confirmed; latest merged upstream PR #19907 (09:01:37Z) and checkpoint PR #19120 (09:46:02Z) already processed. No-op.",
+  "last_run_summary": {
+    "run_id": "run-20261104T120125Z-opus48-911",
+    "utc": "2026-11-04T12:04:39Z",
+    "new_prs_found": 0,
+    "docs_prs_created": 0,
+    "decisions": [],
+    "checkpoint_unchanged": "2026-11-04T09:46:02Z",
+    "coverage": "search API + first 200 closed pulls by updated; both agree 0 merges after checkpoint"
+  },
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261104T120125Z-opus48-911",
-    "status": "held",
-    "prev_holder": "run-20261104T110113Z-opus48-849",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261104T120125Z-opus48-911",
     "acquired_at": "2026-11-04T12:01:25Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-04T12:31:25Z"
+    "released_at": "2026-11-04T12:04:39Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -676,6 +684,13 @@
       "docs_prs_created": 0,
       "checkpoint": "2026-11-04T09:46:02Z",
       "note": "no new PRs after checkpoint"
+    },
+    {
+      "run_id": "run-20261104T120125Z-opus48-911",
+      "utc": "2026-11-04T12:04:39Z",
+      "result": "no-op",
+      "new_prs": 0,
+      "docs_prs": 0
     }
   ]
 }
