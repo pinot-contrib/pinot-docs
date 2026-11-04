@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-03T15:13:50Z",
-  "last_successful_run": "2026-11-04T07:02:34Z",
+  "last_successful_run": "2026-11-04T08:02:30Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -583,8 +583,8 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op: no PRs merged after checkpoint 2026-11-03T15:13:50Z; apache/master HEAD=#20138 reconciled; search+git agree",
-  "last_run_id": "run-20261104T070137Z-opus48-1106",
+  "last_run_result": "no-op: no PRs merged after checkpoint 2026-11-03T15:13:50Z; apache/pinot master HEAD=#20138 (2026-11-03T15:13:49Z) matches checkpoint; search index + API commit history agree; local fork clone is shallow depth-1 so reconciled via apache/pinot API instead.",
+  "last_run_id": "run-20261104T080126Z-opus48-1000",
   "lock": {
     "holder": null,
     "status": "released",
@@ -596,12 +596,12 @@
   "last_run_summary": "No-op run at 2026-11-04T07:02:34Z. 0 new upstream PRs since checkpoint. 0 docs PRs created. No Slack sent.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261104T080126Z-opus48-1000",
-    "status": "acquired",
-    "prev_holder": "run-20261104T070137Z-opus48-1106",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261104T080126Z-opus48-1000",
     "acquired_at": "2026-11-04T08:01:32Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-04T08:31:32Z"
+    "released_at": "2026-11-04T08:02:30Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -621,6 +621,14 @@
     {
       "run_id": "run-20261104T070137Z-opus48-1106",
       "utc": "2026-11-04T07:02:34Z",
+      "result": "noop",
+      "new_prs": 0,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-03T15:13:50Z"
+    },
+    {
+      "run_id": "run-20261104T080126Z-opus48-1000",
+      "utc": "2026-11-04T08:02:30Z",
       "result": "noop",
       "new_prs": 0,
       "docs_prs_created": 0,
