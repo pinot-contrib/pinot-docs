@@ -2,7 +2,7 @@
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
  "last_processed_merged_at": "2026-11-04T20:44:53Z",
- "last_successful_run": "2026-11-04T21:02:52Z",
+ "last_successful_run": "2026-11-04T22:02:40Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -614,34 +614,27 @@
   }
  },
  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
- "last_run_result": "no_op_one_not_relevant",
+ "last_run_result": "no_op_no_new_prs",
  "last_run_id": "run-20261104T220136Z-opus48-1107",
  "lock": {
-  "holder": "run-20261104T220136Z-opus48-1107",
-  "status": "held",
-  "prev_holder": "run-20261104T210115Z-opus48-884",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261104T220136Z-opus48-1107",
   "acquired_at": "2026-11-04T22:01:36Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-04T22:31:36Z"
+  "released_at": "2026-11-04T22:02:40Z",
+  "lease_expires_at": null
  },
- "last_run_summary": "Run run-20261104T210115Z-opus48-884: inventoried apache/pinot merged PRs after 2026-11-04T12:30:12Z (search + master-commit reconciliation). One new PR #20152 classified not_relevant (internal upsert bitmap naming refactor, verified from merged code). No docs PR created. Checkpoint advanced to 2026-11-04T20:44:53Z.",
+ "last_run_summary": "Run run-20261104T220136Z-opus48-1107: no merged apache/pinot PRs strictly after checkpoint 2026-11-04T20:44:53Z. Verified via search API and 300-PR pulls scan. No docs PRs created. Checkpoint unchanged.",
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261104T220136Z-opus48-1107",
-  "status": "held",
-  "prev_holder": "run-20261104T210115Z-opus48-884",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261104T220136Z-opus48-1107",
   "acquired_at": "2026-11-04T22:01:36Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-04T22:31:36Z"
+  "released_at": "2026-11-04T22:02:40Z",
+  "lease_expires_at": null
  },
  "recent_runs": [
-  {
-   "run_id": "run-20261104T120125Z-opus48-911",
-   "utc": "2026-11-04T12:04:39Z",
-   "result": "no-op",
-   "new_prs": 0,
-   "docs_prs": 0
-  },
   {
    "run_id": "run-20261104T130145Z-opus48-1225",
    "utc": "2026-11-04T13:02:43Z",
@@ -720,6 +713,12 @@
     "20152:not_relevant"
    ],
    "docs_prs": []
+  },
+  {
+   "run_id": "run-20261104T220136Z-opus48-1107",
+   "utc": "2026-11-04T22:02:40Z",
+   "result": "no_op_no_new_prs",
+   "new_docs_prs": 0
   }
  ]
 }
