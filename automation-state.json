@@ -1,8 +1,8 @@
 {
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
- "last_processed_merged_at": "2026-11-04T12:30:12Z",
- "last_successful_run": "2026-11-04T20:02:52Z",
+ "last_processed_merged_at": "2026-11-04T20:44:53Z",
+ "last_successful_run": "2026-11-04T21:02:52Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -605,57 +605,36 @@
    "title": "Bump com.puppycrawl.tools:checkstyle from 14.3.0 to 14.4.0",
    "processed_by": "run-20261104T130145Z-opus48-1225",
    "processed_at": "2026-11-04T13:02:43Z"
+  },
+  "20152": {
+   "decision": "not_relevant",
+   "reason": "Internal naming refactor only: renames the persisted upsert bitmap constants V1Constants.VALID_DOC_IDS_SNAPSHOT_FILE_NAME / QUERYABLE_DOC_IDS_SNAPSHOT_FILE_NAME to *_ON_DISK_BITMAP_FILE_NAME and matching local variables (validDocIdsOnDiskBitmap / queryableDocIdsOnDiskBitmap) to disambiguate the on-disk bitmap from the in-memory query-time snapshot view. Verified from merged code (commit fd1d3f7b): the file-name string values (validdocids.bitmap.snapshot, queryabledocids.bitmap.snapshot) are byte-unchanged so existing segment files load as before; old constants kept as @Deprecated aliases so plugins keep compiling. TablesResource change is purely the renamed constant reference (REST path/signature unchanged). Main-source diff has no new config key, query option, REST endpoint, metric, default, or documented user-facing behavior. Not docs-relevant.",
+   "merged_at": "2026-11-04T20:44:53Z",
+   "upstream_url": "https://github.com/apache/pinot/pull/20152"
   }
  },
  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
- "last_run_result": "no_op_no_new_prs",
- "last_run_id": "run-20261104T200122Z-opus48-924",
+ "last_run_result": "no_op_one_not_relevant",
+ "last_run_id": "run-20261104T210115Z-opus48-884",
  "lock": {
-  "holder": "run-20261104T210115Z-opus48-884",
-  "status": "held",
-  "prev_holder": "run-20261104T160119Z-opus48-836",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261104T210115Z-opus48-884",
   "acquired_at": "2026-11-04T21:01:21Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-04T21:51:21Z"
+  "released_at": "2026-11-04T21:02:52Z",
+  "lease_expires_at": null
  },
- "last_run_summary": "No PRs merged strictly after checkpoint 2026-11-04T12:30:12Z. Coverage verified via apache/master commit reconciliation (HEAD #20150 == checkpoint), search API (total_count=0), and pulls API pagination (3 pages). No docs PRs created.",
+ "last_run_summary": "Run run-20261104T210115Z-opus48-884: inventoried apache/pinot merged PRs after 2026-11-04T12:30:12Z (search + master-commit reconciliation). One new PR #20152 classified not_relevant (internal upsert bitmap naming refactor, verified from merged code). No docs PR created. Checkpoint advanced to 2026-11-04T20:44:53Z.",
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261104T210115Z-opus48-884",
-  "status": "held",
-  "prev_holder": "run-20261104T200122Z-opus48-924",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261104T210115Z-opus48-884",
   "acquired_at": "2026-11-04T21:01:21Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-04T21:51:21Z"
+  "released_at": "2026-11-04T21:02:52Z",
+  "lease_expires_at": null
  },
  "recent_runs": [
-  {
-   "run_id": "run-20261104T090137Z-opus48-1081",
-   "utc": "2026-11-04T09:05:00Z",
-   "result": "noop",
-   "new_prs": 1,
-   "docs_prs_created": 0,
-   "checkpoint": "2026-11-04T09:01:37Z",
-   "note": "#19907 not_relevant"
-  },
-  {
-   "run_id": "run-20261104T100129Z-opus48-1037",
-   "utc": "2026-11-04T10:05:00Z",
-   "result": "docs_created",
-   "new_prs": 1,
-   "docs_prs_created": 1,
-   "checkpoint": "2026-11-04T09:46:02Z",
-   "note": "#19120 -> docs #1161"
-  },
-  {
-   "run_id": "run-20261104T110113Z-opus48-849",
-   "utc": "2026-11-04T11:03:09Z",
-   "result": "noop",
-   "new_prs": 0,
-   "docs_prs_created": 0,
-   "checkpoint": "2026-11-04T09:46:02Z",
-   "note": "no new PRs after checkpoint"
-  },
   {
    "run_id": "run-20261104T120125Z-opus48-911",
    "utc": "2026-11-04T12:04:39Z",
@@ -732,6 +711,15 @@
    "docs_prs_created": 0,
    "checkpoint": "2026-11-04T12:30:12Z",
    "note": "No PRs after checkpoint; triple-verified coverage (master commits + search API + pulls API)."
+  },
+  {
+   "run_id": "run-20261104T210115Z-opus48-884",
+   "utc": "2026-11-04T21:02:52Z",
+   "result": "no_op_one_not_relevant",
+   "new_prs": [
+    "20152:not_relevant"
+   ],
+   "docs_prs": []
   }
  ]
 }
