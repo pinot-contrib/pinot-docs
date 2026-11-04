@@ -256,3 +256,23 @@ Verified three independent ways, all agreeing on **0 PRs**:
 **Durable state:** lease acquired + released via blob-SHA CAS; **checkpoint unchanged `2026-11-04T12:30:12Z`**; ledger unchanged (62 entries).
 
 **Blockers:** none.
+
+---
+
+## Run run-20261104T210115Z-opus48-884 — 2026-11-04T21:01 UTC (1 PR triaged, not_relevant — no docs PR)
+
+**Env:** `gh` auth OK as `xiangfu0`; apache/pinot = WRITE (comment-capable), pinot-contrib/pinot-docs = ADMIN. Lease+lock on `automation-state.json` previously released (prev holder run-20261104T200122Z-opus48-924, last result no_op_no_new_prs) — no overlap/stale lock. `/workspace/pinot` present (origin = fork `xiangfu0/pinot`); added `apache/pinot` as `upstream` and fetched master (HEAD `fd1d3f7b`) as authoritative inventory source. Cloned `pinot-contrib/pinot-docs` -> `/workspace/pinot-docs`, `latest` HEAD `31f07ab2`, clean.
+
+**Lease:** acquired via Contents API blob-SHA CAS (base `68f64523` -> `dc0c06fe`); released via final CAS PUT (base `dec96b3c` -> `d2fca223`) at run end.
+
+**Coverage verified ⇒ 1 PR strictly after checkpoint `2026-11-04T12:30:12Z`:** (1) search/issues `is:pr is:merged merged:>=2026-11-04` => #19907 (09:01, ≤checkpoint, ledgered), #20150 (12:30:12 == checkpoint, ledgered), **#20152 (20:44:53Z, new)**; (2) `git log upstream/master --since=checkpoint` => #20152 (`fd1d3f7b`) + #20150 — agreement, no gaps.
+
+**Decision — apache/pinot#20152 = not_relevant.** "Name upsert validDocIds bitmaps read from or written to disk *OnDiskBitmap." Internal naming refactor renaming `V1Constants.{VALID,QUERYABLE}_DOC_IDS_SNAPSHOT_FILE_NAME` -> `*_ON_DISK_BITMAP_FILE_NAME` and matching local variables, to disambiguate the on-disk persisted bitmap from the in-memory query-time snapshot view. Verified against merged code (`fd1d3f7b`): persisted file-name string values are byte-unchanged (`validdocids.bitmap.snapshot` / `queryabledocids.bitmap.snapshot`) so existing segment bitmap files load unchanged; old constants retained as `@Deprecated` aliases so plugins keep compiling. The `TablesResource` edit is purely the renamed constant reference (REST path/signature unchanged). A grep of the main-source diff found no new config key, query option, REST endpoint, metric, default, or documented user-facing behavior. **Nothing to document.** Duplicate check: no prior pinot-docs comment on upstream #20152, no docs PR references it.
+
+**Docs PRs created/merged:** none. **Slack:** not sent (no new docs PR).
+
+**Validation:** n/a (no docs changes).
+
+**Durable state:** lease+lock acquired + released via blob-SHA CAS; **checkpoint ADVANCED `2026-11-04T12:30:12Z` -> `2026-11-04T20:44:53Z`** (= #20152 merged_at); ledger 62 -> 63 entries; last_successful_run updated.
+
+**Blockers:** none.
