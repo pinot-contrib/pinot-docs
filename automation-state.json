@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-05T00:47:33Z",
-  "last_successful_run": "2026-11-05T05:02:25Z",
+  "last_successful_run": "2026-11-05T06:02:22Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -645,24 +645,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no_op_no_new_prs",
-  "last_run_id": "run-20261105T050117Z-opus48-28506",
+  "last_run_id": "run-20261105T060154Z-opus48-1252",
   "lock": {
-    "holder": "run-20261105T060154Z-opus48-1252",
-    "status": "held",
-    "prev_holder": "run-20261105T050117Z-opus48-28506",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T060154Z-opus48-1252",
     "acquired_at": "2026-11-05T06:01:54Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T06:16:54Z"
+    "released_at": "2026-11-05T06:02:22Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No PRs merged after checkpoint 2026-11-05T00:47:33Z; triple-verified (search/issues + apache/master commit log + pulls API all returned 0). No docs work.",
+  "last_run_summary": "Hourly no-op: 0 new PRs after checkpoint; checkpoint unchanged at 2026-11-05T00:47:33Z.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261105T060154Z-opus48-1252",
-    "status": "held",
-    "prev_holder": "run-20261105T050117Z-opus48-28506",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T060154Z-opus48-1252",
     "acquired_at": "2026-11-05T06:01:54Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T06:16:54Z"
+    "released_at": "2026-11-05T06:02:22Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -735,7 +735,16 @@
       "docs_prs_created": 0,
       "checkpoint": "2026-11-05T00:47:33Z",
       "note": "Triple-verified 0 new PRs after checkpoint (search/pulls/master-HEAD-via-API all agree). apache master HEAD == #20154."
+    },
+    {
+      "run_id": "run-20261105T060154Z-opus48-1252",
+      "utc": "2026-11-05T06:02:22Z",
+      "result": "no_op_no_new_prs",
+      "new_prs": 0,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-05T00:47:33Z",
+      "note": "No PRs merged strictly after checkpoint 2026-11-05T00:47:33Z. Triple-verified: search API (merged:>checkpoint=0), pulls API (max merged_at=#20154 @ checkpoint), apache master HEAD=091eac795=#20154 (checkpoint PR, already processed, docs #1162). Local origin is stale fork xiangfu0/pinot; used GitHub API as authoritative. Write access to pinot-docs confirmed via lease CAS."
     }
   ],
-  "last_run_note": "No PRs merged strictly after checkpoint 2026-11-05T00:47:33Z. Triple-verified: search API (merged:>checkpoint = 0), pulls API (no merged_at > checkpoint), apache/pinot master HEAD via API == commit 091eac795 = #20154 (the checkpoint PR, already processed, docs PR #1162). Local checkout origin is fork xiangfu0/pinot (stale); used GitHub API as authoritative source. Checkpoint unchanged."
+  "last_run_note": "No PRs merged strictly after checkpoint 2026-11-05T00:47:33Z. Triple-verified: search API (merged:>checkpoint=0), pulls API (max merged_at=#20154 @ checkpoint), apache master HEAD=091eac795=#20154 (checkpoint PR, already processed, docs #1162). Local origin is stale fork xiangfu0/pinot; used GitHub API as authoritative. Write access to pinot-docs confirmed via lease CAS."
 }
