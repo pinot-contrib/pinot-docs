@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-05T06:42:06Z",
-  "last_successful_run": "2026-11-05T12:03:18Z",
+  "last_processed_merged_at": "2026-11-05T12:22:05Z",
+  "last_successful_run": "2026-11-05T13:05:28Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20154,
-    "upstream_url": "https://github.com/apache/pinot/pull/20154",
-    "docs_pr": 1162,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1162",
+    "upstream_pr": 19450,
+    "upstream_url": "https://github.com/apache/pinot/pull/19450",
+    "docs_pr": 1163,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1163",
     "decision": "docs_created",
-    "note": "Documented HLL++ sp cap (<=25) and sp=0 requirement for ingestion/star-tree aggregation; fixed invalid sp=32 star-tree examples."
+    "note": "Documented SEGMENT_BUILD_WITH_CRC_MISMATCH server metric."
   },
   "processed_prs": {
     "19862": {
@@ -653,65 +653,40 @@
       "reason": "Changes only apache/pinot's own README.md and .asf.yaml (repo landing page + ASF repo metadata/topics): adds a pinned Pinot 1.6.0 Docker batch quickstart snippet with sample SQL to the README, vector-search/RAG/agent-analytics wording with links to existing docs, and updates the GitHub description and discovery topics. These are repository-landing and ASF-metadata files, not the pinot-docs (docs.pinot.apache.org / GitBook) documentation site, and there are no runtime code, config, API, function, or documented-default changes. Not relevant to pinot-docs.",
       "merged_at": "2026-11-05T06:41:02Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20164"
+    },
+    "19450": {
+      "decision": "docs_created",
+      "docs_pr": 1163,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1163",
+      "docs_merged_at": "2026-11-05T13:04:48Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19450",
+      "upstream_comment": "https://github.com/apache/pinot/pull/19450#issuecomment-6658722890",
+      "merged_at": "2026-11-05T12:22:05Z",
+      "note": "Documented new ServerMeter SEGMENT_BUILD_WITH_CRC_MISMATCH (per-table meter) in operate-pinot/metrics-and-monitoring.md; counts locally built realtime segments whose CRC diverged from committed CRC, regardless of download-fallback success."
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op (0 new PRs after checkpoint)",
-  "last_run_id": "run-20261105T120134Z-opus48-1130",
+  "last_run_result": "docs_created (1 new PR: #19450 -> docs #1163 merged)",
+  "last_run_id": "run-20261105T130130Z-opus48-1025",
   "lock": {
-    "holder": "run-20261105T130130Z-opus48-1025",
-    "status": "held",
-    "prev_holder": "run-20261105T120134Z-opus48-1130",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T130130Z-opus48-1025",
     "acquired_at": "2026-11-05T13:01:42Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T13:31:42Z"
+    "released_at": "2026-11-05T13:05:28Z",
+    "lease_expires_at": null
   },
   "last_run_summary": "Checkpoint unchanged 2026-11-05T06:42:06Z; 0 merged PRs strictly after; no docs work.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261105T130130Z-opus48-1025",
-    "status": "held",
-    "prev_holder": "run-20261105T120134Z-opus48-1130",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T130130Z-opus48-1025",
     "acquired_at": "2026-11-05T13:01:42Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T13:31:42Z"
+    "released_at": "2026-11-05T13:05:28Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261104T200122Z-opus48-924",
-      "utc": "2026-11-04T20:02:52Z",
-      "result": "noop",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-04T12:30:12Z",
-      "note": "No PRs after checkpoint; triple-verified coverage (master commits + search API + pulls API)."
-    },
-    {
-      "run_id": "run-20261104T210115Z-opus48-884",
-      "utc": "2026-11-04T21:02:52Z",
-      "result": "no_op_one_not_relevant",
-      "new_prs": [
-        "20152:not_relevant"
-      ],
-      "docs_prs": []
-    },
-    {
-      "run_id": "run-20261104T220136Z-opus48-1107",
-      "utc": "2026-11-04T22:02:40Z",
-      "result": "no_op_no_new_prs",
-      "new_docs_prs": 0
-    },
-    {
-      "run_id": "run-20261104T230112Z-opus48-900",
-      "utc": "2026-11-04T23:04:33Z",
-      "result": "no_op_one_not_relevant",
-      "new_prs": [
-        "20155:not_relevant"
-      ],
-      "docs_prs": [],
-      "checkpoint": "2026-11-04T22:34:28Z",
-      "note": "Dual-verified coverage (search API + pulls API, both returned exactly #20155). Infra-only PR skipped."
-    },
     {
       "run_id": "run-20261105T020144Z-opus48-1261",
       "utc": "2026-11-05T02:02:34Z",
@@ -791,7 +766,18 @@
       "checkpoint": "2026-11-05T06:42:06Z",
       "new_prs": 0,
       "docs_prs": 0
+    },
+    {
+      "run_id": "run-20261105T130130Z-opus48-1025",
+      "utc": "2026-11-05T13:05:28Z",
+      "result": "docs_created",
+      "new_prs": [
+        19450
+      ],
+      "docs_prs": [
+        1163
+      ]
     }
   ],
-  "last_run_note": "#20153 (merged_at == checkpoint) already processed; master HEAD 14b56442 == #20153."
+  "last_run_note": "Processed apache/pinot#19450; created+merged pinot-docs#1163; commented upstream. Checkpoint advanced to 2026-11-05T12:22:05Z."
 }
