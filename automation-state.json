@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-05T00:00:06Z",
-  "last_successful_run": "2026-11-05T00:02:39Z",
+  "last_processed_merged_at": "2026-11-05T00:47:33Z",
+  "last_successful_run": "2026-11-05T01:05:54Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 19120,
-    "upstream_url": "https://github.com/apache/pinot/pull/19120",
-    "docs_pr": 1161,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1161",
+    "upstream_pr": 20154,
+    "upstream_url": "https://github.com/apache/pinot/pull/20154",
+    "docs_pr": 1162,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1162",
     "decision": "docs_created",
-    "note": "Documented sortedSelectionMergeMode query options (streaming selection ORDER BY combine)."
+    "note": "Documented HLL++ sp cap (<=25) and sp=0 requirement for ingestion/star-tree aggregation; fixed invalid sp=32 star-tree examples."
   },
   "processed_prs": {
     "19862": {
@@ -632,28 +632,37 @@
       "upstream_comment": null,
       "processed_by_run": "run-20261105T000122Z-opus48-887",
       "processed_at": "2026-11-05T00:02:39Z"
+    },
+    "20154": {
+      "decision": "docs_created",
+      "docs_pr": 1162,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1162",
+      "docs_merged_at": "2026-11-05T01:05:26Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20154#issuecomment-6646724154",
+      "merged_at": "2026-11-05T00:47:33Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20154"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no_op_one_not_relevant",
   "last_run_id": "run-20261105T000122Z-opus48-887",
   "lock": {
-    "holder": "run-20261105T010135Z-opus48-1067",
-    "status": "acquired",
-    "prev_holder": "run-20261105T000122Z-opus48-887",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T010135Z-opus48-1067",
     "acquired_at": "2026-11-05T01:01:47Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T01:31:47Z"
+    "released_at": "2026-11-05T01:05:54Z",
+    "lease_expires_at": null
   },
   "last_run_summary": "1 PR after checkpoint (#20156), classified not_relevant (Dependabot dnsjava 3.7.0->3.7.1 pom.xml bump). No docs PRs. Checkpoint advanced to 2026-11-05T00:00:06Z. Triple-verified coverage (pulls API + search API + master commit log all returned exactly #20156).",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261105T010135Z-opus48-1067",
-    "status": "acquired",
-    "prev_holder": "run-20261105T000122Z-opus48-887",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T010135Z-opus48-1067",
     "acquired_at": "2026-11-05T01:01:47Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T01:31:47Z"
+    "released_at": "2026-11-05T01:05:54Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
