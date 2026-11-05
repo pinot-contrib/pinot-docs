@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-05T00:47:33Z",
-  "last_successful_run": "2026-11-05T02:02:34Z",
+  "last_successful_run": "2026-11-05T03:03:26Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -645,46 +645,26 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no_op_no_new_prs",
-  "last_run_id": "run-20261105T020144Z-opus48-1261",
+  "last_run_id": "run-20261105T030151Z-opus48-1207",
   "lock": {
-    "holder": "run-20261105T030151Z-opus48-1207",
-    "status": "held",
-    "prev_holder": "run-20261105T020144Z-opus48-1261",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T030151Z-opus48-1207",
     "acquired_at": "2026-11-05T03:01:51Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T03:52:20Z"
+    "released_at": "2026-11-05T03:03:26Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No PRs merged after checkpoint 2026-11-05T00:47:33Z. Triple-verified coverage: search API (0), pulls API closed/updated-desc (0), and upstream/master commit log after checkpoint (0 commits). Top of master is #20154 @ merged 00:47:33Z = checkpoint boundary, already processed (docs PR #1162). No docs PRs created. Checkpoint unchanged.",
+  "last_run_summary": "No PRs merged after checkpoint 2026-11-05T00:47:33Z; triple-verified (search/issues + apache/master commit log + pulls API all returned 0). No docs work.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261105T030151Z-opus48-1207",
-    "status": "held",
-    "prev_holder": "run-20261105T020144Z-opus48-1261",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T030151Z-opus48-1207",
     "acquired_at": "2026-11-05T03:01:51Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T03:52:20Z"
+    "released_at": "2026-11-05T03:03:26Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261105T000122Z-opus48-887",
-      "utc": "2026-11-05T00:02:39Z",
-      "result": "no_op_one_not_relevant",
-      "new_prs": [
-        "20156:not_relevant"
-      ],
-      "docs_prs": [],
-      "checkpoint": "2026-11-05T00:00:06Z",
-      "note": "Dependabot dnsjava bump skipped. Triple-verified coverage."
-    },
-    {
-      "run_id": "run-20261104T130145Z-opus48-1225",
-      "utc": "2026-11-04T13:02:43Z",
-      "result": "noop",
-      "new_prs": 1,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-04T12:30:12Z",
-      "note": "#20150 dependabot checkstyle bump -> not_relevant"
-    },
     {
       "run_id": "run-20261104T140146Z-opus48",
       "finished_at": "2026-11-04T14:05:31Z",
@@ -780,6 +760,15 @@
       "docs_prs_created": 0,
       "checkpoint": "2026-11-05T00:47:33Z",
       "note": "No PRs after checkpoint; triple-verified (search API + pulls API + master commit log all returned 0)."
+    },
+    {
+      "run_id": "run-20261105T030151Z-opus48-1207",
+      "utc": "2026-11-05T03:03:26Z",
+      "result": "noop",
+      "new_prs": 0,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-05T00:47:33Z",
+      "note": "No PRs after checkpoint; triple-verified (search/issues + master commit log + pulls API all 0). apache/master HEAD == #20154 (checkpoint PR)."
     }
   ]
 }
