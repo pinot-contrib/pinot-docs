@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-05T13:54:24Z",
-  "last_successful_run": "2026-11-05T19:02:21Z",
+  "last_processed_merged_at": "2026-11-05T19:26:58Z",
+  "last_successful_run": "2026-11-05T20:02:55Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -670,35 +670,40 @@
       "merged_at": "2026-11-05T13:54:24Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20148",
       "title": "Re-run query optimizer after expression override for non-hybrid tables"
+    },
+    "20158": {
+      "decision": "not_relevant",
+      "reason": "Test-infrastructure-only change: adds ControllerTest.getInitialClusterConfigs() hook so test subclasses can set cluster configs a controller starts with. Single test source file (pinot-controller/src/test/.../ControllerTest.java, +15/-0). No user-facing behavior, config, API, or documented default changes.",
+      "merged_at": "2026-11-05T19:26:58Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20158"
+    },
+    "20159": {
+      "decision": "not_relevant",
+      "reason": "Test-only flakiness fix: QueryKillingIntegrationTest relaxed to allow nonnegative (zero) offlineSystemActivitiesCpuTimeNs, matching InstanceResponseOperator clamping. Single test source file (pinot-integration-tests/src/test/.../QueryKillingIntegrationTest.java, +5/-3). No user-facing behavior change.",
+      "merged_at": "2026-11-05T19:20:27Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20159"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": {
-    "run_id": "run-20261105T190133Z-opus48-1115",
-    "utc": "2026-11-05T19:02:21Z",
-    "outcome": "no_op",
-    "prs_after_checkpoint": 0,
-    "docs_prs_created": 0,
-    "note": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T13:54:24Z. Triple-verified: search API (merged:>cp)=0; pulls API (newest merged=#20148 @ 2026-11-05T13:54:24Z == checkpoint, already not_relevant); apache/master HEAD=8190e43747=#20148 (checkpoint PR, processed). Checkpoint unchanged. No docs PRs created. Model opus48."
-  },
+  "last_run_result": "no_docs_prs_two_not_relevant",
   "last_run_id": "run-20261105T200117Z-opus48-832",
   "lock": {
-    "holder": "run-20261105T200117Z-opus48-832",
-    "status": "held",
-    "prev_holder": null,
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T200117Z-opus48-832",
     "acquired_at": "2026-11-05T20:01:17Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T20:56:25Z"
+    "released_at": "2026-11-05T20:02:55Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T13:54:24Z. Triple-verified: search API (merged:>cp)=0; pulls API (newest merged=#20148 @ 2026-11-05T13:54:24Z == checkpoint, already not_relevant); apache/master HEAD=8190e43747=#20148 (checkpoint PR, processed). Checkpoint unchanged. No docs PRs created. Model opus48.",
+  "last_run_summary": "Processed 2 PRs merged after prior checkpoint (#20158, #20159), both test-only -> not_relevant. No docs PRs created. Checkpoint advanced to 2026-11-05T19:26:58Z.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261105T200117Z-opus48-832",
-    "status": "held",
-    "prev_holder": null,
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T200117Z-opus48-832",
     "acquired_at": "2026-11-05T20:01:17Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T20:56:25Z"
+    "released_at": "2026-11-05T20:02:55Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -811,7 +816,16 @@
       "docs_prs_created": 0,
       "checkpoint": "2026-11-05T13:54:24Z",
       "note": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T13:54:24Z. Triple-verified: search API (merged:>cp)=0; pulls API (newest merged=#20148 @ 2026-11-05T13:54:24Z == checkpoint, already not_relevant); apache/master HEAD=8190e43747=#20148 (checkpoint PR, processed). Checkpoint unchanged. No docs PRs created. Model opus48."
+    },
+    {
+      "run_id": "run-20261105T200117Z-opus48-832",
+      "utc": "2026-11-05T20:02:55Z",
+      "result": "no_docs_prs",
+      "new_prs": 2,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-05T19:26:58Z",
+      "note": "PRs #20158 (ControllerTest hook, test-only) and #20159 (QueryKillingIntegrationTest assertion relax, test-only) both not_relevant. Reconciled via search API (=2), pulls API (=2: #20158,#20159), apache/master HEAD=5765dab8=#20158. No docs changes. Model opus48."
     }
   ],
-  "last_run_note": "No-op: nothing merged after checkpoint; lease released cleanly."
+  "last_run_note": "2 test-only PRs classified not_relevant; checkpoint advanced; lease released cleanly."
 }

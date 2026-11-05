@@ -500,3 +500,29 @@ None.
 
 ### Notifications
 No Slack (no new docs PR created; no-op run).
+
+---
+
+## Run run-20261105T200117Z-opus48-832 — 2026-11-05T20:03:39Z UTC
+
+### Coverage
+Inventoried merged apache/pinot PRs strictly after checkpoint `2026-11-05T13:54:24Z`. Triple-verified: search API (`merged:>checkpoint`)=2; pulls API (state=closed, sort=updated desc)=2 (#20158, #20159); apache/master HEAD=`5765dab8` (#20158) → `a7a97616` (#20159) → `8190e437` (#20148, checkpoint PR, already ledgered). Full coverage, no gaps.
+
+### Decisions
+- **apache/pinot#20158** — *Let ControllerTest subclasses set the cluster configs a controller starts with* → **not_relevant**. Test-infrastructure-only hook (`ControllerTest.getInitialClusterConfigs()`); single test source file, +15/-0. No user-facing behavior/config/API/default change.
+- **apache/pinot#20159** — *Allow zero system activities CPU time in query killing tests* → **not_relevant**. Test-only flakiness fix in `QueryKillingIntegrationTest` (allow nonnegative/zero `offlineSystemActivitiesCpuTimeNs`); single test source file, +5/-3. No user-facing change.
+
+### Docs PRs created / merged
+None.
+
+### Validation
+No docs changes; no docs-repo validation required.
+
+### Durable state
+Checkpoint **advanced** `2026-11-05T13:54:24Z` → `2026-11-05T19:26:58Z` (= #20158 merged_at; both PRs through this boundary fully triaged). Ledger 70 → 72 entries. last_successful_run → 2026-11-05T20:03:39Z. State + report + memory persisted via Git Data API atomic commit; lease released.
+
+### Blockers
+None.
+
+### Notifications
+No Slack (no new docs PR created; no-op outcome — 2 PRs triaged, both not_relevant).
