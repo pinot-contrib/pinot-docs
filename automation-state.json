@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-05T06:42:06Z",
-  "last_successful_run": "2026-11-05T11:03:00Z",
+  "last_successful_run": "2026-11-05T12:03:18Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -656,25 +656,25 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no_op_no_new_prs",
+  "last_run_result": "no-op (0 new PRs after checkpoint)",
   "last_run_id": "run-20261105T120134Z-opus48-1130",
   "lock": {
-    "holder": "run-20261105T120134Z-opus48-1130",
-    "status": "held",
-    "prev_holder": "run-20261105T110116Z-opus48-910",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T120134Z-opus48-1130",
     "acquired_at": "2026-11-05T12:01:34Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T12:51:34Z"
+    "released_at": "2026-11-05T12:03:18Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No PRs merged strictly after checkpoint 2026-11-05T06:42:06Z. Triple-verified: search merged:>cp=0; search merged:>=cp only #20153 (merged AT checkpoint, already not_relevant); apache/master HEAD=14b564428=#20153; pulls API newest=#20153 at checkpoint. All 8 recent PRs (20153,20164,20154,20156,20155,20152,20150,19120) in ledger.",
+  "last_run_summary": "Checkpoint unchanged 2026-11-05T06:42:06Z; 0 merged PRs strictly after; no docs work.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261105T120134Z-opus48-1130",
-    "status": "held",
-    "prev_holder": "run-20261105T110116Z-opus48-910",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T120134Z-opus48-1130",
     "acquired_at": "2026-11-05T12:01:34Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T12:51:34Z"
+    "released_at": "2026-11-05T12:03:18Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -783,7 +783,15 @@
       "docs_prs_created": 0,
       "checkpoint": "2026-11-05T06:42:06Z",
       "note": "No PRs merged strictly after checkpoint 2026-11-05T06:42:06Z. Verified: search merged:>cp=0; pulls API newest=#20153 at checkpoint (already not_relevant); apache/master HEAD=14b564428=#20153, all recent commits in ledger. Model opus48."
+    },
+    {
+      "run_id": "run-20261105T120134Z-opus48-1130",
+      "finished_at": "2026-11-05T12:03:18Z",
+      "result": "no-op",
+      "checkpoint": "2026-11-05T06:42:06Z",
+      "new_prs": 0,
+      "docs_prs": 0
     }
   ],
-  "last_run_note": "noop; no PRs merged strictly after checkpoint 2026-11-05T06:42:06Z; coverage triple-verified; checkpoint unchanged"
+  "last_run_note": "#20153 (merged_at == checkpoint) already processed; master HEAD 14b56442 == #20153."
 }
