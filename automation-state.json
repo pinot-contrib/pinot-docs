@@ -659,22 +659,22 @@
   "last_run_result": "no_op_no_new_prs",
   "last_run_id": "run-20261105T080130Z-opus48-1104",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261105T090137Z-opus48-1239",
+    "status": "held",
     "prev_holder": "run-20261105T080130Z-opus48-1104",
-    "acquired_at": "2026-11-05T08:01:30Z",
-    "released_at": "2026-11-05T08:02:48Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-05T09:01:37Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-05T09:31:37Z"
   },
   "last_run_summary": "No PRs merged strictly after checkpoint 2026-11-05T06:42:06Z. Verified via pulls API (authoritative merged_at, 3 pages back to 2025-08), search API, and master-commit reconciliation. #20153 (=checkpoint) and all recent master PRs already processed.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261105T090137Z-opus48-1239",
+    "status": "held",
     "prev_holder": "run-20261105T080130Z-opus48-1104",
-    "acquired_at": "2026-11-05T08:01:30Z",
-    "released_at": "2026-11-05T08:02:48Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-05T09:01:37Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-05T09:31:37Z"
   },
   "recent_runs": [
     {
