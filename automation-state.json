@@ -710,12 +710,12 @@
   "last_run_summary": "Processed 2 PRs merged after prior checkpoint (#20158, #20159), both test-only -> not_relevant. No docs PRs created. Checkpoint advanced to 2026-11-05T19:26:58Z.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261105T220154Z-opus48-1173",
+    "status": "held",
     "prev_holder": "run-20261105T210132Z-opus48-995",
-    "acquired_at": "2026-11-05T21:01:33Z",
-    "released_at": "2026-11-05T21:06:12Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-05T22:03:56Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-05T22:33:56Z"
   },
   "recent_runs": [
     {
