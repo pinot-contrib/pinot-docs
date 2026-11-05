@@ -526,3 +526,35 @@ None.
 
 ### Notifications
 No Slack (no new docs PR created; no-op outcome — 2 PRs triaged, both not_relevant).
+
+---
+
+## Run run-20261105T210132Z-opus48-995 — 2026-11-05T21:06Z (UTC)
+
+### Summary
+Created and merged **1 docs PR**. 1 new upstream PR triaged since checkpoint `2026-11-05T19:26:58Z`.
+
+### Coverage
+Inventoried merged apache/pinot PRs strictly after `2026-11-05T19:26:58Z`: **1** — #20116 (merged `2026-11-05T20:06:50Z`). Verified via (1) `search/issues is:pr is:merged merged:>checkpoint` and (2) apache/pinot master commits API since checkpoint; both return exactly #20116. #20158 (@ checkpoint exactly) already ledgered. Full coverage, no gaps.
+
+### Decisions
+- **#20116 → docs_created.** "Add per-table hybrid retention strategy with cluster-level fallback" (labels: configuration, extension-point). Re-land of previously-reverted #20057 (reverted by #20101, ledgered not_relevant 2026-10-30) with a new `Enablement`-enum design. Confirmed the new per-table field `hybridTableRetentionStrategy` (ENABLE/DISABLE/DEFAULT, default DEFAULT → controller fallback) is present on master in `SegmentsValidationAndRetentionConfig`; `RetentionManager` now reads the table value with controller-config fallback and warns+ignores for OFFLINE tables. Names/enum/default/behavior verified from merged code.
+
+### Docs changes
+- `reference/configuration-reference/table.md`: added one `segmentsConfig` row documenting `hybridTableRetentionStrategy` (per-table override, REALTIME-only, DEFAULT falls back to `controller.enable.hybrid.table.retention.strategy`; purges REALTIME segments once the OFFLINE time boundary passes them instead of by `retentionTimeValue`; `retentionTimeUnit`/`retentionTimeValue` still required; ignored for OFFLINE/no-counterpart; size-based retention runs independently). Links to the RetentionManager section in controller.md.
+
+### Created / merged links
+- Docs PR: https://github.com/pinot-contrib/pinot-docs/pull/1164 — **MERGED** (squash, merge `72cd8fa2`, 2026-11-05T21:05:36Z).
+- Upstream comment: https://github.com/apache/pinot/pull/20116#issuecomment-6669534750.
+
+### Validation
+`git diff --check` clean. `uv run --with pyyaml python scripts/validate-docs.py` → **RESULT: PASS** (638 files, 3561 links; 10 pre-existing unrelated broken anchors, none in the touched file or the new link). PR checks: Validate changed docs PASS, Full docs audit PASS, 2× GitBook PASS.
+
+### Durable state
+Checkpoint **advanced** `2026-11-05T19:26:58Z` → `2026-11-05T20:06:50Z` (= #20116 merged_at; fully triaged, docs created+merged). Ledger 72 → 73 entries. State persisted via Contents API CAS; lease acquired (commit `3f073a1c`) and released (commit `986c8337`).
+
+### Blockers
+None.
+
+### Notifications
+Slack summary sent (new docs PR created+merged).
