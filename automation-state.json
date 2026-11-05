@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-05T19:26:58Z",
-  "last_successful_run": "2026-11-05T20:02:55Z",
+  "last_processed_merged_at": "2026-11-05T20:06:50Z",
+  "last_successful_run": "2026-11-05T21:06:12Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 19450,
-    "upstream_url": "https://github.com/apache/pinot/pull/19450",
-    "docs_pr": 1163,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1163",
+    "upstream_pr": 20116,
+    "upstream_url": "https://github.com/apache/pinot/pull/20116",
+    "docs_pr": 1164,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1164",
     "decision": "docs_created",
-    "note": "Documented SEGMENT_BUILD_WITH_CRC_MISMATCH server metric."
+    "note": "Documented per-table hybridTableRetentionStrategy config field."
   },
   "processed_prs": {
     "19862": {
@@ -682,11 +682,23 @@
       "reason": "Test-only flakiness fix: QueryKillingIntegrationTest relaxed to allow nonnegative (zero) offlineSystemActivitiesCpuTimeNs, matching InstanceResponseOperator clamping. Single test source file (pinot-integration-tests/src/test/.../QueryKillingIntegrationTest.java, +5/-3). No user-facing behavior change.",
       "merged_at": "2026-11-05T19:20:27Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20159"
+    },
+    "20116": {
+      "decision": "docs_created",
+      "docs_pr": 1164,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1164",
+      "docs_merged_at": "2026-11-05T21:05:36Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20116",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20116#issuecomment-6669534750",
+      "merged_at": "2026-11-05T20:06:50Z",
+      "note": "Re-land of reverted #20057 with new Enablement-enum design. Added per-table segmentsConfig field hybridTableRetentionStrategy (ENABLE/DISABLE/DEFAULT, default DEFAULT falls back to controller.enable.hybrid.table.retention.strategy). Verified field name/enum/default/behavior against merged SegmentsValidationAndRetentionConfig and RetentionManager on master. Doc added as one row in reference/configuration-reference/table.md segmentsConfig.",
+      "processed_by_run": "run-20261105T210132Z-opus48-995",
+      "processed_at": "2026-11-05T21:06:12Z"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no_docs_prs_two_not_relevant",
-  "last_run_id": "run-20261105T200117Z-opus48-832",
+  "last_run_result": "docs_created:1 (PR20116->docs1164)",
+  "last_run_id": "run-20261105T210132Z-opus48-995",
   "lock": {
     "holder": null,
     "status": "released",
@@ -698,50 +710,14 @@
   "last_run_summary": "Processed 2 PRs merged after prior checkpoint (#20158, #20159), both test-only -> not_relevant. No docs PRs created. Checkpoint advanced to 2026-11-05T19:26:58Z.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261105T210132Z-opus48-995",
-    "status": "held",
-    "prev_holder": "run-20261105T200117Z-opus48-832",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T210132Z-opus48-995",
     "acquired_at": "2026-11-05T21:01:33Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T21:56:33Z"
+    "released_at": "2026-11-05T21:06:12Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261105T050117Z-opus48-28506",
-      "utc": "2026-11-05T05:02:25Z",
-      "result": "no_op_no_new_prs",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-05T00:47:33Z",
-      "note": "Triple-verified 0 new PRs after checkpoint (search/pulls/master-HEAD-via-API all agree). apache master HEAD == #20154."
-    },
-    {
-      "run_id": "run-20261105T060154Z-opus48-1252",
-      "utc": "2026-11-05T06:02:22Z",
-      "result": "no_op_no_new_prs",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-05T00:47:33Z",
-      "note": "No PRs merged strictly after checkpoint 2026-11-05T00:47:33Z. Triple-verified: search API (merged:>checkpoint=0), pulls API (max merged_at=#20154 @ checkpoint), apache master HEAD=091eac795=#20154 (checkpoint PR, already processed, docs #1162). Local origin is stale fork xiangfu0/pinot; used GitHub API as authoritative. Write access to pinot-docs confirmed via lease CAS."
-    },
-    {
-      "run_id": "run-20261105T080130Z-opus48-1104",
-      "utc": "2026-11-05T08:02:48Z",
-      "result": "noop",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-05T06:42:06Z",
-      "note": "No PRs after checkpoint; coverage reconciled (pulls API + search + master commits)."
-    },
-    {
-      "run_id": "run-20261105T090137Z-opus48-1239",
-      "utc": "2026-11-05T09:03:34Z",
-      "result": "no_op_no_new_prs",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-05T06:42:06Z",
-      "note": "No PRs after checkpoint; coverage reconciled (pulls API + search + master commits). Verified durable read/write via Git Data API (git push hook blocks bare-name pushes; prior runs use same API path)."
-    },
     {
       "run_id": "run-20261105T100130Z-opus48-973",
       "utc": "2026-11-05T10:02:14Z",
@@ -825,7 +801,19 @@
       "docs_prs_created": 0,
       "checkpoint": "2026-11-05T19:26:58Z",
       "note": "PRs #20158 (ControllerTest hook, test-only) and #20159 (QueryKillingIntegrationTest assertion relax, test-only) both not_relevant. Reconciled via search API (=2), pulls API (=2: #20158,#20159), apache/master HEAD=5765dab8=#20158. No docs changes. Model opus48."
+    },
+    {
+      "run_id": "run-20261105T210132Z-opus48-995",
+      "at": "2026-11-05T21:06:12Z",
+      "new_prs": [
+        20116
+      ],
+      "docs_created": [
+        1164
+      ],
+      "not_relevant": [],
+      "checkpoint": "2026-11-05T20:06:50Z"
     }
   ],
-  "last_run_note": "2 test-only PRs classified not_relevant; checkpoint advanced; lease released cleanly."
+  "last_run_note": "Run run-20261105T210132Z-opus48-995 (2026-11-05T21:06:12Z): inventoried merged PRs > 2026-11-05T19:26:58Z; found 1 new (20116). Reconciled against apache/pinot master commits. Created+merged docs PR #1164, commented upstream. Checkpoint advanced to 2026-11-05T20:06:50Z."
 }
