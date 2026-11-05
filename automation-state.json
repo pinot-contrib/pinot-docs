@@ -683,22 +683,22 @@
   },
   "last_run_id": "run-20261105T180123Z-opus48-917",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261105T190133Z-opus48-1115",
+    "status": "held",
     "prev_holder": "run-20261105T180123Z-opus48-917",
-    "acquired_at": "2026-11-05T18:01:32Z",
-    "released_at": "2026-11-05T18:02:31Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-05T19:01:33Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-05T19:56:33Z"
   },
   "last_run_summary": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T13:54:24Z. Triple-verified: search API (merged:>cp)=0; pulls API newest merged=#20148 at checkpoint; apache/master HEAD=8190e4374=#20148 (checkpoint PR, already processed, not_relevant). Checkpoint unchanged. No docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261105T190133Z-opus48-1115",
+    "status": "held",
     "prev_holder": "run-20261105T180123Z-opus48-917",
-    "acquired_at": "2026-11-05T18:01:32Z",
-    "released_at": "2026-11-05T18:02:31Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-05T19:01:33Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-05T19:56:33Z"
   },
   "recent_runs": [
     {
