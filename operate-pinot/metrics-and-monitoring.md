@@ -107,6 +107,7 @@ Servers store segments and execute queries. Monitoring servers helps detect inge
 | `NUM_MISSING_SEGMENTS` | Meter | Segments the broker expected but the server did not have. | > 0 sustained |
 | `SEGMENT_DOWNLOAD_FAILURES` | Meter | Failures downloading segments from deep store. | > 0 |
 | `RELOAD_FAILURES` | Meter | Failures reloading segments after config changes. | > 0 |
+| `SEGMENT_BUILD_WITH_CRC_MISMATCH` | Meter | Locally built real-time segments whose CRC diverged from the committed CRC in ZooKeeper, causing the server to discard the local build and download the committed copy instead. Counted whether or not that download fallback succeeds; build failures and CRC-read errors are not counted. Per table. | > 0 |
 | `ROWS_WITH_ERRORS` | Meter | Rows that failed transformation or indexing during ingestion. | > 0.1% of `REALTIME_ROWS_CONSUMED` |
 | `JVM_HEAP_USED_BYTES` | Gauge | Current JVM heap usage on the server. | > 85% of max heap |
 | `HEAP_CRITICAL_LEVEL_EXCEEDED` | Meter | Times heap usage exceeded the critical threshold, triggering query killing. | > 0 |
@@ -153,6 +154,11 @@ For server transport memory pressure, also monitor `NETTY_TOTAL_USED_DIRECT_MEMO
 - Deep store (S3/GCS/HDFS) may be unreachable or throttling
 - Check network connectivity and cloud provider quotas
 - Look at `SEGMENT_DOWNLOAD_FROM_REMOTE_FAILURES` vs. `SEGMENT_DOWNLOAD_FROM_PEERS_FAILURES` to distinguish deep store vs. peer download issues
+
+**If `SEGMENT_BUILD_WITH_CRC_MISMATCH` is above 0:**
+- A server built a real-time segment locally whose CRC did not match the committed CRC, so it fell back to downloading the committed copy
+- Occasional events are expected when a replica commits a segment while others are still building; sustained or widespread counts can indicate non-deterministic ingestion (for example unstable transforms or ordering) that produces diverging local builds across replicas
+- Correlate with `SEGMENT_DOWNLOAD_FAILURES` to confirm the download fallback is succeeding
 
 ---
 
