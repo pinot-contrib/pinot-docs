@@ -657,24 +657,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no_op_no_new_prs",
-  "last_run_id": "run-20261105T110116Z-opus48-910",
+  "last_run_id": "run-20261105T120134Z-opus48-1130",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261105T120134Z-opus48-1130",
+    "status": "held",
     "prev_holder": "run-20261105T110116Z-opus48-910",
-    "acquired_at": "2026-11-05T11:01:16Z",
-    "released_at": "2026-11-05T11:03:00Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-05T12:01:34Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-05T12:51:34Z"
   },
   "last_run_summary": "No PRs merged strictly after checkpoint 2026-11-05T06:42:06Z. Triple-verified: search merged:>cp=0; search merged:>=cp only #20153 (merged AT checkpoint, already not_relevant); apache/master HEAD=14b564428=#20153; pulls API newest=#20153 at checkpoint. All 8 recent PRs (20153,20164,20154,20156,20155,20152,20150,19120) in ledger.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261105T120134Z-opus48-1130",
+    "status": "held",
     "prev_holder": "run-20261105T110116Z-opus48-910",
-    "acquired_at": "2026-11-05T11:01:16Z",
-    "released_at": "2026-11-05T11:03:00Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-05T12:01:34Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-05T12:51:34Z"
   },
   "recent_runs": [
     {
