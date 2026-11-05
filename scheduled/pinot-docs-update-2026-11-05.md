@@ -4,6 +4,54 @@ _This daily report accumulates all runs for 2026-11-05 (UTC), newest first._
 
 ---
 
+## Run run-20261105T130130Z-opus48-1025 — 2026-11-05T13:06:07Z (1 docs PR created + merged)
+
+**Checkpoint:** incoming `2026-11-05T06:42:06Z` → outgoing `2026-11-05T12:22:05Z` (= apache/pinot#19450 merged_at).
+
+### Coverage / reconciliation
+Merged apache/pinot PRs strictly after incoming checkpoint: **1** (#19450). Verified by two agreeing methods:
+1. Search API `is:pr is:merged merged:>=2026-11-05` → 5 items; precise `merged_at` filter leaves only #19450 (@ `2026-11-05T12:22:05Z`) strictly after checkpoint (#20153 is exactly at checkpoint; #20164/#20156/#20154 before, all ledgered).
+2. apache/pinot `upstream/master` commit log since #20153's merge commit (`14b564428`) → exactly one commit `684b7a4a` = #19450. No gaps.
+
+### Decisions
+| PR | Title | Decision | Docs |
+|----|-------|----------|------|
+| apache/pinot#19450 | Add metric for local realtime segment builds with CRC mismatch | **docs_created** | pinot-contrib/pinot-docs#1163 (merged) |
+
+#### #19450 rationale
+Adds a new `ServerMeter`: `SEGMENT_BUILD_WITH_CRC_MISMATCH` (unit "segments", per-table). Verified from merged code (`684b7a4a`):
+- `ServerMeter.java`: `SEGMENT_BUILD_WITH_CRC_MISMATCH("segments", false)`.
+- Emitted in `RealtimeSegmentDataManager.buildSegmentAndReplace(...)` when a locally built realtime segment's CRC does not match the committed CRC in ZK; the server then discards the local build and the caller downloads the committed copy. Counted regardless of whether that download fallback succeeds; build failures and CRC-read errors are NOT counted (confirmed via Javadoc + emission site).
+
+Operator-facing observability metric → docs-relevant. The project's `operate-pinot/metrics-and-monitoring.md` maintains a curated Critical Server Metrics table + diagnosis patterns, where this meter belongs.
+
+### Docs PR #1163
+Branch `cs_LqNuFJRzIs/docs/pr-19450-segment-build-crc-mismatch-metric`. File `operate-pinot/metrics-and-monitoring.md` (+6 lines):
+- New row in **Critical Server Metrics** table (description + alert threshold `> 0`).
+- New **Server Diagnosis Patterns** entry (expected vs. concerning behavior; correlate with `SEGMENT_DOWNLOAD_FAILURES`).
+
+### Validation
+- `git diff --check`: clean.
+- `uv run --with pyyaml python scripts/validate-docs.py --summary-only`: **PASS** (10 broken anchors confirmed pre-existing on `origin/latest` baseline, unrelated to changed file).
+- CI checks: "Validate changed docs" pass, "Full docs audit" pass, GitBook ×2 pass.
+- Squash-merged sha `da7ac865` at 2026-11-05T13:04:48Z; merge verified via API (`merged=true`).
+
+### Links
+- Upstream PR: https://github.com/apache/pinot/pull/19450
+- Docs PR (merged): https://github.com/pinot-contrib/pinot-docs/pull/1163
+- Upstream comment: https://github.com/apache/pinot/pull/19450#issuecomment-6658722890
+
+### Environment / durable state
+Preflight: apache/pinot = WRITE, pinot-contrib/pinot-docs = ADMIN. Durable read + write to `automation-state` via GitHub Contents API with SHA-based CAS. Lock/lease acquired (blob `67bc7ff`) and released cleanly (blob `6b9b776`). Checkpoint advanced; ledger 68 → 69.
+
+### Blockers
+None.
+
+### Notifications
+Slack summary sent (new docs PR created + merged).
+
+---
+
 ## Run run-20261105T120134Z-opus48-1130 — 2026-11-05T12:03Z (no-op)
 
 **Checkpoint (unchanged):** `last_processed_merged_at = 2026-11-05T06:42:06Z`
