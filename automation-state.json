@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-05T00:47:33Z",
-  "last_successful_run": "2026-11-05T06:02:22Z",
+  "last_processed_merged_at": "2026-11-05T06:42:06Z",
+  "last_successful_run": "2026-11-05T07:02:50Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -641,28 +641,40 @@
       "upstream_comment": "https://github.com/apache/pinot/pull/20154#issuecomment-6646724154",
       "merged_at": "2026-11-05T00:47:33Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20154"
+    },
+    "20153": {
+      "decision": "not_relevant",
+      "reason": "Internal correctness/perf fix to Utf8Utils.encodedLength so it exactly equals encode(s).length for every string, including unpaired surrogates (Guava's Utf8.encodedLength threw IllegalArgumentException on an unpaired surrogate reachable from e.g. SUBSTR splitting an emoji, while encode()/String.getBytes writes one '?' replacement byte, so buffer-sizing code could throw where the encoder would succeed). Collapses encodedLength/encodedLengthWithReplacement into one branch-free counter, moves 15 production classes off direct Guava Utf8 calls, and adds a long-view fast path to isAscii(byte[]). No new config/query-option/function/default and no documented user-facing surface (verified: diff adds no QueryOptionKey/CONFIG_/pinot.* keys or registered functions) \u2014 it removes an internal crash in an undocumented helper. Not docs-relevant.",
+      "merged_at": "2026-11-05T06:42:06Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20153"
+    },
+    "20164": {
+      "decision": "not_relevant",
+      "reason": "Changes only apache/pinot's own README.md and .asf.yaml (repo landing page + ASF repo metadata/topics): adds a pinned Pinot 1.6.0 Docker batch quickstart snippet with sample SQL to the README, vector-search/RAG/agent-analytics wording with links to existing docs, and updates the GitHub description and discovery topics. These are repository-landing and ASF-metadata files, not the pinot-docs (docs.pinot.apache.org / GitBook) documentation site, and there are no runtime code, config, API, function, or documented-default changes. Not relevant to pinot-docs.",
+      "merged_at": "2026-11-05T06:41:02Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20164"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no_op_no_new_prs",
   "last_run_id": "run-20261105T060154Z-opus48-1252",
   "lock": {
-    "holder": "run-20261105T070117Z-opus48-931",
-    "status": "held",
-    "prev_holder": "run-20261105T060154Z-opus48-1252",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T070117Z-opus48-931",
     "acquired_at": "2026-11-05T07:01:26Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T07:51:26Z"
+    "released_at": "2026-11-05T07:02:50Z",
+    "lease_expires_at": null
   },
   "last_run_summary": "Hourly no-op: 0 new PRs after checkpoint; checkpoint unchanged at 2026-11-05T00:47:33Z.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261105T070117Z-opus48-931",
-    "status": "held",
-    "prev_holder": "run-20261105T060154Z-opus48-1252",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T070117Z-opus48-931",
     "acquired_at": "2026-11-05T07:01:26Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T07:51:26Z"
+    "released_at": "2026-11-05T07:02:50Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {

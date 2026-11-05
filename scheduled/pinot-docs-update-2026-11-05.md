@@ -4,6 +4,28 @@ _This daily report accumulates all runs for 2026-11-05 (UTC), newest first._
 
 ---
 
+# Pinot Docs Update — 2026-11-05 (run run-20261105T070117Z-opus48-931)
+
+**Run start:** 2026-11-05T07:01:17Z · **Finished:** 2026-11-05T07:03:26Z · **Model:** Opus 4.8 (claude-opus-4-8) · **Result:** No-op for docs (2 PRs triaged, both not docs-relevant)
+
+## Checkpoint
+- Incoming `last_processed_merged_at`: `2026-11-05T00:47:33Z`
+- Outgoing `last_processed_merged_at`: `2026-11-05T06:42:06Z` (advanced — 2 PRs fully triaged)
+
+## Coverage (merged apache/pinot PRs strictly after checkpoint)
+Three agreeing methods: (1) `search/issues is:pr is:merged merged:>=2026-11-05T00:47:33Z` => 3 items, of which #20154 == checkpoint PR (already ledgered, docs #1162); (2) `gh pr list --state merged` sorted by mergedAt; (3) apache/master commit-log reconcile since checkpoint => exactly (#20153, #20154, #20164). New PRs strictly after checkpoint: **#20153, #20164**. No gaps.
+
+## Decisions
+- **#20153** — "Make Utf8Utils.encodedLength agree with encode() on unpaired surrogates" — **not docs-relevant**. Internal correctness/perf fix making `Utf8Utils.encodedLength` exactly equal `encode(s).length` (Guava's `Utf8.encodedLength` threw on unpaired surrogates reachable via e.g. `SUBSTR` splitting an emoji; buffer-sizing code could throw where the encoder succeeds). Collapses two helpers into one branch-free counter, moves 15 production classes off direct Guava calls, adds a long-view `isAscii` fast path. Verified diff adds no QueryOptionKey/CONFIG_/`pinot.*` keys or registered functions; no documented user-facing surface.
+- **#20164** — "Add a README Docker quickstart and improve GitHub metadata" — **not relevant to pinot-docs**. Changes only apache/pinot's own `README.md` and `.asf.yaml` (repo landing page + ASF repo metadata/topics), not the pinot-docs (docs.pinot.apache.org / GitBook) site. No runtime code, config, API, function, or documented-default changes.
+
+## Outputs
+- Docs PRs created: **0**. Upstream comments: **0**. Slack: **not sent** (no new docs PRs).
+- Ledger: 66 -> **68** entries. `last_successful_run` -> 2026-11-05T07:03:26Z.
+- Durable state/report/memory persisted to `automation-state` branch via atomic Git Trees commit; lease released.
+
+---
+
 # Pinot Docs Update — 2026-11-05 (run run-20261105T060154Z-opus48-1252)
 
 **Run start:** 2026-11-05T06:01:54Z · **Finished:** 2026-11-05T06:02:22Z · **Model:** Opus 4.8 (claude-opus-4-8) · **Result:** No-op (no new PRs)
