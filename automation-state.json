@@ -647,22 +647,22 @@
   "last_run_result": "no_op_no_new_prs",
   "last_run_id": "run-20261105T020144Z-opus48-1261",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261105T030151Z-opus48-1207",
+    "status": "held",
     "prev_holder": "run-20261105T020144Z-opus48-1261",
-    "acquired_at": "2026-11-05T02:01:44Z",
-    "released_at": "2026-11-05T02:02:34Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-05T03:01:51Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-05T03:52:20Z"
   },
   "last_run_summary": "No PRs merged after checkpoint 2026-11-05T00:47:33Z. Triple-verified coverage: search API (0), pulls API closed/updated-desc (0), and upstream/master commit log after checkpoint (0 commits). Top of master is #20154 @ merged 00:47:33Z = checkpoint boundary, already processed (docs PR #1162). No docs PRs created. Checkpoint unchanged.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261105T030151Z-opus48-1207",
+    "status": "held",
     "prev_holder": "run-20261105T020144Z-opus48-1261",
-    "acquired_at": "2026-11-05T02:01:44Z",
-    "released_at": "2026-11-05T02:02:34Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-05T03:01:51Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-05T03:52:20Z"
   },
   "recent_runs": [
     {
