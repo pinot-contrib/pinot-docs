@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-05T06:42:06Z",
-  "last_successful_run": "2026-11-05T09:03:34Z",
+  "last_successful_run": "2026-11-05T10:02:14Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -659,22 +659,22 @@
   "last_run_result": "no_op_no_new_prs",
   "last_run_id": "run-20261105T100130Z-opus48-973",
   "lock": {
-    "holder": "run-20261105T100130Z-opus48-973",
-    "status": "held",
-    "prev_holder": "run-20261105T090137Z-opus48-1239",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T100130Z-opus48-973",
     "acquired_at": "2026-11-05T10:01:30Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T10:51:30Z"
+    "released_at": "2026-11-05T10:02:14Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No PRs merged strictly after checkpoint 2026-11-05T06:42:06Z. Triple-verified: search API (0), pulls API newest #20153 at checkpoint, apache/master HEAD=14b56442 (#20153) at checkpoint. All 8 recent PRs (20153,20164,20154,20156,20155,20152,20150,19120) already in ledger.",
+  "last_run_summary": "No PRs merged strictly after checkpoint 2026-11-05T06:42:06Z. Triple-verified: search merged:>cp=0; search merged:>=cp only #20153 (merged AT checkpoint, already not_relevant); apache/master HEAD=14b564428=#20153; pulls API newest=#20153 at checkpoint. All 8 recent PRs (20153,20164,20154,20156,20155,20152,20150,19120) in ledger.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261105T100130Z-opus48-973",
-    "status": "held",
-    "prev_holder": "run-20261105T090137Z-opus48-1239",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T100130Z-opus48-973",
     "acquired_at": "2026-11-05T10:01:30Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T10:51:30Z"
+    "released_at": "2026-11-05T10:02:14Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -774,6 +774,15 @@
       "docs_prs_created": 0,
       "checkpoint": "2026-11-05T06:42:06Z",
       "note": "No PRs after checkpoint; coverage reconciled (pulls API + search + master commits). Verified durable read/write via Git Data API (git push hook blocks bare-name pushes; prior runs use same API path)."
+    },
+    {
+      "run_id": "run-20261105T100130Z-opus48-973",
+      "utc": "2026-11-05T10:02:14Z",
+      "result": "no_op_no_new_prs",
+      "new_prs": 0,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-05T06:42:06Z",
+      "note": "No PRs merged strictly after checkpoint 2026-11-05T06:42:06Z. Triple-verified: search merged:>cp=0; search merged:>=cp only #20153 (merged AT checkpoint, already not_relevant); apache/master HEAD=14b564428=#20153; pulls API newest=#20153 at checkpoint. All 8 recent PRs (20153,20164,20154,20156,20155,20152,20150,19120) in ledger."
     }
   ],
   "last_run_note": "noop; coverage triple-verified; checkpoint unchanged"
