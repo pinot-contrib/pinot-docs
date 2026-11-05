@@ -388,3 +388,38 @@ None.
 
 ### Notifications
 No Slack (no-op run; no new docs PR).
+
+
+---
+
+## Run run-20261105T140154Z-opus48-7245 — 2026-11-05T14:03Z
+
+### Result
+**1 PR triaged → not_relevant; 0 docs PRs created (no-op outcome).** Model Opus 4.8 (claude-opus-4-8), IntentLab scheduled hourly triage.
+
+### Preflight
+Read-only. gh auth as `xiangfu0` (GH_TOKEN). apache/pinot = WRITE, pinot-contrib/pinot-docs = ADMIN. Durable read + write to `automation-state` confirmed via GitHub Contents/Git-Data API with CAS (session git-push hook rejects bare-name pushes to `automation-state`; prior runs persist through the same API path). Lock acquired (commit `8ebb68d`, lease +30min) over a cleanly-released prior lock, and released cleanly at end. No overlap.
+
+### Coverage / inventory
+Incoming checkpoint `2026-11-05T12:22:05Z`. Merged apache/pinot PRs strictly after checkpoint: **1**.
+1. search/issues `is:pr is:merged merged:>checkpoint` → 1 item (#20148).
+2. Pulls API (state=closed, sort=updated desc) → same single result #20148 @ `2026-11-05T13:54:24Z`.
+3. apache/pinot `master` commits API → only commit after `684b7a4a` (#19450, @ checkpoint) is `8190e437` = #20148; all 14 prior commits already in ledger. Full coverage, no gaps.
+
+### Decisions
+- **apache/pinot#20148 → not_relevant.** "Re-run query optimizer after expression override for non-hybrid tables" (label: query). Internal broker correctness bug fix: `BaseSingleStageBrokerRequestHandler` now re-runs `_queryOptimizer.optimize()` after `handleExpressionOverride` on OFFLINE-only and REALTIME-only routes (when the expression-override map is non-null), matching pre-existing hybrid-table behavior. This strips a predicate rewritten to a literal (e.g. `REGEXP_LIKE(foo, '.*') → TRUE`) before segment pruning, avoiding a NullPointerException in `TimeSegmentPruner.getFilterTimeIntervals`. Diff: +10/−2 in one production file plus a 122-line unit test. No new config, default, API, or documented user-facing behavior; the expression-override feature and its docs are unchanged. Verified against merged diff `8190e437`. Duplicate check: 0 docs PRs reference #20148, 0 prior upstream comments.
+
+### Docs PRs created / merged
+None (only PR triaged was not docs-relevant).
+
+### Validation
+No docs changes; no docs-repo validation required.
+
+### Durable state
+Checkpoint **ADVANCED `2026-11-05T12:22:05Z` → `2026-11-05T13:54:24Z`** (= #20148 merged_at). Ledger 69 → 70 entries. last_successful_run → 2026-11-05T14:03:30Z. State/report/memory persisted via Git Data API atomic commit; lease released.
+
+### Blockers
+None.
+
+### Notifications
+No Slack (no new docs PR created this run).
