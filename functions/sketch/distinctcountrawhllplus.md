@@ -7,7 +7,7 @@ description: >-
 # DISTINCTCOUNTRAWHLLPLUS
 
 Returns HLLPlus response serialized as string. The serialized HLLPlus can be converted back into an HLLPlus and then aggregated with other HLLPluses. A common use case may be to merge HLLPlus responses from different Pinot tables, or to allow aggregation after client-side batching.\
-The optional parameter _p_ defines the normal set precision and the parameter _sp_ defines the sparse set precision.
+The optional parameter _p_ defines the normal set precision and the parameter _sp_ defines the sparse set precision. When set, _sp_ must be at most `25`; a larger value is rejected because the sparse encoding would corrupt the registers once the sketch converts to the normal format.
 
 ## Signature
 

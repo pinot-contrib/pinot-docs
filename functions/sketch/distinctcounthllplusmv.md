@@ -7,7 +7,7 @@ description: >-
 # DISTINCTCOUNTHLLPLUSMV
 
 Returns an approximate distinct count using HyperLogLogPlusPlus in a group.\
-The optional parameter _p_ defines the normal set precision and the parameter _sp_ defines the sparse set precision.
+The optional parameter _p_ defines the normal set precision and the parameter _sp_ defines the sparse set precision. When set, _sp_ must be at most `25`; a larger value is rejected because the sparse encoding would corrupt the registers once the sketch converts to the normal format.
 
 ## Signature
 

@@ -7,7 +7,7 @@ description: >-
 # DISTINCTCOUNTHLLPLUS
 
 Returns an approximate distinct count using _HyperLogLogPlusPlus_. It also takes an optional second and third arguments to configure the _p_, _sp_ for the _HyperLogLogPlus_.\
-The optional parameter _p_ defines the normal set precision and the parameter _sp_ defines the sparse set precision.\
+The optional parameter _p_ defines the normal set precision and the parameter _sp_ defines the sparse set precision. When set, _sp_ must be at most `25`; a larger value is rejected because the sparse encoding would corrupt the registers once the sketch converts to the normal format.\
 For accurate distinct counting, see [DISTINCTCOUNT](../aggregation/distinctcount.md).
 
 ## Signature
@@ -52,7 +52,7 @@ from baseballStats
 * `colName` (required): Column to aggregate.
 * `threshold` (optional): Number of distinct values Pinot keeps exactly before converting to HLL++. Default: `100000`. A non-positive value disables the conversion.
 * `p` (optional): HyperLogLog++ normal precision after conversion. Default: `14`.
-* `sp` (optional): HyperLogLog++ sparse precision after conversion. Default: `0`.
+* `sp` (optional): HyperLogLog++ sparse precision after conversion. Default: `0`. When set, must be at most `25`.
 
 ### Usage Examples
 
