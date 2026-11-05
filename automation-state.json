@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-05T00:47:33Z",
-  "last_successful_run": "2026-11-05T03:03:26Z",
+  "last_successful_run": "2026-11-05T04:02:47Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -647,22 +647,22 @@
   "last_run_result": "no_op_no_new_prs",
   "last_run_id": "run-20261105T030151Z-opus48-1207",
   "lock": {
-    "holder": "run-20261105T040134Z-opus48-1084",
-    "status": "held",
-    "prev_holder": "run-20261105T030151Z-opus48-1207",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T040134Z-opus48-1084",
     "acquired_at": "2026-11-05T04:01:42Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T04:31:42Z"
+    "released_at": "2026-11-05T04:02:47Z",
+    "lease_expires_at": null
   },
   "last_run_summary": "No PRs merged after checkpoint 2026-11-05T00:47:33Z; triple-verified (search/issues + apache/master commit log + pulls API all returned 0). No docs work.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261105T040134Z-opus48-1084",
-    "status": "held",
-    "prev_holder": "run-20261105T030151Z-opus48-1207",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T040134Z-opus48-1084",
     "acquired_at": "2026-11-05T04:01:42Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T04:31:42Z"
+    "released_at": "2026-11-05T04:02:47Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -770,5 +770,6 @@
       "checkpoint": "2026-11-05T00:47:33Z",
       "note": "No PRs after checkpoint; triple-verified (search/issues + master commit log + pulls API all 0). apache/master HEAD == #20154 (checkpoint PR)."
     }
-  ]
+  ],
+  "last_run_note": "no-op: no upstream PRs merged after checkpoint 2026-11-05T00:47:33Z (verified via search API, pulls API, master commit reconciliation)"
 }
