@@ -681,24 +681,24 @@
     "docs_prs_created": 0,
     "note": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T13:54:24Z (PR #20148). Verified via search + closed-PR API (0 after) and git log on apache/master (only #20148, already processed/not_relevant)."
   },
-  "last_run_id": "run-20261105T160138Z-opus48-1045",
+  "last_run_id": "run-20261105T170138Z-opus48-29500",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261105T170138Z-opus48-29500",
+    "status": "held",
     "prev_holder": "run-20261105T160138Z-opus48-1045",
-    "acquired_at": "2026-11-05T16:01:46Z",
-    "released_at": "2026-11-05T16:02:59Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-05T17:01:38Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-05T17:31:38Z"
   },
   "last_run_summary": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T13:54:24Z. Triple-verified: search API (merged:>cp)=0; pulls API newest merged=#20148 at checkpoint; apache/master HEAD=8190e4374=#20148 (checkpoint PR, already processed, not_relevant). Checkpoint unchanged. No docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261105T170138Z-opus48-29500",
+    "status": "held",
     "prev_holder": "run-20261105T160138Z-opus48-1045",
-    "acquired_at": "2026-11-05T16:01:46Z",
-    "released_at": "2026-11-05T16:02:59Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-05T17:01:38Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-05T17:31:38Z"
   },
   "recent_runs": [
     {
