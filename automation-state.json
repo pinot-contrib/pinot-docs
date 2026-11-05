@@ -681,24 +681,24 @@
     "docs_prs_created": 0,
     "note": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T13:54:24Z. Triple-verified: search API (merged:>cp)=0; pulls API (newest merged=#20148 @ 2026-11-05T13:54:24Z == checkpoint, already not_relevant); apache/master HEAD=8190e43747=#20148 (checkpoint PR, processed). Checkpoint unchanged. No docs PRs created. Model opus48."
   },
-  "last_run_id": "run-20261105T190133Z-opus48-1115",
+  "last_run_id": "run-20261105T200117Z-opus48-832",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "prev_holder": "run-20261105T190133Z-opus48-1115",
-    "acquired_at": "2026-11-05T19:01:33Z",
-    "released_at": "2026-11-05T19:02:21Z",
-    "lease_expires_at": null
+    "holder": "run-20261105T200117Z-opus48-832",
+    "status": "held",
+    "prev_holder": null,
+    "acquired_at": "2026-11-05T20:01:17Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-05T20:56:25Z"
   },
   "last_run_summary": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T13:54:24Z. Triple-verified: search API (merged:>cp)=0; pulls API (newest merged=#20148 @ 2026-11-05T13:54:24Z == checkpoint, already not_relevant); apache/master HEAD=8190e43747=#20148 (checkpoint PR, processed). Checkpoint unchanged. No docs PRs created. Model opus48.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "prev_holder": "run-20261105T190133Z-opus48-1115",
-    "acquired_at": "2026-11-05T19:01:33Z",
-    "released_at": "2026-11-05T19:02:21Z",
-    "lease_expires_at": null
+    "holder": "run-20261105T200117Z-opus48-832",
+    "status": "held",
+    "prev_holder": null,
+    "acquired_at": "2026-11-05T20:01:17Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-05T20:56:25Z"
   },
   "recent_runs": [
     {
