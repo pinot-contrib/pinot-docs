@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-04T22:34:28Z",
-  "last_successful_run": "2026-11-04T23:04:33Z",
+  "last_processed_merged_at": "2026-11-05T00:00:06Z",
+  "last_successful_run": "2026-11-05T00:02:39Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -617,30 +617,56 @@
       "reason": "Repo-infrastructure/CI tooling only: sets Dependabot shared label [dependencies] for Maven/npm/GitHub Actions in .github/dependabot.yml and removes the deleted testing label from .github/PULL_REQUEST_TEMPLATE.md. No user-facing behavior, config, API, SPI, or documented default changes.",
       "merged_at": "2026-11-04T22:34:28Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20155"
+    },
+    "20156": {
+      "upstream_pr": 20156,
+      "upstream_url": "https://github.com/apache/pinot/pull/20156",
+      "title": "Bump dnsjava:dnsjava from 3.7.0 to 3.7.1",
+      "author": "dependabot[bot]",
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump. Verified from the merged diff (merge commit 2bacc8889b): single file pom.xml (+1/-1) bumping dnsjava.version 3.7.0->3.7.1, author dependabot[bot], label dependencies. dnsjava is a transitive DNS-resolution library; a patch-level bump with no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
+      "merged_at": "2026-11-05T00:00:06Z",
+      "upstream_merged_at": "2026-11-05T00:00:06Z",
+      "merge_commit_sha": "2bacc8889b224f1d9ceb564c421b976c6ad961d8",
+      "docs_url": null,
+      "upstream_comment": null,
+      "processed_by_run": "run-20261105T000122Z-opus48-887",
+      "processed_at": "2026-11-05T00:02:39Z"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no_op_one_not_relevant",
-  "last_run_id": "run-20261104T230112Z-opus48-900",
+  "last_run_id": "run-20261105T000122Z-opus48-887",
   "lock": {
-    "holder": "run-20261105T000122Z-opus48-887",
-    "status": "held",
-    "prev_holder": "run-20261104T230112Z-opus48-900",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T000122Z-opus48-887",
     "acquired_at": "2026-11-05T00:01:46Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T00:31:46Z"
+    "released_at": "2026-11-05T00:02:39Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "1 PR after checkpoint (#20155), classified not_relevant (Dependabot label / PR template infra). No docs PRs. Checkpoint advanced to 2026-11-04T22:34:28Z.",
+  "last_run_summary": "1 PR after checkpoint (#20156), classified not_relevant (Dependabot dnsjava 3.7.0->3.7.1 pom.xml bump). No docs PRs. Checkpoint advanced to 2026-11-05T00:00:06Z. Triple-verified coverage (pulls API + search API + master commit log all returned exactly #20156).",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261105T000122Z-opus48-887",
-    "status": "held",
-    "prev_holder": "run-20261104T230112Z-opus48-900",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261105T000122Z-opus48-887",
     "acquired_at": "2026-11-05T00:01:46Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-05T00:31:46Z"
+    "released_at": "2026-11-05T00:02:39Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
+    {
+      "run_id": "run-20261105T000122Z-opus48-887",
+      "utc": "2026-11-05T00:02:39Z",
+      "result": "no_op_one_not_relevant",
+      "new_prs": [
+        "20156:not_relevant"
+      ],
+      "docs_prs": [],
+      "checkpoint": "2026-11-05T00:00:06Z",
+      "note": "Dependabot dnsjava bump skipped. Triple-verified coverage."
+    },
     {
       "run_id": "run-20261104T130145Z-opus48-1225",
       "utc": "2026-11-04T13:02:43Z",
