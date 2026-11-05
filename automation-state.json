@@ -647,22 +647,22 @@
   "last_run_result": "no_op_no_new_prs",
   "last_run_id": "run-20261105T030151Z-opus48-1207",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261105T040134Z-opus48-1084",
+    "status": "held",
     "prev_holder": "run-20261105T030151Z-opus48-1207",
-    "acquired_at": "2026-11-05T03:01:51Z",
-    "released_at": "2026-11-05T03:03:26Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-05T04:01:42Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-05T04:31:42Z"
   },
   "last_run_summary": "No PRs merged after checkpoint 2026-11-05T00:47:33Z; triple-verified (search/issues + apache/master commit log + pulls API all returned 0). No docs work.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261105T040134Z-opus48-1084",
+    "status": "held",
     "prev_holder": "run-20261105T030151Z-opus48-1207",
-    "acquired_at": "2026-11-05T03:01:51Z",
-    "released_at": "2026-11-05T03:03:26Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-05T04:01:42Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-05T04:31:42Z"
   },
   "recent_runs": [
     {
