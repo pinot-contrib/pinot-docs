@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-05T23:14:56Z",
-  "last_successful_run": "2026-11-06T00:06:51Z",
+  "last_successful_run": "2026-11-06T01:04:23Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -714,25 +714,25 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "docs_created",
-  "last_run_id": "run-20261106T000127Z-opus48-927",
+  "last_run_result": "no-op",
+  "last_run_id": "run-20261106T010111Z-opus48-831",
   "lock": {
-    "holder": "run-20261106T010111Z-opus48-831",
-    "status": "held",
-    "prev_holder": "run-20261106T000127Z-opus48-927",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261106T010111Z-opus48-831",
     "acquired_at": "2026-11-06T01:01:20Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-06T01:51:20Z"
+    "released_at": "2026-11-06T01:04:23Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "One new PR after checkpoint 2026-11-05T20:06:50Z: #20112 (Kafka 4 consolidation), docs-relevant. Created+merged docs PR #1165, commented upstream. Checkpoint advanced to 2026-11-05T23:14:56Z.",
+  "last_run_summary": "No upstream PRs merged after checkpoint 2026-11-05T23:14:56Z (#20112). Reconciled against apache/pinot master HEAD 0a53497f == #20112 == checkpoint. 0 new docs-relevant PRs. No docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261106T010111Z-opus48-831",
-    "status": "held",
-    "prev_holder": "run-20261106T000127Z-opus48-927",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261106T010111Z-opus48-831",
     "acquired_at": "2026-11-06T01:01:20Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-06T01:51:20Z"
+    "released_at": "2026-11-06T01:04:23Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -861,7 +861,14 @@
       ],
       "checkpoint": "2026-11-05T23:14:56Z",
       "model": "opus48"
+    },
+    {
+      "run_id": "run-20261106T010111Z-opus48-831",
+      "utc": "2026-11-06T01:04:23Z",
+      "result": "no-op",
+      "new_docs_prs": 0,
+      "checkpoint": "2026-11-05T23:14:56Z"
     }
   ],
-  "last_run_note": "Reconciled: search merged:>cp=1 (#20112); pulls newest merged=#20112@2026-11-05T23:14:56Z; master HEAD=0a53497f=#20112. Docs PR #1165 merged, upstream comment posted."
+  "last_run_note": "Clean no-op. Checkpoint unchanged. Search API (merged:>=2026-11-05) returned 10 PRs, 0 strictly after checkpoint; master commit reconcile confirms no newer merges."
 }
