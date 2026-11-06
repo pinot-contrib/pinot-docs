@@ -822,12 +822,12 @@
  },
  "run_history_note": "",
  "lease": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261106T170138Z-opus48-988",
+  "status": "held",
   "prev_holder": "run-20261106T160205Z-opus48-1454",
-  "acquired_at": "2026-11-06T16:04:54Z",
-  "released_at": "2026-11-06T16:06:00Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-06T17:01:38Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-06T17:51:45Z"
  },
  "recent_runs": [
   {
