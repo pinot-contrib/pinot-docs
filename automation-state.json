@@ -700,22 +700,22 @@
   "last_run_result": "no_op_no_new_prs",
   "last_run_id": "run-20261105T230115Z-opus48-822",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261106T000127Z-opus48-927",
+    "status": "held",
     "prev_holder": "run-20261105T200117Z-opus48-832",
-    "acquired_at": "2026-11-05T20:01:17Z",
-    "released_at": "2026-11-05T20:02:55Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-06T00:02:04Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-06T00:32:04Z"
   },
   "last_run_summary": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T20:06:50Z; no-op. Checkpoint unchanged.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261106T000127Z-opus48-927",
+    "status": "held",
     "prev_holder": "run-20261105T230115Z-opus48-822",
-    "acquired_at": "2026-11-05T23:01:54Z",
-    "released_at": "2026-11-05T23:01:54Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-06T00:02:04Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-06T00:32:04Z"
   },
   "recent_runs": [
     {
