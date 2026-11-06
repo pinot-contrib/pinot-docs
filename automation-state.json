@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-06T15:31:25Z",
-  "last_successful_run": "2026-11-06T22:05:17Z",
+  "last_successful_run": "2026-11-06T23:02:35Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -796,64 +796,27 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "0 new PRs merged strictly after checkpoint 2026-11-06T15:31:25Z. Reconciled 3 ways: search API total_count=0; pulls API (100 closed by updated desc) newest merged=#20175@2026-11-06T15:31:25Z (==checkpoint, in ledger not_relevant); commits API since checkpoint=0; apache/master tip=229902bf=#20175. Persisted via GitHub git-data API because session git-wrapper blocks bare-branch git push (requires cs_<sid>/ prefix). No-op.",
-  "last_run_id": "run-20261106T220227Z-opus48-32131",
+  "last_run_result": "0 new PRs merged strictly after checkpoint 2026-11-06T15:31:25Z. Reconciled 4 ways: search API total_count=0; pulls API (100 closed by updated desc) newest merged=#20175@2026-11-06T15:31:25Z (==checkpoint, in ledger not_relevant); commits API since checkpoint=0; apache/master tip=229902bf=#20175. No-op.",
+  "last_run_id": "run-20261106T230148Z-opus48-1332",
   "lock": {
-    "holder": "run-20261106T230148Z-opus48-1332",
-    "status": "held",
-    "prev_holder": "run-20261106T220227Z-opus48-32131",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261106T230148Z-opus48-1332",
     "acquired_at": "2026-11-06T23:01:56Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-06T23:51:56Z"
+    "released_at": "2026-11-06T23:02:35Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "no_op_no_new_prs (run-20261106T220227Z-opus48-32131)",
+  "last_run_summary": "no_op_no_new_prs",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261106T230148Z-opus48-1332",
-    "status": "held",
-    "prev_holder": "run-20261106T220227Z-opus48-32131",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261106T230148Z-opus48-1332",
     "acquired_at": "2026-11-06T23:01:56Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-06T23:51:56Z"
+    "released_at": "2026-11-06T23:02:35Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261106T190118Z-opus48-9867",
-      "utc": "2026-11-06T19:02:23Z",
-      "result": "no_op_no_new_prs",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-06T15:31:25Z",
-      "note": "No apache/pinot PRs merged after checkpoint; 3-way reconcile clean."
-    },
-    {
-      "run_id": "run-20261106T040116Z-opus48-861",
-      "utc": "2026-11-06T04:02:01Z",
-      "result": "no_op_no_new_prs",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-05T23:14:56Z",
-      "note": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T23:14:56Z. Triple-verified: search API=0; pulls API newest=#20112 @ 2026-11-05T23:14:56Z (==checkpoint, docs #1165); apache master tip=0a53497fdd=#20112. Model opus48 (claude-opus-4-8)."
-    },
-    {
-      "run_id": "run-20261106T050139Z-opus48-1072",
-      "finished_at": "2026-11-06T05:02:42Z",
-      "result": "no_op",
-      "new_prs": 0,
-      "docs_created": 0,
-      "checkpoint": "2026-11-05T23:14:56Z",
-      "model": "opus-4-8"
-    },
-    {
-      "run_id": "run-20261106T060140Z-opus48-1191",
-      "utc": "2026-11-06T06:02:24Z",
-      "result": "no_op_no_new_prs",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-05T23:14:56Z",
-      "note": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T23:14:56Z. Triple-verified: search API (is:pr is:merged merged:>cp)=0; pulls API newest merged=#20112 @ 2026-11-05T23:14:56Z (==checkpoint, docs #1165); apache/pinot master tip=0a53497fdd=#20112 (checkpoint PR, processed). Checkpoint unchanged. No docs PRs, no upstream comments, no Slack. Model opus-4-8.",
-      "model": "opus-4-8"
-    },
     {
       "run_id": "run-20261106T070137Z-opus48-1100",
       "utc": "2026-11-06T07:03:07Z",
@@ -966,9 +929,19 @@
       "checkpoint": "2026-11-06T15:31:25Z",
       "model": "opus-4-8",
       "note": "0 PRs after checkpoint; reconciled via search/pulls/commits APIs + master tip #20175 (in ledger). Persisted via git-data API (push wrapper blocks bare branch)."
+    },
+    {
+      "run_id": "run-20261106T230148Z-opus48-1332",
+      "utc": "2026-11-06T23:02:35Z",
+      "result": "no_op_no_new_prs",
+      "new_prs": 0,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-06T15:31:25Z",
+      "model": "opus-4-8",
+      "note": "0 new PRs merged strictly after checkpoint 2026-11-06T15:31:25Z. Reconciled 4 ways: search API total_count=0; pulls API (100 closed by updated desc) newest merged=#20175@2026-11-06T15:31:25Z (==checkpoint, in ledger not_relevant); commits API since checkpoint=0; apache/master tip=229902bf=#20175. No-op."
     }
   ],
-  "last_run_note": "0 new PRs merged strictly after checkpoint 2026-11-06T15:31:25Z. Reconciled 3 ways: search API total_count=0; pulls API (100 closed by updated desc) newest merged=#20175@2026-11-06T15:31:25Z (==checkpoint, in ledger not_relevant); commits API since checkpoint=0; apache/master tip=229902bf=#20175. Persisted via GitHub git-data API because session git-wrapper blocks bare-branch git push (requires cs_<sid>/ prefix). No-op.",
+  "last_run_note": "0 new PRs merged strictly after checkpoint 2026-11-06T15:31:25Z. Reconciled 4 ways: search API total_count=0; pulls API (100 closed by updated desc) newest merged=#20175@2026-11-06T15:31:25Z (==checkpoint, in ledger not_relevant); commits API since checkpoint=0; apache/master tip=229902bf=#20175. No-op.",
   "run_log": [
     {
       "run_id": "run-20261106T190118Z-opus48-9867",
