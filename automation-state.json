@@ -2,7 +2,7 @@
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
  "last_processed_merged_at": "2026-11-06T15:31:25Z",
- "last_successful_run": "2026-11-06T20:02:31Z",
+ "last_successful_run": "2026-11-06T21:02:40Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -799,22 +799,22 @@
  "last_run_result": "0 PRs after checkpoint 2026-11-06T15:31:25Z. Reconciled 3 ways: search API total_count=0, pulls API=0 (100 closed by updated desc, none merged after ckpt), commits API=0 since checkpoint; apache/master tip=229902bf=#20175 (==checkpoint, in ledger as not_relevant). No-op.",
  "last_run_id": "run-20261106T200130Z-opus48-2071",
  "lock": {
-  "holder": "run-20261106T210124Z-opus48-880",
-  "status": "held",
-  "prev_holder": "run-20261106T200130Z-opus48-2071",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261106T210124Z-opus48-880",
   "acquired_at": "2026-11-06T21:01:24Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-06T21:31:24Z"
+  "released_at": "2026-11-06T21:02:40Z",
+  "lease_expires_at": null
  },
  "last_run_summary": "no_op_no_new_prs",
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261106T210124Z-opus48-880",
-  "status": "held",
-  "prev_holder": "run-20261106T200130Z-opus48-2071",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261106T210124Z-opus48-880",
   "acquired_at": "2026-11-06T21:01:24Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-06T21:31:24Z"
+  "released_at": "2026-11-06T21:02:40Z",
+  "lease_expires_at": null
  },
  "recent_runs": [
   {
