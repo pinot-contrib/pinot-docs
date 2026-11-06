@@ -799,22 +799,22 @@
  "last_run_result": "0 PRs after checkpoint 2026-11-06T15:31:25Z. Reconciled 3 ways: search API total_count=0, pulls API=0 (150 closed scanned by updated desc), commits API=0 since checkpoint; apache/master tip=229902bf=#20175 (==checkpoint, in ledger as not_relevant). No-op.",
  "last_run_id": "run-20261106T190118Z-opus48-9867",
  "lock": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261106T200130Z-opus48-2071",
+  "status": "held",
   "prev_holder": "run-20261106T190118Z-opus48-9867",
-  "acquired_at": "2026-11-06T19:01:26Z",
-  "released_at": "2026-11-06T19:02:23Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-06T20:01:36Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-06T20:31:36Z"
  },
  "last_run_summary": "no_op_no_new_prs",
  "run_history_note": "",
  "lease": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261106T200130Z-opus48-2071",
+  "status": "held",
   "prev_holder": "run-20261106T190118Z-opus48-9867",
-  "acquired_at": "2026-11-06T19:01:26Z",
-  "released_at": "2026-11-06T19:02:23Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-06T20:01:36Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-06T20:31:36Z"
  },
  "recent_runs": [
   {
