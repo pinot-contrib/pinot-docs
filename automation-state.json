@@ -723,12 +723,12 @@
  "last_run_result": "no-op: 1 PR triaged (#20178 not_relevant, dependency bump); 0 docs PRs created",
  "last_run_id": "run-20261106T130139Z-opus48-1084",
  "lock": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261106T140126Z-opus48-860",
+  "status": "held",
   "prev_holder": "run-20261106T130139Z-opus48-1084",
-  "acquired_at": "2026-11-06T13:01:39Z",
-  "released_at": "2026-11-06T13:02:54Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-06T14:02:04Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-06T14:52:04Z"
  },
  "last_run_summary": {
   "run_id": "run-20261106T130139Z-opus48-1084",
@@ -746,12 +746,12 @@
  },
  "run_history_note": "",
  "lease": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261106T140126Z-opus48-860",
+  "status": "held",
   "prev_holder": "run-20261106T130139Z-opus48-1084",
-  "acquired_at": "2026-11-06T13:01:39Z",
-  "released_at": "2026-11-06T13:02:54Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-06T14:02:04Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-06T14:52:04Z"
  },
  "recent_runs": [
   {
