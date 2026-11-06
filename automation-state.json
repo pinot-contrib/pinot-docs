@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-05T23:14:56Z",
-  "last_successful_run": "2026-11-06T05:02:42Z",
+  "last_successful_run": "2026-11-06T06:02:24Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -714,31 +714,31 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no_op",
+  "last_run_result": "no_op_no_new_prs",
   "last_run_id": "run-20261106T060140Z-opus48-1191",
   "lock": {
-    "holder": "run-20261106T060140Z-opus48-1191",
-    "status": "held",
-    "prev_holder": "run-20261106T050139Z-opus48-1072",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261106T060140Z-opus48-1191",
     "acquired_at": "2026-11-06T06:01:40Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-06T06:31:47Z"
+    "released_at": "2026-11-06T06:02:24Z",
+    "lease_expires_at": null
   },
   "last_run_summary": {
-    "run_id": "run-20261106T040116Z-opus48-861",
-    "utc": "2026-11-06T04:02:01Z",
+    "run_id": "run-20261106T060140Z-opus48-1191",
+    "utc": "2026-11-06T06:02:24Z",
     "result": "no-op",
-    "coverage": "All merged apache/pinot PRs through checkpoint 2026-11-05T23:14:56Z already triaged. Triple-verified: search API (is:pr is:merged merged:>2026-11-05T23:14:56Z)=0; pulls API newest merged=#20112 @ 2026-11-05T23:14:56Z == checkpoint (already docs_created -> #1165); apache/pinot master tip=0a53497fdd=#20112=checkpoint PR. 0 PRs merged strictly after checkpoint.",
+    "coverage": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T23:14:56Z. Triple-verified: search API (is:pr is:merged merged:>cp)=0; pulls API newest merged=#20112 @ 2026-11-05T23:14:56Z (==checkpoint, docs #1165); apache/pinot master tip=0a53497fdd=#20112 (checkpoint PR, processed). Checkpoint unchanged. No docs PRs, no upstream comments, no Slack. Model opus-4-8.",
     "docs_prs_created": 0
   },
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261106T060140Z-opus48-1191",
-    "status": "held",
-    "prev_holder": "run-20261106T050139Z-opus48-1072",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261106T060140Z-opus48-1191",
     "acquired_at": "2026-11-06T06:01:40Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-06T06:31:47Z"
+    "released_at": "2026-11-06T06:02:24Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -892,7 +892,17 @@
       "docs_created": 0,
       "checkpoint": "2026-11-05T23:14:56Z",
       "model": "opus-4-8"
+    },
+    {
+      "run_id": "run-20261106T060140Z-opus48-1191",
+      "utc": "2026-11-06T06:02:24Z",
+      "result": "no_op_no_new_prs",
+      "new_prs": 0,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-05T23:14:56Z",
+      "note": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T23:14:56Z. Triple-verified: search API (is:pr is:merged merged:>cp)=0; pulls API newest merged=#20112 @ 2026-11-05T23:14:56Z (==checkpoint, docs #1165); apache/pinot master tip=0a53497fdd=#20112 (checkpoint PR, processed). Checkpoint unchanged. No docs PRs, no upstream comments, no Slack. Model opus-4-8.",
+      "model": "opus-4-8"
     }
   ],
-  "last_run_note": "No new upstream merges after checkpoint 2026-11-05T23:14:56Z; full coverage verified against master commits. No docs PRs created."
+  "last_run_note": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T23:14:56Z. Triple-verified: search API (is:pr is:merged merged:>cp)=0; pulls API newest merged=#20112 @ 2026-11-05T23:14:56Z (==checkpoint, docs #1165); apache/pinot master tip=0a53497fdd=#20112 (checkpoint PR, processed). Checkpoint unchanged. No docs PRs, no upstream comments, no Slack. Model opus-4-8."
 }
