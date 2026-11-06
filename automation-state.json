@@ -799,22 +799,22 @@
   "last_run_result": "0 new PRs merged strictly after checkpoint 2026-11-06T15:31:25Z. Reconciled 3 ways: search API total_count=0; pulls API (100 closed by updated desc) newest merged=#20175@2026-11-06T15:31:25Z (==checkpoint, in ledger not_relevant); commits API since checkpoint=0; apache/master tip=229902bf=#20175. Persisted via GitHub git-data API because session git-wrapper blocks bare-branch git push (requires cs_<sid>/ prefix). No-op.",
   "last_run_id": "run-20261106T220227Z-opus48-32131",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261106T230148Z-opus48-1332",
+    "status": "held",
     "prev_holder": "run-20261106T220227Z-opus48-32131",
-    "acquired_at": "2026-11-06T22:05:17Z",
-    "released_at": "2026-11-06T22:05:17Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-06T23:01:56Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-06T23:51:56Z"
   },
   "last_run_summary": "no_op_no_new_prs (run-20261106T220227Z-opus48-32131)",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261106T230148Z-opus48-1332",
+    "status": "held",
     "prev_holder": "run-20261106T220227Z-opus48-32131",
-    "acquired_at": "2026-11-06T22:05:17Z",
-    "released_at": "2026-11-06T22:05:17Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-06T23:01:56Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-06T23:51:56Z"
   },
   "recent_runs": [
     {
