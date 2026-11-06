@@ -715,14 +715,14 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no-op",
-  "last_run_id": "run-20261106T040116Z-opus48-861",
+  "last_run_id": "run-20261106T050139Z-opus48-1072",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "prev_holder": "run-20261106T040116Z-opus48-861",
-    "acquired_at": "2026-11-06T04:02:01Z",
-    "released_at": "2026-11-06T04:02:01Z",
-    "lease_expires_at": null
+    "holder": "run-20261106T050139Z-opus48-1072",
+    "status": "held",
+    "prev_holder": null,
+    "acquired_at": "2026-11-06T05:01:39Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-06T05:56:39Z"
   },
   "last_run_summary": {
     "run_id": "run-20261106T040116Z-opus48-861",
@@ -733,12 +733,12 @@
   },
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "prev_holder": "run-20261106T040116Z-opus48-861",
-    "acquired_at": "2026-11-06T04:02:01Z",
-    "released_at": "2026-11-06T04:02:01Z",
-    "lease_expires_at": null
+    "holder": "run-20261106T050139Z-opus48-1072",
+    "status": "held",
+    "prev_holder": null,
+    "acquired_at": "2026-11-06T05:01:39Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-06T05:56:39Z"
   },
   "recent_runs": [
     {
