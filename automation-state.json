@@ -717,22 +717,22 @@
   "last_run_result": "docs_created",
   "last_run_id": "run-20261106T000127Z-opus48-927",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261106T010111Z-opus48-831",
+    "status": "held",
     "prev_holder": "run-20261106T000127Z-opus48-927",
-    "acquired_at": "2026-11-06T00:02:04Z",
-    "released_at": "2026-11-06T00:06:51Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-06T01:01:20Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-06T01:51:20Z"
   },
   "last_run_summary": "One new PR after checkpoint 2026-11-05T20:06:50Z: #20112 (Kafka 4 consolidation), docs-relevant. Created+merged docs PR #1165, commented upstream. Checkpoint advanced to 2026-11-05T23:14:56Z.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261106T010111Z-opus48-831",
+    "status": "held",
     "prev_holder": "run-20261106T000127Z-opus48-927",
-    "acquired_at": "2026-11-06T00:02:04Z",
-    "released_at": "2026-11-06T00:06:51Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-06T01:01:20Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-06T01:51:20Z"
   },
   "recent_runs": [
     {
