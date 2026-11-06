@@ -133,3 +133,20 @@ Pages updated:
 - **Validation**: n/a (no docs changes).
 - **Checkpoint**: advanced `2026-11-05T23:14:56Z` → `2026-11-06T13:01:31Z`. Ledger 74 → 75.
 - **Blockers**: none.
+
+---
+
+### Run run-20261106T140126Z-opus48-860 — 2026-11-06T14:03:13Z (no-op)
+- **Coverage**: merged apache/pinot PRs in `(2026-11-06T13:01:31Z, 2026-11-06T13:32:13Z]`. Found **5**: #20181, #20180, #20179, #20177, #20173. Triple-verified — search/issues `merged:>cp`=5; pulls API (closed, sort=updated desc) newest 5 merged = same set; apache/master tip `519e604a`=#20173 and the 6 newest commits reconcile to #20173/#20177/#20179/#20180/#20181/#20178(checkpoint). No gaps.
+- **Decisions** (all verified from merged diff, each single `pom.xml` +1/-1, author dependabot[bot], label dependencies):
+  - #20181 "Bump net.minidev:json-smart 2.6.0 → 2.6.1" — **not_relevant**
+  - #20180 "Bump com.google.errorprone:error_prone_annotations 2.51.0 → 2.52.0" — **not_relevant**
+  - #20179 "Bump org.checkerframework:checker-qual 4.3.1 → 4.4.0" — **not_relevant**
+  - #20177 "Bump com.github.jnr:jnr-ffi 2.3.6 → 2.3.7" — **not_relevant**
+  - #20173 "Bump com.github.jnr:jnr-posix 3.2.6 → 3.2.7" — **not_relevant**
+  - Rationale: dependency version bumps only; no config key, default, query option, function, public API/SPI, or documented user-facing behavior change.
+- **Created/merged**: none.
+- **Validation**: n/a (no docs changes).
+- **Checkpoint**: advanced `2026-11-06T13:01:31Z` → `2026-11-06T13:32:13Z`. Ledger 75 → 80.
+- **Blockers**: none.
+- **Slack**: none (quiet no-op, no new docs PRs).
