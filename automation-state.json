@@ -1,8 +1,8 @@
 {
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
- "last_processed_merged_at": "2026-11-06T13:01:31Z",
- "last_successful_run": "2026-11-06T13:02:54Z",
+ "last_processed_merged_at": "2026-11-06T13:32:13Z",
+ "last_successful_run": "2026-11-06T14:02:49Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -717,41 +717,119 @@
    "reason": "Dependabot dependency version bump only: pom.xml com.google.guava:guava-bom 33.7.2-jre -> 33.8.0-jre (single line, +1/-1). No user-facing behavior, config, API, default, or documented contract changes.",
    "merged_at": "2026-11-06T13:01:31Z",
    "upstream_url": "https://github.com/apache/pinot/pull/20178"
+  },
+  "20181": {
+   "upstream_pr": 20181,
+   "upstream_url": "https://github.com/apache/pinot/pull/20181",
+   "title": "Bump net.minidev:json-smart from 2.6.0 to 2.6.1",
+   "author": "dependabot[bot]",
+   "decision": "not_relevant",
+   "reason": "Dependabot dependency version bump. Verified from merged diff: single file pom.xml (+1/-1) bumping net.minidev:json-smart 2.6.0->2.6.1, author dependabot[bot], label dependencies. No config key, default, query option, function, public API, SPI, or documented user-facing behavior change. Not docs-relevant.",
+   "merged_at": "2026-11-06T13:31:34Z",
+   "upstream_merged_at": "2026-11-06T13:31:34Z",
+   "docs_url": null,
+   "upstream_comment": null,
+   "processed_by_run": "run-20261106T140126Z-opus48-860",
+   "processed_at": "2026-11-06T14:02:49Z"
+  },
+  "20180": {
+   "upstream_pr": 20180,
+   "upstream_url": "https://github.com/apache/pinot/pull/20180",
+   "title": "Bump com.google.errorprone:error_prone_annotations from 2.51.0 to 2.52.0",
+   "author": "dependabot[bot]",
+   "decision": "not_relevant",
+   "reason": "Dependabot dependency version bump. Verified from merged diff: single file pom.xml (+1/-1) bumping com.google.errorprone:error_prone_annotations 2.51.0->2.52.0, author dependabot[bot], label dependencies. No config key, default, query option, function, public API, SPI, or documented user-facing behavior change. Not docs-relevant.",
+   "merged_at": "2026-11-06T13:31:43Z",
+   "upstream_merged_at": "2026-11-06T13:31:43Z",
+   "docs_url": null,
+   "upstream_comment": null,
+   "processed_by_run": "run-20261106T140126Z-opus48-860",
+   "processed_at": "2026-11-06T14:02:49Z"
+  },
+  "20179": {
+   "upstream_pr": 20179,
+   "upstream_url": "https://github.com/apache/pinot/pull/20179",
+   "title": "Bump org.checkerframework:checker-qual from 4.3.1 to 4.4.0",
+   "author": "dependabot[bot]",
+   "decision": "not_relevant",
+   "reason": "Dependabot dependency version bump. Verified from merged diff: single file pom.xml (+1/-1) bumping org.checkerframework:checker-qual 4.3.1->4.4.0, author dependabot[bot], label dependencies. No config key, default, query option, function, public API, SPI, or documented user-facing behavior change. Not docs-relevant.",
+   "merged_at": "2026-11-06T13:31:53Z",
+   "upstream_merged_at": "2026-11-06T13:31:53Z",
+   "docs_url": null,
+   "upstream_comment": null,
+   "processed_by_run": "run-20261106T140126Z-opus48-860",
+   "processed_at": "2026-11-06T14:02:49Z"
+  },
+  "20177": {
+   "upstream_pr": 20177,
+   "upstream_url": "https://github.com/apache/pinot/pull/20177",
+   "title": "Bump com.github.jnr:jnr-ffi from 2.3.6 to 2.3.7",
+   "author": "dependabot[bot]",
+   "decision": "not_relevant",
+   "reason": "Dependabot dependency version bump. Verified from merged diff: single file pom.xml (+1/-1) bumping com.github.jnr:jnr-ffi 2.3.6->2.3.7, author dependabot[bot], label dependencies. No config key, default, query option, function, public API, SPI, or documented user-facing behavior change. Not docs-relevant.",
+   "merged_at": "2026-11-06T13:32:03Z",
+   "upstream_merged_at": "2026-11-06T13:32:03Z",
+   "docs_url": null,
+   "upstream_comment": null,
+   "processed_by_run": "run-20261106T140126Z-opus48-860",
+   "processed_at": "2026-11-06T14:02:49Z"
+  },
+  "20173": {
+   "upstream_pr": 20173,
+   "upstream_url": "https://github.com/apache/pinot/pull/20173",
+   "title": "Bump com.github.jnr:jnr-posix from 3.2.6 to 3.2.7",
+   "author": "dependabot[bot]",
+   "decision": "not_relevant",
+   "reason": "Dependabot dependency version bump. Verified from merged diff: single file pom.xml (+1/-1) bumping com.github.jnr:jnr-posix 3.2.6->3.2.7, author dependabot[bot], label dependencies. No config key, default, query option, function, public API, SPI, or documented user-facing behavior change. Not docs-relevant.",
+   "merged_at": "2026-11-06T13:32:13Z",
+   "upstream_merged_at": "2026-11-06T13:32:13Z",
+   "docs_url": null,
+   "upstream_comment": null,
+   "processed_by_run": "run-20261106T140126Z-opus48-860",
+   "processed_at": "2026-11-06T14:02:49Z"
   }
  },
  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
- "last_run_result": "no-op: 1 PR triaged (#20178 not_relevant, dependency bump); 0 docs PRs created",
- "last_run_id": "run-20261106T130139Z-opus48-1084",
+ "last_run_result": "no-op: 5 PRs triaged (all not_relevant, dependency bumps); 0 docs PRs created",
+ "last_run_id": "run-20261106T140126Z-opus48-860",
  "lock": {
-  "holder": "run-20261106T140126Z-opus48-860",
-  "status": "held",
-  "prev_holder": "run-20261106T130139Z-opus48-1084",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261106T140126Z-opus48-860",
   "acquired_at": "2026-11-06T14:02:04Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-06T14:52:04Z"
+  "released_at": "2026-11-06T14:02:49Z",
+  "lease_expires_at": null
  },
  "last_run_summary": {
-  "run_id": "run-20261106T130139Z-opus48-1084",
-  "run_utc": "2026-11-06T13:02:54Z",
-  "coverage_from": "2026-11-05T23:14:56Z",
-  "coverage_to": "2026-11-06T13:01:31Z",
+  "run_id": "run-20261106T140126Z-opus48-860",
+  "run_utc": "2026-11-06T14:02:49Z",
+  "coverage_from": "2026-11-06T13:01:31Z",
+  "coverage_to": "2026-11-06T13:32:13Z",
   "candidates_after_checkpoint": [
-   20178
+   20181,
+   20180,
+   20179,
+   20177,
+   20173
   ],
   "docs_created": [],
   "not_relevant": [
-   20178
+   20181,
+   20180,
+   20179,
+   20177,
+   20173
   ],
   "blockers": []
  },
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261106T140126Z-opus48-860",
-  "status": "held",
-  "prev_holder": "run-20261106T130139Z-opus48-1084",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261106T140126Z-opus48-860",
   "acquired_at": "2026-11-06T14:02:04Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-06T14:52:04Z"
+  "released_at": "2026-11-06T14:02:49Z",
+  "lease_expires_at": null
  },
  "recent_runs": [
   {
@@ -894,9 +972,25 @@
    "checkpoint": "2026-11-05T23:14:56Z",
    "model": "opus-4-8",
    "note": "no PRs after checkpoint; all 10 same-day merged PRs already in ledger"
+  },
+  {
+   "run_id": "run-20261106T140126Z-opus48-860",
+   "utc": "2026-11-06T14:02:49Z",
+   "result": "no_op_all_not_relevant",
+   "new_prs": [
+    20181,
+    20180,
+    20179,
+    20177,
+    20173
+   ],
+   "docs_prs_created": 0,
+   "checkpoint": "2026-11-06T13:32:13Z",
+   "model": "opus-4-8",
+   "note": "5 dependabot pom.xml bumps merged 13:31-13:32Z (json-smart, error_prone_annotations, checker-qual, jnr-ffi, jnr-posix); all not_relevant. Reconciled: search API=5, pulls API=5, master tip=519e604a=#20173."
   }
  ],
- "last_run_note": "heartbeat no-op; checkpoint unchanged",
+ "last_run_note": "heartbeat no-op; checkpoint advanced past 5 dependabot bumps",
  "run_log": [
   {
    "run_id": "run-20261106T100139Z-opus48-1978",
@@ -930,6 +1024,19 @@
    "result": "no-op",
    "triaged": [
     20178
+   ],
+   "docs_created": []
+  },
+  {
+   "run_id": "run-20261106T140126Z-opus48-860",
+   "utc": "2026-11-06T14:02:49Z",
+   "result": "no-op",
+   "triaged": [
+    20181,
+    20180,
+    20179,
+    20177,
+    20173
    ],
    "docs_created": []
   }
