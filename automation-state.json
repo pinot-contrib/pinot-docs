@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-05T23:14:56Z",
-  "last_successful_run": "2026-11-06T10:02:44Z",
+  "last_successful_run": "2026-11-06T11:02:26Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -715,30 +715,32 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261106T090127Z-opus48-1006",
+  "last_run_id": "run-20261106T110130Z-opus48-10503",
   "lock": {
-    "holder": "run-20261106T110130Z-opus48-10503",
-    "status": "acquired",
-    "prev_holder": "run-20261106T100139Z-opus48-1978",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261106T110130Z-opus48-10503",
     "acquired_at": "2026-11-06T11:01:30Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-06T11:51:31Z"
+    "released_at": "2026-11-06T11:02:26Z",
+    "lease_expires_at": null
   },
   "last_run_summary": {
-    "run_id": "run-20261106T060140Z-opus48-1191",
-    "utc": "2026-11-06T06:02:24Z",
+    "run_id": "run-20261106T110130Z-opus48-10503",
+    "utc": "2026-11-06T11:02:26Z",
     "result": "no-op",
-    "coverage": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T23:14:56Z. Triple-verified: search API (is:pr is:merged merged:>cp)=0; pulls API newest merged=#20112 @ 2026-11-05T23:14:56Z (==checkpoint, docs #1165); apache/pinot master tip=0a53497fdd=#20112 (checkpoint PR, processed). Checkpoint unchanged. No docs PRs, no upstream comments, no Slack. Model opus-4-8.",
-    "docs_prs_created": 0
+    "coverage": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T23:14:56Z. Triple-verified: Search merged:>=2026-11-05 newest=#20112@checkpoint; Pulls API closed/sort=updated newest merged=#20112@2026-11-05T23:14:56Z(==checkpoint); precise merged_at>checkpoint filter=0; search merged:2026-11-06=0. All 10 PRs on/before checkpoint already in ledger.",
+    "new_prs": 0,
+    "docs_prs_created": 0,
+    "checkpoint": "2026-11-05T23:14:56Z"
   },
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261106T110130Z-opus48-10503",
-    "status": "acquired",
-    "prev_holder": "run-20261106T100139Z-opus48-1978",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261106T110130Z-opus48-10503",
     "acquired_at": "2026-11-06T11:01:30Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-06T11:51:31Z"
+    "released_at": "2026-11-06T11:02:26Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -862,13 +864,30 @@
       "docs_prs_created": 0,
       "checkpoint": "2026-11-05T23:14:56Z",
       "model": "opus-4-8"
+    },
+    {
+      "run_id": "run-20261106T110130Z-opus48-10503",
+      "utc": "2026-11-06T11:02:26Z",
+      "result": "no_op_no_new_prs",
+      "new_prs": 0,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-05T23:14:56Z",
+      "note": "no PRs after checkpoint"
     }
   ],
-  "last_run_note": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T23:14:56Z. Triple-verified: Search API (merged:>cp)=0; Pulls API per_page=100 newest merged=#20112 @ 2026-11-05T23:14:56Z (==checkpoint, already processed docs #1165); apache/pinot master tip 0a53497f=#20112 (checkpoint PR). Checkpoint unchanged. No docs PRs/comments/Slack. Model opus-4-8.",
+  "last_run_note": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T23:14:56Z. Triple-verified: Search merged:>=2026-11-05 newest=#20112@checkpoint; Pulls API closed/sort=updated newest merged=#20112@2026-11-05T23:14:56Z(==checkpoint); precise merged_at>checkpoint filter=0; search merged:2026-11-06=0. All 10 PRs on/before checkpoint already in ledger.",
   "run_log": [
     {
       "run_id": "run-20261106T100139Z-opus48-1978",
       "run_utc": "2026-11-06T10:02:44Z",
+      "result": "no-op",
+      "new_prs": 0,
+      "checkpoint": "2026-11-05T23:14:56Z",
+      "model": "opus-4-8"
+    },
+    {
+      "run_id": "run-20261106T110130Z-opus48-10503",
+      "run_utc": "2026-11-06T11:02:26Z",
       "result": "no-op",
       "new_prs": 0,
       "checkpoint": "2026-11-05T23:14:56Z",
