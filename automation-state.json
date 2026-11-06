@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-05T23:14:56Z",
-  "last_successful_run": "2026-11-06T04:02:01Z",
+  "last_successful_run": "2026-11-06T05:02:42Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -714,15 +714,15 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op",
+  "last_run_result": "no_op",
   "last_run_id": "run-20261106T050139Z-opus48-1072",
   "lock": {
-    "holder": "run-20261106T050139Z-opus48-1072",
-    "status": "held",
-    "prev_holder": null,
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261106T050139Z-opus48-1072",
     "acquired_at": "2026-11-06T05:01:39Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-06T05:56:39Z"
+    "released_at": "2026-11-06T05:02:42Z",
+    "lease_expires_at": null
   },
   "last_run_summary": {
     "run_id": "run-20261106T040116Z-opus48-861",
@@ -733,12 +733,12 @@
   },
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261106T050139Z-opus48-1072",
-    "status": "held",
-    "prev_holder": null,
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261106T050139Z-opus48-1072",
     "acquired_at": "2026-11-06T05:01:39Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-06T05:56:39Z"
+    "released_at": "2026-11-06T05:02:42Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -883,7 +883,16 @@
       "docs_prs_created": 0,
       "checkpoint": "2026-11-05T23:14:56Z",
       "note": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T23:14:56Z. Triple-verified: search API=0; pulls API newest=#20112 @ 2026-11-05T23:14:56Z (==checkpoint, docs #1165); apache master tip=0a53497fdd=#20112. Model opus48 (claude-opus-4-8)."
+    },
+    {
+      "run_id": "run-20261106T050139Z-opus48-1072",
+      "finished_at": "2026-11-06T05:02:42Z",
+      "result": "no_op",
+      "new_prs": 0,
+      "docs_created": 0,
+      "checkpoint": "2026-11-05T23:14:56Z",
+      "model": "opus-4-8"
     }
   ],
-  "last_run_note": "Clean no-op. Checkpoint unchanged at 2026-11-05T23:14:56Z. Search API=0 strictly after checkpoint; pulls API and apache/pinot master-tip reconcile confirm no newer merges."
+  "last_run_note": "No new upstream merges after checkpoint 2026-11-05T23:14:56Z; full coverage verified against master commits. No docs PRs created."
 }
