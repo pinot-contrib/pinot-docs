@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-05T20:06:50Z",
-  "last_successful_run": "2026-11-05T23:01:54Z",
+  "last_processed_merged_at": "2026-11-05T23:14:56Z",
+  "last_successful_run": "2026-11-06T00:06:51Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20116,
-    "upstream_url": "https://github.com/apache/pinot/pull/20116",
-    "docs_pr": 1164,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1164",
+    "upstream_pr": 20112,
+    "upstream_url": "https://github.com/apache/pinot/pull/20112",
+    "docs_pr": 1165,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1165",
     "decision": "docs_created",
-    "note": "Documented per-table hybridTableRetentionStrategy config field."
+    "note": "Consolidated Kafka docs on the sole pinot-kafka-4.0 connector."
   },
   "processed_prs": {
     "19862": {
@@ -694,28 +694,45 @@
       "note": "Re-land of reverted #20057 with new Enablement-enum design. Added per-table segmentsConfig field hybridTableRetentionStrategy (ENABLE/DISABLE/DEFAULT, default DEFAULT falls back to controller.enable.hybrid.table.retention.strategy). Verified field name/enum/default/behavior against merged SegmentsValidationAndRetentionConfig and RetentionManager on master. Doc added as one row in reference/configuration-reference/table.md segmentsConfig.",
       "processed_by_run": "run-20261105T210132Z-opus48-995",
       "processed_at": "2026-11-05T21:06:12Z"
+    },
+    "20112": {
+      "upstream_pr": 20112,
+      "upstream_url": "https://github.com/apache/pinot/pull/20112",
+      "title": "Consolidate Kafka ingestion on the Kafka 4 plugin",
+      "author": "xiangfu0",
+      "decision": "docs_created",
+      "docs_pr": 1165,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1165",
+      "docs_merged_at": "2026-11-06T00:06:09Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20112#issuecomment-6672872414",
+      "merged_at": "2026-11-05T23:14:56Z",
+      "upstream_merged_at": "2026-11-05T23:14:56Z",
+      "merge_commit_sha": "0a53497fddfc61220feabc5b8f62516f4183525f",
+      "summary": "Removed the pinot-kafka-3.0 plugin and consolidated on pinot-kafka-4.0 as the only Kafka connector and the default when the consumer factory is unset (StreamConfig.DEFAULT_CONSUMER_FACTORY_CLASS_NAME_STRING now kafka40). Verified in merged code: PluginManager aliases old factory class names (kafka20, kafka30, impl.kafka2, impl.kafka3) and plugin names (pinot-kafka-2.0, pinot-kafka-3.0) directly to kafka40 (aliases not chained); KafkaConfigUtils translates auto.include.jmx.reporter->metric.reporters preserving Kafka 3 JMX behavior and aliases the removed OAuthBearerLoginCallbackHandler. Kafka 4 client supports brokers 2.1+; OAuth sources need org.apache.kafka.sasl.oauthbearer.allowed.urls JVM allowlist. Documented in kafka-connector-versions.md and import-from-apache-kafka.md; corrected prior docs that said pinot-kafka-3.0 was the default and that Kafka 4 requires brokers 4.0+.",
+      "processed_by_run": "run-20261106T000127Z-opus48-927",
+      "processed_at": "2026-11-06T00:06:51Z"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no_op_no_new_prs",
-  "last_run_id": "run-20261105T230115Z-opus48-822",
+  "last_run_result": "docs_created",
+  "last_run_id": "run-20261106T000127Z-opus48-927",
   "lock": {
-    "holder": "run-20261106T000127Z-opus48-927",
-    "status": "held",
-    "prev_holder": "run-20261105T200117Z-opus48-832",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261106T000127Z-opus48-927",
     "acquired_at": "2026-11-06T00:02:04Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-06T00:32:04Z"
+    "released_at": "2026-11-06T00:06:51Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T20:06:50Z; no-op. Checkpoint unchanged.",
+  "last_run_summary": "One new PR after checkpoint 2026-11-05T20:06:50Z: #20112 (Kafka 4 consolidation), docs-relevant. Created+merged docs PR #1165, commented upstream. Checkpoint advanced to 2026-11-05T23:14:56Z.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261106T000127Z-opus48-927",
-    "status": "held",
-    "prev_holder": "run-20261105T230115Z-opus48-822",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261106T000127Z-opus48-927",
     "acquired_at": "2026-11-06T00:02:04Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-06T00:32:04Z"
+    "released_at": "2026-11-06T00:06:51Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -831,7 +848,20 @@
       "docs_prs_created": 0,
       "checkpoint": "2026-11-05T20:06:50Z",
       "note": "No apache/pinot PRs merged strictly after checkpoint 2026-11-05T20:06:50Z. Triple-verified: search API (is:pr is:merged merged:>cp)=0; pulls API (newest merged=#20116 @ 2026-11-05T20:06:50Z == checkpoint, already docs_created->#1164); apache/master HEAD=999b978f8b=#20116 (checkpoint PR, processed). Checkpoint unchanged. No docs PRs, no upstream comments, no Slack. Model opus48."
+    },
+    {
+      "run_id": "run-20261106T000127Z-opus48-927",
+      "utc": "2026-11-06T00:06:51Z",
+      "result": "docs_created",
+      "new_prs": [
+        20112
+      ],
+      "docs_prs": [
+        1165
+      ],
+      "checkpoint": "2026-11-05T23:14:56Z",
+      "model": "opus48"
     }
   ],
-  "last_run_note": "Triple-reconciled (search merged:>cp=0; pulls newest=#20116==2026-11-05T20:06:50Z; master HEAD=999b978f=#20116). No docs PRs, no comments, no Slack."
+  "last_run_note": "Reconciled: search merged:>cp=1 (#20112); pulls newest merged=#20112@2026-11-05T23:14:56Z; master HEAD=0a53497f=#20112. Docs PR #1165 merged, upstream comment posted."
 }
