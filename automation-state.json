@@ -799,22 +799,22 @@
  "last_run_result": "no-op: 0 new PRs after checkpoint 2026-11-06T15:31:25Z; 84 merged PRs scanned, all in ledger",
  "last_run_id": "run-20261106T170138Z-opus48-988",
  "lock": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261106T180215Z-opus48-1462",
+  "status": "acquired",
   "prev_holder": "run-20261106T170138Z-opus48-988",
-  "acquired_at": "2026-11-06T17:01:38Z",
-  "released_at": "2026-11-06T17:02:44Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-06T18:02:27Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-06T18:32:27Z"
  },
  "last_run_summary": "no_op_no_new_prs",
  "run_history_note": "",
  "lease": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261106T180215Z-opus48-1462",
+  "status": "acquired",
   "prev_holder": "run-20261106T170138Z-opus48-988",
-  "acquired_at": "2026-11-06T17:01:38Z",
-  "released_at": "2026-11-06T17:02:44Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-06T18:02:27Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-06T18:32:27Z"
  },
  "recent_runs": [
   {
