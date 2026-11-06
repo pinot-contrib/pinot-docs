@@ -9,7 +9,7 @@ description: >-
 Learn how to ingest data from Kafka, a stream processing platform. You should have a local cluster up and running, following the instructions in [Set up a cluster](../../../operate-pinot/setup-cluster.md).
 
 {% hint style="info" %}
-This guide uses the Kafka 3.0 connector (`kafka30`). Pinot also supports a **Kafka 4.0 connector** for KRaft-mode Kafka clusters. See [Kafka Connector Versions](kafka-connector-versions.md) for details on choosing the right connector.
+Pinot ships a single Kafka connector, `pinot-kafka-4.0`, which is the default when the consumer factory is unset. The older `kafka20` and `kafka30` factory names in existing table configs resolve to Kafka 4 automatically. See [Kafka Connector Versions](kafka-connector-versions.md) for details and the backward-compatibility behavior. The `kafka30` factory class names in the examples below still work unchanged.
 {% endhint %}
 
 ## Install and Launch Kafka
@@ -275,28 +275,23 @@ Navigate to [localhost:9000/#/query](http://localhost:9000/#/query) and click on
 
 ### Kafka connector modules in Pinot
 
-Pinot ships two Kafka connector modules:
+Pinot ships a single Kafka connector module:
 
-* **`pinot-kafka-3.0`** -- Uses Kafka client library 3.x (currently 3.9.2). This is the default connector included in Pinot distributions. Consumer factory class: `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory`.
-* **`pinot-kafka-4.0`** -- Uses Kafka client library 4.x (currently 4.1.1). This connector drops the ZooKeeper-based Scala dependency and uses the pure-Java Kafka client, suitable for KRaft-mode Kafka clusters. Consumer factory class: `org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory`.
+* **`pinot-kafka-4.0`** -- Uses the Kafka 4.x client library (pure Java, no Scala dependency). This is the only Kafka connector and the default when the consumer factory is unset. Consumer factory class: `org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory`. It supports Kafka brokers 2.1 and newer, including KRaft-mode clusters.
 
 {% hint style="info" %}
-The legacy `kafka-0.9` and `kafka-2.x` connector modules have been removed. If you are upgrading from an older Pinot release that used `org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory`, update your table configs to use one of the current connector classes listed above.
+The legacy `kafka-0.9`, `kafka-2.x`, and `kafka-3.x` connector modules have been removed and consolidated into `pinot-kafka-4.0`. You do not need to change existing table configs: the `kafka20` and `kafka30` factory and plugin names resolve to Kafka 4 automatically. See [Kafka Connector Versions](kafka-connector-versions.md) for the full backward-compatibility behavior.
 {% endhint %}
 
 {% hint style="info" %}
 Pinot does _**not support**_ using high-level Kafka consumers (HLC). Pinot uses low-level (partition-level) consumers to ensure accurate results, reduce operational complexity, scale horizontally, and minimize storage overhead.
 {% endhint %}
 
-#### Migrating from the kafka-2.x connector
+#### Migrating from the kafka-2.x or kafka-3.x connector
 
-If your existing table configs reference the removed `kafka-2.x` connector, update the `stream.kafka.consumer.factory.class.name` property:
+No table config changes are required. The old factory names `org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory` and `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory` resolve to `org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory` automatically, and the `pinot-kafka-2.0` / `pinot-kafka-3.0` plugin names resolve to `pinot-kafka-4.0`. Custom deployments must package the `pinot-kafka-4.0` plugin.
 
-* From: `org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory`
-* To (Kafka 3.x): `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory`
-* To (Kafka 4.x): `org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory`
-
-No other stream config changes are required. The Kafka 3.x connector is compatible with Kafka brokers 2.x and above. The Kafka 4.x connector requires Kafka brokers 4.0 or above.
+The Kafka 4 client requires Kafka brokers 2.1 or newer; upgrading the Pinot plugin does not require Kafka 4 brokers. See [Kafka Connector Versions](kafka-connector-versions.md) for the full backward-compatibility behavior, including the `auto.include.jmx.reporter` translation and the OAuth allowlist requirement.
 
 ### Kafka configurations in Pinot
 
