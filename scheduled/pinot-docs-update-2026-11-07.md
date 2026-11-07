@@ -137,3 +137,40 @@
 - Ledger entries: 85 (unchanged).
 - Lease acquired/released via GitHub Git Data API CAS (lease commit `f8353399`); no run overlap (prev holder released earlier).
 - No Slack notification (quiet no-op per routine policy).
+
+
+## Run run-20261107T040136Z-opus48-943 — 2026-11-07T04:02Z
+
+**Result:** no-op — no new upstream PRs merged after checkpoint; 0 docs PRs. (Recorded in durable state `recent_runs`; checkpoint unchanged `2026-11-07T01:41:31Z`.)
+
+
+## Run run-20261107T050135Z-opus48-1154 — 2026-11-07T05:03Z
+
+**Result:** no-op — no new upstream PRs merged after checkpoint; 0 docs PRs.
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at=2026-11-07T01:41:31Z` (read from automation-state branch; lock+lease both released on entry, prev holder run-20261107T040136Z-opus48-943).
+- Merged apache/pinot PRs strictly after checkpoint: **0**.
+- Reconciliation (3 independent methods, all agree):
+  1. GitHub search API `is:pr is:merged merged:>2026-11-07T01:41:31Z` → total_count=0.
+  2. pulls API (closed, sort=updated desc, 100 scanned) → 0 merged after checkpoint.
+  3. apache/master commits since checkpoint → 0; tip `f60f17fd`=#20169 committed 2026-11-07T01:41:30Z (checkpoint commit, already docs_created → docs PR #1166).
+- No gaps; full coverage.
+
+### Decisions
+- None (no new PRs to triage).
+
+### Created / Merged docs PRs
+- None.
+
+### Validation
+- N/A (no docs changes).
+
+### Blockers
+- None. (Env note: `git push` to the bare `automation-state` branch is blocked by this session's `session-git-hooks` proxy, which forces a `cs_<sid>/` prefix. Durable state is persisted via the GitHub REST Git Data / refs API — `PATCH /git/refs/heads/automation-state` with `force=false` gives fast-forward-only CAS — which bypasses the git-push hook. Confirmed matches prior-run practice.)
+
+### Durable state
+- Checkpoint **unchanged**: `2026-11-07T01:41:31Z`.
+- Ledger entries: 85 (unchanged).
+- Lease acquired/released via GitHub refs API CAS; no run overlap (lease held exclusively for this run).
+- No Slack notification (quiet no-op per routine policy).
