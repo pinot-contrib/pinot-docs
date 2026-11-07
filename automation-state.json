@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-07T01:41:31Z",
-  "last_successful_run": "2026-11-07T05:03:58Z",
+  "last_successful_run": "2026-11-07T06:03:50Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -826,12 +826,12 @@
   "last_run_result": "0 new PRs merged strictly after checkpoint 2026-11-07T01:41:31Z. Reconciled 3 ways: search/issues total_count=0; pulls API (closed, updated desc, 100 scanned) 0 merged after checkpoint; apache/pinot master commits since checkpoint=0 (tip=f60f17fd=#20169 committed 2026-11-07T01:41:30Z, already docs_created #1166). No-op (0 docs PRs). Checkpoint UNCHANGED.",
   "last_run_id": "run-20261107T050135Z-opus48-1154",
   "lock": {
-    "holder": "run-20261107T060125Z-opus48-1002",
-    "status": "held",
-    "prev_holder": "run-20261107T050135Z-opus48-1154",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261107T060125Z-opus48-1002",
     "acquired_at": "2026-11-07T06:01:33Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-07T06:51:33Z"
+    "released_at": "2026-11-07T06:03:50Z",
+    "lease_expires_at": null
   },
   "last_run_summary": {
     "run_id": "run-20261107T050135Z-opus48-1154",
@@ -843,12 +843,12 @@
   },
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261107T060125Z-opus48-1002",
-    "status": "held",
-    "prev_holder": "run-20261107T050135Z-opus48-1154",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261107T060125Z-opus48-1002",
     "acquired_at": "2026-11-07T06:01:33Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-07T06:51:33Z"
+    "released_at": "2026-11-07T06:03:50Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -1107,6 +1107,20 @@
       "new_prs": 0,
       "docs_prs_created": 0,
       "checkpoint": "2026-11-07T01:41:31Z"
+    }
+  ],
+  "run_history": [
+    {
+      "run_id": "run-20261107T060125Z-opus48-1002",
+      "utc": "2026-11-07T06:03:14Z",
+      "checkpoint": "2026-11-07T01:41:31Z",
+      "new_docs_prs": 0,
+      "inventoried": [
+        20089,
+        20169,
+        20184
+      ],
+      "decision": "no-op (all already processed; latest master commit = checkpoint PR #20169)"
     }
   ]
 }
