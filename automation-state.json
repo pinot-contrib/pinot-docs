@@ -824,24 +824,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "0 new PRs merged strictly after checkpoint 2026-11-07T00:00:47Z. Reconciled 3 ways: search API total_count=0; apache/master commits since checkpoint commit 8d140dcf(#20089)=0 (tip==checkpoint); pulls API (closed, updated desc) newest merged_at all <= checkpoint and already in ledger. No-op (0 docs PRs). Checkpoint UNCHANGED 2026-11-07T00:00:47Z.",
-  "last_run_id": "run-20261107T010150Z-opus48-1344",
+  "last_run_id": "run-20261107T030155Z-opus48-1355",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261107T030155Z-opus48-1355",
+    "status": "held",
     "prev_holder": "run-20261107T010150Z-opus48-1344",
-    "acquired_at": "2026-11-07T01:01:58Z",
-    "released_at": "2026-11-07T01:03:09Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-07T03:01:55Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-07T03:51:55Z"
   },
   "last_run_summary": "no_op_no_new_prs",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261107T030155Z-opus48-1355",
+    "status": "held",
     "prev_holder": "run-20261107T010150Z-opus48-1344",
-    "acquired_at": "2026-11-07T01:01:58Z",
-    "released_at": "2026-11-07T01:03:09Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-07T03:01:55Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-07T03:51:55Z"
   },
   "recent_runs": [
     {
