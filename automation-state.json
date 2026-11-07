@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-07T00:00:47Z",
-  "last_successful_run": "2026-11-07T01:03:09Z",
+  "last_processed_merged_at": "2026-11-07T01:41:31Z",
+  "last_successful_run": "2026-11-07T02:04:30Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20112,
-    "upstream_url": "https://github.com/apache/pinot/pull/20112",
-    "docs_pr": 1165,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1165",
+    "upstream_pr": 20169,
+    "upstream_url": "https://github.com/apache/pinot/pull/20169",
+    "docs_pr": 1166,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1166",
     "decision": "docs_created",
-    "note": "Consolidated Kafka docs on the sole pinot-kafka-4.0 connector."
+    "note": "RLS now rejects cross-table functions (lookup/IN_SUBQUERY/IN_PARTITIONED_SUBQUERY) with 403 when row filters apply."
   },
   "processed_prs": {
     "19862": {
@@ -805,6 +805,21 @@
       "reason": "Bug fix: MultiStageBrokerRequestHandler set rlsFiltersApplied=true (and RLS_FILTERS_APPLIED meter) whenever access control returned a row-filter list, even an empty one that attaches no predicate. Fix applies the same empty-list skip the single-stage handler already has, so the flag/meter now report true only when a predicate is actually injected. Verified against pinot-docs latest: operate-pinot/access-control.md and reference/api-reference/query-response-format.md ALREADY document the correct/intended semantics (rlsFiltersApplied = whether RLS predicates were injected; false when no RLS filters in effect). This fix makes implementation match existing docs; no documentation change needed. Code-only correctness fix in pinot-broker (1 main + 1 test file).",
       "merged_at": "2026-11-07T00:00:47Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20089"
+    },
+    "20169": {
+      "decision": "docs_created",
+      "docs_pr": 1166,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1166",
+      "docs_merged_at": "2026-11-07T02:04:00Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20169#issuecomment-6700755122",
+      "merged_at": "2026-11-07T01:41:31Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20169"
+    },
+    "20184": {
+      "decision": "not_relevant",
+      "reason": "Internal repo knowledge-base/AI-review guidance only: edits kb/code-review-principles.md and kb/skills/review-naming-api.md to clarify code-review conventions (compatibility constructors, getter order, null-check ternary ordering, blank lines). No user-facing Pinot product behavior, config, API, or documented default changes; license checks exclude kb/**. Not applicable to pinot-docs (user-facing product docs).",
+      "merged_at": "2026-11-07T01:35:20Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20184"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
