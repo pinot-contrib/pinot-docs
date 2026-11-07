@@ -314,3 +314,9 @@
 - Decisions: none. Docs PRs: none. Upstream comments: none. Validation: N/A (no docs changes).
 - Blockers: none affecting durability. Durable writes persisted via GitHub Contents API blob-SHA CAS, authenticated as `xiangfu0` (push on apache/pinot, admin on pinot-docs). gh wrapper "unauthenticated" warnings are cosmetic.
 - Checkpoint unchanged; ledger 85 entries. Lease acquired+released via Contents API CAS. No Slack (quiet no-op).
+
+### Run run-20261107T190126Z-opus48-989 @ 2026-11-07T19:03:22Z (no-op)
+- Merged apache/pinot PRs strictly after checkpoint `2026-11-07T01:41:31Z`: **0**.
+- Reconciled 3 ways (all agree): search/issues `is:merged merged:>=2026-11-07` → 3 items (#20169/#20184/#20089) all ≤ checkpoint & in ledger; direct `apache/master` fetch → tip f60f17fd (#20169 `Reject cross-table functions under row-level security` == checkpoint PR), **0** commits after; pulls API (closed, updated desc, 50 scanned) → newest merged_at == checkpoint, 0 strictly after. Full coverage, no gaps.
+- Decisions: none. Docs PRs: none. Upstream comments: none. Validation: N/A (no docs changes). Blockers: none.
+- Checkpoint unchanged; ledger 85 entries. Lease acquired+released via Contents API blob-SHA CAS (authenticated as `xiangfu0`; gh wrapper "unauthenticated" warnings cosmetic). No Slack (quiet no-op).
