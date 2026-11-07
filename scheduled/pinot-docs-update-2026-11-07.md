@@ -332,3 +332,9 @@
 - Reconciled 3 ways (all agree): (1) pulls API (closed, updated desc, 100) → 0 merged after checkpoint; (2) apache/pinot master commits → tip f60f17fd7 = #20169 committed 2026-11-07T01:41:30Z (== checkpoint PR), 0 after; (3) PRs by number desc → newest merged #20169 @ checkpoint (already docs #1166); #20182/#20183/#20185/#20186 still OPEN, #20176 closed-unmerged. Full coverage, no gaps.
 - Decisions: none. Docs PRs: none. Upstream comments: none. Validation: N/A (no docs changes). Blockers: none.
 - Checkpoint unchanged; ledger 85 entries. Lock+lease acquired then released via Contents API blob-SHA CAS (lease commit 3e0baa69 → release commit 0e8f66c5; authenticated as `xiangfu0`, admin on pinot-docs / push on apache/pinot; gh wrapper "unauthenticated" warnings cosmetic). No Slack (quiet no-op).
+
+### Run run-20261107T230119Z-opus48-874 @ 2026-11-07T23:02:21Z (no-op)
+- Merged apache/pinot PRs strictly after checkpoint `2026-11-07T01:41:31Z`: **0**.
+- Reconciled via GitHub search/issues `repo:apache/pinot is:pr is:merged merged:>2026-11-07T01:41:31Z` (all bases) → **total_count=0**; `gh pr list --state merged --base master` newest 15 cross-checked → newest merged #20169 @ 2026-11-07T01:41:31Z (== checkpoint, already docs #1166), all PROCESSED. Local checkout `origin/master` mirror stale (tip 910f9d5 @ 2026-10-09) so git-log reconcile skipped in favor of authoritative API. Full coverage, no gaps.
+- Decisions: none. Docs PRs: none. Upstream comments: none. Validation: N/A (no docs changes). Blockers: none.
+- Checkpoint unchanged; ledger 85 entries. Lease+lock acquired then released via Contents API blob-SHA CAS (lease commit 39d506ae; authenticated as `xiangfu0`, admin on pinot-docs / push on apache/pinot; gh wrapper "unauthenticated" warnings cosmetic). No Slack (quiet no-op).
