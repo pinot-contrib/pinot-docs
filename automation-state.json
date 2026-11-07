@@ -836,12 +836,12 @@
   "last_run_summary": "No upstream PRs merged after checkpoint 2026-11-07T01:41:31Z (master tip f60f17f = #20169, already processed -> docs #1166). Reconciled search API + master commits; 0 new. No docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261107T100112Z-opus48-875",
+    "status": "acquired",
     "prev_holder": "run-20261107T090123Z-opus48-1031",
-    "acquired_at": "2026-11-07T09:01:23Z",
-    "released_at": "2026-11-07T09:02:36Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-07T10:01:26Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-07T10:51:26Z"
   },
   "recent_runs": [
     {
