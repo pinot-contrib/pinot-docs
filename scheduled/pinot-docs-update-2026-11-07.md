@@ -320,3 +320,9 @@
 - Reconciled 3 ways (all agree): search/issues `is:merged merged:>=2026-11-07` → 3 items (#20169/#20184/#20089) all ≤ checkpoint & in ledger; direct `apache/master` fetch → tip f60f17fd (#20169 `Reject cross-table functions under row-level security` == checkpoint PR), **0** commits after; pulls API (closed, updated desc, 50 scanned) → newest merged_at == checkpoint, 0 strictly after. Full coverage, no gaps.
 - Decisions: none. Docs PRs: none. Upstream comments: none. Validation: N/A (no docs changes). Blockers: none.
 - Checkpoint unchanged; ledger 85 entries. Lease acquired+released via Contents API blob-SHA CAS (authenticated as `xiangfu0`; gh wrapper "unauthenticated" warnings cosmetic). No Slack (quiet no-op).
+
+### Run run-20261107T200148Z-opus48-1121 @ 2026-11-07T20:05:06Z (no-op)
+- Merged apache/pinot PRs strictly after checkpoint `2026-11-07T01:41:31Z`: **0**.
+- Reconciled 3 ways (all agree): (1) `gh search prs --merged merged:>CKPT` → 0; (2) pulls API (closed, updated desc, 159 merged scanned in first 200) → newest merged #20169 @ 2026-11-07T01:41:31Z (== checkpoint, already docs #1166), 0 strictly after; (3) apache/pinot master commits via API `since=CKPT` → **0** (tip f60f17fd7 = #20169 committed 2026-11-07T01:41:30Z == checkpoint PR). Full coverage, no gaps.
+- Decisions: none. Docs PRs: none. Upstream comments: none. Validation: N/A (no docs changes). Blockers: none.
+- Checkpoint unchanged; ledger 85 entries. Lock+lease acquired then released via Contents API blob-SHA CAS (lock commit 4bb77dd1 → release commit 494d999b; authenticated as `xiangfu0`, admin on pinot-docs / push on apache/pinot; gh wrapper "unauthenticated" warnings cosmetic). No Slack (quiet no-op).
