@@ -234,3 +234,30 @@
 - Ledger entries: 85 (unchanged).
 - Lock/lease acquired atomically via Contents API CAS (blob sha match); released at run end.
 - No Slack notification (quiet no-op per routine policy).
+
+---
+
+## Run run-20261107T100112Z-opus48-875 (2026-11-07T10:02:44Z UTC) — NO-OP
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at=2026-11-07T01:41:31Z` (read from automation-state branch; lease released on entry, prev holder run-20261107T090123Z-opus48-1031).
+- Merged apache/pinot PRs strictly after checkpoint: **0**.
+- Reconciliation (2 independent methods, agree):
+  1. search/issues (repo:apache/pinot is:pr is:merged base:master merged:>=2026-11-07, full pagination) → 3 PRs, all `merged_at <= 2026-11-07T01:41:31Z` (#20184, #20169, #20089); none after checkpoint.
+  2. git log on `upstream/master` (fetched apache/pinot this run) → 0 first-parent commits after checkpoint; tip = #20169 (f60f17fd) at checkpoint.
+- No gaps; full coverage.
+
+### Decisions
+- None (no new PRs to triage).
+
+### Created / Merged docs PRs
+- None.
+
+### Validation
+- N/A (no docs changes).
+
+### Blockers
+- None. (gh wrapper prints "no GitHub token minted / continuing unauthenticated" for apache/pinot & pinot-docs, but API calls are authenticated as `xiangfu0`; durable writes use Contents API CAS.)
+
+### Durable state
+- Checkpoint **unchanged**: `2026-11-07T01:41:31Z`. Ledger: 85 entries (unchanged). Lease acquired+released atomically via Contents API CAS. No Slack (quiet no-op).
