@@ -836,12 +836,12 @@
   "last_run_summary": "no_op_no_new_prs: 0 PRs after 2026-11-07T01:41:31Z",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "prev_holder": "run-20261107T150130Z-opus48-1054",
-    "acquired_at": "2026-11-07T15:01:30Z",
-    "released_at": "2026-11-07T15:03:04Z",
-    "lease_expires_at": null
+    "holder": "run-20261107T160144Z-opus48-1324",
+    "status": "held",
+    "prev_holder": null,
+    "acquired_at": "2026-11-07T16:03:10Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-07T16:48:10Z"
   },
   "recent_runs": [
     {
