@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-07T01:41:31Z",
-  "last_successful_run": "2026-11-07T10:02:20Z",
+  "last_successful_run": "2026-11-07T11:02:34Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -824,7 +824,7 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no-op",
-  "last_run_id": "run-20261107T100112Z-opus48-875",
+  "last_run_id": "run-20261107T110115Z-opus48-22599",
   "lock": {
     "holder": null,
     "status": "released",
@@ -833,43 +833,17 @@
     "released_at": "2026-11-07T09:02:36Z",
     "lease_expires_at": null
   },
-  "last_run_summary": "No upstream PRs merged after checkpoint 2026-11-07T01:41:31Z (master tip f60f17f = #20169, already processed -> docs #1166). Reconciled search API + master commits; 0 new. No docs PRs created.",
+  "last_run_summary": "no_op_no_new_prs: 0 PRs after 2026-11-07T01:41:31Z",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261107T110115Z-opus48-22599",
-    "status": "held",
-    "prev_holder": "run-20261107T100112Z-opus48-875",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261107T110115Z-opus48-22599",
     "acquired_at": "2026-11-07T11:01:21Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-07T11:56:22Z"
+    "released_at": "2026-11-07T11:02:34Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261106T120125Z-opus48-1071",
-      "utc": "2026-11-06T12:04:36Z",
-      "result": "no_op_no_new_prs",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-05T23:14:56Z",
-      "model": "opus-4-8",
-      "note": "no PRs after checkpoint; all 10 same-day merged PRs already in ledger"
-    },
-    {
-      "run_id": "run-20261106T140126Z-opus48-860",
-      "utc": "2026-11-06T14:02:49Z",
-      "result": "no_op_all_not_relevant",
-      "new_prs": [
-        20181,
-        20180,
-        20179,
-        20177,
-        20173
-      ],
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-06T13:32:13Z",
-      "model": "opus-4-8",
-      "note": "5 dependabot pom.xml bumps merged 13:31-13:32Z (json-smart, error_prone_annotations, checker-qual, jnr-ffi, jnr-posix); all not_relevant. Reconciled: search API=5, pulls API=5, master tip=519e604a=#20173."
-    },
     {
       "run_id": "run-20261106T160205Z-opus48-1454",
       "utc": "2026-11-06T16:06:00Z",
@@ -979,9 +953,19 @@
       "new_prs": 0,
       "checkpoint": "2026-11-07T01:41:31Z",
       "docs_prs_created": 0
+    },
+    {
+      "run_id": "run-20261107T110115Z-opus48-22599",
+      "utc": "2026-11-07T11:02:34Z",
+      "result": "no_op_no_new_prs",
+      "new_prs": 0,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-07T01:41:31Z",
+      "model": "opus-4-8",
+      "note": "0 new PRs merged strictly after checkpoint 2026-11-07T01:41:31Z. Reconciled 3 ways: search/issues is:merged merged:>CKPT total_count=0; pulls API (closed, updated desc, 50 scanned) newest merged=#20169@2026-11-07T01:41:31Z (==checkpoint, already docs_created #1166); apache/master commits since checkpoint=0 (tip=f60f17fd=#20169 committed 2026-11-07T01:41:30Z). No-op (0 docs PRs). Checkpoint UNCHANGED."
     }
   ],
-  "last_run_note": "No upstream PRs merged after checkpoint 2026-11-07T01:41:31Z. Inventory: search returned 3 PRs merged 2026-11-07 (all <= checkpoint); upstream/master HEAD = #20169 at checkpoint; 0 commits after. Checkpoint unchanged.",
+  "last_run_note": "0 new PRs merged strictly after checkpoint 2026-11-07T01:41:31Z. Reconciled 3 ways: search/issues is:merged merged:>CKPT total_count=0; pulls API (closed, updated desc, 50 scanned) newest merged=#20169@2026-11-07T01:41:31Z (==checkpoint, already docs_created #1166); apache/master commits since checkpoint=0 (tip=f60f17fd=#20169 committed 2026-11-07T01:41:30Z). No-op (0 docs PRs). Checkpoint UNCHANGED.",
   "run_log": [
     {
       "run_id": "run-20261106T190118Z-opus48-9867",
