@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-07T01:41:31Z",
-  "last_successful_run": "2026-11-07T12:04:28Z",
+  "last_successful_run": "2026-11-07T13:05:52Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -824,7 +824,7 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261107T120114Z-opus48-858",
+  "last_run_id": "run-20261107T130219Z-opus48-1068",
   "lock": {
     "holder": null,
     "status": "released",
@@ -836,12 +836,12 @@
   "last_run_summary": "no_op_no_new_prs: 0 PRs after 2026-11-07T01:41:31Z",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261107T130219Z-opus48-1068",
-    "status": "held",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261107T130219Z-opus48-1068",
     "acquired_at": "2026-11-07T13:02:19Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-07T13:52:19Z",
-    "prev_holder": "run-20261107T120114Z-opus48-858"
+    "released_at": "2026-11-07T13:05:52Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -970,9 +970,16 @@
       "result": "noop",
       "candidates_checked": 11,
       "new_docs_prs": 0
+    },
+    {
+      "run_id": "run-20261107T130219Z-opus48-1068",
+      "utc": "2026-11-07T13:05:52Z",
+      "result": "noop",
+      "checkpoint": "2026-11-07T01:41:31Z",
+      "new_docs_prs": 0
     }
   ],
-  "last_run_note": "No PRs merged after checkpoint 2026-11-07T01:41:31Z. 11 candidates since 2026-11-06 all already in ledger; master HEAD f60f17fd7 (#20169) == checkpoint PR; zero master commits after checkpoint. No docs PRs created.",
+  "last_run_note": "No PRs merged after checkpoint 2026-11-07T01:41:31Z. apache/pinot master HEAD f60f17fd7 (#20169) == checkpoint commit; zero master commits after checkpoint. REST closed-PR scan (100 PRs, updated-desc back to 2026-04) and created-desc scan both show 0 merges after checkpoint. No docs PRs created.",
   "run_log": [
     {
       "run_id": "run-20261106T190118Z-opus48-9867",
