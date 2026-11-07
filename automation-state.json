@@ -811,22 +811,22 @@
   "last_run_result": "2 new PRs merged strictly after checkpoint 2026-11-06T15:31:25Z, both triaged not_relevant (no docs changes). #20174 (jose4j dep bump), #20089 (multi-stage rlsFiltersApplied empty-list bug fix; docs already describe correct behavior). Reconciled 3 ways: search API total_count=2; pulls API (closed by updated desc) -> {20174,20089}; apache/master commits since checkpoint -> #20174,#20089 (tip 8d140dcf=#20089). No-op (0 docs PRs). Checkpoint advanced to 2026-11-07T00:00:47Z.",
   "last_run_id": "run-20261107T000204Z-opus48-1192",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261107T010150Z-opus48-1344",
+    "status": "held",
     "prev_holder": "run-20261107T000204Z-opus48-1192",
-    "acquired_at": "2026-11-07T00:02:04Z",
-    "released_at": "2026-11-07T00:04:16Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-07T01:01:58Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-07T01:31:58Z"
   },
   "last_run_summary": "no_op_no_new_prs",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261107T010150Z-opus48-1344",
+    "status": "held",
     "prev_holder": "run-20261107T000204Z-opus48-1192",
-    "acquired_at": "2026-11-07T00:02:04Z",
-    "released_at": "2026-11-07T00:04:16Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-07T01:01:58Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-07T01:31:58Z"
   },
   "recent_runs": [
     {
