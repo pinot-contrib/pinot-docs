@@ -73,6 +73,26 @@ SELECT * FROM sales_table WHERE region = 'US' AND department = 'marketing'
 
 The additional filter is combined with the original WHERE clause using AND. If multiple RLS filters are configured for the same table, they are all combined using AND logic.
 
+### Cross-table functions are rejected under row filters
+
+RLS filters are applied only to the WHERE clause of the queried table, so functions that read rows from somewhere other than the FROM clause bypass them. To prevent a principal with row filters from reading or enumerating hidden rows through such a function, the single-stage broker rejects a query that calls any of the following functions when row filters apply to the queried table:
+
+* `lookup()`
+* `IN_SUBQUERY`
+* `IN_PARTITIONED_SUBQUERY`
+
+The query is rejected with `403 Permission denied` before any filters are added and before anything reaches a server, with a message of the form:
+
+```
+Cross-table functions are not allowed on table <table> when row-level security filters apply
+```
+
+Principals without row filters are unaffected and can continue to use these functions.
+
+{% hint style="info" %}
+This applies to the single-stage query engine. The multi-stage query engine applies row filters per table on the server and does not resolve `lookup()` or `IN_PARTITIONED_SUBQUERY`, so these functions are not available there under RLS.
+{% endhint %}
+
 ### Custom access control implementations
 
 If you use a custom `AccessControlFactory`, you can support RLS by implementing the `getRowColFilters()` method on your `AccessControl` class. This method receives the `RequesterIdentity` and table name, and returns a `TableRowColAccessResult` containing the RLS filter predicates to apply.
