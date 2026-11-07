@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-06T15:31:25Z",
-  "last_successful_run": "2026-11-06T23:02:35Z",
+  "last_processed_merged_at": "2026-11-07T00:00:47Z",
+  "last_successful_run": "2026-11-07T00:04:16Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -793,38 +793,42 @@
       "reason": "Dependabot dependency version bump only: com.github.jnr:jnr-constants 0.11.3 -> 0.11.4 (semver patch). Single line change in root pom.xml (<jnr-constants.version>). No user-facing behavior, config key, default, query option, public API/SPI, or documented default change.",
       "merged_at": "2026-11-06T15:31:25Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20175"
+    },
+    "20174": {
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency bump: org.bitbucket.b_c:jose4j 0.9.6 -> 0.9.7 (single pom version change). Internal dependency upgrade; no user-facing behavior, config, API, default, or documented contract change.",
+      "merged_at": "2026-11-06T23:08:32Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20174"
+    },
+    "20089": {
+      "decision": "not_relevant",
+      "reason": "Bug fix: MultiStageBrokerRequestHandler set rlsFiltersApplied=true (and RLS_FILTERS_APPLIED meter) whenever access control returned a row-filter list, even an empty one that attaches no predicate. Fix applies the same empty-list skip the single-stage handler already has, so the flag/meter now report true only when a predicate is actually injected. Verified against pinot-docs latest: operate-pinot/access-control.md and reference/api-reference/query-response-format.md ALREADY document the correct/intended semantics (rlsFiltersApplied = whether RLS predicates were injected; false when no RLS filters in effect). This fix makes implementation match existing docs; no documentation change needed. Code-only correctness fix in pinot-broker (1 main + 1 test file).",
+      "merged_at": "2026-11-07T00:00:47Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20089"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "0 new PRs merged strictly after checkpoint 2026-11-06T15:31:25Z. Reconciled 4 ways: search API total_count=0; pulls API (100 closed by updated desc) newest merged=#20175@2026-11-06T15:31:25Z (==checkpoint, in ledger not_relevant); commits API since checkpoint=0; apache/master tip=229902bf=#20175. No-op.",
-  "last_run_id": "run-20261106T230148Z-opus48-1332",
+  "last_run_result": "2 new PRs merged strictly after checkpoint 2026-11-06T15:31:25Z, both triaged not_relevant (no docs changes). #20174 (jose4j dep bump), #20089 (multi-stage rlsFiltersApplied empty-list bug fix; docs already describe correct behavior). Reconciled 3 ways: search API total_count=2; pulls API (closed by updated desc) -> {20174,20089}; apache/master commits since checkpoint -> #20174,#20089 (tip 8d140dcf=#20089). No-op (0 docs PRs). Checkpoint advanced to 2026-11-07T00:00:47Z.",
+  "last_run_id": "run-20261107T000204Z-opus48-1192",
   "lock": {
-    "holder": "run-20261107T000204Z-opus48-1192",
-    "status": "held",
-    "prev_holder": "run-20261106T230148Z-opus48-1332",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261107T000204Z-opus48-1192",
     "acquired_at": "2026-11-07T00:02:04Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-07T00:57:14Z"
+    "released_at": "2026-11-07T00:04:16Z",
+    "lease_expires_at": null
   },
   "last_run_summary": "no_op_no_new_prs",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261107T000204Z-opus48-1192",
-    "status": "held",
-    "prev_holder": "run-20261106T230148Z-opus48-1332",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261107T000204Z-opus48-1192",
     "acquired_at": "2026-11-07T00:02:04Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-07T00:57:14Z"
+    "released_at": "2026-11-07T00:04:16Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261106T070137Z-opus48-1100",
-      "utc": "2026-11-06T07:03:07Z",
-      "result": "noop",
-      "merged_after_checkpoint": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-05T23:14:56Z"
-    },
     {
       "run_id": "run-20261106T080136Z-opus48-25464",
       "utc": "2026-11-06T08:02:44Z",
@@ -939,9 +943,19 @@
       "checkpoint": "2026-11-06T15:31:25Z",
       "model": "opus-4-8",
       "note": "0 new PRs merged strictly after checkpoint 2026-11-06T15:31:25Z. Reconciled 4 ways: search API total_count=0; pulls API (100 closed by updated desc) newest merged=#20175@2026-11-06T15:31:25Z (==checkpoint, in ledger not_relevant); commits API since checkpoint=0; apache/master tip=229902bf=#20175. No-op."
+    },
+    {
+      "run_id": "run-20261107T000204Z-opus48-1192",
+      "utc": "2026-11-07T00:04:16Z",
+      "result": "no_op_triaged_not_relevant",
+      "new_prs": 2,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-07T00:00:47Z",
+      "model": "opus-4-8",
+      "note": "Triaged #20174 (dep bump) + #20089 (rlsFiltersApplied bugfix, docs already correct) -> both not_relevant. 0 docs PRs."
     }
   ],
-  "last_run_note": "0 new PRs merged strictly after checkpoint 2026-11-06T15:31:25Z. Reconciled 4 ways: search API total_count=0; pulls API (100 closed by updated desc) newest merged=#20175@2026-11-06T15:31:25Z (==checkpoint, in ledger not_relevant); commits API since checkpoint=0; apache/master tip=229902bf=#20175. No-op.",
+  "last_run_note": "No docs-relevant PRs. #20089 verified a no-op against existing RLS docs.",
   "run_log": [
     {
       "run_id": "run-20261106T190118Z-opus48-9867",
@@ -1028,6 +1042,16 @@
       "utc": "2026-11-06T22:05:17Z",
       "result": "no-op",
       "triaged": [],
+      "docs_created": []
+    },
+    {
+      "run_id": "run-20261107T000204Z-opus48-1192",
+      "utc": "2026-11-07T00:04:16Z",
+      "result": "no-op-triaged",
+      "triaged": [
+        "20174",
+        "20089"
+      ],
       "docs_created": []
     }
   ]
