@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-07T01:41:31Z",
-  "last_successful_run": "2026-11-07T18:02:30Z",
+  "last_successful_run": "2026-11-07T19:02:47Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -826,22 +826,22 @@
   "last_run_result": "no-op",
   "last_run_id": "run-20261107T190126Z-opus48-989",
   "lock": {
-    "holder": "run-20261107T190126Z-opus48-989",
-    "status": "held",
-    "prev_holder": "run-20261107T180126Z-opus48-953",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261107T190126Z-opus48-989",
     "acquired_at": "2026-11-07T19:01:35Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-07T19:31:35Z"
+    "released_at": "2026-11-07T19:02:47Z",
+    "lease_expires_at": null
   },
   "last_run_summary": "No upstream PRs merged after checkpoint 2026-11-07T01:41:31Z; boundary PRs all previously processed. Durable writes via Contents API (git push blocked by session-prefix hook).",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261107T190126Z-opus48-989",
-    "status": "held",
-    "prev_holder": "run-20261107T180126Z-opus48-953",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261107T190126Z-opus48-989",
     "acquired_at": "2026-11-07T19:01:35Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-07T19:31:35Z"
+    "released_at": "2026-11-07T19:02:47Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -957,7 +957,7 @@
       "note": "0 new PRs merged strictly after checkpoint 2026-11-07T01:41:31Z. Reconciled 3 ways: (1) gh search prs --merged merged:>CKPT = 0; (2) pulls API closed/updated-desc, 84 scanned, newest merged #20169@2026-11-07T01:41:31Z (==checkpoint, already docs_created #1166); (3) apache/pinot master commits via API since checkpoint = 0, tip f60f17fd7=#20169 committed 2026-11-07T01:41:30Z. No-op (0 docs PRs). Checkpoint UNCHANGED. No Slack sent."
     }
   ],
-  "last_run_note": "0 new PRs merged strictly after checkpoint 2026-11-07T01:41:31Z. Reconciled 3 ways: (1) gh search prs --merged merged:>CKPT = 0; (2) pulls API closed/updated-desc, 84 scanned, newest merged #20169@2026-11-07T01:41:31Z (==checkpoint, already docs_created #1166); (3) apache/pinot master commits via API since checkpoint = 0, tip f60f17fd7=#20169 committed 2026-11-07T01:41:30Z. No-op (0 docs PRs). Checkpoint UNCHANGED. No Slack sent.",
+  "last_run_note": "No new merged apache/pinot PRs after checkpoint 2026-11-07T01:41:31Z (verified 3 ways: search API, apache/master commit log, pulls API). Checkpoint unchanged. No docs PRs created.",
   "run_log": [
     {
       "run_id": "run-20261106T190118Z-opus48-9867",
@@ -1107,6 +1107,13 @@
       "checkpoint": "2026-11-07T01:41:31Z",
       "merged_after_checkpoint": 0,
       "note": "coverage verified against apache master + search API; API-based durable persistence"
+    },
+    {
+      "run_id": "run-20261107T190126Z-opus48-989",
+      "utc": "2026-11-07T19:02:47Z",
+      "result": "no-op",
+      "new_prs": 0,
+      "docs_prs": 0
     }
   ],
   "run_history": [
