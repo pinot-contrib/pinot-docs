@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-07T01:41:31Z",
-  "last_successful_run": "2026-11-07T08:04:28Z",
+  "last_successful_run": "2026-11-07T09:02:36Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -823,32 +823,25 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op: 0 new PRs after checkpoint 2026-11-07T01:41:31Z",
-  "last_run_id": "run-20261107T070129Z-opus48-936",
+  "last_run_result": "no-op",
+  "last_run_id": "run-20261107T090123Z-opus48-1031",
   "lock": {
-    "holder": "run-20261107T090123Z-opus48-1031",
-    "status": "held",
-    "prev_holder": "run-20261107T080122Z-opus48-801",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261107T090123Z-opus48-1031",
     "acquired_at": "2026-11-07T09:01:23Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-07T09:56:23Z"
+    "released_at": "2026-11-07T09:02:36Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": {
-    "run_id": "run-20261107T050135Z-opus48-1154",
-    "utc": "2026-11-07T05:03:58Z",
-    "result": "no_op_no_new_prs",
-    "new_prs": 0,
-    "docs_prs_created": 0,
-    "checkpoint": "2026-11-07T01:41:31Z"
-  },
+  "last_run_summary": "No upstream PRs merged after checkpoint 2026-11-07T01:41:31Z (master tip f60f17f = #20169, already processed -> docs #1166). Reconciled search API + master commits; 0 new. No docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261107T090123Z-opus48-1031",
-    "status": "held",
-    "prev_holder": "run-20261107T080122Z-opus48-801",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261107T090123Z-opus48-1031",
     "acquired_at": "2026-11-07T09:01:23Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-07T09:56:23Z"
+    "released_at": "2026-11-07T09:02:36Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -988,7 +981,7 @@
       "docs_prs_created": 0
     }
   ],
-  "last_run_note": "run-20261107T070129Z-opus48-936 no-op at 2026-11-07T07:05:27Z; checkpoint unchanged; ledger 85.",
+  "last_run_note": "No-op run run-20261107T090123Z-opus48-1031 at 2026-11-07T09:02:36Z: checkpoint unchanged.",
   "run_log": [
     {
       "run_id": "run-20261106T190118Z-opus48-9867",
@@ -1115,6 +1108,14 @@
       "new_prs": 0,
       "docs_prs_created": 0,
       "checkpoint": "2026-11-07T01:41:31Z"
+    },
+    {
+      "run_id": "run-20261107T090123Z-opus48-1031",
+      "utc": "2026-11-07T09:02:36Z",
+      "result": "no-op",
+      "new_prs": 0,
+      "checkpoint": "2026-11-07T01:41:31Z",
+      "master_tip": "f60f17f (#20169)"
     }
   ],
   "run_history": [
