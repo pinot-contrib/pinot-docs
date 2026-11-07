@@ -174,3 +174,33 @@
 - Ledger entries: 85 (unchanged).
 - Lease acquired/released via GitHub refs API CAS; no run overlap (lease held exclusively for this run).
 - No Slack notification (quiet no-op per routine policy).
+
+## Run run-20261107T060125Z-opus48-1002 — 2026-11-07T06:03:35Z
+
+**Result:** no-op — no new upstream PRs merged after checkpoint; 0 docs PRs.
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at=2026-11-07T01:41:31Z` (read from automation-state branch; lock+lease released on entry, prev holder run-20261107T050135Z-opus48-1154).
+- Merged apache/pinot PRs strictly after checkpoint: **0**.
+- Reconciliation (2 independent methods, agree):
+  1. GitHub search API `is:pr is:merged merged:>=2026-11-07` → 3 items {#20089, #20169, #20184}, all merged_at ≤ checkpoint and already in ledger.
+  2. apache/pinot master commits API (since checkpoint, and wider window from 2026-11-06T20:00Z) → tip `#20169` committed 2026-11-07T01:41:30Z (= checkpoint commit, already docs_created → docs PR #1166); 0 commits after it.
+- No gaps; full coverage.
+
+### Decisions
+- None (no new PRs to triage).
+
+### Created / Merged docs PRs
+- None.
+
+### Validation
+- N/A (no docs changes).
+
+### Blockers
+- None. (Env note: local `origin` for the pinot checkout is the fork `xiangfu0/pinot` with a stale master; reconciliation uses the apache/pinot GitHub API directly, which is authoritative. The gh wrapper prints a "no GitHub token minted / continuing unauthenticated" warning for apache/pinot and pinot-contrib/pinot-docs, but API calls are in fact authenticated as `xiangfu0` — verified via `gh api user` and authed-only collaborator-permission endpoints.)
+
+### Durable state
+- Checkpoint **unchanged**: `2026-11-07T01:41:31Z`.
+- Ledger entries: 85 (unchanged).
+- Lock/lease acquired atomically via Contents API CAS (blob sha match); released at run end.
+- No Slack notification (quiet no-op per routine policy).
