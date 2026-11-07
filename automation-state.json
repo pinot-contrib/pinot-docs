@@ -826,22 +826,22 @@
   "last_run_result": "no-op",
   "last_run_id": "run-20261107T210133Z-opus48-1083",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261107T220140Z-opus48-1050",
+    "status": "held",
     "prev_holder": "run-20261107T210133Z-opus48-1083",
-    "acquired_at": "2026-11-07T21:01:33Z",
-    "released_at": "2026-11-07T21:05:00Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-07T22:01:40Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-07T22:31:40Z"
   },
   "last_run_summary": "0 PRs merged strictly after checkpoint 2026-11-07T01:41:31Z; boundary #20169 already docs_created (#1166). 3-way reconcile all 0. Checkpoint unchanged. No Slack.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261107T220140Z-opus48-1050",
+    "status": "held",
     "prev_holder": "run-20261107T210133Z-opus48-1083",
-    "acquired_at": "2026-11-07T21:01:33Z",
-    "released_at": "2026-11-07T21:05:00Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-07T22:01:40Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-07T22:31:40Z"
   },
   "recent_runs": [
     {
