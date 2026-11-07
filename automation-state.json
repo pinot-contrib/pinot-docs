@@ -826,12 +826,12 @@
   "last_run_result": "0 new PRs merged strictly after checkpoint 2026-11-07T01:41:31Z. Reconciled 3 ways: search/issues total_count=0; pulls API (closed, updated desc, 100 scanned) 0 merged after checkpoint; apache/pinot master commits since checkpoint=0 (tip=f60f17fd=#20169 committed 2026-11-07T01:41:30Z, already docs_created #1166). No-op (0 docs PRs). Checkpoint UNCHANGED.",
   "last_run_id": "run-20261107T050135Z-opus48-1154",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261107T060125Z-opus48-1002",
+    "status": "held",
     "prev_holder": "run-20261107T050135Z-opus48-1154",
-    "acquired_at": "2026-11-07T05:02:13Z",
-    "released_at": "2026-11-07T05:03:58Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-07T06:01:33Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-07T06:51:33Z"
   },
   "last_run_summary": {
     "run_id": "run-20261107T050135Z-opus48-1154",
@@ -843,12 +843,12 @@
   },
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261107T060125Z-opus48-1002",
+    "status": "held",
     "prev_holder": "run-20261107T050135Z-opus48-1154",
-    "acquired_at": "2026-11-07T05:02:13Z",
-    "released_at": "2026-11-07T05:03:58Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-07T06:01:33Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-07T06:51:33Z"
   },
   "recent_runs": [
     {
