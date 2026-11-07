@@ -66,3 +66,41 @@
 - Ledger entries: 83 (unchanged).
 - Lease acquired/released via GitHub Git Data API CAS (lease commit `d52a8dec`); no run overlap (prev holder released at 2026-11-07T00:04:16Z).
 - No Slack notification (quiet no-op per routine policy).
+
+---
+
+## Run run-20261107T020118Z-909 — 2026-11-07T02:05Z
+
+**Result:** meaningful — 2 upstream PRs triaged (1 docs_created, 1 not_relevant), **1 docs PR created + squash-merged**.
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at=2026-11-07T00:00:47Z`.
+- Merged apache/pinot PRs strictly after checkpoint: **2** — #20184 (2026-11-07T01:35:20Z), #20169 (2026-11-07T01:41:31Z).
+- Reconciliation (2 independent methods, agree):
+  1. GitHub search API `is:pr is:merged merged:>2026-11-07T00:00:47Z` → total_count=2 → {20184, 20169}.
+  2. apache/master commits: tip `f60f17fd`=#20169, `bd5cf5e6`=#20184, `8d140dcf`=#20089 (checkpoint).
+- No gaps; full coverage.
+
+### Decisions
+| PR | Title | Decision | Rationale |
+|----|-------|----------|-----------|
+| [#20184](https://github.com/apache/pinot/pull/20184) | Clarify review compatibility and style conventions | **not_relevant** | Edits only `kb/code-review-principles.md` and `kb/skills/review-naming-api.md` — internal repo knowledge-base / AI code-review guidance, not user-facing Pinot product docs. No product behavior/config/API/default change (license checks exclude `kb/**`). Not applicable to pinot-docs. |
+| [#20169](https://github.com/apache/pinot/pull/20169) | Reject cross-table functions under row-level security | **docs_created** | Security fix (labels: bug, release-notes, security). Single-stage broker now rejects queries calling `lookup()` / `IN_SUBQUERY` / `IN_PARTITIONED_SUBQUERY` with `403 Permission denied` (`QueryErrorCode.ACCESS_DENIED`) when row filters apply to the queried table, closing a row-enumeration leak via `IN_PARTITIONED_SUBQUERY`. Verified from merged code: `RequestUtils.CROSS_TABLE_FUNCTIONS = Set.of("lookup","insubquery","inpartitionedsubquery")`; broker message `Cross-table functions are not allowed on table <table> when row-level security filters apply`. PR explicitly requested a pinot-docs follow-up. |
+
+### Created / Merged docs PRs
+- [pinot-contrib/pinot-docs#1166](https://github.com/pinot-contrib/pinot-docs/pull/1166) — "Document rejection of cross-table functions under row-level security (apache/pinot#20169)". Edited `operate-pinot/access-control.md` (canonical RLS page): added subsection "Cross-table functions are rejected under row filters" (+20/-0). **Squash-merged 2026-11-07T02:04:00Z** (commit `ea518854`); branch deleted.
+- Upstream comment: https://github.com/apache/pinot/pull/20169#issuecomment-6700755122
+
+### Validation
+- `git diff --check`: passed.
+- `scripts/validate-docs.py --summary-only`: **RESULT=PASS** (638 files, 3563 links; the 10 broken-anchor warnings are pre-existing and unrelated to `access-control.md`).
+- PR CI: "Validate changed docs" SUCCESS, "Full docs audit (informational)" SUCCESS, both GitBook deployments SUCCESS.
+
+### Blockers
+- None. (Note: HTTPS git credential helper was unset at session start; `gh auth setup-git` resolved the docs push. `gh pr merge` reported exit-1 via wrapper noise but the squash-merge completed — verified `merged=true` via API.)
+
+### Durable state
+- Checkpoint **advanced** `2026-11-07T00:00:47Z` → `2026-11-07T01:41:31Z` (= #20169 merged_at; both PRs triaged).
+- Ledger entries: 83 → 85.
+- Lock acquired atomically via Contents API create-without-sha (holder `run-20261107T020118Z-909`); released at run end.
+- Slack summary sent (meaningful change: new docs PR created+merged).
