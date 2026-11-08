@@ -299,3 +299,28 @@
 
 ### Blockers
 - None. Durable read + CAS writes succeeded. Checkpoint **UNCHANGED** `2026-11-08T07:09:15Z`; `last_successful_run` advanced to 2026-11-08T09:03:19Z. Lock acquired and released cleanly (no overlap). No Slack sent (quiet no-op).
+
+---
+
+## Run run-20261108T110127Z-opus48-927 — 2026-11-08T11:05:30Z (no-op)
+
+### Coverage
+- Checkpoint on entry: `last_processed_merged_at = 2026-11-08T09:10:26Z` (read from durable `automation-state` branch; lock+lease both `released` on entry, prev holder run-20261108T100140Z-opus48-1328).
+- Inventory of apache/pinot PRs merged **strictly after** the checkpoint: **0**.
+- Verification (3 independent methods, all agree):
+  1. `search/issues repo:apache/pinot is:pr is:merged merged:>2026-11-08T09:10:26Z` → total_count **0**; broadened `merged:>=2026-11-08` → 3 items (#20022/#20021/#20020), all at/before checkpoint and already in ledger.
+  2. pulls API (state=closed sort=updated desc) → newest merged = #20022 @ 2026-11-08T09:10:26Z (== checkpoint PR, already processed → docs PR #1169).
+  3. apache/pinot commits API `sha=master since=2026-11-08T09:10:27Z` → **0** commits; master tip = `6d97d322` = #20022 == checkpoint PR. Independent background paginated pulls scan also returned "candidates after checkpoint: 0".
+- No coverage gaps; no reconciliation discrepancies between search, commits, and ledger.
+
+### Decisions
+- No new PRs to triage. 0 docs-relevant, 0 not-relevant decisions added. Ledger count unchanged at 88.
+
+### Created / merged links
+- None (no-op run).
+
+### Validation
+- Not applicable (no docs changes produced).
+
+### Blockers
+- None. Durable read + CAS writes succeeded. gh wrapper prints cosmetic "no GitHub token minted / unauthenticated" warnings for apache/pinot & pinot-contrib/pinot-docs (session manifest lists only `xiangfu0/pinot`); ambient user token authenticates all API calls as `xiangfu0` (write on apache/pinot, admin on pinot-docs). Local `/workspace/pinot` origin is fork `xiangfu0/pinot` (stale master @ #19809) — apache/pinot API used as authoritative inventory. Checkpoint **UNCHANGED** `2026-11-08T09:10:26Z`; `last_successful_run` advanced to 2026-11-08T11:05:30Z. Lock acquired (blob `a62136f0`) and released (blob `1eaddd86`) cleanly via Contents-API blob-SHA CAS; no overlap. No Slack sent (quiet no-op).
