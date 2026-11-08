@@ -853,24 +853,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no_op",
-  "last_run_id": "run-20261108T180123Z-opus48-1093",
+  "last_run_id": "run-20261108T190128Z-opus48-1015",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261108T190128Z-opus48-1015",
+    "status": "held",
     "prev_holder": "run-20261108T180123Z-opus48-1093",
-    "acquired_at": "2026-11-08T18:01:39Z",
-    "released_at": "2026-11-08T18:02:22Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-08T19:01:28Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-08T19:51:28Z"
   },
   "last_run_summary": "No upstream PRs merged strictly after checkpoint 2026-11-08T09:10:26Z. 3-way reconcile (search=0, pulls 2 pages=0, remote master HEAD=#20022 at checkpoint) all consistent. No docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261108T190128Z-opus48-1015",
+    "status": "held",
     "prev_holder": "run-20261108T180123Z-opus48-1093",
-    "acquired_at": "2026-11-08T18:01:39Z",
-    "released_at": "2026-11-08T18:02:22Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-08T19:01:28Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-08T19:51:28Z"
   },
   "recent_runs": [
     {
