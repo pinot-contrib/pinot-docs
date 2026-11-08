@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-08T06:14:02Z",
-  "last_successful_run": "2026-11-08T07:05:45Z",
+  "last_processed_merged_at": "2026-11-08T07:09:15Z",
+  "last_successful_run": "2026-11-08T08:05:18Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20020,
-    "upstream_url": "https://github.com/apache/pinot/pull/20020",
-    "docs_pr": 1167,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1167",
+    "upstream_pr": 20021,
+    "upstream_url": "https://github.com/apache/pinot/pull/20021",
+    "docs_pr": 1168,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1168",
     "decision": "docs_created",
-    "note": "Re-ingestion fails on stream data loss instead of committing a partial segment."
+    "note": "Detect and close half-open broker-to-server channels; documented new pinot.broker.netty.* liveness settings."
   },
   "processed_prs": {
     "19862": {
@@ -830,20 +830,30 @@
       "merged_at": "2026-11-08T06:14:02Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20020",
       "note": "Re-ingestion now fails on reported stream data loss (aged-out retention) instead of committing a partial segment; segment stays ERROR, controller keeps retrying. Applies only under default read_uncommitted isolation."
+    },
+    "20021": {
+      "decision": "docs_created",
+      "docs_pr": 1168,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1168",
+      "docs_merged_at": "2026-11-08T08:04:40Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20021#issuecomment-6719058939",
+      "merged_at": "2026-11-08T07:09:15Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20021",
+      "summary": "Detect and close half-open broker-to-server channels. Documented new broker configs pinot.broker.netty.write.timeout.ms (10000), tcp.user.timeout.ms (10000, Epoll-only), write.buffer.high/low.water.mark.bytes (16 MiB / 8 MiB), and native.transports.enabled (false) in reference/configuration-reference/broker.md. Defaults verified against NettyConfig in merged code."
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "docs_created",
-  "last_run_id": "run-20261108T070125Z-opus48-1048",
+  "last_run_id": "run-20261108T080145Z-opus48-1224",
   "lock": {
-    "holder": "run-20261108T080145Z-opus48-1224",
-    "status": "held",
-    "prev_holder": "run-20261108T070125Z-opus48-1048",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T080145Z-opus48-1224",
     "acquired_at": "2026-11-08T08:01:53Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-08T08:31:53Z"
+    "released_at": "2026-11-08T08:05:18Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No-op: no apache/pinot PRs merged after checkpoint 2026-11-07T01:41:31Z. Verified via commits API, search API, and full paginated pulls listing (14029 PRs). Checkpoint unchanged.",
+  "last_run_summary": "Processed apache/pinot#20021 (merged 2026-11-08T07:09:15Z): docs_created -> pinot-docs#1168 (merged), upstream comment posted. Coverage reconciled 3 ways (search API=1, pulls API=1, master commits since checkpoint=2 of which #20020 == prior checkpoint already processed). Checkpoint advanced 2026-11-08T06:14:02Z -> 2026-11-08T07:09:15Z.",
   "run_history_note": "",
   "lease": {
     "holder": null,
@@ -854,6 +864,16 @@
     "lease_expires_at": null
   },
   "recent_runs": [
+    {
+      "run_id": "run-20261108T080145Z-opus48-1224",
+      "utc": "2026-11-08T08:05:18Z",
+      "result": "docs_created",
+      "new_prs": 1,
+      "docs_prs": 1,
+      "checkpoint": "2026-11-08T07:09:15Z",
+      "model": "opus-4-8",
+      "method": "3-way reconcile; validate-docs PASS (no new failures); Validate-changed-docs check success; squash-merged #1168"
+    },
     {
       "run_id": "run-20261107T180126Z-opus48-953",
       "utc": "2026-11-07T18:02:30Z",
