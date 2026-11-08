@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-08T09:10:26Z",
-  "last_successful_run": "2026-11-08T18:02:22Z",
+  "last_processed_merged_at": "2026-11-08T18:07:48Z",
+  "last_successful_run": "2026-11-08T19:03:18Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -849,28 +849,34 @@
       "upstream_url": "https://github.com/apache/pinot/pull/20022",
       "upstream_comment": "https://github.com/apache/pinot/pull/20022#issuecomment-6720162235",
       "merged_at": "2026-11-08T09:10:26Z"
+    },
+    "20024": {
+      "decision": "not_relevant",
+      "reason": "Internal correctness fix for consumption-lag reporting on transactional Kafka topics. On a transactional topic a caught-up consumer sits one offset past the last delivered record (past commit/control markers that occupy offsets but are never delivered), so the per-partition records-lag and the HIGHEST_STREAM_OFFSET_CONSUMED gauge stayed one behind. RealtimeSegmentDataManager now tracks an _emptyBatchStreamPosition (empty-batch next offset when ahead of _currentOffset) and exposes it via a new VisibleForTesting getStreamPosition(); only getConsumerPartitionState (consuming-segments info API lag) and the existing HIGHEST_STREAM_OFFSET_CONSUMED gauge read it. _currentOffset still drives fetch, catch-up, KEEP/ONLINE transitions and the committed end offset, so segment contents are unchanged. KafkaPartitionLevelConsumer reports client position on empty polls under read_uncommitted too (unvalidated, never resumed from); StatelessRealtimeSegmentWriter re-polls from its own offset on an empty batch. MessageBatch.getOffsetOfNextBatch gets a Javadoc-only clarification. Verified against merged code: NO new config key, query option, function, gauge/meter enum constant, public API, or default (no metric-def or Config files changed; 4 internal/plugin main source files + 1 SPI Javadoc, 5 of 9 files are tests). Reuses already-documented lag/gauge/consuming-segments surfaces, only making them accurate for transactional topics. Not docs-relevant.",
+      "merged_at": "2026-11-08T18:07:48Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20024"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no_op",
   "last_run_id": "run-20261108T190128Z-opus48-1015",
   "lock": {
-    "holder": "run-20261108T190128Z-opus48-1015",
-    "status": "held",
-    "prev_holder": "run-20261108T180123Z-opus48-1093",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T190128Z-opus48-1015",
     "acquired_at": "2026-11-08T19:01:28Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-08T19:51:28Z"
+    "released_at": "2026-11-08T19:03:18Z",
+    "lease_expires_at": null
   },
   "last_run_summary": "No upstream PRs merged strictly after checkpoint 2026-11-08T09:10:26Z. 3-way reconcile (search=0, pulls 2 pages=0, remote master HEAD=#20022 at checkpoint) all consistent. No docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261108T190128Z-opus48-1015",
-    "status": "held",
-    "prev_holder": "run-20261108T180123Z-opus48-1093",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T190128Z-opus48-1015",
     "acquired_at": "2026-11-08T19:01:28Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-08T19:51:28Z"
+    "released_at": "2026-11-08T19:03:18Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -1008,7 +1014,7 @@
       "method": "3-way reconcile (search + pulls 2pp + remote master HEAD), consistent at checkpoint; HEAD=#20022"
     }
   ],
-  "last_run_note": "no-op; HEAD=6d97d322=#20022",
+  "last_run_note": "Run run-20261108T190128Z-opus48-1015: 1 new upstream PR after checkpoint (#20024) triaged not_relevant (transactional-Kafka consumption-lag correctness fix, no new user-facing surface). No docs PR created. Checkpoint advanced to 2026-11-08T18:07:48Z.",
   "run_log": [
     {
       "run_id": "run-20261106T120125Z-opus48-1071",
