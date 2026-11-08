@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-08T09:10:26Z",
-  "last_successful_run": "2026-11-08T16:02:58Z",
+  "last_successful_run": "2026-11-08T17:02:33Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -853,22 +853,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no_op",
-  "last_run_id": "run-20261108T160130Z-opus48-16780",
+  "last_run_id": "run-20261108T170133Z-opus48-952",
   "lock": {
-    "holder": "run-20261108T170133Z-opus48-952",
-    "status": "held",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T170133Z-opus48-952",
     "acquired_at": "2026-11-08T17:01:33Z",
-    "lease_expires_at": "2026-11-08T17:56:33Z",
-    "prev_holder": "run-20261108T160130Z-opus48-16780"
+    "released_at": "2026-11-08T17:02:33Z",
+    "lease_expires_at": null
   },
   "last_run_summary": "No PRs merged after checkpoint 2026-11-08T09:10:26Z. 3-way reconcile (search total_count=0 + pulls API none after ckpt + remote master HEAD #20022 @2026-11-08T09:10:25Z == checkpoint) consistent.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261108T170133Z-opus48-952",
-    "status": "held",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T170133Z-opus48-952",
     "acquired_at": "2026-11-08T17:01:33Z",
-    "lease_expires_at": "2026-11-08T17:56:33Z",
-    "prev_holder": "run-20261108T160130Z-opus48-16780"
+    "released_at": "2026-11-08T17:02:33Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -996,7 +998,7 @@
       "method": "3-way reconcile (search + pulls + remote master HEAD), consistent at checkpoint; HEAD=#20022"
     }
   ],
-  "last_run_note": "No PRs merged after checkpoint 2026-11-08T09:10:26Z. 3-way reconcile (search total_count=0 + pulls API none after ckpt + remote master HEAD #20022 @2026-11-08T09:10:25Z == checkpoint) consistent.",
+  "last_run_note": "No-op: upstream apache/pinot master HEAD #20022 (merged 2026-11-08T09:10:25Z) equals checkpoint; 0 PRs merged strictly after 2026-11-08T09:10:26Z. Checkpoint unchanged. Note: local /workspace/pinot origin points to stale fork xiangfu0/pinot (HEAD 910f9d5, 2026-10-09); triage verified against apache/pinot API directly.",
   "run_log": [
     {
       "run_id": "run-20261106T120125Z-opus48-1071",
@@ -1155,6 +1157,13 @@
       "result": "no-op",
       "new_prs": 0,
       "docs_prs": 0,
+      "checkpoint": "2026-11-08T09:10:26Z"
+    },
+    {
+      "run_id": "run-20261108T170133Z-opus48-952",
+      "utc": "2026-11-08T17:02:33Z",
+      "result": "no_op",
+      "prs_processed": 0,
       "checkpoint": "2026-11-08T09:10:26Z"
     }
   ],
