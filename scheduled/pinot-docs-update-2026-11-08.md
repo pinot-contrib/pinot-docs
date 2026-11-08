@@ -1,5 +1,36 @@
 # Pinot Docs Update — 2026-11-08 (UTC)
 
+## Run run-20261108T050116Z-opus48-877 — 2026-11-08T05:02:00Z
+
+**Result:** no-op — no new upstream PRs merged after checkpoint; 0 docs PRs created.
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at=2026-11-07T01:41:31Z` (read from automation-state branch; lock+lease both `released` on entry, prev holder run-20261108T040125Z-opus48-27751).
+- Merged apache/pinot PRs strictly after checkpoint: **0**.
+- Reconciliation (3 independent methods, all agree):
+  1. apache upstream/master tip = `f60f17fd` = #20169 (`Reject cross-table functions under row-level security`) == checkpoint PR; `git log upstream/master --since=2026-11-07T01:41:32Z` → **0** commits (fetched apache/pinot directly this run).
+  2. GitHub search/issues `repo:apache/pinot is:pr is:merged merged:>=2026-11-07` → 3 items, all at/before checkpoint (#20169, #20184, #20089); **0** strictly after.
+  3. pulls API (state=closed sort=updated) → newest merged = #20169 @ 2026-11-07T01:41:31Z; **0** strictly after checkpoint.
+- No gaps; full coverage.
+
+### Decisions
+- None (no new PRs to triage).
+
+### Created / Merged docs PRs
+- None.
+
+### Validation
+- N/A (no docs changes produced this run).
+
+### Blockers
+- None. gh wrapper prints "no GitHub token minted / continuing unauthenticated" warnings for apache/pinot & pinot-contrib/pinot-docs (session manifest lists only `xiangfu0/pinot`); ambient user token authenticates all API calls as `xiangfu0` (WRITE on apache/pinot, ADMIN on pinot-docs confirmed). Durable writes use Contents API blob-SHA CAS. Pre-cloned `/workspace/pinot` origin is fork `xiangfu0/pinot` (stale master @ #19809); added `upstream=apache/pinot` for authoritative reconciliation.
+
+### Durable state
+- Checkpoint **unchanged**: `2026-11-07T01:41:31Z`.
+- Ledger entries: 85 (unchanged).
+- Lock+lease acquired (blob `84ba3ce2`) then released (blob `d009636f`) via Contents API blob-SHA CAS; no run overlap.
+- No Slack notification (quiet no-op per routine policy).
+
 ## Run run-20261108T040125Z-opus48-27751 — 2026-11-08T04:03:00Z
 
 **Result:** no-op — no new upstream PRs merged after checkpoint; 0 docs PRs created.
