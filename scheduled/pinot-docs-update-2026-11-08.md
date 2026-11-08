@@ -238,3 +238,28 @@
 
 ### Blockers
 - None. `git push` over https required `gh auth setup-git` (remote had no credential helper); resolved. Checkpoint **ADVANCED** `2026-11-07T01:41:31Z` → `2026-11-08T06:14:02Z`. Ledger 85 → 86.
+
+---
+
+## Run run-20261108T090112Z-opus48-847 — 2026-11-08T09:03:19Z (no-op)
+
+### Coverage
+- Checkpoint on entry: `last_processed_merged_at = 2026-11-08T07:09:15Z` (read from durable `automation-state` branch).
+- Inventory of apache/pinot PRs merged **strictly after** the checkpoint: **0**.
+- Verification (3 independent methods, all agree):
+  1. `search/issues merged:>=2026-11-08T07:09:15Z` → only the boundary PR #20021 (already processed → docs PR #1168).
+  2. `upstream/master` HEAD = `13cdb440` = #20021, merged exactly at the checkpoint; `git log 13cdb440..upstream/master` = 0 commits.
+  3. GraphQL recent-merged listing → newest merged = #20021; next (#20020 @ 06:14:02Z) is before the checkpoint and already in the ledger.
+- No coverage gaps; no reconciliation discrepancies between search, commits, and ledger.
+
+### Decisions
+- No new PRs to triage. 0 docs-relevant, 0 not-relevant decisions added. Ledger count unchanged at 87.
+
+### Created / merged links
+- None (no-op run).
+
+### Validation
+- Not applicable (no docs changes produced).
+
+### Blockers
+- None. Durable read + CAS writes succeeded. Checkpoint **UNCHANGED** `2026-11-08T07:09:15Z`; `last_successful_run` advanced to 2026-11-08T09:03:19Z. Lock acquired and released cleanly (no overlap). No Slack sent (quiet no-op).
