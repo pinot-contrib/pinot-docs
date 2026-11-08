@@ -826,22 +826,22 @@
   "last_run_result": "no-op",
   "last_run_id": "run-20261108T000201Z-opus48-913",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261108T010115Z-opus48-869",
+    "status": "held",
     "prev_holder": "run-20261108T000201Z-opus48-913",
-    "acquired_at": "2026-11-08T00:02:17Z",
-    "released_at": "2026-11-08T00:03:19Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-08T01:01:22Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-08T01:51:22Z"
   },
   "last_run_summary": "0 PRs merged strictly after checkpoint 2026-11-07T01:41:31Z. 3-way reconcile (search index, master log since checkpoint, master HEAD) all agree: latest master = #20169 @ 2026-11-07T01:41:31Z (already docs_created #1166). Checkpoint unchanged. No Slack.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261108T010115Z-opus48-869",
+    "status": "held",
     "prev_holder": "run-20261108T000201Z-opus48-913",
-    "acquired_at": "2026-11-08T00:02:17Z",
-    "released_at": "2026-11-08T00:03:19Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-08T01:01:22Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-08T01:51:22Z"
   },
   "recent_runs": [
     {
