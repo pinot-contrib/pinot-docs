@@ -62,3 +62,36 @@
 - Ledger entries: 85 (unchanged).
 - Lock+lease acquired then released via Contents API blob-SHA CAS (lock blob `420a7d4b` → release blob `6aa84e85`); no run overlap.
 - No Slack notification (quiet no-op per routine policy).
+
+---
+
+## Run run-20261108T030114Z-opus48-857 — 2026-11-08T03:05:38Z
+
+**Result:** no-op — no new upstream PRs merged after checkpoint; 0 docs PRs created.
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at=2026-11-07T01:41:31Z` (read from automation-state branch; lock+lease both `released` on entry, prev holder run-20261108T020115Z-opus48-25019).
+- Merged apache/pinot PRs strictly after checkpoint: **0**.
+- Reconciliation (3 independent methods, all agree):
+  1. apache/pinot commits API `sha=master since=2026-11-07T01:41:31Z` → **0** commits; master tip = `f60f17fd7` = #20169 == checkpoint PR.
+  2. GitHub search/issues `repo:apache/pinot is:pr is:merged merged:>2026-11-07T01:41:31Z` → total_count **0**.
+  3. Full paginated pulls listing (state=closed, 14029 merged PRs enumerated) → newest merged = #20169 @ 2026-11-07T01:41:31Z; **0** strictly after checkpoint.
+- No gaps; full coverage.
+
+### Decisions
+- None (no new PRs to triage).
+
+### Created / Merged docs PRs
+- None.
+
+### Validation
+- N/A (no docs changes produced this run).
+
+### Blockers
+- None. gh wrapper prints "no GitHub token minted / continuing unauthenticated" warnings for apache/pinot & pinot-contrib/pinot-docs (session manifest lists only `xiangfu0/pinot`); the ambient user token still authenticates all API calls as `xiangfu0` (WRITE on apache/pinot, ADMIN on pinot-docs confirmed). Durable writes use Contents API blob-SHA CAS. Pre-cloned `/workspace/pinot` origin is fork `xiangfu0/pinot` with stale master (@ #19809, 2026-10-09); used apache/pinot API as authoritative inventory source.
+
+### Durable state
+- Checkpoint **unchanged**: `2026-11-07T01:41:31Z`.
+- Ledger entries: 85 (unchanged).
+- Lock+lease acquired then released via Contents API blob-SHA CAS; no run overlap.
+- No Slack notification (quiet no-op per routine policy).
