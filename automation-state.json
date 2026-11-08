@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-07T01:41:31Z",
-  "last_successful_run": "2026-11-07T23:02:13Z",
+  "last_successful_run": "2026-11-08T00:03:19Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -824,24 +824,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no-op",
-  "last_run_id": "run-20261107T230119Z-opus48-874",
+  "last_run_id": "run-20261108T000201Z-opus48-913",
   "lock": {
-    "holder": "run-20261108T000201Z-opus48-913",
-    "status": "held",
-    "prev_holder": "run-20261107T230119Z-opus48-874",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T000201Z-opus48-913",
     "acquired_at": "2026-11-08T00:02:17Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-08T00:32:17Z"
+    "released_at": "2026-11-08T00:03:19Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "0 PRs merged strictly after checkpoint 2026-11-07T01:41:31Z; boundary #20169 already docs_created (#1166). 3-way reconcile all 0. Checkpoint unchanged. No Slack.",
+  "last_run_summary": "0 PRs merged strictly after checkpoint 2026-11-07T01:41:31Z. 3-way reconcile (search index, master log since checkpoint, master HEAD) all agree: latest master = #20169 @ 2026-11-07T01:41:31Z (already docs_created #1166). Checkpoint unchanged. No Slack.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261108T000201Z-opus48-913",
-    "status": "held",
-    "prev_holder": "run-20261107T230119Z-opus48-874",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T000201Z-opus48-913",
     "acquired_at": "2026-11-08T00:02:17Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-08T00:32:17Z"
+    "released_at": "2026-11-08T00:03:19Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -941,9 +941,19 @@
       "result": "no-op",
       "merged_after_checkpoint": 0,
       "checkpoint": "2026-11-07T01:41:31Z"
+    },
+    {
+      "run_id": "run-20261108T000201Z-opus48-913",
+      "utc": "2026-11-08T00:03:19Z",
+      "result": "no-op",
+      "new_prs": 0,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-07T01:41:31Z",
+      "model": "opus-4-8",
+      "method": "3-way reconcile (search + master log + HEAD), all 0"
     }
   ],
-  "last_run_note": "No merged apache/pinot PRs strictly after checkpoint 2026-11-07T01:41:31Z (search/issues total_count=0, all-bases). #20169 == checkpoint boundary, already docs #1166. Checkpoint unchanged; ledger 85 entries.",
+  "last_run_note": "no-op; checkpoint stable at 2026-11-07T01:41:31Z",
   "run_log": [
     {
       "run_id": "run-20261107T210133Z-opus48-1083",
@@ -1104,6 +1114,13 @@
     {
       "run_id": "run-20261107T190126Z-opus48-989",
       "utc": "2026-11-07T19:02:47Z",
+      "result": "no-op",
+      "new_prs": 0,
+      "docs_prs": 0
+    },
+    {
+      "run_id": "run-20261108T000201Z-opus48-913",
+      "utc": "2026-11-08T00:03:19Z",
       "result": "no-op",
       "new_prs": 0,
       "docs_prs": 0
