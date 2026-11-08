@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-08T07:09:15Z",
-  "last_successful_run": "2026-11-08T09:02:22Z",
+  "last_processed_merged_at": "2026-11-08T09:10:26Z",
+  "last_successful_run": "2026-11-08T10:07:09Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20021,
-    "upstream_url": "https://github.com/apache/pinot/pull/20021",
-    "docs_pr": 1168,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1168",
+    "upstream_pr": 20022,
+    "upstream_url": "https://github.com/apache/pinot/pull/20022",
+    "docs_pr": 1169,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1169",
     "decision": "docs_created",
-    "note": "Detect and close half-open broker-to-server channels; documented new pinot.broker.netty.* liveness settings."
+    "note": "Failure detector probes the channels that carry queries; documented new pinot.broker.failure.detector.unanswered.* broker settings and NETTY_CONNECTION_SUSPECT_CHANNELS meter."
   },
   "processed_prs": {
     "19862": {
@@ -840,18 +840,27 @@
       "merged_at": "2026-11-08T07:09:15Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20021",
       "summary": "Detect and close half-open broker-to-server channels. Documented new broker configs pinot.broker.netty.write.timeout.ms (10000), tcp.user.timeout.ms (10000, Epoll-only), write.buffer.high/low.water.mark.bytes (16 MiB / 8 MiB), and native.transports.enabled (false) in reference/configuration-reference/broker.md. Defaults verified against NettyConfig in merged code."
+    },
+    "20022": {
+      "decision": "docs_created",
+      "docs_pr": 1169,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1169",
+      "docs_merged_at": "2026-11-08T10:06:23Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20022",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20022#issuecomment-6720162235",
+      "merged_at": "2026-11-08T09:10:26Z"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "docs_created",
-  "last_run_id": "run-20261108T080145Z-opus48-1224",
+  "last_run_id": "run-20261108T100140Z-opus48-1328",
   "lock": {
-    "holder": "run-20261108T100140Z-opus48-1328",
-    "status": "held",
-    "prev_holder": "run-20261108T090112Z-opus48-847",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T100140Z-opus48-1328",
     "acquired_at": "2026-11-08T10:01:40Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-08T10:26:40Z"
+    "released_at": "2026-11-08T10:07:09Z",
+    "lease_expires_at": null
   },
   "last_run_summary": "Processed apache/pinot#20021 (merged 2026-11-08T07:09:15Z): docs_created -> pinot-docs#1168 (merged), upstream comment posted. Coverage reconciled 3 ways (search API=1, pulls API=1, master commits since checkpoint=2 of which #20020 == prior checkpoint already processed). Checkpoint advanced 2026-11-08T06:14:02Z -> 2026-11-08T07:09:15Z.",
   "run_history_note": "",
@@ -978,9 +987,19 @@
       "new_prs": 1,
       "docs_prs": 1,
       "checkpoint": "2026-11-08T06:14:02Z"
+    },
+    {
+      "run_id": "run-20261108T100140Z-opus48-1328",
+      "utc": "2026-11-08T10:07:09Z",
+      "result": "docs_created",
+      "new_prs": 1,
+      "docs_created": 1,
+      "checkpoint": "2026-11-08T09:10:26Z",
+      "model": "opus-4-8",
+      "method": "3-way reconcile (search + pulls + master HEAD), 1 new PR #20022"
     }
   ],
-  "last_run_note": "No merged apache/pinot PRs after checkpoint 2026-11-07T01:41:31Z. 3-way reconcile: search API total_count=0, pulls API most-recent merge is #20169 at exactly the checkpoint (already processed), git upstream/master HEAD=f60f17fd=#20169 matches checkpoint. No docs action.",
+  "last_run_note": "1 new apache/pinot PR after checkpoint 2026-11-08T07:09:15Z: #20022 (merged 2026-11-08T09:10:26Z, merge_commit 6d97d322). 3-way reconcile (search total_count=1, pulls API newest=#20022, upstream/master tip=6d97d322=#20022) all agree. Classified docs_relevant: 3 new pinot.broker.failure.detector.unanswered.* broker configs + NETTY_CONNECTION_SUSPECT_CHANNELS meter, names/defaults verified against CommonConstants/BrokerMeter in merged code. Docs PR #1169 created+squash-merged (a9414a06) at 2026-11-08T10:06:23Z; upstream comment posted.",
   "run_log": [
     {
       "run_id": "run-20261107T210133Z-opus48-1083",
@@ -1157,6 +1176,13 @@
       "utc": "2026-11-08T06:02:02Z",
       "result": "no-op",
       "checkpoint": "2026-11-07T01:41:31Z"
+    },
+    {
+      "run_id": "run-20261108T100140Z-opus48-1328",
+      "utc": "2026-11-08T10:07:09Z",
+      "result": "docs_created",
+      "new_prs": 1,
+      "docs_prs": 1
     }
   ],
   "run_history": [
