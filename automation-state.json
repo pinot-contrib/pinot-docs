@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-07T01:41:31Z",
-  "last_successful_run": "2026-11-08T02:04:32Z",
+  "last_successful_run": "2026-11-08T03:05:18Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -823,32 +823,25 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no_op",
-  "last_run_id": "run-20261108T010115Z-opus48-869",
+  "last_run_result": "success_noop",
+  "last_run_id": "run-20261108T030114Z-opus48-857",
   "lock": {
-    "holder": "run-20261108T030114Z-opus48-857",
-    "status": "held",
-    "prev_holder": "run-20261108T020115Z-opus48-25019",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T030114Z-opus48-857",
     "acquired_at": "2026-11-08T03:01:25Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-08T03:31:25Z"
+    "released_at": "2026-11-08T03:05:18Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": {
-    "run_id": "run-20261108T010115Z-opus48-869",
-    "utc": "2026-11-08T01:02:54Z",
-    "new_prs_found": 0,
-    "docs_prs_created": 0,
-    "checkpoint_advanced": false,
-    "checkpoint": "2026-11-07T01:41:31Z"
-  },
+  "last_run_summary": "No-op: no apache/pinot PRs merged after checkpoint 2026-11-07T01:41:31Z. Verified via commits API, search API, and full paginated pulls listing (14029 PRs). Checkpoint unchanged.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261108T030114Z-opus48-857",
-    "status": "held",
-    "prev_holder": "run-20261108T020115Z-opus48-25019",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T030114Z-opus48-857",
     "acquired_at": "2026-11-08T03:01:25Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-08T03:31:25Z"
+    "released_at": "2026-11-08T03:05:18Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -964,9 +957,17 @@
       "utc": "2026-11-08T01:02:54Z",
       "result": "no_op",
       "new_prs": 0
+    },
+    {
+      "run_id": "run-20261108T030114Z-opus48-857",
+      "utc": "2026-11-08T03:05:18Z",
+      "result": "success_noop",
+      "new_prs": 0,
+      "docs_created": 0,
+      "checkpoint": "2026-11-07T01:41:31Z"
     }
   ],
-  "last_run_note": "No apache/pinot PRs merged after checkpoint 2026-11-07T01:41:31Z. Reconciled against apache/master tip f60f17f (==PR #20169, the checkpoint PR); zero commits after it. Checkpoint unchanged.",
+  "last_run_note": "Noted pre-cloned /workspace/pinot points to fork xiangfu0/pinot with stale master (2026-10-09); used apache/pinot GitHub API as authoritative source for inventory.",
   "run_log": [
     {
       "run_id": "run-20261107T210133Z-opus48-1083",
