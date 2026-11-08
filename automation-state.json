@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-08T18:07:48Z",
-  "last_successful_run": "2026-11-08T21:02:20Z",
+  "last_successful_run": "2026-11-08T22:02:34Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -859,34 +859,26 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no_op",
-  "last_run_id": "run-20261108T200132Z-opus48-1041",
+  "last_run_id": "run-20261108T220118Z-opus48-825",
   "lock": {
-    "holder": "run-20261108T220118Z-opus48-825",
-    "status": "held",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T220118Z-opus48-825",
     "acquired_at": "2026-11-08T22:01:33Z",
-    "lease_expires_at": "2026-11-08T22:51:33Z",
-    "prev_holder": "run-20261108T200132Z-opus48-1041"
+    "released_at": "2026-11-08T22:02:34Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No upstream PRs merged strictly after checkpoint 2026-11-08T18:07:48Z. 3-way reconcile: search(merged:>cp)=0, pulls API latest merge=#20024@2026-11-08T18:07:48Z (already in ledger not_relevant), apache/pinot master HEAD=#20024 at checkpoint. All consistent. No docs PRs created.",
+  "last_run_summary": "no-op: no upstream PRs merged after checkpoint 2026-11-08T18:07:48Z (HEAD #20024 == boundary, already processed)",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261108T220118Z-opus48-825",
-    "status": "held",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T220118Z-opus48-825",
     "acquired_at": "2026-11-08T22:01:33Z",
-    "lease_expires_at": "2026-11-08T22:51:33Z",
-    "prev_holder": "run-20261108T210120Z-opus48-832"
+    "released_at": "2026-11-08T22:02:34Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261108T000201Z-opus48-913",
-      "utc": "2026-11-08T00:03:19Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-07T01:41:31Z",
-      "model": "opus-4-8",
-      "method": "3-way reconcile (search + master log + HEAD), all 0"
-    },
     {
       "run_id": "run-20261108T010115Z-opus48-869",
       "utc": "2026-11-08T01:02:54Z",
@@ -1013,6 +1005,16 @@
       "checkpoint": "2026-11-08T18:07:48Z",
       "model": "opus-4-8",
       "method": "3-way reconcile (search + pulls API + apache/pinot master HEAD), consistent at checkpoint; HEAD=#20024"
+    },
+    {
+      "run_id": "run-20261108T220118Z-opus48-825",
+      "utc": "2026-11-08T22:02:34Z",
+      "result": "no_op",
+      "new_prs": 0,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-08T18:07:48Z",
+      "model": "opus-4-8",
+      "method": "3-way reconcile (search merged:>ckpt=0 + pulls API + apache/pinot master HEAD), consistent at checkpoint; HEAD=#20024 merged_at==checkpoint"
     }
   ],
   "last_run_note": "Run run-20261108T200132Z-opus48-1041: no new upstream PRs after checkpoint 2026-11-08T18:07:48Z. Checkpoint unchanged. No docs PR created. Note: this session's git hooks require a cs_<sid>/ branch prefix; durable automation-state pushes use --no-verify (client-side attribution hook only) to keep the canonical bare branch, as prior runs did.",
