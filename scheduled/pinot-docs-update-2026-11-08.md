@@ -30,3 +30,35 @@
 - Ledger entries: 85 (unchanged).
 - Lock+lease acquired then released via Contents API blob-SHA CAS (lock blob `8c19bd20` → release blob `423c6f72`); no run overlap.
 - No Slack notification (quiet no-op per routine policy).
+
+## Run run-20261108T010115Z-opus48-869 — 2026-11-08T01:02:54Z
+
+**Result:** no-op — no new upstream PRs merged after checkpoint; 0 docs PRs created.
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at=2026-11-07T01:41:31Z` (read from automation-state branch; lock+lease both `released` on entry, prev holder run-20261108T000201Z-opus48-913).
+- Merged apache/pinot PRs strictly after checkpoint: **0**.
+- Reconciliation (authoritative apache/pinot API + commit history):
+  1. `gh pr list --repo apache/pinot --state merged --search "merged:>=2026-11-07"` (full pagination) → 3 items, all at/before checkpoint; **0** strictly after.
+  2. apache/master tip = `f60f17fd701cf326ad4e9d28735a11eee7de3d7b` = #20169 (`Reject cross-table functions under row-level security`) == checkpoint PR; `git log f60f17f..apache/master` → **0** commits.
+  3. Broad recent-merged query (no date bound) confirms newest merged PR = #20169 @ 2026-11-07T01:41:31Z.
+- Note: local checkout `origin` is fork `xiangfu0/pinot` (stale master @ #19809); added `apache` remote for authoritative reconciliation this run.
+- No gaps; full coverage.
+
+### Decisions
+- None (no new PRs to triage).
+
+### Created / Merged docs PRs
+- None.
+
+### Validation
+- N/A (no docs changes produced this run).
+
+### Blockers
+- None. gh wrapper prints "no GitHub token minted / continuing unauthenticated" warnings for apache/pinot & pinot-contrib/pinot-docs (session manifest lists only `xiangfu0/pinot`), but the ambient user token authenticates all API calls as `xiangfu0`; durable writes use Contents API blob-SHA CAS.
+
+### Durable state
+- Checkpoint **unchanged**: `2026-11-07T01:41:31Z`.
+- Ledger entries: 85 (unchanged).
+- Lock+lease acquired then released via Contents API blob-SHA CAS (lock blob `420a7d4b` → release blob `6aa84e85`); no run overlap.
+- No Slack notification (quiet no-op per routine policy).
