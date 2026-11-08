@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-08T09:10:26Z",
-  "last_successful_run": "2026-11-08T11:05:02Z",
+  "last_successful_run": "2026-11-08T12:02:54Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -852,8 +852,8 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "docs_created",
-  "last_run_id": "run-20261108T100140Z-opus48-1328",
+  "last_run_result": "success_noop",
+  "last_run_id": "run-20261108T120144Z-opus48-1033",
   "lock": {
     "holder": null,
     "status": "released",
@@ -862,66 +862,17 @@
     "released_at": "2026-11-08T11:05:02Z",
     "lease_expires_at": null
   },
-  "last_run_summary": "Processed apache/pinot#20021 (merged 2026-11-08T07:09:15Z): docs_created -> pinot-docs#1168 (merged), upstream comment posted. Coverage reconciled 3 ways (search API=1, pulls API=1, master commits since checkpoint=2 of which #20020 == prior checkpoint already processed). Checkpoint advanced 2026-11-08T06:14:02Z -> 2026-11-08T07:09:15Z.",
+  "last_run_summary": "No new docs-relevant PRs after checkpoint. No-op.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261108T120144Z-opus48-1033",
-    "status": "held",
-    "prev_holder": "run-20261108T060116Z-opus48-919",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T120144Z-opus48-1033",
     "acquired_at": "2026-11-08T12:02:01Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-08T12:32:01Z"
+    "released_at": "2026-11-08T12:02:54Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261108T080145Z-opus48-1224",
-      "utc": "2026-11-08T08:05:18Z",
-      "result": "docs_created",
-      "new_prs": 1,
-      "docs_prs": 1,
-      "checkpoint": "2026-11-08T07:09:15Z",
-      "model": "opus-4-8",
-      "method": "3-way reconcile; validate-docs PASS (no new failures); Validate-changed-docs check success; squash-merged #1168"
-    },
-    {
-      "run_id": "run-20261107T180126Z-opus48-953",
-      "utc": "2026-11-07T18:02:30Z",
-      "result": "no_op_no_new_prs",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-07T01:41:31Z",
-      "model": "opus-4-8",
-      "note": "0 new PRs merged strictly after checkpoint 2026-11-07T01:41:31Z. Reconciled 3 ways: (1) gh search prs --merged merged:>CKPT = 0; (2) pulls API closed/updated-desc, 84 scanned, newest merged #20169@2026-11-07T01:41:31Z (==checkpoint, already docs_created #1166); (3) apache/pinot master commits via API since checkpoint = 0, tip f60f17fd7=#20169 committed 2026-11-07T01:41:30Z. No-op (0 docs PRs). Checkpoint UNCHANGED. No Slack sent."
-    },
-    {
-      "run_id": "run-20261107T200148Z-opus48-1121",
-      "utc": "2026-11-07T20:05:06Z",
-      "result": "noop",
-      "checkpoint": "2026-11-07T01:41:31Z",
-      "new_docs_prs": 0,
-      "model": "opus-4-8",
-      "method": "3-way reconcile (search/pulls/commits), all 0 new"
-    },
-    {
-      "run_id": "run-20261107T210133Z-opus48-1083",
-      "utc": "2026-11-07T21:05:00Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-07T01:41:31Z",
-      "model": "opus-4-8",
-      "note": "3-way reconcile: (1) pulls API updated-desc 100 => 0 merged>ckpt; (2) master commits tip f60f17fd7=#20169@2026-11-07T01:41:30Z, none after; (3) PRs by number desc, newest merged #20169@ckpt, #20182/20183/20185/20186 still OPEN. No-op. Durable write via Contents API, CAS lease."
-    },
-    {
-      "run_id": "run-20261107T220140Z-opus48-1050",
-      "utc": "2026-11-07T22:05:01Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-07T01:41:31Z",
-      "model": "opus-4-8",
-      "method": "3-way reconcile, all 0"
-    },
     {
       "run_id": "run-20261107T230119Z-opus48-874",
       "utc": "2026-11-07T23:02:13Z",
@@ -997,42 +948,20 @@
       "checkpoint": "2026-11-08T09:10:26Z",
       "model": "opus-4-8",
       "method": "3-way reconcile (search + pulls + master HEAD), 1 new PR #20022"
+    },
+    {
+      "run_id": "run-20261108T120144Z-opus48-1033",
+      "utc": "2026-11-08T12:02:54Z",
+      "result": "success_noop",
+      "new_prs": 0,
+      "docs_created": 0,
+      "checkpoint": "2026-11-08T09:10:26Z",
+      "model": "opus-4-8",
+      "method": "3-way reconcile (search + pulls + master HEAD), all consistent at checkpoint"
     }
   ],
-  "last_run_note": "1 new apache/pinot PR after checkpoint 2026-11-08T07:09:15Z: #20022 (merged 2026-11-08T09:10:26Z, merge_commit 6d97d322). 3-way reconcile (search total_count=1, pulls API newest=#20022, upstream/master tip=6d97d322=#20022) all agree. Classified docs_relevant: 3 new pinot.broker.failure.detector.unanswered.* broker configs + NETTY_CONNECTION_SUSPECT_CHANNELS meter, names/defaults verified against CommonConstants/BrokerMeter in merged code. Docs PR #1169 created+squash-merged (a9414a06) at 2026-11-08T10:06:23Z; upstream comment posted.",
+  "last_run_note": "No-op: 3-way reconcile (search total_count=0; pulls API newest merged=#20022 at 2026-11-08T09:10:26Z; upstream/master tip=6d97d322=#20022) all agree no PR merged strictly after checkpoint 2026-11-08T09:10:26Z. #20022 already completed (docs PR #1169, upstream comment posted). Checkpoint unchanged. Write access verified via ambient GH_TOKEN (tentrix-wrap warning benign).",
   "run_log": [
-    {
-      "run_id": "run-20261107T210133Z-opus48-1083",
-      "utc": "2026-11-07T21:05:00Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "docs_created": []
-    },
-    {
-      "run_id": "run-20261106T190118Z-opus48-9867",
-      "run_utc": "2026-11-06T19:02:23Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-06T15:31:25Z",
-      "model": "opus-4-8"
-    },
-    {
-      "run_id": "run-20261106T100139Z-opus48-1978",
-      "run_utc": "2026-11-06T10:02:44Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "checkpoint": "2026-11-05T23:14:56Z",
-      "model": "opus-4-8"
-    },
-    {
-      "run_id": "run-20261106T110130Z-opus48-10503",
-      "run_utc": "2026-11-06T11:02:26Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "checkpoint": "2026-11-05T23:14:56Z",
-      "model": "opus-4-8"
-    },
     {
       "run_id": "run-20261106T120125Z-opus48-1071",
       "utc": "2026-11-06T12:04:36Z",
@@ -1183,6 +1112,14 @@
       "result": "docs_created",
       "new_prs": 1,
       "docs_prs": 1
+    },
+    {
+      "run_id": "run-20261108T120144Z-opus48-1033",
+      "utc": "2026-11-08T12:02:54Z",
+      "result": "no-op",
+      "new_prs": 0,
+      "docs_prs": 0,
+      "checkpoint": "2026-11-08T09:10:26Z"
     }
   ],
   "run_history": [
