@@ -1,5 +1,42 @@
 # Pinot Docs Update — 2026-11-08 (UTC)
 
+## Run run-20261108T080145Z-opus48-1224 — 2026-11-08T08:05:50Z
+
+**Result:** docs_created — 1 new upstream PR processed; 1 docs PR created and merged.
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at=2026-11-08T06:14:02Z` (read from automation-state branch; lock+lease both `released` on entry, prev holder run-20261108T070125Z-opus48-1048).
+- Merged apache/pinot PRs strictly after checkpoint: **1** (#20021).
+- Reconciliation (3 independent methods, all agree):
+  1. GitHub search/issues `repo:apache/pinot is:pr is:merged merged:>2026-11-08T06:14:02Z` → total_count **1**: #20021 @ 2026-11-08T07:09:15Z.
+  2. pulls API (state=closed sort=updated desc) → **1** merged strictly after checkpoint: #20021.
+  3. apache upstream/master `git log --since=checkpoint` → 2 commits: #20021 (@07:09:15Z, new) and #20020 (@06:14:02Z == prior checkpoint, already processed → docs PR #1167). Master tip = `13cdb440` = #20021.
+- No gaps; full coverage.
+
+### Decisions
+- **#20021** — "Detect and close half-open broker-to-server channels" → **docs_created**. User-facing: introduces 3 new broker connection-liveness configs (on by default on upgrade) plus a dependent transport flag. Names/defaults verified against `NettyConfig` in merged code (not just PR prose): `pinot.broker.netty.write.timeout.ms`=10000, `pinot.broker.netty.tcp.user.timeout.ms`=10000 (Epoll-only), `pinot.broker.netty.write.buffer.high.water.mark.bytes`=16 MiB, `...low.water.mark.bytes`=8 MiB, `pinot.broker.netty.native.transports.enabled`=false.
+
+### Created / Merged docs PRs
+- Docs PR: https://github.com/pinot-contrib/pinot-docs/pull/1168 — **merged** (squash) at 2026-11-08T08:04:40Z, merge commit `127ba77`.
+- Upstream comment: https://github.com/apache/pinot/pull/20021#issuecomment-6719058939
+- File changed: `reference/configuration-reference/broker.md` (+5 rows in the broker config table).
+
+### Validation
+- `git diff --check`: clean (no whitespace errors).
+- `uv run --with pyyaml python scripts/validate-docs.py --summary-only`: **PASS** both before and after the change (638 files, 3563 links; 10 pre-existing broken anchors unchanged — no new failures introduced).
+- CI "Validate changed docs": **success**; "Full docs audit (informational)": **success**.
+
+### Blockers
+- None. gh wrapper prints "no GitHub token minted / continuing unauthenticated" warnings for apache/pinot & pinot-contrib/pinot-docs (session manifest lists only `xiangfu0/pinot`); ambient user token authenticates all API calls as `xiangfu0` (write on apache/pinot, admin on pinot-docs). Git HTTPS push for pinot-docs lacks a credential helper, so the branch/commit/PR were created via the GitHub Contents + Git-refs + Pulls APIs instead. Durable writes use Contents API blob-SHA CAS.
+
+### Durable state
+- Checkpoint **advanced**: `2026-11-08T06:14:02Z` → `2026-11-08T07:09:15Z`.
+- Ledger: added entry for #20021 (docs_created).
+- Lock acquired (blob `cbf0bc14`) at run start and released in the same CAS write that advanced the checkpoint; no run overlap.
+- Slack: compact summary sent (1 new docs PR created+merged).
+
+# Pinot Docs Update — 2026-11-08 (UTC)
+
 ## Run run-20261108T050116Z-opus48-877 — 2026-11-08T05:02:00Z
 
 **Result:** no-op — no new upstream PRs merged after checkpoint; 0 docs PRs created.
