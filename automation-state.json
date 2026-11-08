@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-08T09:10:26Z",
-  "last_successful_run": "2026-11-08T10:07:09Z",
+  "last_successful_run": "2026-11-08T11:05:02Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -855,12 +855,12 @@
   "last_run_result": "docs_created",
   "last_run_id": "run-20261108T100140Z-opus48-1328",
   "lock": {
-    "holder": "run-20261108T110127Z-opus48-927",
-    "status": "held",
-    "prev_holder": "run-20261108T100140Z-opus48-1328",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T110127Z-opus48-927",
     "acquired_at": "2026-11-08T11:01:35Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-08T11:51:36Z"
+    "released_at": "2026-11-08T11:05:02Z",
+    "lease_expires_at": null
   },
   "last_run_summary": "Processed apache/pinot#20021 (merged 2026-11-08T07:09:15Z): docs_created -> pinot-docs#1168 (merged), upstream comment posted. Coverage reconciled 3 ways (search API=1, pulls API=1, master commits since checkpoint=2 of which #20020 == prior checkpoint already processed). Checkpoint advanced 2026-11-08T06:14:02Z -> 2026-11-08T07:09:15Z.",
   "run_history_note": "",
@@ -1226,6 +1226,13 @@
       "docs_prs_created": 0,
       "checkpoint": "2026-11-08T07:09:15Z",
       "outcome": "no-op: no upstream PRs merged after checkpoint (HEAD=#20021 already processed)"
+    },
+    {
+      "run_id": "run-20261108T110127Z-opus48-927",
+      "utc": "2026-11-08T11:05:02Z",
+      "outcome": "noop",
+      "new_prs": 0,
+      "checkpoint": "2026-11-08T09:10:26Z"
     }
   ]
 }
