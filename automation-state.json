@@ -846,12 +846,12 @@
   "last_run_result": "docs_created",
   "last_run_id": "run-20261108T080145Z-opus48-1224",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261108T100140Z-opus48-1328",
+    "status": "held",
     "prev_holder": "run-20261108T090112Z-opus48-847",
-    "acquired_at": "2026-11-08T09:01:22Z",
-    "released_at": "2026-11-08T09:02:22Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-08T10:01:40Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-08T10:26:40Z"
   },
   "last_run_summary": "Processed apache/pinot#20021 (merged 2026-11-08T07:09:15Z): docs_created -> pinot-docs#1168 (merged), upstream comment posted. Coverage reconciled 3 ways (search API=1, pulls API=1, master commits since checkpoint=2 of which #20020 == prior checkpoint already processed). Checkpoint advanced 2026-11-08T06:14:02Z -> 2026-11-08T07:09:15Z.",
   "run_history_note": "",
