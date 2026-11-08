@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-07T01:41:31Z",
-  "last_successful_run": "2026-11-08T04:03:00Z",
+  "last_successful_run": "2026-11-08T05:02:30Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -823,51 +823,27 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "success_noop",
+  "last_run_result": "no-op",
   "last_run_id": "run-20261108T050116Z-opus48-877",
   "lock": {
-    "holder": "run-20261108T050116Z-opus48-877",
-    "status": "held",
-    "prev_holder": "run-20261108T040125Z-opus48-27751",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T050116Z-opus48-877",
     "acquired_at": "2026-11-08T05:01:16Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-08T05:51:16Z"
+    "released_at": "2026-11-08T05:02:30Z",
+    "lease_expires_at": null
   },
   "last_run_summary": "No-op: no apache/pinot PRs merged after checkpoint 2026-11-07T01:41:31Z. Verified via commits API, search API, and full paginated pulls listing (14029 PRs). Checkpoint unchanged.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261108T050116Z-opus48-877",
-    "status": "held",
-    "prev_holder": "run-20261108T040125Z-opus48-27751",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T050116Z-opus48-877",
     "acquired_at": "2026-11-08T05:01:16Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-08T05:51:16Z"
+    "released_at": "2026-11-08T05:02:30Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261107T110115Z-opus48-22599",
-      "utc": "2026-11-07T11:02:34Z",
-      "result": "no_op_no_new_prs",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-07T01:41:31Z",
-      "model": "opus-4-8",
-      "note": "0 new PRs merged strictly after checkpoint 2026-11-07T01:41:31Z. Reconciled 3 ways: search/issues is:merged merged:>CKPT total_count=0; pulls API (closed, updated desc, 50 scanned) newest merged=#20169@2026-11-07T01:41:31Z (==checkpoint, already docs_created #1166); apache/master commits since checkpoint=0 (tip=f60f17fd=#20169 committed 2026-11-07T01:41:30Z). No-op (0 docs PRs). Checkpoint UNCHANGED."
-    },
-    {
-      "run_id": "run-20261107T120114Z-opus48-858",
-      "utc": "2026-11-07T12:04:28Z",
-      "result": "noop",
-      "candidates_checked": 11,
-      "new_docs_prs": 0
-    },
-    {
-      "run_id": "run-20261107T130219Z-opus48-1068",
-      "utc": "2026-11-07T13:05:52Z",
-      "result": "noop",
-      "checkpoint": "2026-11-07T01:41:31Z",
-      "new_docs_prs": 0
-    },
     {
       "run_id": "run-20261107T180126Z-opus48-953",
       "utc": "2026-11-07T18:02:30Z",
@@ -947,9 +923,16 @@
       "checkpoint": "2026-11-07T01:41:31Z",
       "model": "opus-4-8",
       "method": "3-way reconcile (search + total_count + master HEAD), all 0"
+    },
+    {
+      "run_id": "run-20261108T050116Z-opus48-877",
+      "utc": "2026-11-08T05:02:30Z",
+      "result": "no-op",
+      "new_prs": 0,
+      "checkpoint": "2026-11-07T01:41:31Z"
     }
   ],
-  "last_run_note": "No new merged PRs strictly after checkpoint 2026-11-07T01:41:31Z. Verified 3 ways: search API merged:>checkpoint=0, total_count=0, upstream/master HEAD=#20169 (=checkpoint boundary, already processed).",
+  "last_run_note": "No merged apache/pinot PRs after checkpoint 2026-11-07T01:41:31Z. Verified against git master (HEAD f60f17fd = #20169), pulls API, and search API; HEAD matches checkpoint exactly. No docs action.",
   "run_log": [
     {
       "run_id": "run-20261107T210133Z-opus48-1083",
