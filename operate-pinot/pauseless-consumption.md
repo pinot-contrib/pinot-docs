@@ -143,6 +143,8 @@ When no server has the segment on disk, Pinot can recover by re-ingesting the da
 4. The server re-consumes data for the failed LLC segment's offset range, builds the segment, copies the tarball to the segment store, and uploads reingestion metadata back to the controller.
 5. The controller finalizes the segment metadata, updates ZK metadata to `DONE`, and resets the segment to `ONLINE`.
 
+If the segment's offset range is no longer present in the stream (for example, it aged out of retention), reingestion fails instead of committing a partial segment. The replay stops with `Stream data loss at offset <current> while replaying to <end>: ...`, nothing is committed, and the segment stays in its `ERROR` state while the controller keeps retrying. To recover, restore the missing range from another source, or delete the errored segment to accept the loss (on a pauseless table the next segment is already consuming from this one's end offset). There is no opt-out, and this applies only under the default `read_uncommitted` isolation level, because Kafka never reports loss under `read_committed`.
+
 #### Server reingestion APIs
 
 The controller normally calls these server endpoints automatically during disaster recovery, but they are also useful when you need to inspect or trigger reingestion manually on a specific server.
