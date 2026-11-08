@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-08T09:10:26Z",
-  "last_successful_run": "2026-11-08T12:02:54Z",
+  "last_successful_run": "2026-11-08T13:03:00Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -852,25 +852,25 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "success_noop",
-  "last_run_id": "run-20261108T120144Z-opus48-1033",
+  "last_run_result": "no_op",
+  "last_run_id": "run-20261108T130114Z-opus48-891",
   "lock": {
-    "holder": "run-20261108T130114Z-opus48-891",
-    "status": "held",
-    "prev_holder": "run-20261108T110127Z-opus48-927",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T130114Z-opus48-891",
     "acquired_at": "2026-11-08T13:01:14Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-08T13:21:14Z"
+    "released_at": "2026-11-08T13:03:00Z",
+    "lease_expires_at": null
   },
   "last_run_summary": "No new docs-relevant PRs after checkpoint. No-op.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261108T130114Z-opus48-891",
-    "status": "held",
-    "prev_holder": "run-20261108T120144Z-opus48-1033",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T130114Z-opus48-891",
     "acquired_at": "2026-11-08T13:01:14Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-08T13:21:14Z"
+    "released_at": "2026-11-08T13:03:00Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -958,9 +958,17 @@
       "checkpoint": "2026-11-08T09:10:26Z",
       "model": "opus-4-8",
       "method": "3-way reconcile (search + pulls + master HEAD), all consistent at checkpoint"
+    },
+    {
+      "run_id": "run-20261108T130114Z-opus48-891",
+      "utc": "2026-11-08T13:03:00Z",
+      "result": "no_op",
+      "new_prs": 0,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-08T09:10:26Z"
     }
   ],
-  "last_run_note": "No-op: 3-way reconcile (search total_count=0; pulls API newest merged=#20022 at 2026-11-08T09:10:26Z; upstream/master tip=6d97d322=#20022) all agree no PR merged strictly after checkpoint 2026-11-08T09:10:26Z. #20022 already completed (docs PR #1169, upstream comment posted). Checkpoint unchanged. Write access verified via ambient GH_TOKEN (tentrix-wrap warning benign).",
+  "last_run_note": "No upstream PRs merged strictly after checkpoint 2026-11-08T09:10:26Z (most recent repo merge is #20022 at the checkpoint, already processed as docs_created -> docs PR #1169). Search API total_count=0 for merged:>checkpoint. Checkpoint unchanged.",
   "run_log": [
     {
       "run_id": "run-20261106T120125Z-opus48-1071",
