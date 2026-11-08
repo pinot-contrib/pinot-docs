@@ -1,5 +1,36 @@
 # Pinot Docs Update — 2026-11-08 (UTC)
 
+## Run run-20261108T040125Z-opus48-27751 — 2026-11-08T04:03:00Z
+
+**Result:** no-op — no new upstream PRs merged after checkpoint; 0 docs PRs created.
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at=2026-11-07T01:41:31Z` (read from automation-state branch; lock+lease both `released` on entry, prev holder run-20261108T030114Z-opus48-857).
+- Merged apache/pinot PRs strictly after checkpoint: **0**.
+- Reconciliation (3 independent methods, all agree):
+  1. GitHub search/issues `repo:apache/pinot is:pr is:merged merged:>2026-11-07T01:41:31Z` (full pagination) → **0** items; total_count **0**.
+  2. Same query with `merged:>=` boundary → only #20169 @ 2026-11-07T01:41:31Z (== checkpoint, already docs_created → docs PR #1166).
+  3. apache upstream/master tip = `f60f17fd701cf326ad4e9d28735a11eee7de3d7b` = #20169 (`Reject cross-table functions under row-level security`) == checkpoint PR; no newer commits.
+- No gaps; full coverage.
+
+### Decisions
+- None (no new PRs to triage).
+
+### Created / Merged docs PRs
+- None.
+
+### Validation
+- N/A (no docs changes produced this run).
+
+### Blockers
+- None. gh wrapper prints "no GitHub token minted / continuing unauthenticated" warnings (session manifest lists only `xiangfu0/pinot`); ambient user token still authenticates all API calls as `xiangfu0` (write on apache/pinot, admin on pinot-docs, rate_limit 15000). Durable writes use Contents API blob-SHA CAS. Pre-cloned `/workspace/pinot` origin is fork `xiangfu0/pinot`; added `upstream=apache/pinot` and reset local master to apache upstream/master (@ #20169) as authoritative source.
+
+### Durable state
+- Checkpoint **unchanged**: `2026-11-07T01:41:31Z`.
+- Ledger entries: 85 (unchanged).
+- Lock+lease acquired (blob `6fb3203f`) then released (blob `9cd11436`) via Contents API blob-SHA CAS; no run overlap.
+- No Slack notification (quiet no-op per routine policy).
+
 ## Run run-20261108T000201Z-opus48-913 — 2026-11-08T00:03:51Z
 
 **Result:** no-op — no new upstream PRs merged after checkpoint; 0 docs PRs created.
