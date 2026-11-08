@@ -172,3 +172,32 @@
 - **Validation**: N/A (no docs changes).
 - **Durable state**: checkpoint unchanged `2026-11-07T01:41:31Z`; lease acquired+released via Contents API blob-SHA CAS; no overlap.
 - **Slack**: none (quiet no-op).
+
+---
+
+## Run run-20261108T070125Z-opus48-1048 — 2026-11-08T07:06:40Z
+
+**Result:** docs_created — 1 new upstream PR merged after checkpoint; 1 docs PR created and merged.
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at=2026-11-07T01:41:31Z` (read from automation-state branch; lock `released` on entry, prev holder run-20261108T060116Z-opus48-919).
+- Merged apache/pinot PRs strictly after checkpoint: **1 (#20020)**.
+- Reconciliation (2 independent methods, agree):
+  1. apache upstream/master (fetched directly, --depth=200): `git log upstream/master --since=2026-11-07T01:41:31Z` → exactly **1** commit `61e770d8` (#20020, merged 2026-11-08T06:14:02Z). Tip now 61e770d8.
+  2. GitHub search/issues `repo:apache/pinot is:pr is:merged merged:>=2026-11-07` → 4 items; #20089/#20169/#20184 all ≤ checkpoint (already in ledger), only **#20020** strictly after.
+- No gaps; full coverage.
+
+### Decisions
+- **#20020 — "Rate-limit stream data-loss reports and fail re-ingestion on data loss"** → **docs_created**. Genuine user-facing behavior change (upstream-labeled `release-notes`): re-ingestion now **fails on reported stream data loss** instead of silently committing a partial segment when the segment's offset range aged out of retention. The segment stays `ERROR`, the controller keeps retrying; operator must restore the range or delete the segment. No config/API/wire/serialization change, no opt-out, applies only under default `read_uncommitted` isolation. Verified against merged code (`StatelessRealtimeSegmentWriter` `Preconditions.checkState` message at commit 61e770d8), not PR prose. The data-loss-diagnostics rate-limiting in the same PR is internal observability (not separately documented).
+
+### Created / merged
+- Docs PR: **[pinot-contrib/pinot-docs#1167](https://github.com/pinot-contrib/pinot-docs/pull/1167)** — "Document reingestion failing on stream data loss (apache/pinot#20020)". Squash-merged 2026-11-08T07:05:03Z (merge commit `52047ff8`). One paragraph added to `operate-pinot/pauseless-consumption.md` → "Non-recoverable failures (reingestion)".
+- Upstream comment: https://github.com/apache/pinot/pull/20020#issuecomment-6718542845
+
+### Validation
+- `git diff --check`: clean (no whitespace/conflict errors).
+- `validate-docs.py --summary-only`: **PASS** (638 files, 3563 links; 10 pre-existing broken anchors unrelated to this change — no new links/anchors introduced).
+- Docs PR CI: "Validate changed docs" SUCCESS, "Full docs audit (informational)" SUCCESS. GitBook preview checks are non-blocking deploy previews.
+
+### Blockers
+- None. `git push` over https required `gh auth setup-git` (remote had no credential helper); resolved. Checkpoint **ADVANCED** `2026-11-07T01:41:31Z` → `2026-11-08T06:14:02Z`. Ledger 85 → 86.

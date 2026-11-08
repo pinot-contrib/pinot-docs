@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-07T01:41:31Z",
-  "last_successful_run": "2026-11-08T06:02:02Z",
+  "last_processed_merged_at": "2026-11-08T06:14:02Z",
+  "last_successful_run": "2026-11-08T07:05:45Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20169,
-    "upstream_url": "https://github.com/apache/pinot/pull/20169",
-    "docs_pr": 1166,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1166",
+    "upstream_pr": 20020,
+    "upstream_url": "https://github.com/apache/pinot/pull/20020",
+    "docs_pr": 1167,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1167",
     "decision": "docs_created",
-    "note": "RLS now rejects cross-table functions (lookup/IN_SUBQUERY/IN_PARTITIONED_SUBQUERY) with 403 when row filters apply."
+    "note": "Re-ingestion fails on stream data loss instead of committing a partial segment."
   },
   "processed_prs": {
     "19862": {
@@ -820,18 +820,28 @@
       "reason": "Internal repo knowledge-base/AI-review guidance only: edits kb/code-review-principles.md and kb/skills/review-naming-api.md to clarify code-review conventions (compatibility constructors, getter order, null-check ternary ordering, blank lines). No user-facing Pinot product behavior, config, API, or documented default changes; license checks exclude kb/**. Not applicable to pinot-docs (user-facing product docs).",
       "merged_at": "2026-11-07T01:35:20Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20184"
+    },
+    "20020": {
+      "decision": "docs_created",
+      "docs_pr": 1167,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1167",
+      "docs_merged_at": "2026-11-08T07:05:03Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20020#issuecomment-6718542845",
+      "merged_at": "2026-11-08T06:14:02Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20020",
+      "note": "Re-ingestion now fails on reported stream data loss (aged-out retention) instead of committing a partial segment; segment stays ERROR, controller keeps retrying. Applies only under default read_uncommitted isolation."
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op",
-  "last_run_id": "run-20261108T060116Z-opus48-919",
+  "last_run_result": "docs_created",
+  "last_run_id": "run-20261108T070125Z-opus48-1048",
   "lock": {
-    "holder": "run-20261108T070125Z-opus48-1048",
-    "status": "held",
-    "prev_holder": "run-20261108T060116Z-opus48-919",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261108T070125Z-opus48-1048",
     "acquired_at": "2026-11-08T07:01:35Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-08T07:31:35Z"
+    "released_at": "2026-11-08T07:05:45Z",
+    "lease_expires_at": null
   },
   "last_run_summary": "No-op: no apache/pinot PRs merged after checkpoint 2026-11-07T01:41:31Z. Verified via commits API, search API, and full paginated pulls listing (14029 PRs). Checkpoint unchanged.",
   "run_history_note": "",
@@ -940,6 +950,14 @@
       "checkpoint": "2026-11-07T01:41:31Z",
       "model": "opus-4-8",
       "method": "3-way reconcile (search + pulls + master HEAD), all consistent at checkpoint"
+    },
+    {
+      "run_id": "run-20261108T070125Z-opus48-1048",
+      "utc": "2026-11-08T07:05:45Z",
+      "result": "docs_created",
+      "new_prs": 1,
+      "docs_prs": 1,
+      "checkpoint": "2026-11-08T06:14:02Z"
     }
   ],
   "last_run_note": "No merged apache/pinot PRs after checkpoint 2026-11-07T01:41:31Z. 3-way reconcile: search API total_count=0, pulls API most-recent merge is #20169 at exactly the checkpoint (already processed), git upstream/master HEAD=f60f17fd=#20169 matches checkpoint. No docs action.",
@@ -1141,6 +1159,17 @@
       "new_prs": 0,
       "docs_prs_created": 0,
       "checkpoint": "2026-11-07T01:41:31Z",
+      "model": "opus-4-8"
+    },
+    {
+      "run_id": "run-20261108T070125Z-opus48-1048",
+      "utc": "2026-11-08T07:05:45Z",
+      "checkpoint": "2026-11-08T06:14:02Z",
+      "new_docs_prs": 1,
+      "inventoried": [
+        20020
+      ],
+      "decision": "docs_created for #20020 (reingestion fail-on-data-loss); #20089/#20169/#20184 were <= prior checkpoint, already processed",
       "model": "opus-4-8"
     }
   ]
