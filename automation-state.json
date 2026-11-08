@@ -861,22 +861,22 @@
   "last_run_result": "no_op",
   "last_run_id": "run-20261108T190128Z-opus48-1015",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261108T200132Z-opus48-1041",
+    "status": "held",
     "prev_holder": "run-20261108T190128Z-opus48-1015",
-    "acquired_at": "2026-11-08T19:01:28Z",
-    "released_at": "2026-11-08T19:03:18Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-08T20:01:40Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-08T20:56:40Z"
   },
   "last_run_summary": "No upstream PRs merged strictly after checkpoint 2026-11-08T09:10:26Z. 3-way reconcile (search=0, pulls 2 pages=0, remote master HEAD=#20022 at checkpoint) all consistent. No docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261108T200132Z-opus48-1041",
+    "status": "held",
     "prev_holder": "run-20261108T190128Z-opus48-1015",
-    "acquired_at": "2026-11-08T19:01:28Z",
-    "released_at": "2026-11-08T19:03:18Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-08T20:01:40Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-08T20:56:40Z"
   },
   "recent_runs": [
     {
