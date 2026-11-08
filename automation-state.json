@@ -871,12 +871,12 @@
   "last_run_summary": "No upstream PRs merged strictly after checkpoint 2026-11-08T18:07:48Z. 3-way reconcile: search(merged:>cp)=0, pulls API latest merge=#20024@2026-11-08T18:07:48Z (already in ledger not_relevant), apache/pinot master HEAD=#20024 at checkpoint. All consistent. No docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261108T210120Z-opus48-832",
+    "status": "held",
     "prev_holder": "run-20261108T200132Z-opus48-1041",
-    "acquired_at": "2026-11-08T20:01:40Z",
-    "released_at": "2026-11-08T20:04:26Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-08T21:01:20Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-08T21:31:20Z"
   },
   "recent_runs": [
     {
