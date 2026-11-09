@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-09T13:33:00Z",
-  "last_successful_run": "2026-11-09T22:02:19Z",
+  "last_processed_merged_at": "2026-11-09T23:02:01Z",
+  "last_successful_run": "2026-11-09T23:03:14Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -897,6 +897,24 @@
       "reason": "Dependabot dependency/build bump (org.jline:jline 4.4.8->4.5.0). Touches only pom.xml or .github CI workflow YAML; no source, config schema, public API, default, or documented user-facing behavior change.",
       "merged_at": "2026-11-09T13:02:57Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20198"
+    },
+    "20188": {
+      "decision": "not_relevant",
+      "reason": "Dependabot version bump only: com.google.cloud:libraries-bom 26.91.0 -> 26.92.0. Touches pom.xml only. No user-facing behavior, config, API, function, or documented default change.",
+      "merged_at": "2026-11-09T22:51:24Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20188"
+    },
+    "20189": {
+      "decision": "not_relevant",
+      "reason": "Dependabot version bump only: at.yawk.lz4:lz4-java 1.12.1 -> 1.13.0. Touches pom.xml only. No user-facing behavior, config, API, function, or documented default change.",
+      "merged_at": "2026-11-09T22:52:04Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20189"
+    },
+    "20186": {
+      "decision": "not_relevant",
+      "reason": "Internal ser/de refactor (100 files, +5420/-5786). Each AggregationFunction now owns intermediate-result serialize/deserialize; ObjectSerDeUtils becomes codecs moved from pinot-core to pinot-segment-local; data blocks/tables write states straight into PagedPinotOutputStream. PR states explicitly: wire and on-disk formats unchanged; mixed-version clusters unaffected (type values and payload bytes do not change). Backward incompatibility is Java API only (custom AggregationFunction plugin authors: SerializedResult return type, codec package move, new/abstract PinotOutputStream methods) which is not covered by pinot-docs user documentation. Verified diff introduces no new QueryOptionKey, config key, @ScalarFunction, or AggregationFunctionType; only references to existing PERCENTILETDIGEST and existing GROUPING_SETS_BASE_AGGREGATION option in tests. Not docs-relevant.",
+      "merged_at": "2026-11-09T23:02:01Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20186"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
@@ -921,12 +939,12 @@
   },
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261109T230113Z-opus48-cloud",
-    "status": "held",
-    "prev_holder": "run-20261109T220113Z-opus48-cloud-783",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261109T230113Z-opus48-cloud",
     "acquired_at": "2026-11-09T23:01:22Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-09T23:51:22Z"
+    "released_at": "2026-11-09T23:03:14Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
