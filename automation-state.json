@@ -2,7 +2,7 @@
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
  "last_processed_merged_at": "2026-11-09T13:33:00Z",
- "last_successful_run": "2026-11-09T16:02:49Z",
+ "last_successful_run": "2026-11-09T17:03:16Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -910,15 +910,15 @@
   "released_at": "2026-11-09T10:02:44Z",
   "lease_expires_at": null
  },
- "last_run_summary": "Coverage: merged PRs strictly after checkpoint 2026-11-09T13:33:00Z through 2026-11-09T16:02:49Z. 0 new merged PRs (search API total_count=0; git log upstream/master --since checkpoint=0 commits; boundary verified: checkpoint == merged_at of #20190, the newest master merge). No-op run: 0 docs PRs, 0 decisions, no Slack. Checkpoint unchanged.",
+ "last_run_summary": "0 new upstream PRs strictly after checkpoint 2026-11-09T13:33:00Z; 0 docs PRs. Reconciled via search API + apache/master git log.",
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261109T170134Z-opus48-1008",
-  "status": "held",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261109T170134Z-opus48-1008",
   "acquired_at": "2026-11-09T17:01:34Z",
-  "prev_holder": "run-20261109T160146Z-opus48-1058",
-  "lease_expires_at": null,
-  "released_at": null
+  "released_at": "2026-11-09T17:03:16Z",
+  "lease_expires_at": null
  },
  "recent_runs": [
   {
@@ -1039,7 +1039,7 @@
    "model": "opus-4-8"
   }
  ],
- "last_run_note": "No PRs merged strictly after checkpoint 2026-11-09T13:33:00Z. 3-way reconcile: (1) pulls API closed/updated-desc 3 pages/300 PRs -> oldest updated 2026-10-13, 0 merged_at>checkpoint; (2) HEAD merged PR #20190 merged_at==checkpoint, already ledgered not_relevant; (3) master git log --since=checkpoint -> empty. Checkpoint unchanged. No docs PRs created. No Slack.",
+ "last_run_note": "No-op. apache/master tip #20190 == checkpoint boundary.",
  "run_log": [
   {
    "run_id": "run-20261106T130139Z-opus48-1084",
@@ -1242,6 +1242,14 @@
    "result": "no-op",
    "new_prs": 0,
    "checkpoint": "2026-11-08T18:07:48Z"
+  },
+  {
+   "run_id": "run-20261109T170134Z-opus48-1008",
+   "utc": "2026-11-09T17:03:16Z",
+   "result": "no-op",
+   "checkpoint": "2026-11-09T13:33:00Z",
+   "new_prs": 0,
+   "docs_prs": []
   }
  ],
  "run_history": [
