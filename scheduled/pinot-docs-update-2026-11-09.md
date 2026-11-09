@@ -284,3 +284,14 @@ All 7 classified **not_relevant** — Dependabot dependency/build-action bumps; 
 - **Decisions:** none new. Docs PRs created: 0. Upstream comments: 0. Validation: n/a. Slack: not sent (no-op).
 - **Preflight:** gh auth OK (xiangfu0 / GH_TOKEN). apache/pinot=WRITE, pinot-contrib/pinot-docs=ADMIN. Durable automation-state read + CAS write round-trip verified at lease acquire/release. Lease acquired and released via Contents-API CAS; no overlap.
 - **Checkpoint UNCHANGED:** `2026-11-09T13:33:00Z`. Ledger: 96 entries.
+
+## 2026-11-09T23:03:50Z — run-20261109T230113Z-opus48-cloud (no-op docs; checkpoint advanced)
+- **Incoming checkpoint:** `2026-11-09T13:33:00Z` (#20190). **3** apache/pinot PRs merged strictly after boundary; all classified **not_relevant** → **0 docs PRs created**.
+- **PRs triaged:**
+  - **#20188** (merged 22:51:24Z) — Dependabot: `com.google.cloud:libraries-bom` 26.91.0→26.92.0. pom.xml only. not_relevant.
+  - **#20189** (merged 22:52:04Z) — Dependabot: `at.yawk.lz4:lz4-java` 1.12.1→1.13.0. pom.xml only. not_relevant.
+  - **#20186** (merged 23:02:01Z) — "Let each aggregation function own its intermediate result ser/de". Internal ser/de refactor (100 files, +5420/-5786): each AggregationFunction owns serialize/deserialize; ObjectSerDeUtils→codecs moved pinot-core→pinot-segment-local; states written straight into PagedPinotOutputStream. PR states **wire and on-disk formats unchanged**, **mixed-version clusters unaffected**; backward-incompat is **Java API only** (custom AggregationFunction plugin authors), not covered by pinot-docs. Diff verified: no new QueryOptionKey / config key / @ScalarFunction / AggregationFunctionType; only references to existing PERCENTILETDIGEST and existing GROUPING_SETS_BASE_AGGREGATION in tests. not_relevant.
+- **Coverage reconcile (API-authoritative; local clone origin is stale fork xiangfu0/pinot @ 910f9d5):** (1) search `is:merged merged:>=2026-11-08` filtered strictly > checkpoint → 3 PRs; (2) `git log upstream/master` (added apache remote) since checkpoint → identical 3 merge commits (#20188, #20189, #20186); (3) re-check before finalize → stable 3, newest merged_at 23:02:01Z. No gaps.
+- **Preflight:** gh auth OK (xiangfu0 / GH_TOKEN; cosmetic "no token minted" wrapper stderr, API calls succeed); apache/pinot=WRITE, pinot-contrib/pinot-docs=ADMIN. Durable `automation-state` read + CAS write round-trip verified at lease acquire (SHA b3cb2ebb → 8f134528). Lease acquired (exp 23:51:22Z), self-held re-verified before mutate, released in final CAS write; no overlap.
+- **Decisions:** 3 new not_relevant. Docs PRs created: 0. Upstream comments: 0. Validation: n/a (no docs produced). Blockers: none.
+- **Checkpoint ADVANCED** to `2026-11-09T23:02:01Z` (#20186 merged_at, newest of batch). Ledger 96 → 99. No Slack (no docs PRs created).
