@@ -913,12 +913,12 @@
  "last_run_summary": "Coverage: merged PRs strictly after prior checkpoint (2026-11-08T18:07:48Z) through 2026-11-09T13:33:00Z. 7 PRs (#20190,#20191,#20192,#20193,#20194,#20197,#20198), all Dependabot dependency/action bumps -> not_relevant. 0 docs PRs created. Reconciled search API vs upstream/master git log: complete coverage, no gaps.",
  "run_history_note": "",
  "lease": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261109T150130Z-opus48-920",
+  "status": "held",
   "prev_holder": "run-20261109T140113Z-opus48-13509",
-  "acquired_at": "2026-11-09T14:01:22Z",
-  "released_at": "2026-11-09T14:02:52Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-09T15:01:36Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-09T15:31:36Z"
  },
  "recent_runs": [
   {
