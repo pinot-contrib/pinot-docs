@@ -64,3 +64,34 @@
 - Ledger unchanged (89 entries).
 - Lease acquired + released via CAS; no run overlap.
 - Slack: no notification (no-op run).
+
+## Run run-20261109T080122Z-opus48-933 — 2026-11-09T08:02:59Z
+
+**Result:** no-op — 0 new upstream PRs; 0 docs PRs created.
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at=2026-11-08T18:07:48Z` (read from automation-state branch; lease `released` on entry, prev holder run-20261109T070117Z-opus48-15355). Lease acquired via Contents-API blob-SHA CAS at run start (blob `52393c74` → `63b190af`).
+- Merged apache/pinot PRs strictly after checkpoint: **0**.
+- Reconciliation (2 independent methods, both agree — no gaps):
+  1. GitHub search/issues `repo:apache/pinot is:pr is:merged merged:>=2026-11-08T18:00:00Z` → only #20024 @ 2026-11-08T18:07:48Z, which **equals** the checkpoint (exclusive bound) → already processed.
+  2. GitHub search/issues `merged:>2026-11-05T00:00:00Z` (25 PRs) cross-checked against the 89-entry ledger → every PR PROCESSED; **0** unprocessed-and-after-checkpoint.
+- Newest merged upstream PR is #20024 at the boundary, already ledgered as `not_relevant` (internal transactional-Kafka consumption-lag correctness fix; no config/API/default/metric changes).
+- Note: the local /workspace/pinot checkout tip is stale (origin/master at #19809, 2026-10-09); PR inventory uses the GitHub API as the authoritative source, not local git log.
+
+### Decisions
+- None this run (no new PRs to triage).
+
+### Created / Merged docs PRs
+- None.
+
+### Validation
+- N/A (no docs changes produced).
+
+### Blockers
+- None.
+
+### Durable state
+- Checkpoint **unchanged**: `2026-11-08T18:07:48Z` (not advanced — no new processed work).
+- Ledger: unchanged (89 entries).
+- Lease acquired via Contents-API CAS at run start and released in the final CAS write; no run overlap.
+- Slack: no notification (no-op run; webhook used only when new docs PRs are created).
