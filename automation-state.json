@@ -859,7 +859,7 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no-op",
-  "last_run_id": "run-20261109T050126Z-opus48-1055",
+  "last_run_id": "run-20261109T060127Z-opus48-1019",
   "lock": {
     "holder": null,
     "status": "released",
@@ -871,42 +871,14 @@
   "last_run_summary": "no-op: 0 PRs merged strictly after checkpoint 2026-11-08T18:07:48Z. apache/master HEAD=#20024 merged_at==checkpoint (already ledgered not_relevant). 3-way reconcile agrees: search API (4 PRs, all <=ckpt) + pulls API (exact merged_at) + master commit log. #20020/20021/20022 docs_created, #20024 not_relevant \u2014 all previously processed.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261109T060127Z-opus48-1019",
-    "status": "held",
-    "prev_holder": "run-20261109T050126Z-opus48-1055",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261109T060127Z-opus48-1019",
     "acquired_at": "2026-11-09T06:01:33Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-09T06:31:33Z"
+    "released_at": "2026-11-09T06:04:53Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261108T070125Z-opus48-1048",
-      "utc": "2026-11-08T07:05:45Z",
-      "result": "docs_created",
-      "new_prs": 1,
-      "docs_prs": 1,
-      "checkpoint": "2026-11-08T06:14:02Z"
-    },
-    {
-      "run_id": "run-20261108T100140Z-opus48-1328",
-      "utc": "2026-11-08T10:07:09Z",
-      "result": "docs_created",
-      "new_prs": 1,
-      "docs_created": 1,
-      "checkpoint": "2026-11-08T09:10:26Z",
-      "model": "opus-4-8",
-      "method": "3-way reconcile (search + pulls + master HEAD), 1 new PR #20022"
-    },
-    {
-      "run_id": "run-20261108T120144Z-opus48-1033",
-      "utc": "2026-11-08T12:02:54Z",
-      "result": "success_noop",
-      "new_prs": 0,
-      "docs_created": 0,
-      "checkpoint": "2026-11-08T09:10:26Z",
-      "model": "opus-4-8",
-      "method": "3-way reconcile (search + pulls + master HEAD), all consistent at checkpoint"
-    },
     {
       "run_id": "run-20261108T130114Z-opus48-891",
       "utc": "2026-11-08T13:03:00Z",
@@ -1008,9 +980,19 @@
       "checkpoint": "2026-11-08T18:07:48Z",
       "model": "opus-4-8",
       "method": "3-way reconcile (search API + pulls API + apache/pinot master HEAD), consistent at checkpoint; HEAD=#20024 merged_at==checkpoint"
+    },
+    {
+      "run_id": "run-20261109T060127Z-opus48-1019",
+      "utc": "2026-11-09T06:04:53Z",
+      "result": "no-op",
+      "new_prs": 0,
+      "docs_created": 0,
+      "checkpoint": "2026-11-08T18:07:48Z",
+      "model": "opus-4-8",
+      "method": "3-way reconcile (search API + pulls API 200 closed/updated-desc + apache/pinot master commits since). Consistent at checkpoint; HEAD=#20024 merged_at==checkpoint, already in ledger as not_relevant."
     }
   ],
-  "last_run_note": "No apache/pinot PRs merged strictly after checkpoint 2026-11-08T18:07:48Z (apache master head = #20024 at checkpoint). Verified via search API, PR list sorted by updated, and git master reconciliation. No docs PRs created.",
+  "last_run_note": "No PRs merged strictly after checkpoint 2026-11-08T18:07:48Z. HEAD #20024 already triaged not_relevant.",
   "run_log": [
     {
       "run_id": "run-20261106T130139Z-opus48-1084",
@@ -1198,6 +1180,14 @@
       "result": "no-op",
       "new_prs": 0,
       "docs_created": 0
+    },
+    {
+      "run_id": "run-20261109T060127Z-opus48-1019",
+      "utc": "2026-11-09T06:04:53Z",
+      "result": "no-op",
+      "checkpoint": "2026-11-08T18:07:48Z",
+      "new_prs": 0,
+      "docs_prs": []
     }
   ],
   "run_history": [
