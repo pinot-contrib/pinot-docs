@@ -861,22 +861,22 @@
   "last_run_result": "no_op",
   "last_run_id": "run-20261109T010154Z-opus48-1211",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261109T020117Z-opus48-8037",
+    "status": "held",
     "prev_holder": "run-20261109T010154Z-opus48-1211",
-    "acquired_at": "2026-11-09T01:01:54Z",
-    "released_at": "2026-11-09T01:04:00Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-09T02:01:17Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-09T02:31:17Z"
   },
   "last_run_summary": "no-op: 0 PRs merged strictly after checkpoint 2026-11-08T18:07:48Z. apache/master tip=#20024 (merged at boundary, already ledgered not_relevant). Search API + pulls API + master commit log all agree. Checkpoint unchanged; last_successful_run bumped.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261109T020117Z-opus48-8037",
+    "status": "held",
     "prev_holder": "run-20261109T010154Z-opus48-1211",
-    "acquired_at": "2026-11-09T01:01:54Z",
-    "released_at": "2026-11-09T01:04:00Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-09T02:01:17Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-09T02:31:17Z"
   },
   "recent_runs": [
     {
