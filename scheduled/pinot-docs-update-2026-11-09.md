@@ -158,3 +158,36 @@
 - Slack: no notification (no-op run).
 
 ---
+
+## Run run-20261109T120129Z-opus48-978 — 2026-11-09T12:02:39Z
+
+**Result:** no-op — 0 new upstream PRs; 0 docs PRs created.
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at=2026-11-08T18:07:48Z` (read from automation-state branch; lease `released` on entry, prev holder run-20261109T110134Z-opus48-1082). Lease acquired via Contents-API blob-SHA CAS at run start.
+- Merged apache/pinot PRs strictly after checkpoint: **0**.
+- Reconciliation (3 independent methods agree, no gaps):
+  1. Search API `repo:apache/pinot is:pr is:merged merged:>2026-11-08T18:07:48Z` → total_count **0**.
+  2. Pulls API `state=closed&sort=updated&direction=desc&per_page=100` → 86 merged in page, **0** with merged_at > checkpoint; newest is #20024 @ 2026-11-08T18:07:48Z (== checkpoint).
+  3. apache/pinot master commits `since=2026-11-08T18:07:48Z` → **1** commit, which is the checkpoint commit itself (`0007e8b9`, #20024).
+- HEAD #20024 already in ledger as `not_relevant` (internal transactional-Kafka consumption-lag correctness fix; no config/API/default/metric changes).
+
+### Decisions
+- None this run (no new PRs to triage).
+
+### Created / Merged docs PRs
+- None.
+
+### Validation
+- N/A (no docs changes produced).
+
+### Blockers
+- None.
+
+### Durable state
+- Checkpoint **unchanged**: `2026-11-08T18:07:48Z` (not advanced — no new processed work).
+- Ledger: unchanged (89 entries).
+- Lease acquired via Contents-API CAS at run start (`dace9ce8`) and released in the final CAS write; no run overlap.
+- Slack: no notification (no-op run; webhook used only when new docs PRs are created).
+
+---
