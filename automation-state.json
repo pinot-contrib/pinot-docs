@@ -901,7 +901,7 @@
  },
  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
  "last_run_result": "no-op",
- "last_run_id": "run-20261109T150130Z-opus48-920",
+ "last_run_id": "run-20261109T170134Z-opus48-1008",
  "lock": {
   "holder": null,
   "status": "released",
@@ -913,12 +913,12 @@
  "last_run_summary": "Coverage: merged PRs strictly after checkpoint 2026-11-09T13:33:00Z through 2026-11-09T16:02:49Z. 0 new merged PRs (search API total_count=0; git log upstream/master --since checkpoint=0 commits; boundary verified: checkpoint == merged_at of #20190, the newest master merge). No-op run: 0 docs PRs, 0 decisions, no Slack. Checkpoint unchanged.",
  "run_history_note": "",
  "lease": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261109T170134Z-opus48-1008",
+  "status": "held",
+  "acquired_at": "2026-11-09T17:01:34Z",
   "prev_holder": "run-20261109T160146Z-opus48-1058",
-  "acquired_at": "2026-11-09T16:01:46Z",
-  "released_at": "2026-11-09T16:02:49Z",
-  "lease_expires_at": null
+  "lease_expires_at": null,
+  "released_at": null
  },
  "recent_runs": [
   {
