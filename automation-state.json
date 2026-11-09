@@ -859,24 +859,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no_op",
-  "last_run_id": "run-20261109T000145Z-opus48-1267",
+  "last_run_id": "run-20261109T010154Z-opus48-1211",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261109T010154Z-opus48-1211",
+    "status": "acquired",
     "prev_holder": "run-20261109T000145Z-opus48-1267",
-    "acquired_at": "2026-11-09T00:01:55Z",
-    "released_at": "2026-11-09T00:03:00Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-09T01:01:54Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-09T01:51:54Z"
   },
   "last_run_summary": "No merged apache/pinot PRs after checkpoint 2026-11-08T18:07:48Z; apache master head=#20024. Zero new docs-relevant PRs. Checkpoint unchanged.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261109T010154Z-opus48-1211",
+    "status": "acquired",
     "prev_holder": "run-20261109T000145Z-opus48-1267",
-    "acquired_at": "2026-11-09T00:01:55Z",
-    "released_at": "2026-11-09T00:03:00Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-09T01:01:54Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-09T01:51:54Z"
   },
   "recent_runs": [
     {
