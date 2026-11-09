@@ -2,7 +2,7 @@
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
  "last_processed_merged_at": "2026-11-09T13:33:00Z",
- "last_successful_run": "2026-11-09T15:05:04Z",
+ "last_successful_run": "2026-11-09T16:02:49Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -910,17 +910,26 @@
   "released_at": "2026-11-09T10:02:44Z",
   "lease_expires_at": null
  },
- "last_run_summary": "Coverage: merged PRs strictly after prior checkpoint (2026-11-08T18:07:48Z) through 2026-11-09T13:33:00Z. 7 PRs (#20190,#20191,#20192,#20193,#20194,#20197,#20198), all Dependabot dependency/action bumps -> not_relevant. 0 docs PRs created. Reconciled search API vs upstream/master git log: complete coverage, no gaps.",
+ "last_run_summary": "Coverage: merged PRs strictly after checkpoint 2026-11-09T13:33:00Z through 2026-11-09T16:02:49Z. 0 new merged PRs (search API total_count=0; git log upstream/master --since checkpoint=0 commits; boundary verified: checkpoint == merged_at of #20190, the newest master merge). No-op run: 0 docs PRs, 0 decisions, no Slack. Checkpoint unchanged.",
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261109T160146Z-opus48-1058",
-  "status": "acquired",
-  "prev_holder": "run-20261109T150130Z-opus48-920",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261109T160146Z-opus48-1058",
   "acquired_at": "2026-11-09T16:01:46Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-09T16:56:46Z"
+  "released_at": "2026-11-09T16:02:49Z",
+  "lease_expires_at": null
  },
  "recent_runs": [
+  {
+   "run_id": "run-20261109T160146Z-opus48-1058",
+   "utc": "2026-11-09T16:02:49Z",
+   "result": "no_op",
+   "new_prs": 0,
+   "docs_prs_created": 0,
+   "checkpoint_after": "2026-11-09T13:33:00Z",
+   "note": "No merges after checkpoint; reconciled search API + git log."
+  },
   {
    "run_id": "run-20261108T200132Z-opus48-1041",
    "utc": "2026-11-08T20:04:26Z",
