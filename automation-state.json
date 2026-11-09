@@ -2,7 +2,7 @@
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
  "last_processed_merged_at": "2026-11-09T13:33:00Z",
- "last_successful_run": "2026-11-09T14:02:52Z",
+ "last_successful_run": "2026-11-09T15:05:04Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -900,8 +900,8 @@
   }
  },
  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
- "last_run_result": "no-op (7 PRs triaged, all not_relevant: Dependabot bumps)",
- "last_run_id": "run-20261109T140113Z-opus48-13509",
+ "last_run_result": "no-op",
+ "last_run_id": "run-20261109T150130Z-opus48-920",
  "lock": {
   "holder": null,
   "status": "released",
@@ -913,34 +913,14 @@
  "last_run_summary": "Coverage: merged PRs strictly after prior checkpoint (2026-11-08T18:07:48Z) through 2026-11-09T13:33:00Z. 7 PRs (#20190,#20191,#20192,#20193,#20194,#20197,#20198), all Dependabot dependency/action bumps -> not_relevant. 0 docs PRs created. Reconciled search API vs upstream/master git log: complete coverage, no gaps.",
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261109T150130Z-opus48-920",
-  "status": "held",
-  "prev_holder": "run-20261109T140113Z-opus48-13509",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261109T150130Z-opus48-920",
   "acquired_at": "2026-11-09T15:01:36Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-09T15:31:36Z"
+  "released_at": "2026-11-09T15:05:04Z",
+  "lease_expires_at": null
  },
  "recent_runs": [
-  {
-   "run_id": "run-20261108T160130Z-opus48-16780",
-   "utc": "2026-11-08T16:02:58Z",
-   "result": "no_op",
-   "new_prs": 0,
-   "docs_prs_created": 0,
-   "checkpoint": "2026-11-08T09:10:26Z",
-   "model": "opus-4-8",
-   "method": "3-way reconcile (search + pulls + remote master HEAD), consistent at checkpoint; HEAD=#20022"
-  },
-  {
-   "run_id": "run-20261108T180123Z-opus48-1093",
-   "utc": "2026-11-08T18:02:22Z",
-   "result": "no_op",
-   "new_prs": 0,
-   "docs_prs_created": 0,
-   "checkpoint": "2026-11-08T09:10:26Z",
-   "model": "opus-4-8",
-   "method": "3-way reconcile (search + pulls 2pp + remote master HEAD), consistent at checkpoint; HEAD=#20022"
-  },
   {
    "run_id": "run-20261108T200132Z-opus48-1041",
    "utc": "2026-11-08T20:04:26Z",
@@ -1039,9 +1019,18 @@
    "prs_triaged": 7,
    "docs_created": 0,
    "checkpoint": "2026-11-09T13:33:00Z"
+  },
+  {
+   "run_id": "run-20261109T150130Z-opus48-920",
+   "utc": "2026-11-09T15:05:04Z",
+   "result": "no-op",
+   "prs_triaged": 0,
+   "docs_created": 0,
+   "checkpoint": "2026-11-09T13:33:00Z",
+   "model": "opus-4-8"
   }
  ],
- "last_run_note": "no-op; checkpoint advanced to 2026-11-09T13:33:00Z",
+ "last_run_note": "No PRs merged strictly after checkpoint 2026-11-09T13:33:00Z. 3-way reconcile: (1) pulls API closed/updated-desc 3 pages/300 PRs -> oldest updated 2026-10-13, 0 merged_at>checkpoint; (2) HEAD merged PR #20190 merged_at==checkpoint, already ledgered not_relevant; (3) master git log --since=checkpoint -> empty. Checkpoint unchanged. No docs PRs created. No Slack.",
  "run_log": [
   {
    "run_id": "run-20261106T130139Z-opus48-1084",
