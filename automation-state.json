@@ -871,12 +871,12 @@
   "last_run_summary": "no-op: 0 PRs merged strictly after checkpoint 2026-11-08T18:07:48Z. apache/master HEAD=#20024 merged_at==checkpoint (already ledgered not_relevant). 3-way reconcile agrees: search API (4 PRs, all <=ckpt) + pulls API (exact merged_at) + master commit log. #20020/20021/20022 docs_created, #20024 not_relevant \u2014 all previously processed.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261109T050126Z-opus48-1055",
+    "status": "held",
     "prev_holder": "run-20261109T040122Z-opus48",
-    "acquired_at": "2026-11-09T04:01:29Z",
-    "released_at": "2026-11-09T04:02:23Z",
-    "lease_expires_at": null
+    "acquired_at": "2026-11-09T05:01:26Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-09T05:51:26Z"
   },
   "recent_runs": [
     {
