@@ -2,7 +2,7 @@
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
  "last_processed_merged_at": "2026-11-09T13:33:00Z",
- "last_successful_run": "2026-11-09T19:03:30Z",
+ "last_successful_run": "2026-11-09T20:02:12Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -901,7 +901,7 @@
  },
  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
  "last_run_result": "no-op",
- "last_run_id": "run-20261109T190134Z-opus48-1015",
+ "last_run_id": "run-20261109T200212Z-opus48-cloud-1219",
  "lock": {
   "holder": null,
   "status": "released",
@@ -910,17 +910,26 @@
   "released_at": "2026-11-09T10:02:44Z",
   "lease_expires_at": null
  },
- "last_run_summary": "0 new upstream PRs strictly after checkpoint 2026-11-09T13:33:00Z; 0 docs PRs. 3-way reconcile: search API merged:>ckpt=0; pulls API max merged_at==checkpoint (#20190); apache/master tip=3b23abd0 (#20190)==checkpoint. PRs #20191-20198 are dependency/CI bumps merged at/before boundary, already ledgered.",
+ "last_run_summary": "0 new upstream PRs strictly after checkpoint 2026-11-09T13:33:00Z; 0 docs PRs. 3-way reconcile: search API is:merged merged:>ckpt=0; pulls API (closed,updated-desc) max merged_at==checkpoint (#20190); apache/master tip=3b23abd0 (#20190)==checkpoint. #20191-20198 are dep/CI bumps at/before boundary, already ledgered; #20195 open, #20196 nonexistent.",
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261109T200212Z-opus48-cloud-1219",
-  "status": "held",
-  "prev_holder": "run-20261109T190134Z-opus48-1015",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261109T200212Z-opus48-cloud-1219",
   "acquired_at": "2026-11-09T20:02:12Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-09T20:47:12Z"
+  "released_at": "2026-11-09T20:02:12Z",
+  "lease_expires_at": null
  },
  "recent_runs": [
+  {
+   "run_id": "run-20261109T200212Z-opus48-cloud-1219",
+   "utc": "2026-11-09T20:02:12Z",
+   "result": "no_op",
+   "new_prs": 0,
+   "docs_prs_created": 0,
+   "checkpoint_after": "2026-11-09T13:33:00Z",
+   "note": "No merges after checkpoint; 3-way reconcile (search+pulls+git log). Cloud runner; write path = Contents API CAS."
+  },
   {
    "run_id": "run-20261109T160146Z-opus48-1058",
    "utc": "2026-11-09T16:02:49Z",
@@ -1020,46 +1029,9 @@
    "checkpoint": "2026-11-08T18:07:48Z",
    "model": "opus-4-8",
    "method": "3-way reconcile (search API 0; pulls API closed/updated-desc 100 all merged_at<=checkpoint; apache/pinot master commits since checkpoint == checkpoint commit only). HEAD=#20024 already ledgered not_relevant."
-  },
-  {
-   "run_id": "run-20261109T140113Z-opus48-13509",
-   "utc": "2026-11-09T14:02:52Z",
-   "result": "no-op",
-   "prs_triaged": 7,
-   "docs_created": 0,
-   "checkpoint": "2026-11-09T13:33:00Z"
-  },
-  {
-   "run_id": "run-20261109T150130Z-opus48-920",
-   "utc": "2026-11-09T15:05:04Z",
-   "result": "no-op",
-   "prs_triaged": 0,
-   "docs_created": 0,
-   "checkpoint": "2026-11-09T13:33:00Z",
-   "model": "opus-4-8"
-  },
-  {
-   "run_id": "run-20261109T180141Z-opus48-1044",
-   "utc": "2026-11-09T18:02:43Z",
-   "result": "no_op",
-   "new_prs": 0,
-   "docs_prs_created": 0,
-   "checkpoint_after": "2026-11-09T13:33:00Z",
-   "model": "opus-4-8",
-   "note": "3-way reconcile consistent at checkpoint; HEAD=#20190 merged_at==checkpoint."
-  },
-  {
-   "run_id": "run-20261109T190134Z-opus48-1015",
-   "utc": "2026-11-09T19:03:30Z",
-   "result": "no_op",
-   "new_prs": 0,
-   "docs_prs_created": 0,
-   "checkpoint_after": "2026-11-09T13:33:00Z",
-   "model": "opus-4-8",
-   "note": "3-way reconcile consistent at checkpoint; HEAD=#20190 merged_at==checkpoint."
   }
  ],
- "last_run_note": "No-op. apache/master tip #20190 (3b23abd0) merged_at==checkpoint boundary.",
+ "last_run_note": "No-op. apache/master tip #20190 (3b23abd0) merged_at==checkpoint; 0 PRs strictly after checkpoint.",
  "run_log": [
   {
    "run_id": "run-20261106T130139Z-opus48-1084",
