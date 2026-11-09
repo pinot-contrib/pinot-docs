@@ -1,8 +1,8 @@
 {
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
- "last_processed_merged_at": "2026-11-08T18:07:48Z",
- "last_successful_run": "2026-11-09T12:02:39Z",
+ "last_processed_merged_at": "2026-11-09T13:33:00Z",
+ "last_successful_run": "2026-11-09T14:02:52Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -855,11 +855,53 @@
    "reason": "Internal correctness fix for consumption-lag reporting on transactional Kafka topics. On a transactional topic a caught-up consumer sits one offset past the last delivered record (past commit/control markers that occupy offsets but are never delivered), so the per-partition records-lag and the HIGHEST_STREAM_OFFSET_CONSUMED gauge stayed one behind. RealtimeSegmentDataManager now tracks an _emptyBatchStreamPosition (empty-batch next offset when ahead of _currentOffset) and exposes it via a new VisibleForTesting getStreamPosition(); only getConsumerPartitionState (consuming-segments info API lag) and the existing HIGHEST_STREAM_OFFSET_CONSUMED gauge read it. _currentOffset still drives fetch, catch-up, KEEP/ONLINE transitions and the committed end offset, so segment contents are unchanged. KafkaPartitionLevelConsumer reports client position on empty polls under read_uncommitted too (unvalidated, never resumed from); StatelessRealtimeSegmentWriter re-polls from its own offset on an empty batch. MessageBatch.getOffsetOfNextBatch gets a Javadoc-only clarification. Verified against merged code: NO new config key, query option, function, gauge/meter enum constant, public API, or default (no metric-def or Config files changed; 4 internal/plugin main source files + 1 SPI Javadoc, 5 of 9 files are tests). Reuses already-documented lag/gauge/consuming-segments surfaces, only making them accurate for transactional topics. Not docs-relevant.",
    "merged_at": "2026-11-08T18:07:48Z",
    "upstream_url": "https://github.com/apache/pinot/pull/20024"
+  },
+  "20190": {
+   "decision": "not_relevant",
+   "reason": "Dependabot dependency/build bump (org.codehaus.mojo:versions-maven-plugin 2.23.0->2.24.0). Touches only pom.xml or .github CI workflow YAML; no source, config schema, public API, default, or documented user-facing behavior change.",
+   "merged_at": "2026-11-09T13:33:00Z",
+   "upstream_url": "https://github.com/apache/pinot/pull/20190"
+  },
+  "20191": {
+   "decision": "not_relevant",
+   "reason": "Dependabot dependency/build bump (io.opentelemetry.contrib:opentelemetry-gcp-resources 1.61.0-alpha->1.62.0-alpha). Touches only pom.xml or .github CI workflow YAML; no source, config schema, public API, default, or documented user-facing behavior change.",
+   "merged_at": "2026-11-09T13:32:46Z",
+   "upstream_url": "https://github.com/apache/pinot/pull/20191"
+  },
+  "20192": {
+   "decision": "not_relevant",
+   "reason": "Dependabot dependency/build bump (docker/login-action 4.7.0->4.8.0 (CI workflows)). Touches only pom.xml or .github CI workflow YAML; no source, config schema, public API, default, or documented user-facing behavior change.",
+   "merged_at": "2026-11-09T13:32:33Z",
+   "upstream_url": "https://github.com/apache/pinot/pull/20192"
+  },
+  "20193": {
+   "decision": "not_relevant",
+   "reason": "Dependabot dependency/build bump (com.github.jnr:jnr-posix 3.2.7->3.2.8). Touches only pom.xml or .github CI workflow YAML; no source, config schema, public API, default, or documented user-facing behavior change.",
+   "merged_at": "2026-11-09T12:32:18Z",
+   "upstream_url": "https://github.com/apache/pinot/pull/20193"
+  },
+  "20194": {
+   "decision": "not_relevant",
+   "reason": "Dependabot dependency/build bump (software.amazon.awssdk:bom 2.57.8->2.57.10). Touches only pom.xml or .github CI workflow YAML; no source, config schema, public API, default, or documented user-facing behavior change.",
+   "merged_at": "2026-11-09T13:32:20Z",
+   "upstream_url": "https://github.com/apache/pinot/pull/20194"
+  },
+  "20197": {
+   "decision": "not_relevant",
+   "reason": "Dependabot dependency/build bump (org.codehaus.mojo:animal-sniffer-annotations 1.28->1.29). Touches only pom.xml or .github CI workflow YAML; no source, config schema, public API, default, or documented user-facing behavior change.",
+   "merged_at": "2026-11-09T13:03:38Z",
+   "upstream_url": "https://github.com/apache/pinot/pull/20197"
+  },
+  "20198": {
+   "decision": "not_relevant",
+   "reason": "Dependabot dependency/build bump (org.jline:jline 4.4.8->4.5.0). Touches only pom.xml or .github CI workflow YAML; no source, config schema, public API, default, or documented user-facing behavior change.",
+   "merged_at": "2026-11-09T13:02:57Z",
+   "upstream_url": "https://github.com/apache/pinot/pull/20198"
   }
  },
  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
- "last_run_result": "no-op",
- "last_run_id": "run-20261109T120129Z-opus48-978",
+ "last_run_result": "no-op (7 PRs triaged, all not_relevant: Dependabot bumps)",
+ "last_run_id": "run-20261109T140113Z-opus48-13509",
  "lock": {
   "holder": null,
   "status": "released",
@@ -868,15 +910,15 @@
   "released_at": "2026-11-09T10:02:44Z",
   "lease_expires_at": null
  },
- "last_run_summary": "No new merged PRs after checkpoint 2026-11-08T18:07:48Z; no docs PRs created.",
+ "last_run_summary": "Coverage: merged PRs strictly after prior checkpoint (2026-11-08T18:07:48Z) through 2026-11-09T13:33:00Z. 7 PRs (#20190,#20191,#20192,#20193,#20194,#20197,#20198), all Dependabot dependency/action bumps -> not_relevant. 0 docs PRs created. Reconciled search API vs upstream/master git log: complete coverage, no gaps.",
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261109T140113Z-opus48-13509",
-  "status": "active",
-  "prev_holder": "run-20261109T120129Z-opus48-978",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261109T140113Z-opus48-13509",
   "acquired_at": "2026-11-09T14:01:22Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-09T14:31:22Z"
+  "released_at": "2026-11-09T14:02:52Z",
+  "lease_expires_at": null
  },
  "recent_runs": [
   {
@@ -989,9 +1031,17 @@
    "checkpoint": "2026-11-08T18:07:48Z",
    "model": "opus-4-8",
    "method": "3-way reconcile (search API 0; pulls API closed/updated-desc 100 all merged_at<=checkpoint; apache/pinot master commits since checkpoint == checkpoint commit only). HEAD=#20024 already ledgered not_relevant."
+  },
+  {
+   "run_id": "run-20261109T140113Z-opus48-13509",
+   "utc": "2026-11-09T14:02:52Z",
+   "result": "no-op",
+   "prs_triaged": 7,
+   "docs_created": 0,
+   "checkpoint": "2026-11-09T13:33:00Z"
   }
  ],
- "last_run_note": "No-op: 3-way reconcile consistent at checkpoint 2026-11-08T18:07:48Z. HEAD=#20024 merged_at==checkpoint, already ledgered not_relevant. Search API 0; pulls API (100 closed updated-desc) 0 merged after checkpoint; master commits since==checkpoint commit only.",
+ "last_run_note": "no-op; checkpoint advanced to 2026-11-09T13:33:00Z",
  "run_log": [
   {
    "run_id": "run-20261106T130139Z-opus48-1084",
