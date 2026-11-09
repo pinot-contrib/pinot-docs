@@ -95,3 +95,34 @@
 - Ledger: unchanged (89 entries).
 - Lease acquired via Contents-API CAS at run start and released in the final CAS write; no run overlap.
 - Slack: no notification (no-op run; webhook used only when new docs PRs are created).
+
+## Run run-20261109T090129Z-opus48-989 — 2026-11-09T09:03:13Z
+
+**Result:** no-op — 0 new upstream PRs; 0 docs PRs created.
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at=2026-11-08T18:07:48Z` (read from automation-state branch; lock `released`, lease `released` on entry, prev lease holder run-20261109T080122Z-opus48-933). Lease acquired via Contents-API blob-SHA CAS at run start (blob `26ae2ea5` → `9d20b471`).
+- Merged apache/pinot PRs strictly after checkpoint: **0**.
+- Reconciliation (3 independent methods, all agree — no gaps):
+  1. GitHub search/issues `repo:apache/pinot is:pr is:merged merged:>=2026-11-08T18:00:00Z` (full pagination) → only #20024 @ 2026-11-08T18:07:48Z, which **equals** the checkpoint → already processed.
+  2. apache/pinot `upstream/master` fetched fresh; last 15 PR refs in commit log (#20020,#20021,#20022,#20024,#20089,#20169,#20173–#20181,#20184) all present in the 89-entry ledger.
+  3. pulls API (state=closed, sort=updated desc, per_page=30) → newest merged is #20024 @ checkpoint; **0** merged strictly after.
+- HEAD #20024 already ledgered as `not_relevant` (internal transactional-Kafka consumption-lag correctness fix; no config/API/default/metric changes).
+
+### Decisions
+- None this run (no new PRs to triage).
+
+### Created / Merged docs PRs
+- None.
+
+### Validation
+- N/A (no docs changes produced).
+
+### Blockers
+- None.
+
+### Durable state
+- Checkpoint **unchanged**: `2026-11-08T18:07:48Z` (not advanced — no new processed work).
+- Ledger: unchanged (89 entries).
+- Lease acquired via Contents-API CAS at run start (`26ae2ea5`→`9d20b471`) and released in the final CAS write (`de9bf133`→`1ca84476`); no run overlap.
+- Slack: no notification (no-op run; webhook used only when new docs PRs are created).
