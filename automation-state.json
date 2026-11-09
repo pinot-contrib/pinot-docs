@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-08T18:07:48Z",
-  "last_successful_run": "2026-11-08T23:02:31Z",
+  "last_successful_run": "2026-11-09T00:03:00Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -859,24 +859,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no_op",
-  "last_run_id": "run-20261108T230124Z-opus48-1005",
+  "last_run_id": "run-20261109T000145Z-opus48-1267",
   "lock": {
-    "holder": "run-20261109T000145Z-opus48-1267",
-    "status": "acquired",
-    "prev_holder": "run-20261108T230124Z-opus48-1005",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261109T000145Z-opus48-1267",
     "acquired_at": "2026-11-09T00:01:55Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-09T00:51:55Z"
+    "released_at": "2026-11-09T00:03:00Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "no-op: no upstream PRs merged after checkpoint 2026-11-08T18:07:48Z (master HEAD 0007e8b9e = #20024 = boundary, already processed)",
+  "last_run_summary": "No merged apache/pinot PRs after checkpoint 2026-11-08T18:07:48Z; apache master head=#20024. Zero new docs-relevant PRs. Checkpoint unchanged.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261109T000145Z-opus48-1267",
-    "status": "acquired",
-    "prev_holder": "run-20261108T230124Z-opus48-1005",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261109T000145Z-opus48-1267",
     "acquired_at": "2026-11-09T00:01:55Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-09T00:51:55Z"
+    "released_at": "2026-11-09T00:03:00Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -992,9 +992,17 @@
       "new_prs": 0,
       "docs_created": 0,
       "checkpoint": "2026-11-08T18:07:48Z"
+    },
+    {
+      "run_id": "run-20261109T000145Z-opus48-1267",
+      "utc": "2026-11-09T00:03:00Z",
+      "result": "no_op",
+      "checkpoint": "2026-11-08T18:07:48Z",
+      "new_prs": 0,
+      "docs_prs": []
     }
   ],
-  "last_run_note": "Run run-20261108T200132Z-opus48-1041: no new upstream PRs after checkpoint 2026-11-08T18:07:48Z. Checkpoint unchanged. No docs PR created. Note: this session's git hooks require a cs_<sid>/ branch prefix; durable automation-state pushes use --no-verify (client-side attribution hook only) to keep the canonical bare branch, as prior runs did.",
+  "last_run_note": "run-20261109T000145Z-opus48-1267: no-op. Coverage reconciled vs apache master (head #20024 @ 2026-11-08T18:07:48Z). All 4 PRs in [2026-11-08] window already processed.",
   "run_log": [
     {
       "run_id": "run-20261106T120125Z-opus48-1071",
@@ -1169,6 +1177,14 @@
       "checkpoint": "2026-11-08T18:07:48Z",
       "new_prs": 0,
       "docs_created": 0
+    },
+    {
+      "run_id": "run-20261109T000145Z-opus48-1267",
+      "utc": "2026-11-09T00:03:00Z",
+      "result": "no_op",
+      "checkpoint": "2026-11-08T18:07:48Z",
+      "new_prs": 0,
+      "docs_prs": []
     }
   ],
   "run_history": [
@@ -1219,6 +1235,14 @@
       "outcome": "noop",
       "new_prs": 0,
       "checkpoint": "2026-11-08T09:10:26Z"
+    },
+    {
+      "run_id": "run-20261109T000145Z-opus48-1267",
+      "utc": "2026-11-09T00:03:00Z",
+      "result": "no_op",
+      "checkpoint": "2026-11-08T18:07:48Z",
+      "new_prs": 0,
+      "docs_prs": []
     }
   ]
 }
