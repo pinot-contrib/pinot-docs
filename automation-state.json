@@ -913,12 +913,12 @@
  "last_run_summary": "0 new upstream PRs strictly after checkpoint 2026-11-09T13:33:00Z; 0 docs PRs. 3-way reconcile: search API is:merged merged:>ckpt=0; pulls API (closed,updated-desc) max merged_at==checkpoint (#20190); apache/master tip=3b23abd0 (#20190)==checkpoint. #20191-20198 are dep/CI bumps at/before boundary, already ledgered; #20195 open, #20196 nonexistent.",
  "run_history_note": "",
  "lease": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261109T210126Z-opus48-cloud-993",
+  "status": "held",
   "prev_holder": "run-20261109T200212Z-opus48-cloud-1219",
-  "acquired_at": "2026-11-09T20:02:12Z",
-  "released_at": "2026-11-09T20:02:12Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-09T21:01:35Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-09T21:31:35Z"
  },
  "recent_runs": [
   {
