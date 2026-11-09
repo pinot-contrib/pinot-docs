@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-09T13:33:00Z",
-  "last_successful_run": "2026-11-09T21:02:49Z",
+  "last_successful_run": "2026-11-09T22:02:19Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -910,15 +910,23 @@
     "released_at": "2026-11-09T10:02:44Z",
     "lease_expires_at": null
   },
-  "last_run_summary": "0 new upstream PRs strictly after checkpoint 2026-11-09T13:33:00Z; 0 docs PRs. 3-way reconcile: search API is:merged merged:>ckpt=0; pulls API (closed,updated-desc) max merged_at==checkpoint (#20190); apache/master tip=3b23abd0 (#20190)==checkpoint. #20191-20198 are dep/CI bumps at/before boundary, already ledgered; #20195 open, #20196 nonexistent.",
+  "last_run_summary": {
+    "run_id": "run-20261109T220113Z-opus48-cloud-783",
+    "run_utc": "2026-11-09T22:02:19Z",
+    "outcome": "noop",
+    "candidates_inventoried": 7,
+    "new_docs_relevant": 0,
+    "checkpoint_unchanged": "2026-11-09T13:33:00Z",
+    "note": "No upstream PRs merged strictly after checkpoint 2026-11-09T13:33:00Z; master HEAD is #20190 at checkpoint. Coverage reconciled via GitHub API (local clone origin/master is stale)."
+  },
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261109T220113Z-opus48-cloud-783",
-    "status": "held",
-    "prev_holder": "run-20261109T210126Z-opus48-cloud-993",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261109T220113Z-opus48-cloud-783",
     "acquired_at": "2026-11-09T22:01:21Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-09T22:51:21Z"
+    "released_at": "2026-11-09T22:02:19Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
