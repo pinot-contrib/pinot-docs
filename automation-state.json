@@ -913,12 +913,12 @@
  "last_run_summary": "0 new upstream PRs strictly after checkpoint 2026-11-09T13:33:00Z; 0 docs PRs. 3-way reconcile: search API=0; pulls API HEAD=#20190 merged_at==checkpoint; apache/master tip=3b23abd0 (#20190)==checkpoint. All recent merges are dependency/CI bumps.",
  "run_history_note": "",
  "lease": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261109T190134Z-opus48-1015",
+  "status": "acquired",
   "prev_holder": "run-20261109T180141Z-opus48-1044",
-  "acquired_at": "2026-11-09T18:01:51Z",
-  "released_at": "2026-11-09T18:02:43Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-09T19:01:34Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-09T19:31:34Z"
  },
  "recent_runs": [
   {
