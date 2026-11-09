@@ -191,3 +191,41 @@
 - Slack: no notification (no-op run; webhook used only when new docs PRs are created).
 
 ---
+
+## Run run-20261109T140113Z-opus48-13509 — 2026-11-09T14:03:26Z
+
+**Result:** no-op docs — 7 new upstream PRs triaged, all not_relevant (Dependabot bumps); 0 docs PRs created. Checkpoint advanced.
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at=2026-11-08T18:07:48Z` (read from automation-state branch; lease `released` on entry, prev holder run-20261109T120129Z-opus48-978). Lease acquired via Contents-API blob-SHA CAS at run start.
+- Merged apache/pinot PRs strictly after checkpoint: **7**.
+- Reconciliation (2 independent methods agree, no gaps):
+  1. Search API `repo:apache/pinot is:pr is:merged merged:>=2026-11-08`, filtered strictly `> 2026-11-08T18:07:48Z` → 7 PRs.
+  2. `git log upstream/master` since boundary → identical 7 merge commits, newest-to-checkpoint contiguous, tip `3b23abd0` (#20190).
+
+### Decisions
+All 7 classified **not_relevant** — Dependabot dependency/build-action bumps; each touches only `pom.xml` or `.github/workflows/*.yml`, with no source, config schema, public API, default, metric, or documented user-facing behavior change:
+- #20190 — org.codehaus.mojo:versions-maven-plugin 2.23.0→2.24.0 (pom.xml)
+- #20191 — io.opentelemetry.contrib:opentelemetry-gcp-resources 1.61.0-alpha→1.62.0-alpha (pom.xml)
+- #20192 — docker/login-action 4.7.0→4.8.0 (6 CI workflow YAMLs)
+- #20193 — com.github.jnr:jnr-posix 3.2.7→3.2.8 (pom.xml)
+- #20194 — software.amazon.awssdk:bom 2.57.8→2.57.10 (pom.xml)
+- #20197 — org.codehaus.mojo:animal-sniffer-annotations 1.28→1.29 (pom.xml)
+- #20198 — org.jline:jline 4.4.8→4.5.0 (pom.xml)
+
+### Created / Merged docs PRs
+- None.
+
+### Validation
+- N/A (no docs changes produced).
+
+### Blockers
+- None.
+
+### Durable state
+- Checkpoint **advanced**: `2026-11-08T18:07:48Z` → `2026-11-09T13:33:00Z` (#20190 merged_at, newest of batch).
+- Ledger: 89 → 96 entries (7 not_relevant added).
+- Lease acquired via Contents-API CAS at run start and released in the final CAS write; no run overlap.
+- Slack: no notification (no docs PRs created; webhook used only when new docs PRs are created).
+
+---
