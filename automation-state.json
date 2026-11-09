@@ -2,7 +2,7 @@
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
  "last_processed_merged_at": "2026-11-08T18:07:48Z",
- "last_successful_run": "2026-11-09T10:02:44Z",
+ "last_successful_run": "2026-11-09T11:02:42Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -871,12 +871,12 @@
  "last_run_summary": "No new merged PRs after checkpoint 2026-11-08T18:07:48Z; no docs PRs created.",
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261109T110134Z-opus48-1082",
-  "status": "held",
-  "prev_holder": "run-20261109T100129Z-opus48-935",
+  "holder": null,
+  "status": "released",
+  "prev_holder": "run-20261109T110134Z-opus48-1082",
   "acquired_at": "2026-11-09T11:01:34Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-09T11:51:35Z"
+  "released_at": "2026-11-09T11:02:42Z",
+  "lease_expires_at": null
  },
  "recent_runs": [
   {
@@ -1251,6 +1251,13 @@
    "new_prs": 0,
    "docs_prs": 0,
    "model": "claude-opus-4-8"
+  },
+  {
+   "run_id": "run-20261109T110134Z-opus48-1082",
+   "utc": "2026-11-09T11:02:42Z",
+   "outcome": "noop",
+   "merged_prs_after_ckpt": 0,
+   "checkpoint": "2026-11-08T18:07:48Z"
   }
  ]
 }
