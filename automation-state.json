@@ -871,12 +871,12 @@
  "last_run_summary": "No new merged PRs after checkpoint 2026-11-08T18:07:48Z; no docs PRs created.",
  "run_history_note": "",
  "lease": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261109T110134Z-opus48-1082",
+  "status": "held",
   "prev_holder": "run-20261109T100129Z-opus48-935",
-  "acquired_at": "2026-11-09T10:01:29Z",
-  "released_at": "2026-11-09T10:02:44Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-09T11:01:34Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-09T11:51:35Z"
  },
  "recent_runs": [
   {
