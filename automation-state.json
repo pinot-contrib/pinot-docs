@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-08T18:07:48Z",
-  "last_successful_run": "2026-11-09T00:03:00Z",
+  "last_successful_run": "2026-11-09T01:04:00Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -861,22 +861,22 @@
   "last_run_result": "no_op",
   "last_run_id": "run-20261109T010154Z-opus48-1211",
   "lock": {
-    "holder": "run-20261109T010154Z-opus48-1211",
-    "status": "acquired",
-    "prev_holder": "run-20261109T000145Z-opus48-1267",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261109T010154Z-opus48-1211",
     "acquired_at": "2026-11-09T01:01:54Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-09T01:51:54Z"
+    "released_at": "2026-11-09T01:04:00Z",
+    "lease_expires_at": null
   },
-  "last_run_summary": "No merged apache/pinot PRs after checkpoint 2026-11-08T18:07:48Z; apache master head=#20024. Zero new docs-relevant PRs. Checkpoint unchanged.",
+  "last_run_summary": "no-op: 0 PRs merged strictly after checkpoint 2026-11-08T18:07:48Z. apache/master tip=#20024 (merged at boundary, already ledgered not_relevant). Search API + pulls API + master commit log all agree. Checkpoint unchanged; last_successful_run bumped.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261109T010154Z-opus48-1211",
-    "status": "acquired",
-    "prev_holder": "run-20261109T000145Z-opus48-1267",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261109T010154Z-opus48-1211",
     "acquired_at": "2026-11-09T01:01:54Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-09T01:51:54Z"
+    "released_at": "2026-11-09T01:04:00Z",
+    "lease_expires_at": null
   },
   "recent_runs": [
     {
@@ -996,6 +996,14 @@
     {
       "run_id": "run-20261109T000145Z-opus48-1267",
       "utc": "2026-11-09T00:03:00Z",
+      "result": "no_op",
+      "checkpoint": "2026-11-08T18:07:48Z",
+      "new_prs": 0,
+      "docs_prs": []
+    },
+    {
+      "run_id": "run-20261109T010154Z-opus48-1211",
+      "utc": "2026-11-09T01:04:00Z",
       "result": "no_op",
       "checkpoint": "2026-11-08T18:07:48Z",
       "new_prs": 0,
