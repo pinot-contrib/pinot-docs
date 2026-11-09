@@ -861,22 +861,22 @@
  "last_run_result": "no-op",
  "last_run_id": "run-20261109T090129Z-opus48-989",
  "lock": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261109T100129Z-opus48-935",
+  "status": "held",
   "prev_holder": "run-20261109T020117Z-opus48-8037",
-  "acquired_at": "2026-11-09T02:01:17Z",
-  "released_at": "2026-11-09T02:02:50Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-09T10:01:29Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-09T10:31:29Z"
  },
  "last_run_summary": "No new merged PRs after checkpoint 2026-11-08T18:07:48Z; no docs PRs created.",
  "run_history_note": "",
  "lease": {
-  "holder": null,
-  "status": "released",
+  "holder": "run-20261109T100129Z-opus48-935",
+  "status": "held",
   "prev_holder": "run-20261109T090129Z-opus48-989",
-  "acquired_at": "2026-11-09T09:01:41Z",
-  "released_at": "2026-11-09T09:02:50Z",
-  "lease_expires_at": null
+  "acquired_at": "2026-11-09T10:01:29Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-09T10:31:29Z"
  },
  "recent_runs": [
   {
