@@ -2,7 +2,7 @@
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
  "last_processed_merged_at": "2026-11-10T19:00:34Z",
- "last_successful_run": "2026-11-10T19:04:20Z",
+ "last_successful_run": "2026-11-10T20:03:31Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -1006,24 +1006,24 @@
  },
  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
  "last_run_result": "no-op",
- "last_run_id": "run-20261110T190129Z-opus48-cloud",
+ "last_run_id": "run-20261110T200132Z-opus48-cloud",
  "lock": {
-  "holder": "run-20261110T200132Z-opus48-cloud",
-  "status": "held",
+  "holder": null,
+  "status": "released",
   "acquired_at": "2026-11-10T20:03:11Z",
-  "released_at": null,
+  "released_at": "2026-11-10T20:03:31Z",
   "lease_expires_at": null,
-  "prev_holder": "run-20261110T190129Z-opus48-cloud"
+  "prev_holder": "run-20261110T200132Z-opus48-cloud"
  },
- "last_run_summary": "2 new merged PRs after checkpoint 2026-11-10T16:02:46Z: #20185 (Kafka 4.4.0/Confluent 8.4.0 dependency bump) and #20199 (parallel-test port-range fix). Both triaged not_relevant (dependency bump / test-infra only). 0 docs PRs created. Checkpoint advanced to 2026-11-10T19:00:34Z.",
+ "last_run_summary": "No-op run. 0 PRs merged strictly after checkpoint 2026-11-10T19:00:34Z. 3-way reconcile agreed: Search API (merged:>CP) total_count=0; gh pr list merged filtered mergedAt>CP = 0; apache/master tip 72bc378=#20199 merged at CP boundary (already ledgered not_relevant). No triage work, no docs PR, no Slack. Checkpoint unchanged.",
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261110T200132Z-opus48-cloud",
-  "status": "held",
+  "holder": null,
+  "status": "released",
   "acquired_at": "2026-11-10T20:03:11Z",
-  "released_at": null,
+  "released_at": "2026-11-10T20:03:31Z",
   "lease_expires_at": null,
-  "prev_holder": "run-20261110T190129Z-opus48-cloud"
+  "prev_holder": "run-20261110T200132Z-opus48-cloud"
  },
  "recent_runs": [
   {
@@ -1158,9 +1158,19 @@
    "new_prs": 0,
    "docs_prs": 0,
    "checkpoint": "2026-11-10T16:02:46Z"
+  },
+  {
+   "run_id": "run-20261110T200132Z-opus48-cloud",
+   "utc": "2026-11-10T20:03:31Z",
+   "result": "no-op",
+   "new_prs": 0,
+   "docs_prs_created": 0,
+   "checkpoint": "2026-11-10T19:00:34Z",
+   "model": "opus-4-8",
+   "method": "3-way reconcile all empty (search merged:>CP, gh pr list, master git log); HEAD #20199 at CP boundary already ledgered not_relevant."
   }
  ],
- "last_run_note": "No-op run. Inventory verified: search merged:>checkpoint empty; apache/master first-parent tip is #20205 (merged_at==checkpoint, already processed). Checkpoint unchanged.",
+ "last_run_note": "No-op run. 0 PRs merged strictly after checkpoint 2026-11-10T19:00:34Z. 3-way reconcile agreed: Search API (merged:>CP) total_count=0; gh pr list merged filtered mergedAt>CP = 0; apache/master tip 72bc378=#20199 merged at CP boundary (already ledgered not_relevant). No triage work, no docs PR, no Slack. Checkpoint unchanged.",
  "run_log": [
   {
    "run_id": "run-20261106T130139Z-opus48-1084",
@@ -1401,7 +1411,8 @@
    "new_docs_prs": 0,
    "checkpoint": "2026-11-10T09:57:27Z"
   },
-  "2026-11-10T18:03:36Z [run-20261110T180124Z-opus48-cloud] no-op: 0 new PRs after checkpoint 2026-11-10T16:02:46Z"
+  "2026-11-10T18:03:36Z [run-20261110T180124Z-opus48-cloud] no-op: 0 new PRs after checkpoint 2026-11-10T16:02:46Z",
+  "2026-11-10T20:03:31Z [run-20261110T200132Z-opus48-cloud] no-op: 0 new PRs after checkpoint 2026-11-10T19:00:34Z"
  ],
  "run_history": [
   {
@@ -1542,6 +1553,15 @@
     20185,
     20199
    ]
+  },
+  {
+   "run_id": "run-20261110T200132Z-opus48-cloud",
+   "utc": "2026-11-10T20:03:31Z",
+   "result": "no-op",
+   "new_prs": 0,
+   "docs_prs_created": 0,
+   "checkpoint": "2026-11-10T19:00:34Z",
+   "triaged": []
   }
  ]
 }
