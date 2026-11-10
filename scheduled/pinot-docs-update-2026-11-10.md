@@ -258,3 +258,28 @@
 
 ### Blockers
 - None.
+
+## Run run-20261110T190129Z-opus48-cloud (2026-11-10T19:xx UTC) — no-op (2 triaged, all not_relevant)
+
+- Incoming durable checkpoint from `automation-state`: `last_processed_merged_at = 2026-11-10T16:02:46Z` (#20205); prior `last_successful_run = 2026-11-10T18:03:36Z`; lock found cleanly `released` (prev holder run-20261110T180124Z, no overlap). Lock+lease acquired (+45m) via contents-API CAS (blob SHA 19b0795 → c9f95ae).
+- Preflight (read-only): gh authenticated as `xiangfu0` (cosmetic "no token minted" wrapper stderr only — all API + CAS writes succeed); apache/pinot = **WRITE** (push/comment OK); pinot-contrib/pinot-docs = **ADMIN** (push/PR/merge OK); `automation-state` branch read + write round-trip verified via contents-API CAS. No test PRs or Slack test messages sent.
+- Repos: local pinot checkout fetched `apache/pinot` upstream (added as remote; `origin` is the stale `xiangfu0/pinot` fork). apache/master tip = `72bc378e` (#20199). pinot-docs cloned at `origin/latest` (`3ec3ffeb`, docs PR #1170).
+- Inventory of apache/pinot PRs merged **strictly after** checkpoint, reconciled 2 ways (agree, **2** new — #20185, #20199):
+  1. `search/issues q=repo:apache/pinot is:pr is:merged merged:>=2026-11-10` → 10 items; per-PR exact `merged_at` filtered strictly > checkpoint → **2** new (#20185 @ 18:42:53Z, #20199 @ 19:00:34Z). #20205 is exactly at the checkpoint (already ledgered); the other 7 (#20151, #20168, #20182, #20200, #20206, #20207, #20208) are before checkpoint and already ledgered.
+  2. apache/pinot master commits (git log upstream/master) since checkpoint → #20199 (`72bc378e`, HEAD), #20185 (`f5e3dec1`), #20205 (`dc178c17`, boundary). No PRs between boundaries missed.
+
+### Decisions
+| PR | Title | merged_at (UTC) | Decision | Rationale |
+|----|-------|-----------------|----------|-----------|
+| [#20185](https://github.com/apache/pinot/pull/20185) | Upgrade Kafka to 4.4.0 and Confluent clients to 8.4.0 | 2026-11-10T18:42:53Z | not_relevant | Dependency version bump. Verified from merged diff (6 files): root `pom.xml` bumps `kafka4.version` 4.2.0→4.4.0 and `confluent.version` 8.2.0→8.4.0 and adds a test-scope `kafka-clients` test-fixtures dep; 3 poms (pinot-flink-connector, pinot-integration-tests, pinot-kafka-4.0) add test-scope client test-fixtures + Bouncy Castle for Kafka 4.4's embedded test-kit SSL; 2 pinot-kafka-4.0 **test** files switch to the public `ConsumerRecord.NO_TIMESTAMP` constant. No production source, config key, default, query option, SQL function, public API, or wire/serialization change. The `pinot-kafka-4.0` connector docs describe Kafka 4.x compatibility **generically** and do not pin the client patch version (the only version string in docs — `releases/1.5.0.md` "Kafka 4.1.1 client" — is a historical release note). Bump stays within the already-documented Kafka 4.x support line; no documented user-facing contract changes. |
+| [#20199](https://github.com/apache/pinot/pull/20199) | Use compact bounded port ranges for parallel tests | 2026-11-10T19:00:34Z | not_relevant | Test-infra-only (labels: bug, ci/cd). All 10 changed files under `src/test/` (pinot-controller, pinot-integration-test-base, pinot-integration-tests; incl. new `TestPortRange`/`TestPortRangeTest`). Fixes a flaky `BindException` by replacing the 5000-port fork stride (fork 3 landed inside Linux's default ephemeral range) with compact bounded per-fork port ranges. No production source, config, default, query option, function, public API, or documented user-facing behavior change. |
+
+### Outputs
+- Docs PRs created: **0**. Upstream comments: **0** (not warranted for skips).
+- Validation: not run (no docs changes produced). Slack: not sent (no-op; webhook reserved for runs that create docs PRs).
+
+### Durable state
+- Checkpoint **advanced** `2026-11-10T16:02:46Z` → `2026-11-10T19:00:34Z` (max merged_at of the 2 fully-triaged PRs, #20199). Ledger 108 → 110. `last_successful_run` advanced. Lock+lease acquired (+45m) and released via contents-API CAS; self-held re-verified before mutate; no overlap.
+
+### Blockers
+- None.
