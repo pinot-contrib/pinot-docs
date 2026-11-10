@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-09T23:02:01Z",
-  "last_successful_run": "2026-11-09T23:03:14Z",
+  "last_processed_merged_at": "2026-11-09T23:13:32Z",
+  "last_successful_run": "2026-11-10T00:02:28Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -915,11 +915,18 @@
       "reason": "Internal ser/de refactor (100 files, +5420/-5786). Each AggregationFunction now owns intermediate-result serialize/deserialize; ObjectSerDeUtils becomes codecs moved from pinot-core to pinot-segment-local; data blocks/tables write states straight into PagedPinotOutputStream. PR states explicitly: wire and on-disk formats unchanged; mixed-version clusters unaffected (type values and payload bytes do not change). Backward incompatibility is Java API only (custom AggregationFunction plugin authors: SerializedResult return type, codec package move, new/abstract PinotOutputStream methods) which is not covered by pinot-docs user documentation. Verified diff introduces no new QueryOptionKey, config key, @ScalarFunction, or AggregationFunctionType; only references to existing PERCENTILETDIGEST and existing GROUPING_SETS_BASE_AGGREGATION option in tests. Not docs-relevant.",
       "merged_at": "2026-11-09T23:02:01Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20186"
+    },
+    "20195": {
+      "decision": "not_relevant",
+      "reason": "Dependabot build-tooling bump: org.codehaus.mojo:build-helper-maven-plugin 3.6.2->3.7.0. Touches only pom.xml (+1/-1), label=dependencies, author=dependabot[bot]. No user-facing or documented behavior change.",
+      "upstream_url": "https://github.com/apache/pinot/pull/20195",
+      "merged_at": "2026-11-09T23:13:32Z",
+      "run_id": "run-20261110T000124Z-opus48-cloud"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no-op",
-  "last_run_id": "run-20261109T210126Z-opus48-cloud-993",
+  "last_run_id": "run-20261110T000124Z-opus48-cloud",
   "lock": {
     "holder": null,
     "status": "released",
@@ -939,43 +946,14 @@
   },
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261110T000124Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T00:01:31Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T00:31:31Z",
-    "prev_holder": "run-20261109T230113Z-opus48-cloud"
+    "released_at": "2026-11-10T00:02:28Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T000124Z-opus48-cloud"
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261109T160146Z-opus48-1058",
-      "utc": "2026-11-09T16:02:49Z",
-      "result": "no_op",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint_after": "2026-11-09T13:33:00Z",
-      "note": "No merges after checkpoint; reconciled search API + git log."
-    },
-    {
-      "run_id": "run-20261108T200132Z-opus48-1041",
-      "utc": "2026-11-08T20:04:26Z",
-      "result": "no_op",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-08T18:07:48Z",
-      "model": "opus-4-8",
-      "method": "3-way reconcile (search + pulls API + apache/pinot master HEAD), consistent at checkpoint; HEAD=#20024"
-    },
-    {
-      "run_id": "run-20261108T220118Z-opus48-825",
-      "utc": "2026-11-08T22:02:34Z",
-      "result": "no_op",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-08T18:07:48Z",
-      "model": "opus-4-8",
-      "method": "3-way reconcile (search merged:>ckpt=0 + pulls API + apache/pinot master HEAD), consistent at checkpoint; HEAD=#20024 merged_at==checkpoint"
-    },
     {
       "run_id": "run-20261108T230124Z-opus48-1005",
       "utc": "2026-11-08T23:02:31Z",
@@ -1056,9 +1034,19 @@
       "checkpoint": "2026-11-09T13:33:00Z",
       "model": "opus-4-8",
       "method": "3-way reconcile (pulls updated-desc 100: 0 after checkpoint; pulls created-desc 50: 0 after; master commits since checkpoint: 0). HEAD=#20190 already ledgered not_relevant at boundary."
+    },
+    {
+      "run_id": "run-20261110T000124Z-opus48-cloud",
+      "utc": "2026-11-10T00:02:28Z",
+      "result": "no-op",
+      "new_prs": 1,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-09T23:13:32Z",
+      "model": "opus-4-8",
+      "method": "3-way reconcile; sole new PR #20195 (Dependabot pom.xml bump) classified not_relevant."
     }
   ],
-  "last_run_note": "No PRs merged after checkpoint 2026-11-09T13:33:00Z. 3-way reconcile: pulls API (closed, updated-desc, 100) max merged_at==checkpoint, 0 after; pulls created-desc 50 -> 0 after; apache/pinot master commits since checkpoint == 0 (HEAD 3b23abd0 == PR #20190, already ledgered not_relevant at boundary). Checkpoint unchanged.",
+  "last_run_note": "No docs-relevant PRs merged after checkpoint 2026-11-09T23:02:01Z. 3-way reconcile: pulls updated-desc 100 -> 1 after (#20195); pulls created-desc 50 -> 1 after (#20195); apache/pinot master commits since checkpoint -> 1 (b4e07b73 == #20195). #20195 is a Dependabot pom.xml plugin bump, classified not_relevant. Checkpoint advanced to 2026-11-09T23:13:32Z.",
   "run_log": [
     {
       "run_id": "run-20261106T130139Z-opus48-1084",
