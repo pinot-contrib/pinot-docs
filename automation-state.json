@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-10T08:47:47Z",
-  "last_successful_run": "2026-11-10T09:04:00Z",
+  "last_processed_merged_at": "2026-11-10T09:57:27Z",
+  "last_successful_run": "2026-11-10T10:05:30Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20022,
-    "upstream_url": "https://github.com/apache/pinot/pull/20022",
-    "docs_pr": 1169,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1169",
+    "upstream_pr": 20168,
+    "upstream_url": "https://github.com/apache/pinot/pull/20168",
+    "docs_pr": 1170,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1170",
     "decision": "docs_created",
-    "note": "Failure detector probes the channels that carry queries; documented new pinot.broker.failure.detector.unanswered.* broker settings and NETTY_CONNECTION_SUSPECT_CHANNELS meter."
+    "note": "Pauseless tables reject an explicit time-based flush threshold (realtime.segment.flush.threshold.time and legacy .llc)."
   },
   "processed_prs": {
     "19862": {
@@ -934,11 +934,21 @@
       "reason": "Test-only change. Both changed files are under src/test/java: RealtimeSegmentConverterTest.java (+89) adds cases for omitted/non-finite/finite MV FLOAT values across mutable indexing, segment conversion/reopen, dictionary/raw storage and row/column-major builders; TableConfigUtilsTest.java (+32) adds protected/restricted consumption policy, upsert FULL/PARTIAL, out-of-order drop, and unknown validation-skip-token cases. Verified from merged diff: 121 additions, 0 deletions, every path matches /src/test/. No production code, config, API, SPI, or documented default changes.",
       "merged_at": "2026-11-10T08:47:47Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20151"
+    },
+    "20168": {
+      "decision": "docs_created",
+      "reason": "New validation rule in TableConfigUtils.validateIngestionConfig rejects an explicit realtime.segment.flush.threshold.time (and legacy .llc key) when pauseless consumption is enabled. Changes documented user behavior for pauseless table config. Verified key names from StreamConfigProperties and scope from merged diff: rejects new table with key, changed value, and enabling pauseless on a table with the key; existing pauseless table keeps unchanged value; default 6h threshold and table loading unaffected.",
+      "merged_at": "2026-11-10T09:57:27Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20168",
+      "docs_pr": 1170,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1170",
+      "docs_merged_at": "2026-11-10T10:04:55Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20168#issuecomment-6764531170"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "processed_1_not_relevant",
-  "last_run_id": "run-20261110T090141Z-opus48-cloud",
+  "last_run_result": "processed_1_docs_created",
+  "last_run_id": "run-20261110T100147Z-opus48-cloud",
   "lock": {
     "holder": null,
     "status": "released",
@@ -956,12 +966,12 @@
   },
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261110T100147Z-opus48-cloud",
-    "status": "acquired",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T10:01:56Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T10:31:56Z",
-    "prev_holder": "run-20261110T090141Z-opus48-cloud"
+    "released_at": "2026-11-10T10:05:30Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T100147Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1076,9 +1086,19 @@
       "checkpoint": "2026-11-10T08:47:47Z",
       "model": "opus-4-8",
       "method": "3-way reconcile (search is:merged merged:>ckpt=1; pulls updated-desc/100 filtered=1; apache/master commits since ckpt=1 => #20151). Triaged #20151: test-only (2 files, both /src/test/, 121+/0-), not_relevant. Checkpoint advanced to 2026-11-10T08:47:47Z."
+    },
+    {
+      "run_id": "run-20261110T100147Z-opus48-cloud",
+      "utc": "2026-11-10T10:05:41Z",
+      "result": "processed-1-docs-created",
+      "new_prs": 1,
+      "docs_prs_created": 1,
+      "checkpoint": "2026-11-10T09:57:27Z",
+      "model": "opus-4-8",
+      "method": "3-way reconcile (search is:merged merged:>ckpt=1; apache/master commits since ckpt=1) => #20168. Triaged docs-relevant: new validation rejecting time-based flush threshold for pauseless tables. Created+merged docs PR #1170, commented upstream."
     }
   ],
-  "last_run_note": "Processed #20151 (test-only, not_relevant). Checkpoint advanced 2026-11-10T02:30:48Z -> 2026-11-10T08:47:47Z. No docs PR.",
+  "last_run_note": "Processed #20168 (docs-relevant). Created+merged docs PR #1170; commented upstream. Checkpoint advanced 2026-11-10T08:47:47Z -> 2026-11-10T09:57:27Z.",
   "run_log": [
     {
       "run_id": "run-20261106T130139Z-opus48-1084",
