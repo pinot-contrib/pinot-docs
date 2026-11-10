@@ -1008,20 +1008,20 @@
  "last_run_result": "no-op",
  "last_run_id": "run-20261110T190129Z-opus48-cloud",
  "lock": {
-  "holder": null,
-  "status": "released",
-  "acquired_at": "2026-11-10T19:02:12Z",
-  "released_at": "2026-11-10T19:04:20Z",
+  "holder": "run-20261110T200132Z-opus48-cloud",
+  "status": "held",
+  "acquired_at": "2026-11-10T20:03:11Z",
+  "released_at": null,
   "lease_expires_at": null,
   "prev_holder": "run-20261110T190129Z-opus48-cloud"
  },
  "last_run_summary": "2 new merged PRs after checkpoint 2026-11-10T16:02:46Z: #20185 (Kafka 4.4.0/Confluent 8.4.0 dependency bump) and #20199 (parallel-test port-range fix). Both triaged not_relevant (dependency bump / test-infra only). 0 docs PRs created. Checkpoint advanced to 2026-11-10T19:00:34Z.",
  "run_history_note": "",
  "lease": {
-  "holder": null,
-  "status": "released",
-  "acquired_at": "2026-11-10T19:02:12Z",
-  "released_at": "2026-11-10T19:04:20Z",
+  "holder": "run-20261110T200132Z-opus48-cloud",
+  "status": "held",
+  "acquired_at": "2026-11-10T20:03:11Z",
+  "released_at": null,
   "lease_expires_at": null,
   "prev_holder": "run-20261110T190129Z-opus48-cloud"
  },
