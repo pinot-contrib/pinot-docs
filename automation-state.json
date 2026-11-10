@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-09T23:13:32Z",
-  "last_successful_run": "2026-11-10T00:02:28Z",
+  "last_successful_run": "2026-11-10T01:02:18Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -926,32 +926,29 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no-op",
-  "last_run_id": "run-20261110T000124Z-opus48-cloud",
+  "last_run_id": "run-20261110T010121Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261110T010121Z-opus48-cloud",
-    "status": "acquired",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T01:01:21Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T01:56:22Z",
-    "prev_holder": "run-20261109T100129Z-opus48-935"
+    "released_at": "2026-11-10T01:02:18Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T010121Z-opus48-cloud"
   },
   "last_run_summary": {
-    "run_id": "run-20261109T220113Z-opus48-cloud-783",
-    "run_utc": "2026-11-09T22:02:19Z",
-    "outcome": "noop",
-    "candidates_inventoried": 7,
-    "new_docs_relevant": 0,
-    "checkpoint_unchanged": "2026-11-09T13:33:00Z",
-    "note": "No upstream PRs merged strictly after checkpoint 2026-11-09T13:33:00Z; master HEAD is #20190 at checkpoint. Coverage reconciled via GitHub API (local clone origin/master is stale)."
+    "coverage": "merged:>2026-11-09T23:13:32Z returned 0 PRs",
+    "new_prs": 0,
+    "docs_prs": [],
+    "decisions": []
   },
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261110T010121Z-opus48-cloud",
-    "status": "acquired",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T01:01:21Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T01:56:22Z",
-    "prev_holder": "run-20261110T000124Z-opus48-cloud"
+    "released_at": "2026-11-10T01:02:18Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T010121Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1046,7 +1043,7 @@
       "method": "3-way reconcile; sole new PR #20195 (Dependabot pom.xml bump) classified not_relevant."
     }
   ],
-  "last_run_note": "No docs-relevant PRs merged after checkpoint 2026-11-09T23:02:01Z. 3-way reconcile: pulls updated-desc 100 -> 1 after (#20195); pulls created-desc 50 -> 1 after (#20195); apache/pinot master commits since checkpoint -> 1 (b4e07b73 == #20195). #20195 is a Dependabot pom.xml plugin bump, classified not_relevant. Checkpoint advanced to 2026-11-09T23:13:32Z.",
+  "last_run_note": "No PRs merged strictly after checkpoint 2026-11-09T23:13:32Z. Reconciled window [21:00Z, now]: 20186/20188/20189/20195 all merged <= checkpoint and already in ledger.",
   "run_log": [
     {
       "run_id": "run-20261106T130139Z-opus48-1084",
@@ -1255,6 +1252,14 @@
       "utc": "2026-11-09T17:03:16Z",
       "result": "no-op",
       "checkpoint": "2026-11-09T13:33:00Z",
+      "new_prs": 0,
+      "docs_prs": []
+    },
+    {
+      "run_id": "run-20261110T010121Z-opus48-cloud",
+      "utc": "2026-11-10T01:02:18Z",
+      "result": "no-op",
+      "checkpoint": "2026-11-09T23:13:32Z",
       "new_prs": 0,
       "docs_prs": []
     }
