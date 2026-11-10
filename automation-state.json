@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-10T02:30:48Z",
-  "last_successful_run": "2026-11-10T06:02:22Z",
+  "last_successful_run": "2026-11-10T07:02:24Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -931,8 +931,8 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op",
-  "last_run_id": "run-20261110T060126Z-opus48-cloud",
+  "last_run_result": "noop",
+  "last_run_id": "run-20261110T070111Z-opus48-cloud",
   "lock": {
     "holder": null,
     "status": "released",
@@ -941,15 +941,21 @@
     "lease_expires_at": null,
     "prev_holder": "run-20261110T060126Z-opus48-cloud"
   },
-  "last_run_summary": "3-way reconcile: pulls updated-desc 100 => 0 after ckpt; search is:pr is:merged merged:>ckpt total_count=0; apache/master authoritative HEAD=#20200 (merged 2026-11-10T02:30:48Z = checkpoint) already ledgered not_relevant. No new docs-relevant PRs.",
+  "last_run_summary": {
+    "run_id": "run-20261110T070111Z-opus48-cloud",
+    "result": "noop",
+    "coverage": "merged:>2026-11-10T02:30:48Z -> 0 PRs",
+    "checkpoint": "2026-11-10T02:30:48Z (unchanged)",
+    "docs_prs_created": 0
+  },
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261110T070111Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T07:01:19Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T07:56:19Z",
-    "prev_holder": "run-20261110T060126Z-opus48-cloud"
+    "released_at": "2026-11-10T07:02:24Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T070111Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1072,7 +1078,7 @@
       "checkpoint": "2026-11-10T02:30:48Z"
     }
   ],
-  "last_run_note": "3-way reconcile: pulls updated-desc 100 => 0 after ckpt; search is:pr is:merged merged:>ckpt total_count=0; apache/master authoritative HEAD=#20200 (merged 2026-11-10T02:30:48Z = checkpoint) already ledgered not_relevant. No new docs-relevant PRs.",
+  "last_run_note": "No merged PRs strictly after checkpoint 2026-11-10T02:30:48Z; apache/master HEAD still #20200 (88aa6a58). Preflight access verified (apache/pinot WRITE, pinot-contrib/pinot-docs ADMIN).",
   "run_log": [
     {
       "run_id": "run-20261106T130139Z-opus48-1084",
@@ -1400,6 +1406,13 @@
       "new_prs": 0,
       "docs_prs_created": 0,
       "checkpoint": "2026-11-10T02:30:48Z"
+    },
+    {
+      "run_id": "run-20261110T070111Z-opus48-cloud",
+      "utc": "2026-11-10T07:02:24Z",
+      "result": "noop",
+      "checkpoint": "2026-11-10T02:30:48Z",
+      "docs_prs": 0
     }
   ]
 }
