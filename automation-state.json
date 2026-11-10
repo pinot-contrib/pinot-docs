@@ -934,21 +934,21 @@
   "last_run_result": "no-op",
   "last_run_id": "run-20261110T050126Z-opus48-cloud",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-10T05:01:26Z",
-    "released_at": "2026-11-10T05:02:41Z",
-    "lease_expires_at": null,
+    "holder": "run-20261110T060126Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-10T06:01:26Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-10T06:31:26Z",
     "prev_holder": "run-20261110T050126Z-opus48-cloud"
   },
   "last_run_summary": "3-way reconcile: pulls updated-desc 100 => 0 after ckpt; search is:pr is:merged merged:>ckpt total_count=0; apache/master authoritative HEAD=#20200 (merged 2026-11-10T02:30:48Z = checkpoint) already ledgered not_relevant. No new docs-relevant PRs.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-10T05:01:26Z",
-    "released_at": "2026-11-10T05:02:41Z",
-    "lease_expires_at": null,
+    "holder": "run-20261110T060126Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-10T06:01:26Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-10T06:31:26Z",
     "prev_holder": "run-20261110T050126Z-opus48-cloud"
   },
   "recent_runs": [
