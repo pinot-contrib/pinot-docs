@@ -147,3 +147,20 @@
 - Validation: not run (no docs changes). Slack: not sent (no docs PRs created; webhook reserved for docs-PR runs).
 - Durable state: checkpoint **advanced** `2026-11-10T02:30:48Z` → `2026-11-10T08:47:47Z` (only the fully-triaged #20151 lay after the old boundary); ledger 101 → 102. `last_successful_run` advanced to 2026-11-10T09:04:27Z. Lease acquired + released via git-data API CAS; no overlap.
 - Blockers: none.
+
+## Run run-20261110T100147Z-opus48-cloud (2026-11-10T10:06:42Z UTC) — processed 1 (docs_created)
+
+- Incoming durable checkpoint read from `automation-state`: `last_processed_merged_at = 2026-11-10T08:47:47Z` (#20151); prior `last_successful_run = 2026-11-10T09:04:00Z`.
+- Preflight (read-only): gh authenticated as `xiangfu0` (GH_TOKEN; cosmetic "no token minted" wrapper stderr only — all API + git push ops succeed); apache/pinot = WRITE (push/comment OK); pinot-contrib/pinot-docs = ADMIN (push/PR/merge OK); `automation-state` branch read + write verified via contents-API CAS. No test PRs or Slack test messages sent.
+- Inventory of apache/pinot PRs merged **strictly after** checkpoint, reconciled 2 ways (agree, **1** new — #20168):
+  1. `search/issues q=repo:apache/pinot is:pr is:merged merged:>2026-11-10T08:47:47Z` → **1** (#20168).
+  2. apache/pinot master commits since checkpoint → #20168 (`1d0aae09`) + #20151 (boundary, already ledgered). No PRs between boundaries.
+- Triage **#20168 "Reject time-based flush threshold for pauseless tables"** (merged 2026-11-10T09:57:27Z) → **docs_created**.
+  - Verified from the merged diff, not prose: `TableConfigUtils.validateIngestionConfig` now rejects `realtime.segment.flush.threshold.time` and its legacy `.llc` key (`StreamConfigProperties.SEGMENT_FLUSH_THRESHOLD_TIME` + `LLC_SUFFIX`) when pauseless consumption is enabled.
+  - Scope confirmed from code: rejects a new table with the key, a changed value, and enabling pauseless on a table that already has the key; a stored pauseless table keeps its unchanged value (`hasSamePauselessTimeFlushThreshold`); the default 6-hour threshold and table loading are unaffected.
+  - Changes documented user-facing config behavior for pauseless tables → docs-relevant.
+- Docs change (minimal scope): updated `operate-pinot/pauseless-consumption.md` "Segment flush thresholds" section — marked the time threshold unsupported in the table, added a warning with rationale and exact scope, and added the upstream PR to References. No tests/benchmarks.
+- Validation: `git diff --check` clean; `uv run --with pyyaml python scripts/validate-docs.py --summary-only` → **PASS** (638 files, 3563 links, 0 broken file links). 10 broken-anchor warnings are **pre-existing** (none reference `pauseless-consumption.md`) — no new failures introduced.
+- Decisions: 1 (#20168 → docs_created). Docs PR **#1170** created against `latest`; checks "Validate changed docs"=SUCCESS, "Full docs audit (informational)"=SUCCESS; **squash-merged 2026-11-10T10:04:55Z** (merge commit `3ec3ffeb`), branch deleted. Upstream comment posted: https://github.com/apache/pinot/pull/20168#issuecomment-6764531170.
+- Durable state: checkpoint **advanced** `2026-11-10T08:47:47Z` → `2026-11-10T09:57:27Z`; ledger 102 → 103. `last_successful_run` advanced to 2026-11-10T10:06:42Z. Lease acquired (+30m) + released via contents-API CAS; self-held re-verified mid-run; no overlap.
+- Slack: compact summary sent (run created a docs PR). Blockers: none.
