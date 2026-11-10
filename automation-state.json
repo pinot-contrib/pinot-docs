@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-09T23:13:32Z",
-  "last_successful_run": "2026-11-10T01:02:18Z",
+  "last_successful_run": "2026-11-10T02:02:00Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -926,14 +926,14 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no-op",
-  "last_run_id": "run-20261110T010121Z-opus48-cloud",
+  "last_run_id": "run-20261110T020109Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261110T020109Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T02:01:09Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T02:51:09Z",
-    "prev_holder": null
+    "released_at": "2026-11-10T02:02:00Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T020109Z-opus48-cloud"
   },
   "last_run_summary": {
     "coverage": "merged:>2026-11-09T23:13:32Z returned 0 PRs",
@@ -943,12 +943,12 @@
   },
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261110T020109Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T02:01:09Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T02:51:09Z",
-    "prev_holder": null
+    "released_at": "2026-11-10T02:02:00Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T020109Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1043,7 +1043,7 @@
       "method": "3-way reconcile; sole new PR #20195 (Dependabot pom.xml bump) classified not_relevant."
     }
   ],
-  "last_run_note": "No PRs merged strictly after checkpoint 2026-11-09T23:13:32Z. Reconciled window [21:00Z, now]: 20186/20188/20189/20195 all merged <= checkpoint and already in ledger.",
+  "last_run_note": "No PRs merged strictly after checkpoint 2026-11-09T23:13:32Z. Inventory via search API (11 candidates since 2026-11-09, all merged_at<=checkpoint) + git-log reconciliation on origin/master (0 commits since checkpoint). Clean no-op.",
   "run_log": [
     {
       "run_id": "run-20261106T130139Z-opus48-1084",
@@ -1262,6 +1262,13 @@
       "checkpoint": "2026-11-09T23:13:32Z",
       "new_prs": 0,
       "docs_prs": []
+    },
+    {
+      "run_id": "run-20261110T020109Z-opus48-cloud",
+      "utc": "2026-11-10T02:02:00Z",
+      "result": "no-op",
+      "new_prs": 0,
+      "checkpoint": "2026-11-09T23:13:32Z"
     }
   ],
   "run_history": [
