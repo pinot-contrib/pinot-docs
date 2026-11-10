@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-10T02:30:48Z",
-  "last_successful_run": "2026-11-10T08:01:58Z",
+  "last_processed_merged_at": "2026-11-10T08:47:47Z",
+  "last_successful_run": "2026-11-10T09:04:00Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -928,11 +928,17 @@
       "reason": "Internal CI/build-infrastructure change only: modifies .github/workflows/scripts/pr-tests/.pinot_tests_two_lane_integration.sh to disable Develocity build scans for concurrent integration-test lanes, preventing listener-port collisions (target/develocity/maven-surefire-plugin-default-test.port) between lanes sharing a module directory. Single CI shell script; no user-facing behavior, config, API, SPI, defaults, or documented behavior changes.",
       "merged_at": "2026-11-10T02:30:48Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20200"
+    },
+    "20151": {
+      "decision": "not_relevant",
+      "reason": "Test-only change. Both changed files are under src/test/java: RealtimeSegmentConverterTest.java (+89) adds cases for omitted/non-finite/finite MV FLOAT values across mutable indexing, segment conversion/reopen, dictionary/raw storage and row/column-major builders; TableConfigUtilsTest.java (+32) adds protected/restricted consumption policy, upsert FULL/PARTIAL, out-of-order drop, and unknown validation-skip-token cases. Verified from merged diff: 121 additions, 0 deletions, every path matches /src/test/. No production code, config, API, SPI, or documented default changes.",
+      "merged_at": "2026-11-10T08:47:47Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20151"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "noop",
-  "last_run_id": "run-20261110T070111Z-opus48-cloud",
+  "last_run_result": "processed_1_not_relevant",
+  "last_run_id": "run-20261110T090141Z-opus48-cloud",
   "lock": {
     "holder": null,
     "status": "released",
@@ -950,30 +956,14 @@
   },
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261110T090141Z-opus48-cloud",
-    "status": "acquired",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T09:02:44Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T09:32:44Z",
-    "prev_holder": "run-20261110T070111Z-opus48-cloud"
+    "released_at": "2026-11-10T09:04:00Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T090141Z-opus48-cloud"
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261108T230124Z-opus48-1005",
-      "utc": "2026-11-08T23:02:31Z",
-      "result": "no_op",
-      "new_prs": 0,
-      "docs_created": 0,
-      "checkpoint": "2026-11-08T18:07:48Z"
-    },
-    {
-      "run_id": "run-20261109T000145Z-opus48-1267",
-      "utc": "2026-11-09T00:03:00Z",
-      "result": "no_op",
-      "checkpoint": "2026-11-08T18:07:48Z",
-      "new_prs": 0,
-      "docs_prs": []
-    },
     {
       "run_id": "run-20261109T010154Z-opus48-1211",
       "utc": "2026-11-09T01:04:00Z",
@@ -1076,9 +1066,19 @@
       "new_prs": 0,
       "docs_prs_created": 0,
       "checkpoint": "2026-11-10T02:30:48Z"
+    },
+    {
+      "run_id": "run-20261110T090141Z-opus48-cloud",
+      "utc": "2026-11-10T09:04:00Z",
+      "result": "processed-1",
+      "new_prs": 1,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-10T08:47:47Z",
+      "model": "opus-4-8",
+      "method": "3-way reconcile (search is:merged merged:>ckpt=1; pulls updated-desc/100 filtered=1; apache/master commits since ckpt=1 => #20151). Triaged #20151: test-only (2 files, both /src/test/, 121+/0-), not_relevant. Checkpoint advanced to 2026-11-10T08:47:47Z."
     }
   ],
-  "last_run_note": "No merged PRs strictly after checkpoint 2026-11-10T02:30:48Z; apache/master HEAD still #20200 (88aa6a58). Preflight access verified (apache/pinot WRITE, pinot-contrib/pinot-docs ADMIN).",
+  "last_run_note": "Processed #20151 (test-only, not_relevant). Checkpoint advanced 2026-11-10T02:30:48Z -> 2026-11-10T08:47:47Z. No docs PR.",
   "run_log": [
     {
       "run_id": "run-20261106T130139Z-opus48-1084",

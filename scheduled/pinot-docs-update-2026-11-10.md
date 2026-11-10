@@ -131,3 +131,19 @@
 - Durable state: checkpoint **unchanged** at `2026-11-10T02:30:48Z`; ledger size 101 (unchanged). `last_successful_run` advanced to 2026-11-10T08:02:22Z. Lease acquired + released via Git contents API CAS; no overlap.
 - Note: prior 07:02:24Z run advanced `last_successful_run` in state but left no daily-report entry (cosmetic gap, no data impact; checkpoint/ledger consistent).
 - Blockers: none.
+
+## Run run-20261110T090141Z-opus48-cloud (2026-11-10T09:04:27Z UTC) — processed 1 (not_relevant)
+
+- Incoming durable checkpoint read from `automation-state`: `last_processed_merged_at = 2026-11-10T02:30:48Z` (#20200); prior `last_successful_run = 2026-11-10T08:01:58Z`.
+- Preflight (read-only): gh authenticated as `xiangfu0` (GH_TOKEN); apache/pinot = WRITE (push/comment OK); pinot-contrib/pinot-docs = ADMIN (push/PR/merge OK); `automation-state` branch read + write verified via git-data API CAS. No test PRs or Slack test messages sent.
+- Inventory of apache/pinot PRs merged **strictly after** checkpoint, reconciled 3 ways (all agree, **1** new — #20151):
+  1. `search/issues q=repo:apache/pinot is:pr is:merged merged:>2026-11-10T02:30:48Z` → **1** (#20151).
+  2. `pulls?state=closed&sort=updated&direction=desc&per_page=100` filtered `merged_at > checkpoint` → **1** (#20151).
+  3. apache/pinot master commits since checkpoint → **1** (`3399014aa`, #20151).
+- Triage **#20151 "Cover configuration validation and FLOAT segment preservation"** (merged 2026-11-10T08:47:47Z) → **not_relevant** (test-only).
+  - Verified from the merged diff, not prose: exactly **2** changed files, both under `src/test/java` — `RealtimeSegmentConverterTest.java` (+89) and `TableConfigUtilsTest.java` (+32); **121 additions, 0 deletions**.
+  - Adds test coverage only (MV FLOAT preservation across mutable indexing/segment conversion/reopen for dictionary/raw + row/column-major builders; upsert consumption-policy and validation-skip-token config-validation cases). No production code, config, API, SPI, or documented-default changes. Skipped per routine (internal test coverage).
+- Decisions: 1 (#20151 → not_relevant). Docs PRs created: **0**. Upstream comments: **0** (not warranted for a skip).
+- Validation: not run (no docs changes). Slack: not sent (no docs PRs created; webhook reserved for docs-PR runs).
+- Durable state: checkpoint **advanced** `2026-11-10T02:30:48Z` → `2026-11-10T08:47:47Z` (only the fully-triaged #20151 lay after the old boundary); ledger 101 → 102. `last_successful_run` advanced to 2026-11-10T09:04:27Z. Lease acquired + released via git-data API CAS; no overlap.
+- Blockers: none.
