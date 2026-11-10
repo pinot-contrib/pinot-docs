@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-10T09:57:27Z",
-  "last_successful_run": "2026-11-10T12:02:43Z",
+  "last_successful_run": "2026-11-10T13:03:37Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -948,7 +948,7 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no-op",
-  "last_run_id": "run-20261110T120123Z-opus48-cloud",
+  "last_run_id": "run-20261110T130118Z-opus48-cloud",
   "lock": {
     "holder": null,
     "status": "released",
@@ -957,15 +957,15 @@
     "lease_expires_at": null,
     "prev_holder": "run-20261110T060126Z-opus48-cloud"
   },
-  "last_run_summary": "No merged apache/pinot PRs after checkpoint 2026-11-10T09:57:27Z. 3-way reconcile all empty (search is:merged merged:>ckpt=0; pulls closed/updated-desc filtered=0; apache/master commits since ckpt=0). Master tip #20168 == last processed pair (docs PR #1170). No-op; checkpoint unchanged.",
+  "last_run_summary": "No merged apache/pinot PRs after checkpoint 2026-11-10T09:57:27Z. 3-way reconcile all empty (search is:pr is:merged sort=updated, 150 candidates, none with merged_at>ckpt; top recent (>20150) merged_at scan=0; apache/master commits since ckpt=0). Master tip #20168 == last processed pair (docs PR #1170). No-op; checkpoint unchanged.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261110T130118Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T13:01:28Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T13:51:28Z",
-    "prev_holder": "run-20261110T120123Z-opus48-cloud"
+    "released_at": "2026-11-10T13:03:37Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T130118Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1084,7 +1084,7 @@
       "method": "3-way reconcile, all empty"
     }
   ],
-  "last_run_note": "no-op; no Slack sent",
+  "last_run_note": "Local origin remote points to fork xiangfu0/pinot (lagging); used apache/pinot GitHub API as authoritative source.",
   "run_log": [
     {
       "run_id": "run-20261106T130139Z-opus48-1084",
@@ -1310,6 +1310,13 @@
       "result": "no-op",
       "new_prs": 0,
       "checkpoint": "2026-11-09T23:13:32Z"
+    },
+    {
+      "run_id": "run-20261110T130118Z-opus48-cloud",
+      "utc": "2026-11-10T13:03:37Z",
+      "result": "no-op",
+      "checkpoint": "2026-11-10T09:57:27Z",
+      "new_docs_prs": 0
     }
   ],
   "run_history": [
