@@ -950,21 +950,21 @@
   "last_run_result": "no-op",
   "last_run_id": "run-20261110T150131Z-opus48-cloud",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-10T15:01:31Z",
-    "released_at": "2026-11-10T15:03:07Z",
-    "lease_expires_at": null,
+    "holder": "run-20261110T160134Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-10T16:01:34Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-10T16:31:34Z",
     "prev_holder": "run-20261110T150131Z-opus48-cloud"
   },
   "last_run_summary": "No merged apache/pinot PRs after checkpoint 2026-11-10T09:57:27Z. 4-way reconcile all empty (search is:pr is:merged merged:>ckpt total=0; pulls updated-desc/100=0; pulls created-desc/50=0; apache/master commits since ckpt=0). Master HEAD #20168 (merged 2026-11-10T09:57:26Z) == last processed pair (docs PR #1170). No-op; checkpoint unchanged.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-10T15:01:31Z",
-    "released_at": "2026-11-10T15:03:07Z",
-    "lease_expires_at": null,
+    "holder": "run-20261110T160134Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-10T16:01:34Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-10T16:31:34Z",
     "prev_holder": "run-20261110T150131Z-opus48-cloud"
   },
   "recent_runs": [
