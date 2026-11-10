@@ -302,3 +302,23 @@
 
 ### Blockers
 - None.
+
+## Run run-20261110T210153Z-opus48-cloud (2026-11-10T21:04:57Z) — no-op (0 triaged)
+
+- Incoming durable checkpoint from `automation-state`: `last_processed_merged_at = 2026-11-10T19:00:34Z` (#20199); prior `last_successful_run = 2026-11-10T20:03:31Z`; lock found cleanly `released` (prev holder run-20261110T200132Z, no overlap). Lock+lease acquired (+50m) via GitHub **Contents-API CAS** (blob sha 8615f867 → 6d3e1a50).
+- Preflight (read-only): gh authenticated as `xiangfu0` (the "no token minted" wrapper stderr is cosmetic — authenticated-only endpoints return data: `collaborators/xiangfu0/permission` = **write** on apache/pinot, **admin** on pinot-docs; rate limit 15000). No test PRs or Slack test messages sent.
+- **Durable write path:** `git push` to `pinot-contrib/pinot-docs` is blocked — the push wrapper only accepts `cs_<session-id>/`-prefixed branch refs, rejecting the bare `automation-state` name. All durable mutations therefore go through the GitHub **Contents API** (PUT with the current blob SHA as the CAS token; a stale SHA ⇒ 409). Round-trip write verified via the `.automation-probe` file before mutating state. Large payloads passed via `jq --rawfile` + `gh api --input` to avoid argv length limits.
+- Repos: local pinot checkout fetched `apache/pinot` master directly (`origin` = stale `xiangfu0/pinot` fork). apache/master tip = `72bc378e` (#20199, committer 2026-11-10T19:00:33Z UTC). pinot-docs cloned at `origin/latest` (`3ec3ffeb`).
+- Inventory of apache/pinot PRs merged **strictly after** checkpoint, reconciled 3 ways (all agree, **0** new):
+  1. `search/issues q=repo:apache/pinot is:pr is:merged merged:>2026-11-10T19:00:34Z` → total_count **0**.
+  2. `gh pr list --state merged` (newest 60), filtered `mergedAt > checkpoint` → **0**.
+  3. apache/master `git log` → no commits strictly after checkpoint; tip `72bc378`=#20199 committer date 19:00:33Z ≤ checkpoint (merged-at 19:00:34Z, already ledgered not_relevant).
+
+### Outputs
+- Triaged: **0**. Docs PRs created: **0**. Upstream comments: **0**. Validation: not run (no docs changes). Slack: not sent (no-op).
+
+### Durable state
+- Checkpoint **unchanged** `2026-11-10T19:00:34Z`. Ledger unchanged (110). `last_successful_run` advanced to 2026-11-10T21:04:57Z. Lock+lease acquired and released via Contents-API CAS; self-held re-verified before release; no overlap.
+
+### Blockers
+- None. (Noted operational constraint: durable writes must use the Contents/Git-Data API, not `git push`, due to the session branch-prefix push wrapper.)
