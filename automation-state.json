@@ -974,21 +974,21 @@
   "last_run_result": "no-op",
   "last_run_id": "run-20261110T160134Z-opus48-cloud",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-10T16:01:34Z",
-    "released_at": "2026-11-10T16:03:08Z",
-    "lease_expires_at": null,
+    "holder": "run-20261110T170124Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-10T17:01:31Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-10T17:31:31Z",
     "prev_holder": "run-20261110T160134Z-opus48-cloud"
   },
   "last_run_summary": "Triaged 4 new merged PRs (20182,20206,20207,20208); all not docs-relevant. 0 docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-10T16:01:34Z",
-    "released_at": "2026-11-10T16:03:08Z",
-    "lease_expires_at": null,
+    "holder": "run-20261110T170124Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-10T17:01:31Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-10T17:31:31Z",
     "prev_holder": "run-20261110T160134Z-opus48-cloud"
   },
   "recent_runs": [
