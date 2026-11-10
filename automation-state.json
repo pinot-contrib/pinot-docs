@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-10T09:57:27Z",
-  "last_successful_run": "2026-11-10T15:03:07Z",
+  "last_processed_merged_at": "2026-11-10T15:45:57Z",
+  "last_successful_run": "2026-11-10T16:03:08Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -944,28 +944,52 @@
       "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1170",
       "docs_merged_at": "2026-11-10T10:04:55Z",
       "upstream_comment": "https://github.com/apache/pinot/pull/20168#issuecomment-6764531170"
+    },
+    "20182": {
+      "decision": "not_relevant",
+      "reason": "Internal controller correctness fix: TableMetadataReader#getSegmentsMetadata table-level path passed a server->endpoint map to CompletionServiceHelper (which expects endpoint->server), so responses collided under a null key and the API returned only the last server's segments (~replication/N). Fix passes endpoints.inverse() and renames a misleading variable; adds TableMetadataReaderTest. No documented API contract, config, default, or user-facing surface change.",
+      "merged_at": "2026-11-10T15:45:57Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20182"
+    },
+    "20206": {
+      "decision": "not_relevant",
+      "reason": "Dependabot pom.xml-only bump: io.opentelemetry.contrib:opentelemetry-gcp-resources 1.62.0-alpha -> 1.62.1-alpha. Build dependency only; no user-facing documented behavior change.",
+      "merged_at": "2026-11-10T15:32:44Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20206"
+    },
+    "20207": {
+      "decision": "not_relevant",
+      "reason": "Dependabot pom.xml-only bump: com.google.cloud:libraries-bom 26.92.0 -> 26.93.0. Build dependency only; no user-facing documented behavior change.",
+      "merged_at": "2026-11-10T15:03:37Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20207"
+    },
+    "20208": {
+      "decision": "not_relevant",
+      "reason": "Dependabot pom.xml-only bump: io.opentelemetry:opentelemetry-bom 1.67.0 -> 1.68.0. Build dependency only; no user-facing documented behavior change.",
+      "merged_at": "2026-11-10T15:03:09Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20208"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no-op",
-  "last_run_id": "run-20261110T150131Z-opus48-cloud",
+  "last_run_id": "run-20261110T160134Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261110T160134Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T16:01:34Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T16:31:34Z",
-    "prev_holder": "run-20261110T150131Z-opus48-cloud"
+    "released_at": "2026-11-10T16:03:08Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T160134Z-opus48-cloud"
   },
-  "last_run_summary": "No merged apache/pinot PRs after checkpoint 2026-11-10T09:57:27Z. 4-way reconcile all empty (search is:pr is:merged merged:>ckpt total=0; pulls updated-desc/100=0; pulls created-desc/50=0; apache/master commits since ckpt=0). Master HEAD #20168 (merged 2026-11-10T09:57:26Z) == last processed pair (docs PR #1170). No-op; checkpoint unchanged.",
+  "last_run_summary": "Triaged 4 new merged PRs (20182,20206,20207,20208); all not docs-relevant. 0 docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261110T160134Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T16:01:34Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T16:31:34Z",
-    "prev_holder": "run-20261110T150131Z-opus48-cloud"
+    "released_at": "2026-11-10T16:03:08Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T160134Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1094,7 +1118,7 @@
       "method": "4-way reconcile all empty (search/pulls-updated/pulls-created/master-commits); HEAD #20168 already ledgered docs_created (PR #1170)."
     }
   ],
-  "last_run_note": "No-op run at 2026-11-10T15:03:07Z. No upstream PRs merged after checkpoint 2026-11-10T09:57:27Z (verified via pulls API 400 PRs, search API 0 results, master HEAD=#20168). Checkpoint unchanged.",
+  "last_run_note": "4 PRs after checkpoint 2026-11-10T09:57:27Z: #20182 internal controller segment-metadata correctness fix (no documented contract change); #20206/#20207/#20208 dependabot pom bumps. No docs changes. Checkpoint advanced to 2026-11-10T15:45:57Z.",
   "run_log": [
     {
       "run_id": "run-20261106T130139Z-opus48-1084",
@@ -1443,6 +1467,20 @@
       "result": "noop",
       "checkpoint": "2026-11-10T02:30:48Z",
       "docs_prs": 0
+    },
+    {
+      "run_id": "run-20261110T160134Z-opus48-cloud",
+      "utc": "2026-11-10T16:03:08Z",
+      "result": "no-op",
+      "new_prs": 4,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-10T15:45:57Z",
+      "triaged": [
+        20182,
+        20206,
+        20207,
+        20208
+      ]
     }
   ]
 }
