@@ -2553,3 +2553,12 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - Checkpoint ADVANCED 2026-11-10T09:57:27Z → **2026-11-10T15:45:57Z** (max merged_at of the 4 fully-triaged PRs, #20182). Ledger 103 → 107.
 - Preflight: gh auth OK (xiangfu0 / GH_TOKEN; cosmetic "no token minted" wrapper stderr only — all API ops succeed). apache/pinot perm=pull/push/triage, pinot-contrib/pinot-docs perm=ADMIN. Durable read+write verified (lock+lease acquired +30m via contents PUT CAS, self-held confirmed before mutate, released at end; no overlap).
 - No docs-repo (latest) working-tree changes; validation not run (no docs changes). pinot checkout fetched+rebased on origin/master (up to date).
+
+## 2026-11-10T17:xx — run-20261110T170124Z-opus48-cloud (processed 1; not_relevant; checkpoint advanced to 2026-11-10T16:02:46Z)
+- Incoming checkpoint 2026-11-10T15:45:57Z (#20182); prior last_successful_run 2026-11-10T16:03:08Z (lock cleanly released by prior run; no overlap). **1** merged apache/pinot PR strictly after boundary: **#20205** (merged 2026-11-10T16:02:46Z).
+- Coverage reconcile (2 methods agree, no gaps): (1) search/issues is:pr is:merged merged:>=ckpt → 2 items (#20182 at boundary already ledgered; #20205 new); (2) apache master commits API since ckpt → #20205 (dc178c17, current master HEAD) + #20182 (boundary). No PRs between boundaries.
+- **#20205 "Bump software.amazon.awssdk:bom 2.57.10→2.57.11"** → **not_relevant**. Dependabot: single-line pom.xml change (+1/-1), author dependabot[bot]. No user-facing behavior/config/API/SPI/default/documented-behavior change.
+- Docs PRs created: **0**. Upstream comments: **0** (none warranted for a skip). No Slack (reserved for runs that create docs PRs).
+- Checkpoint ADVANCED 2026-11-10T15:45:57Z → **2026-11-10T16:02:46Z** (#20205 merged_at, sole triaged PR). Ledger 107 → 108.
+- Preflight: gh auth OK (xiangfu0 / GH_TOKEN; cosmetic "no token minted" wrapper stderr only — all API + CAS writes succeed). apache/pinot perm=pull/push/triage, pinot-contrib/pinot-docs perm=ADMIN. Durable read+write verified (lock+lease acquired +30m via contents PUT CAS, self-held re-verified before mutate, released at end; no overlap).
+- No docs-repo (latest) working-tree changes; validation not run (no docs changes). /workspace/pinot origin is stale xiangfu0/pinot fork; inventory uses apache API directly so coverage unaffected.

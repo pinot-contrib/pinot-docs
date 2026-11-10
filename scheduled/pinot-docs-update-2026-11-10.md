@@ -217,3 +217,27 @@
 
 ### Blockers
 - None.
+
+## Run run-20261110T170124Z-opus48-cloud (2026-11-10T17:xx UTC) — no-op (1 triaged, not_relevant)
+
+- Incoming durable checkpoint read from `automation-state`: `last_processed_merged_at = 2026-11-10T15:45:57Z` (#20182); prior `last_successful_run = 2026-11-10T16:03:08Z` (lock found cleanly `released`, no overlap).
+- Preflight (read-only): gh authenticated as `xiangfu0` (cosmetic "no token minted" wrapper stderr only — all API + CAS writes succeed); apache/pinot = pull/push/triage (push/comment OK); pinot-contrib/pinot-docs = ADMIN (push/PR/merge OK); `automation-state` branch read + write round-trip verified via contents-API CAS. No test PRs or Slack test messages sent.
+- Repos: local pinot checkout's `origin` is the stale `xiangfu0/pinot` fork; used authoritative `apache/pinot` API (commits + search) for inventory/reconciliation instead.
+- Inventory of apache/pinot PRs merged **strictly after** checkpoint, reconciled 2 ways (agree, **1** new — #20205):
+  1. `search/issues q=repo:apache/pinot is:pr is:merged merged:>=2026-11-10T15:45:57Z` → 2 items (#20182 at boundary, already ledgered; #20205 new).
+  2. apache/pinot master commits API since checkpoint → #20205 (`dc178c17`, current master HEAD) + #20182 (boundary). No PRs between boundaries.
+
+### Decisions
+| PR | Title | merged_at (UTC) | Decision | Rationale |
+|----|-------|-----------------|----------|-----------|
+| [#20205](https://github.com/apache/pinot/pull/20205) | Bump software.amazon.awssdk:bom 2.57.10→2.57.11 | 2026-11-10T16:02:46Z | not_relevant | Dependabot dependency bump; single-line `pom.xml` change (+1/-1), author `dependabot[bot]`; no user-facing behavior, config, API, SPI, default, or documented-behavior change. |
+
+### Outputs
+- Docs PRs created: **0**. Upstream comments: **0** (not warranted for a skip).
+- Validation: not run (no docs changes produced). Slack: not sent (no-op; webhook reserved for runs that create docs PRs).
+
+### Durable state
+- Checkpoint **advanced** `2026-11-10T15:45:57Z` → `2026-11-10T16:02:46Z` (#20205 merged_at, sole triaged PR). Ledger 107 → 108. `last_successful_run` advanced. Lock+lease acquired (+30m) and released via contents-API CAS; self-held re-verified before mutate; no overlap.
+
+### Blockers
+- None.
