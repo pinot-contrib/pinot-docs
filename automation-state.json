@@ -934,21 +934,21 @@
   "last_run_result": "no-op",
   "last_run_id": "run-20261110T040143Z-opus48-cloud",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-10T04:03:47Z",
-    "released_at": "2026-11-10T04:04:51Z",
-    "lease_expires_at": null,
+    "holder": "run-20261110T050126Z-opus48-cloud",
+    "status": "acquired",
+    "acquired_at": "2026-11-10T05:01:26Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-10T05:31:26Z",
     "prev_holder": "run-20261110T040143Z-opus48-cloud"
   },
   "last_run_summary": "1 new upstream PR after checkpoint (#20200); classified not_relevant (CI infra). 0 docs PRs created. Checkpoint advanced to 2026-11-10T02:30:48Z.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-10T04:03:47Z",
-    "released_at": "2026-11-10T04:04:51Z",
-    "lease_expires_at": null,
+    "holder": "run-20261110T050126Z-opus48-cloud",
+    "status": "acquired",
+    "acquired_at": "2026-11-10T05:01:26Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-10T05:31:26Z",
     "prev_holder": "run-20261110T040143Z-opus48-cloud"
   },
   "recent_runs": [
