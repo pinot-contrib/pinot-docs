@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-09T23:13:32Z",
-  "last_successful_run": "2026-11-10T02:02:00Z",
+  "last_processed_merged_at": "2026-11-10T02:30:48Z",
+  "last_successful_run": "2026-11-10T03:02:55Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -922,33 +922,34 @@
       "upstream_url": "https://github.com/apache/pinot/pull/20195",
       "merged_at": "2026-11-09T23:13:32Z",
       "run_id": "run-20261110T000124Z-opus48-cloud"
+    },
+    "20200": {
+      "decision": "not_relevant",
+      "reason": "Internal CI/build-infrastructure change only: modifies .github/workflows/scripts/pr-tests/.pinot_tests_two_lane_integration.sh to disable Develocity build scans for concurrent integration-test lanes, preventing listener-port collisions (target/develocity/maven-surefire-plugin-default-test.port) between lanes sharing a module directory. Single CI shell script; no user-facing behavior, config, API, SPI, defaults, or documented behavior changes.",
+      "merged_at": "2026-11-10T02:30:48Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20200"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no-op",
-  "last_run_id": "run-20261110T020109Z-opus48-cloud",
+  "last_run_id": "run-20261110T030133Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261110T030133Z-opus48-cloud",
-    "status": "acquired",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T03:01:45Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T03:56:45Z",
-    "prev_holder": "run-20261110T020109Z-opus48-cloud"
+    "released_at": "2026-11-10T03:02:55Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T030133Z-opus48-cloud"
   },
-  "last_run_summary": {
-    "coverage": "merged:>2026-11-09T23:13:32Z returned 0 PRs",
-    "new_prs": 0,
-    "docs_prs": [],
-    "decisions": []
-  },
+  "last_run_summary": "1 new upstream PR after checkpoint (#20200); classified not_relevant (CI infra). 0 docs PRs created. Checkpoint advanced to 2026-11-10T02:30:48Z.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261110T030133Z-opus48-cloud",
-    "status": "acquired",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T03:01:45Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T03:56:45Z",
-    "prev_holder": "run-20261110T020109Z-opus48-cloud"
+    "released_at": "2026-11-10T03:02:55Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T030133Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1043,7 +1044,7 @@
       "method": "3-way reconcile; sole new PR #20195 (Dependabot pom.xml bump) classified not_relevant."
     }
   ],
-  "last_run_note": "No PRs merged strictly after checkpoint 2026-11-09T23:13:32Z. Inventory via search API (11 candidates since 2026-11-09, all merged_at<=checkpoint) + git-log reconciliation on origin/master (0 commits since checkpoint). Clean no-op.",
+  "last_run_note": "Reconciled search API against upstream/master commits; coverage complete through merge of #20200.",
   "run_log": [
     {
       "run_id": "run-20261106T130139Z-opus48-1084",
@@ -1343,6 +1344,18 @@
       "outcome": "noop",
       "merged_prs_after_ckpt": 0,
       "checkpoint": "2026-11-08T18:07:48Z"
+    },
+    {
+      "run_id": "run-20261110T030133Z-opus48-cloud",
+      "utc": "2026-11-10T03:02:55Z",
+      "outcome": "noop",
+      "merged_prs_after_ckpt": 1,
+      "new_docs_prs": 0,
+      "checkpoint": "2026-11-10T02:30:48Z",
+      "model": "claude-opus-4-8",
+      "decisions": {
+        "20200": "not_relevant"
+      }
     }
   ]
 }
