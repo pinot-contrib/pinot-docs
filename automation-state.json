@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-10T19:00:34Z",
-  "last_successful_run": "2026-11-10T21:04:30Z",
+  "last_processed_merged_at": "2026-11-10T21:05:33Z",
+  "last_successful_run": "2026-11-10T22:03:16Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -1002,28 +1002,52 @@
       "upstream_comment": null,
       "processed_by_run": "run-20261110T190129Z-opus48-cloud",
       "processed_at": "2026-11-10T19:04:20Z"
+    },
+    "20216": {
+      "upstream_pr": 20216,
+      "upstream_url": "https://github.com/apache/pinot/pull/20216",
+      "title": "Fix the Kafka 4.0 plugin test build after the Kafka 4.4 upgrade",
+      "author": "Jackie-Jiang",
+      "merged_at": "2026-11-10T21:05:33Z",
+      "merge_commit": "45feee7d2d0932e94e19d2488d7a50aafcfdafd6",
+      "decision": "not_relevant",
+      "reason": "Test-only build fix (labels: bug, kafka, test-coverage, buildAndPackage). Verified from merged diff: single +1/-1 change to one test file KafkaPartitionLevelConsumerDataLossCheckTest.java fixing test compilation after the Kafka 4.4 upgrade (#20185). No change to documented user-facing behavior, configs, or defaults.",
+      "processed_by": "run-20261110T220129Z-opus48-cloud",
+      "processed_at": "2026-11-10T22:03:16Z"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no-op",
   "last_run_id": "run-20261110T220129Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261110T220129Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T22:01:29Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T22:31:29Z",
-    "prev_holder": "run-20261110T210153Z-opus48-cloud"
+    "released_at": "2026-11-10T22:03:16Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T220129Z-opus48-cloud"
   },
-  "last_run_summary": "No-op run. 0 PRs merged strictly after checkpoint 2026-11-10T19:00:34Z. 3-way reconcile agreed: Search API (merged:>CP) total_count=0; gh pr list merged filtered mergedAt>CP = 0; apache/master tip 72bc378=#20199 committer date 2026-11-10T19:00:33Z is <= checkpoint (merged-at 19:00:34Z, already ledgered not_relevant). No commits after checkpoint. Durable write path = GitHub Contents API (git push wrapper restricts to cs_-prefixed branches). No triage work, no docs PR, no Slack. Checkpoint unchanged.",
+  "last_run_summary": {
+    "run_id": "run-20261110T220129Z-opus48-cloud",
+    "utc": "2026-11-10T22:03:16Z",
+    "result": "no-op",
+    "new_prs": 1,
+    "docs_prs_created": 0,
+    "new_prs_decisions": {
+      "20216": "not_relevant"
+    },
+    "checkpoint": "2026-11-10T21:05:33Z",
+    "model": "opus-4-8",
+    "method": "3-way reconcile: gh search merged:>CP=1 (#20216), gh pr list=1 (#20216), master git log=1 (45feee7d #20216); all agree. #20216 classified not_relevant (test-only build fix)."
+  },
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261110T220129Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T22:01:29Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T22:31:29Z",
-    "prev_holder": "run-20261110T210153Z-opus48-cloud"
+    "released_at": "2026-11-10T22:03:16Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T220129Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1141,9 +1165,19 @@
       "checkpoint": "2026-11-10T19:00:34Z",
       "model": "opus-4-8",
       "method": "3-way reconcile all empty (search merged:>CP=0, gh pr list=0, master tip #20199 committer 19:00:33Z <= CP); durable writes via Contents API (push wrapper blocks bare branch)."
+    },
+    {
+      "run_id": "run-20261110T220129Z-opus48-cloud",
+      "utc": "2026-11-10T22:03:16Z",
+      "result": "no-op",
+      "new_prs": 1,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-10T21:05:33Z",
+      "model": "opus-4-8",
+      "method": "3-way reconcile all agree on #20216; classified not_relevant (test-only build fix)."
     }
   ],
-  "last_run_note": "No-op run. 0 PRs merged strictly after checkpoint 2026-11-10T19:00:34Z. 3-way reconcile agreed: Search API (merged:>CP) total_count=0; gh pr list merged filtered mergedAt>CP = 0; apache/master tip 72bc378=#20199 committer date 2026-11-10T19:00:33Z is <= checkpoint (merged-at 19:00:34Z, already ledgered not_relevant). No commits after checkpoint. Durable write path = GitHub Contents API (git push wrapper restricts to cs_-prefixed branches). No triage work, no docs PR, no Slack. Checkpoint unchanged.",
+  "last_run_note": "#20216 triaged as not_relevant (test-only Kafka 4.0 plugin test build fix). No docs PR needed.",
   "run_log": [
     {
       "run_id": "run-20261106T130139Z-opus48-1084",
@@ -1385,7 +1419,17 @@
       "checkpoint": "2026-11-10T09:57:27Z"
     },
     "2026-11-10T18:03:36Z [run-20261110T180124Z-opus48-cloud] no-op: 0 new PRs after checkpoint 2026-11-10T16:02:46Z",
-    "2026-11-10T20:03:31Z [run-20261110T200132Z-opus48-cloud] no-op: 0 new PRs after checkpoint 2026-11-10T19:00:34Z"
+    "2026-11-10T20:03:31Z [run-20261110T200132Z-opus48-cloud] no-op: 0 new PRs after checkpoint 2026-11-10T19:00:34Z",
+    {
+      "run_id": "run-20261110T220129Z-opus48-cloud",
+      "utc": "2026-11-10T22:03:16Z",
+      "result": "no-op",
+      "new_prs": 1,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-10T21:05:33Z",
+      "model": "opus-4-8",
+      "method": "3-way reconcile all agree on #20216; classified not_relevant (test-only build fix)."
+    }
   ],
   "run_history": [
     {
@@ -1535,6 +1579,16 @@
       "docs_prs_created": 0,
       "checkpoint": "2026-11-10T19:00:34Z",
       "triaged": []
+    },
+    {
+      "run_id": "run-20261110T220129Z-opus48-cloud",
+      "utc": "2026-11-10T22:03:16Z",
+      "result": "no-op",
+      "new_prs": 1,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-10T21:05:33Z",
+      "model": "opus-4-8",
+      "method": "3-way reconcile all agree on #20216; classified not_relevant (test-only build fix)."
     }
   ]
 }

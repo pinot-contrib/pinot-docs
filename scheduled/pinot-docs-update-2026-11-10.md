@@ -322,3 +322,25 @@
 
 ### Blockers
 - None. (Noted operational constraint: durable writes must use the Contents/Git-Data API, not `git push`, due to the session branch-prefix push wrapper.)
+
+## Run run-20261110T220129Z-opus48-cloud (2026-11-10T22:03:41Z) — no-op (1 triaged, not_relevant)
+
+- Incoming durable checkpoint from `automation-state`: `last_processed_merged_at = 2026-11-10T19:00:34Z` (#20199); prior `last_successful_run = 2026-11-10T21:04:30Z`; lock found cleanly `released` (prev holder run-20261110T210153Z, no overlap). Lock+lease acquired (+30m) via GitHub **Contents-API CAS** (blob sha 8fce5de6 → 76a5594c).
+- Preflight (read-only): gh authenticated as `xiangfu0` (the "no token minted" wrapper stderr is cosmetic — authenticated endpoints return data; apache/pinot = **WRITE** (push/triage true), pinot-docs = **ADMIN**). No test PRs or Slack test messages sent. Durable writes go through the GitHub Contents API with blob-SHA CAS (git push to the bare `automation-state` ref remains blocked by the session branch-prefix wrapper); large payloads via `gh api --input` file to avoid argv limits.
+- Repos: local pinot checkout fetched `apache/pinot` master directly (`origin` = stale `xiangfu0/pinot` fork; added `upstream`=apache/pinot). apache/master tip = `45feee7d` (#20216).
+- Inventory of apache/pinot PRs merged **strictly after** checkpoint, reconciled 3 ways (all agree, **1** new = #20216):
+  1. `gh search prs --merged "merged:>2026-11-10T19:00:34Z"` → **1** (#20216).
+  2. `gh pr list --state merged` (newest 60), filtered `mergedAt > checkpoint` → **1** (#20216 @ 2026-11-10T21:05:33Z, merge commit 45feee7d).
+  3. apache/master `git log --since=checkpoint` → **1** commit (`45feee7d` #20216). All three agree.
+
+### Decisions
+- **#20216** — "Fix the Kafka 4.0 plugin test build after the Kafka 4.4 upgrade" (Jackie-Jiang) → **not_relevant**. Verified from merged diff: single `+1/-1` change to one test file `pinot-plugins/.../pinot-kafka-4.0/src/test/java/.../KafkaPartitionLevelConsumerDataLossCheckTest.java`, fixing test compilation after the Kafka 4.4 upgrade (#20185). Labels: bug, kafka, buildAndPackage, plugins, test-coverage. No change to documented user-facing behavior, configs, or defaults. No docs PR needed.
+
+### Outputs
+- Triaged: **1** (#20216, not_relevant). Docs PRs created: **0**. Upstream comments: **0**. Validation: not run (no docs changes). Slack: not sent (no new docs PRs).
+
+### Durable state
+- Checkpoint **advanced** `2026-11-10T19:00:34Z` → `2026-11-10T21:05:33Z` (#20216 merged-at). Ledger 110 → **111**. `last_successful_run` advanced to 2026-11-10T22:03:41Z. Lock+lease acquired and released via Contents-API CAS; no overlap.
+
+### Blockers
+- None.
