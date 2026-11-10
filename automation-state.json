@@ -966,11 +966,11 @@
   },
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-10T11:01:24Z",
-    "released_at": "2026-11-10T11:02:24Z",
-    "lease_expires_at": null,
+    "holder": "run-20261110T120123Z-opus48-cloud",
+    "status": "acquired",
+    "acquired_at": "2026-11-10T12:01:29Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-10T12:56:29Z",
     "prev_holder": "run-20261110T110117Z-opus48-cloud"
   },
   "recent_runs": [
