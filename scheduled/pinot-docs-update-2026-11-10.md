@@ -190,3 +190,30 @@
 - Decisions: 0. Docs PRs created: **0**. Upstream comments: **0**. Validation: not run (no docs changes). Slack: not sent (no-op; webhook reserved for docs-PR runs).
 - Durable state: checkpoint **unchanged** `2026-11-10T09:57:27Z`; ledger unchanged (103). `last_successful_run` advanced to 2026-11-10T15:03:33Z. Lock+lease acquired (+50m) and released via contents-API CAS; self-held confirmed mid-run (lock holder == run-20261110T150131Z-opus48-cloud); no overlap.
 - Blockers: none.
+
+## Run run-20261110T160134Z-opus48-cloud (2026-11-10T16:xx UTC) — no-op (4 triaged, all not_relevant)
+
+- Incoming durable checkpoint read from `automation-state`: `last_processed_merged_at = 2026-11-10T09:57:27Z` (#20168); prior `last_successful_run = 2026-11-10T15:03:07Z`.
+- Preflight (read-only): gh authenticated as `xiangfu0` (cosmetic "no token minted" wrapper stderr only — all API + git ops succeed); apache/pinot = pull/push/triage (push/comment OK); pinot-contrib/pinot-docs = ADMIN (push/PR/merge OK); `automation-state` branch read + write round-trip verified via contents-API CAS. No test PRs or Slack test messages sent.
+- Repos: pinot checkout fetched + rebased on `origin/master` (up to date); working tree clean.
+- Inventory of apache/pinot PRs merged **strictly after** checkpoint, reconciled 2 ways (agree, **4** new):
+  1. `search/issues q=repo:apache/pinot is:pr is:merged merged:>=2026-11-10` → 7 items; per-PR exact `merged_at` filtered strictly > checkpoint → **4** new (#20182, #20206, #20207, #20208). The other 3 (#20151, #20168, #20200) are at/before checkpoint and already ledgered.
+  2. `pulls?state=closed&sort=updated&direction=desc&per_page=50` filtered `merged_at > checkpoint` → same 4.
+
+### Decisions
+| PR | Title | merged_at (UTC) | Decision | Rationale |
+|----|-------|-----------------|----------|-----------|
+| [#20182](https://github.com/apache/pinot/pull/20182) | Fix table-level segment metadata silently omitting segments when replication < servers | 2026-11-10T15:45:57Z | not_relevant | Internal controller correctness fix. `TableMetadataReader#getSegmentsMetadata` table-level path passed a server→endpoint map to `CompletionServiceHelper` (expects endpoint→server), so responses collided under a null key and the API returned only the last server's segments (~replication/N). Fix passes `endpoints.inverse()` and renames a misleading variable; adds `TableMetadataReaderTest`. 4 controller main files (+7/-7) + 1 test file (+176). No documented API contract, config, default, or user-facing surface change — the endpoint was always intended to return all segments. |
+| [#20206](https://github.com/apache/pinot/pull/20206) | Bump io.opentelemetry.contrib:opentelemetry-gcp-resources 1.62.0-alpha→1.62.1-alpha | 2026-11-10T15:32:44Z | not_relevant | Dependabot `pom.xml`-only build-dependency bump; no user-facing documented behavior change. |
+| [#20207](https://github.com/apache/pinot/pull/20207) | Bump com.google.cloud:libraries-bom 26.92.0→26.93.0 | 2026-11-10T15:03:37Z | not_relevant | Dependabot `pom.xml`-only build-dependency bump; no user-facing documented behavior change. |
+| [#20208](https://github.com/apache/pinot/pull/20208) | Bump io.opentelemetry:opentelemetry-bom 1.67.0→1.68.0 | 2026-11-10T15:03:09Z | not_relevant | Dependabot `pom.xml`-only build-dependency bump; no user-facing documented behavior change. |
+
+### Outputs
+- Docs PRs created: **0**. Upstream comments: **0** (not warranted for skips).
+- Validation: not run (no docs changes produced). Slack: not sent (no-op; webhook reserved for runs that create docs PRs).
+
+### Durable state
+- Checkpoint **advanced** `2026-11-10T09:57:27Z` → `2026-11-10T15:45:57Z` (max merged_at of the 4 fully-triaged PRs, #20182). Ledger 103 → 107. `last_successful_run` advanced. Lock+lease acquired (+30m) and released via contents-API CAS; self-held confirmed before mutate; no overlap.
+
+### Blockers
+- None.
