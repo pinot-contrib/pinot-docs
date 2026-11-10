@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-10T02:30:48Z",
-  "last_successful_run": "2026-11-10T05:02:41Z",
+  "last_successful_run": "2026-11-10T06:02:22Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -932,24 +932,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no-op",
-  "last_run_id": "run-20261110T050126Z-opus48-cloud",
+  "last_run_id": "run-20261110T060126Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261110T060126Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T06:01:26Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T06:31:26Z",
-    "prev_holder": "run-20261110T050126Z-opus48-cloud"
+    "released_at": "2026-11-10T06:02:22Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T060126Z-opus48-cloud"
   },
   "last_run_summary": "3-way reconcile: pulls updated-desc 100 => 0 after ckpt; search is:pr is:merged merged:>ckpt total_count=0; apache/master authoritative HEAD=#20200 (merged 2026-11-10T02:30:48Z = checkpoint) already ledgered not_relevant. No new docs-relevant PRs.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261110T060126Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-10T06:01:26Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-10T06:31:26Z",
-    "prev_holder": "run-20261110T050126Z-opus48-cloud"
+    "released_at": "2026-11-10T06:02:22Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261110T060126Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1062,6 +1062,14 @@
       "checkpoint": "2026-11-10T02:30:48Z",
       "model": "opus-4-8",
       "method": "3-way reconcile: pulls updated-desc 100 => 0 after ckpt; search is:pr is:merged merged:>ckpt total_count=0; apache/master authoritative HEAD=#20200 (merged 2026-11-10T02:30:48Z = checkpoint) already ledgered not_relevant. No new docs-relevant PRs."
+    },
+    {
+      "run_id": "run-20261110T060126Z-opus48-cloud",
+      "utc": "2026-11-10T06:02:22Z",
+      "result": "no-op",
+      "new_prs": 0,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-10T02:30:48Z"
     }
   ],
   "last_run_note": "3-way reconcile: pulls updated-desc 100 => 0 after ckpt; search is:pr is:merged merged:>ckpt total_count=0; apache/master authoritative HEAD=#20200 (merged 2026-11-10T02:30:48Z = checkpoint) already ledgered not_relevant. No new docs-relevant PRs.",
@@ -1380,6 +1388,14 @@
     {
       "run_id": "run-20261110T050126Z-opus48-cloud",
       "utc": "2026-11-10T05:02:41Z",
+      "result": "no-op",
+      "new_prs": 0,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-10T02:30:48Z"
+    },
+    {
+      "run_id": "run-20261110T060126Z-opus48-cloud",
+      "utc": "2026-11-10T06:02:22Z",
       "result": "no-op",
       "new_prs": 0,
       "docs_prs_created": 0,
