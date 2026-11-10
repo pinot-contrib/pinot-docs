@@ -960,11 +960,11 @@
   "last_run_summary": "No merged apache/pinot PRs after checkpoint 2026-11-10T09:57:27Z. 3-way reconcile all empty (search is:merged merged:>ckpt=0; pulls closed/updated-desc filtered=0; apache/master commits since ckpt=0). Master tip #20168 == last processed pair (docs PR #1170). No-op; checkpoint unchanged.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-10T12:01:29Z",
-    "released_at": "2026-11-10T12:02:43Z",
-    "lease_expires_at": null,
+    "holder": "run-20261110T130118Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-10T13:01:28Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-10T13:51:28Z",
     "prev_holder": "run-20261110T120123Z-opus48-cloud"
   },
   "recent_runs": [
