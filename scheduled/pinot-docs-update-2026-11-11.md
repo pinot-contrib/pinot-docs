@@ -175,3 +175,17 @@ _No new upstream PRs merged after the checkpoint; nothing to triage._
 - **Durable state:** checkpoint unchanged; ledger unchanged (119). Lock acquired + released via CAS; serialized, no overlap.
 - **Notification:** none (no-op).
 - **Blockers:** none. (Cosmetic `gh-tentrix-wrap` wrapper stderr observed; all authenticated API/CAS ops succeeded.)
+
+---
+
+## Run run-20261111T100213Z-opus48-cloud (2026-11-11T10:05Z) — docs_created
+
+- **Coverage:** 3-way reconcile (search API `merged:>CP`, `gh pr list --state merged`, `git log apache/master`) all agree: **1** merged PR strictly after checkpoint `2026-11-11T04:57:09Z` → **#20221**. apache/master HEAD = #20221.
+- **Decision:** #20221 "Revert 'Reject time-based flush threshold for pauseless tables (#20168)'" → **docs-relevant (revert of a previously-documented PR)**.
+  - Verified from the merged revert diff: `TableConfigUtils.validateIngestionConfig` no longer rejects `realtime.segment.flush.threshold.time` (or legacy `.llc`) on pauseless tables; the corresponding tests were removed; both files match their pre-#20168 content. No release contained #20168 (1.6.0 predates it).
+  - #20168 had been documented by our docs PR #1170 (merged into `latest` 2026-11-10). That content is now incorrect.
+- **Created/merged:** [pinot-docs#1173](https://github.com/pinot-contrib/pinot-docs/pull/1173) — reverses #1170, restoring `operate-pinot/pauseless-consumption.md` to its pre-#20168 state (same-threshold wording, removed "Not supported" note, removed warning hint, removed #20168 reference link). Diff is the exact inverse of #1170 (+2/-11). Squash-merged **2026-11-11T10:05:36Z** (merge `6a3d1c29`). Upstream comment: apache/pinot#20221 issuecomment-6792949350.
+- **Validation:** `git diff --check` clean; `scripts/validate-docs.py --summary-only` → **PASS** (638 files; the 10 broken anchors are pre-existing on clean `latest`, 0 new).
+- **Durable state:** checkpoint advanced `2026-11-11T04:57:09Z` → `2026-11-11T09:24:21Z`; ledger 119 → 120 (added #20221; annotated #20168 `superseded_by_revert=20221`, `docs_reverted_by_pr=1173`). Lock/lease acquired + released via CAS (state sha `84d6ca2c` unchanged across run = no overlap).
+- **Notification:** Slack summary sent (new docs PR created + merged).
+- **Blockers:** none. (Cosmetic `gh-tentrix-wrap: no GitHub token minted` wrapper stderr observed; all authenticated API/CAS ops succeeded, and the docs branch pushed via a `GH_TOKEN` `x-access-token` remote URL since the plain clone has no credentials for pinot-docs.)
