@@ -83,6 +83,28 @@ All QuickStart commands support the following optional parameters in addition to
     -bootstrapTableDir /path/to/my-table-dir
 ```
 
+### Server heap for forked quickstarts
+
+Some quickstarts start more than one server, and those servers each run in their own JVM, separate from the parent JVM that runs the other components. `JAVA_OPTS` configures only the parent JVM, and its heap options are not copied to the forked server JVMs. To set each forked server's heap, pass these system properties in the parent's `JAVA_OPTS`:
+
+| System property | Default | Resulting child JVM options |
+|-----------------|---------|-----------------------------|
+| `pinot.quickstart.server.xmx` | `1g` | `-Xmx1g` |
+| `pinot.quickstart.server.xms` | The resolved `pinot.quickstart.server.xmx` value | `-Xms1g` |
+
+Values use Java heap-size syntax, such as `256m` or `2g`, and the initial heap must not exceed the maximum heap. By default each forked server uses equal initial and maximum heaps, so setting only `pinot.quickstart.server.xmx=512m` gives each server `-Xms512m -Xmx512m`. Set `pinot.quickstart.server.xms` explicitly to use a different initial heap. These properties affect forked quickstart servers only; they do not configure servers launched separately with `StartServer`.
+
+```bash
+# Give each forked quickstart server a 2 GiB heap
+docker run \
+    -p 9000:9000 \
+    -e JAVA_OPTS="-Xms2g -Xmx2g -Dpinot.quickstart.server.xmx=2g" \
+    apachepinot/pinot:latest QuickStart \
+    -type batch
+```
+
+For a local install, pass the same `JAVA_OPTS` environment variable to `bin/pinot-admin.sh QuickStart`.
+
 ## Batch Processing
 
 This example demonstrates how to do batch processing with Pinot. The command:
