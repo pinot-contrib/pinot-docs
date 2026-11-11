@@ -87,21 +87,13 @@ You must set `peerSegmentDownloadScheme` (for example, `"http"` or `"https"`) in
 
 ### Segment flush thresholds
 
-Pauseless consumption supports the row-based and size-based segment flush thresholds, but **not** an explicit time-based threshold:
+Pauseless consumption supports the same segment flush thresholds as standard real-time ingestion:
 
 | Configuration | Description |
 |---|---|
 | `realtime.segment.flush.threshold.rows` | Number of rows after which the segment is committed. |
-| `realtime.segment.flush.threshold.time` | Time duration after which the segment is committed (for example, `1h`, `30m`). **Not supported with pauseless consumption** (see below). |
+| `realtime.segment.flush.threshold.time` | Time duration after which the segment is committed (for example, `1h`, `30m`). |
 | `realtime.segment.flush.threshold.segment.size` | Target segment size. When set, Pinot automatically tunes the row threshold based on previous segment sizes. |
-
-{% hint style="warning" %}
-An explicit time-based flush threshold is rejected for pauseless tables. Table creation or update fails validation if pauseless consumption is enabled and the stream config sets `realtime.segment.flush.threshold.time` (or the legacy `realtime.segment.flush.threshold.time.llc`). Use a row-based or size-based threshold instead.
-
-Each replica evaluates the time threshold on its own clock, so the replicas of a pauseless segment can stop at different offsets. A replica past the committed end offset can only download the segment, so if the committer fails before uploading, no replica has a copy and the data can only be recovered by stream re-ingestion.
-
-The rejection applies to creating a new table with the key, changing the value, and enabling pauseless consumption on a table that already has the key. An existing pauseless table keeps its current time threshold unchanged, so table and schema updates continue to work. The default time threshold (6 hours) is unaffected; this validation only covers an explicitly configured value. Table loading does not run this validation, so a restart or upgrade does not affect existing tables.
-{% endhint %}
 
 ### Size-based threshold
 
@@ -328,4 +320,3 @@ Rollback does not require a server restart. The change takes effect for new segm
 * [Compatibility for Pauseless Dedup and Upsert #15383](https://github.com/apache/pinot/pull/15383)
 * [Size-based threshold for pauseless consumption #15347](https://github.com/apache/pinot/pull/15347)
 * [Validations for Pauseless Tables #15567](https://github.com/apache/pinot/pull/15567)
-* [Reject time-based flush threshold for pauseless tables #20168](https://github.com/apache/pinot/pull/20168)
