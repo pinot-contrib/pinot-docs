@@ -101,12 +101,33 @@ If you use a custom `AccessControlFactory`, you can support RLS by implementing 
 
 RLS filters are applied as additional WHERE-clause predicates. For best performance:
 
-* Ensure that columns referenced in RLS filters have appropriate indexes (inverted index, range index, or sorted index) to avoid full table scans.
+* Ensure that columns referenced in RLS filters have appropriate indexes (inverted index, range index, or sorted index) to avoid full table scans. The server evaluates the RLS filter first, per segment, so that user expressions never run on hidden rows; without an index on the RLS columns this materializes a bitmap over the whole segment.
 * Keep filter predicates simple. Complex expressions or functions in RLS filters add overhead to every query for that principal.
 * Test the rewritten queries using the query explain plan to verify that indexes are being utilized.
+
+The time spent materializing the RLS bitmap is tracked by the `RLS_FILTER_TIME_MS` server timer and reported as `rlsFilterTimeMs` in the server query log.
 
 ### Debugging RLS
 
 When RLS filters are applied to a query, the broker response includes a `rlsFiltersApplied` field set to `true`. This field appears in the standard broker query response JSON alongside other metadata fields like `numDocsScanned` and `timeUsedMs`. When no RLS filters are in effect, the field is set to `false`.
 
 You can use this field to verify that RLS policies are being applied as expected. For more details on the broker response format, see [Query Response Format](../reference/api-reference/query-response-format.md).
+
+### Response statistics under RLS
+
+To avoid revealing the layout of the full table to a principal who can only see a subset of its rows, a query with row-level security omits the table-layout statistics from its response. The following fields are reported as `0`:
+
+* `totalDocs`
+* `numSegmentsQueried`, `numSegmentsProcessed`, `numSegmentsMatched`
+* `numConsumingSegmentsQueried`, `numConsumingSegmentsProcessed`, `numConsumingSegmentsMatched`
+* `numSegmentsPrunedByBroker`, `numSegmentsPrunedByServer`, `numSegmentsPrunedInvalid`, `numSegmentsPrunedByLimit`, `numSegmentsPrunedByValue`
+
+{% hint style="warning" %}
+Dashboards or tooling that read these fields for principals subject to RLS should expect them to be `0`. The server query log still records the real values.
+{% endhint %}
+
+If the broker cannot apply a configured RLS filter (for example, the filter predicate fails to parse), the query now fails with a `QUERY_VALIDATION` error instead of running without the filter. The error message does not include the policy text.
+
+A query with row-level security does not use the single-stage broker's materialized-view rewrite.
+
+### Performance considerations
