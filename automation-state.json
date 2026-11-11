@@ -1020,11 +1020,11 @@
   "last_run_result": "no-op",
   "last_run_id": "run-20261111T000219Z-opus48-cloud",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-11T00:02:27Z",
-    "released_at": "2026-11-11T00:05:48Z",
-    "lease_expires_at": null,
+    "holder": "run-20261111T010144Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-11T01:01:44Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-11T01:31:44Z",
     "prev_holder": "run-20261111T000219Z-opus48-cloud"
   },
   "last_run_summary": {
@@ -1042,11 +1042,11 @@
   },
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-11T00:02:27Z",
-    "released_at": "2026-11-11T00:05:48Z",
-    "lease_expires_at": null,
+    "holder": "run-20261111T010144Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-11T01:01:44Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-11T01:31:44Z",
     "prev_holder": "run-20261111T000219Z-opus48-cloud"
   },
   "recent_runs": [
