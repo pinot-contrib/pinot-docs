@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-11T00:12:20Z",
-  "last_successful_run": "2026-11-11T03:02:17Z",
+  "last_successful_run": "2026-11-11T04:02:31Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -1034,14 +1034,14 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "no-op",
-  "last_run_id": "run-20261111T030127Z-opus48-cloud",
+  "last_run_id": "run-20261111T040124Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261111T040124Z-opus48-cloud",
-    "status": "acquired",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-11T04:01:24Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-11T04:31:24Z",
-    "prev_holder": "run-20261111T030127Z-opus48-cloud"
+    "released_at": "2026-11-11T04:02:31Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261111T040124Z-opus48-cloud"
   },
   "last_run_summary": {
     "run_id": "run-20261111T020144Z-opus48-cloud",
@@ -1055,12 +1055,12 @@
   },
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261111T040124Z-opus48-cloud",
-    "status": "acquired",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-11T04:01:24Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-11T04:31:24Z",
-    "prev_holder": "run-20261111T030127Z-opus48-cloud"
+    "released_at": "2026-11-11T04:02:31Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261111T040124Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1178,7 +1178,7 @@
       "docs_prs_created": 0
     }
   ],
-  "last_run_note": "No merged apache/pinot PRs strictly after checkpoint 2026-11-11T00:12:20Z. Reconciled against master commits (none). Checkpoint unchanged.",
+  "last_run_note": "No PRs merged strictly after checkpoint 2026-11-11T00:12:20Z. 3-way reconcile agrees: gh search merged:>CP = 0; gh pr list top merged = #20183(CP)/#20218, both ledgered; apache/pinot master tip fd91422b = #20183 = checkpoint. Checkpoint unchanged; ledger stays 113.",
   "run_log": [
     {
       "run_id": "run-20261106T130139Z-opus48-1084",
