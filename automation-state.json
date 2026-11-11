@@ -1101,21 +1101,21 @@
   "last_run_result": "docs_created: 1 new docs-relevant PR (#20221 revert) -> docs #1173 merged",
   "last_run_id": "run-20261111T100213Z-opus48-cloud",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-11T10:02:13.295650Z",
-    "released_at": "2026-11-11T10:06:19.180090Z",
-    "lease_expires_at": null,
+    "holder": "run-20261111T110118Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-11T11:01:34Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-11T11:51:34Z",
     "prev_holder": "run-20261111T100213Z-opus48-cloud"
   },
   "last_run_summary": "No PRs merged strictly after checkpoint 2026-11-11T04:57:09Z (PR #20210). Verified via issues-search, apache master git log (tip=8d90c47 = #20210), and pulls API. All 8 PRs merged on 2026-11-11 already in ledger. No docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-11T10:02:13.295650Z",
-    "released_at": "2026-11-11T10:06:19.180090Z",
-    "lease_expires_at": null,
+    "holder": "run-20261111T110118Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-11T11:01:34Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-11T11:51:34Z",
     "prev_holder": "run-20261111T100213Z-opus48-cloud"
   },
   "recent_runs": [
