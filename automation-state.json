@@ -1134,21 +1134,21 @@
   "last_run_result": "no-op",
   "last_run_id": "run-20261111T180206Z-opus48-cloud",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-11T18:02:13Z",
-    "released_at": "2026-11-11T18:03:12Z",
-    "lease_expires_at": null,
+    "holder": "run-20261111T190132Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-11T19:01:32Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-11T19:31:32Z",
     "prev_holder": "run-20261111T180206Z-opus48-cloud"
   },
   "last_run_summary": "no-op: 0 PRs merged strictly after checkpoint 2026-11-11T15:35:28Z; 3-way reconcile (gh pr list / search API / apache master git log) all agree. Checkpoint & ledger (124) unchanged.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-11T18:02:13Z",
-    "released_at": "2026-11-11T18:03:12Z",
-    "lease_expires_at": null,
+    "holder": "run-20261111T190132Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-11T19:01:32Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-11T19:31:32Z",
     "prev_holder": "run-20261111T180206Z-opus48-cloud"
   },
   "recent_runs": [
