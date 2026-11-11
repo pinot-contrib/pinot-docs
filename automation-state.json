@@ -1101,21 +1101,21 @@
   "last_run_result": "no-op",
   "last_run_id": "run-20261111T150146Z-opus48-cloud",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-11T15:01:47Z",
-    "released_at": "2026-11-11T15:04:13Z",
-    "lease_expires_at": null,
+    "holder": "run-20261111T160139Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-11T16:01:39Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-11T16:56:39Z",
     "prev_holder": "run-20261111T150146Z-opus48-cloud"
   },
   "last_run_summary": "No upstream PRs merged after checkpoint 2026-11-11T09:24:21Z; reconciled search API vs apache/pinot master commit log; newest merge is PR #20221 (already processed). No docs changes.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-11T15:01:47Z",
-    "released_at": "2026-11-11T15:04:13Z",
-    "lease_expires_at": null,
+    "holder": "run-20261111T160139Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-11T16:01:39Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-11T16:56:39Z",
     "prev_holder": "run-20261111T150146Z-opus48-cloud"
   },
   "recent_runs": [
