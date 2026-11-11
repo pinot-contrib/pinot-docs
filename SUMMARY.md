@@ -139,6 +139,7 @@
   * [Query options, quotas, cancellation & cursors](build-with-pinot/querying-and-sql/query-execution-controls/README.md)
     * [Query Options](build-with-pinot/querying-and-sql/query-execution-controls/query-options.md)
     * [Query Quotas](build-with-pinot/querying-and-sql/query-execution-controls/query-quotas.md)
+    * [Server Response Size Limits](build-with-pinot/querying-and-sql/query-execution-controls/response-size-limits.md)
     * [Query Cancellation](build-with-pinot/querying-and-sql/query-execution-controls/query-cancellation.md)
     * [Query Correlation ID](build-with-pinot/querying-and-sql/query-execution-controls/query-correlation-id.md)
     * [Query Using Cursors](build-with-pinot/querying-and-sql/query-execution-controls/query-using-cursors.md)
