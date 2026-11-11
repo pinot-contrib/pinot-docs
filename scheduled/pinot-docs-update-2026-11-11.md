@@ -34,3 +34,41 @@ _No new upstream PRs merged after the checkpoint; nothing to triage._
 - None. (Cosmetic `gh-tentrix-wrap: no GitHub token minted` wrapper stderr observed on apache/pinot & pinot-docs calls, but every API operation and CAS write succeeded.)
 
 ---
+
+## Run run-20261111T010144Z-opus48-cloud — 2026-11-11T01:05Z
+
+**Result: docs_created (1 docs PR merged).** First meaningful run of the day.
+
+### Coverage
+- Checkpoint at run start: `2026-11-10T21:05:33Z`.
+- 3-way reconciliation of merged PRs strictly after checkpoint (all agree):
+  - Search API `merged:>CP base:master`: #20218, #20183
+  - `gh pr list --state merged --base master`: #20218, #20183
+  - `git log upstream/master` since checkpoint: #20183, #20218 (plus #20216 at the boundary, already ledgered)
+
+### Decisions
+- **#20183** — *Evaluate user filters only on the rows that row-level security allows* → **docs-relevant**. User-facing: RLS responses zero the table-layout stats (`totalDocs`, segment-count / pruning counts); broker now fails with `QUERY_VALIDATION` when it cannot apply the RLS filter (was: ran without filter); single-stage skips the materialized-view rewrite under RLS; new `RLS_FILTER_TIME_MS` server timer / `rlsFilterTimeMs` log field. Facts verified against merged code (`ServerTimer.java`, `RlsResponseUtils.java`, `ServerQueryLogger.java`).
+- **#20218** — *Fix port reuse in ServerTableSizeReaderTest* → **not_relevant** (single controller test file; flaky-test fix; no user-facing behavior/config/API/default change).
+
+### Created / merged
+- Docs PR: https://github.com/pinot-contrib/pinot-docs/pull/1171 — **MERGED** 2026-11-11T01:05:32Z (squash, commit `26149bcd`). Edited `operate-pinot/access-control.md` (+22/-1).
+- Upstream comment: https://github.com/apache/pinot/pull/20183#issuecomment-6783864502
+
+### Validation
+- `git diff --check`: clean.
+- `scripts/validate-docs.py --summary-only`: **PASS** (638 files, 3563 links). The 10 broken-anchor warnings are pre-existing in unrelated files (realtime.md, dedup.md, upsert.md, …); this change introduces none.
+- PR checks all green: *Validate changed docs*, *Full docs audit*, GitBook ×2.
+
+### Durable state
+- Checkpoint **advanced** to `2026-11-11T00:12:20Z` (newest processed merged_at, #20183).
+- Ledger size: 111 → 113.
+- Lock/lease: acquired via CAS (blob `ea96532a`), released via CAS at end (final state blob `0968b6de`). Serialized, no overlap.
+- Durable writes via Contents API CAS + `GH_TOKEN`. Docs branch pushed via `git push` after `gh auth setup-git` (works — supersedes the earlier note recommending Contents/Git-Data API only).
+
+### Notification
+- Slack summary sent (new docs PR created + merged).
+
+### Blockers
+- None.
+
+---
