@@ -227,3 +227,9 @@ _No new upstream PRs merged after the checkpoint; nothing to triage._
 - Merged PRs after checkpoint 2026-11-11T09:24:21Z: **0**.
 - Reconcile: search API=0, gh pr list most-recent=#20221 (at CP, already done), upstream/master --since CP=0.
 - Decisions: none. Docs PRs created/merged: 0. Checkpoint unchanged.
+
+### Run run-20261111T140127Z-opus48-cloud (2026-11-11T14:02:47Z) — no-op
+- Merged PRs after checkpoint 2026-11-11T09:24:21Z: **0**.
+- Reconcile: pulls API (closed, sort=updated desc, pages 1-3) filtered `merged_at > CP` = 0; apache/pinot `upstream/master` HEAD = #20221 (== checkpoint commit).
+- Decisions: none. Docs PRs created/merged: 0. Upstream comments: 0. Checkpoint unchanged. Ledger size 120.
+- Lock: acquired via CAS (blob `5d50722` → `ddf3297`) and released via CAS at end. Serialized, no overlap.
