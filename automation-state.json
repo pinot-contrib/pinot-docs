@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-11T00:12:20Z",
-  "last_successful_run": "2026-11-11T01:06:08Z",
+  "last_successful_run": "2026-11-11T02:03:14Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -1033,87 +1033,36 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "docs_created",
-  "last_run_id": "run-20261111T010144Z-opus48-cloud",
+  "last_run_result": "no-op",
+  "last_run_id": "run-20261111T020144Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261111T020144Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-11T02:01:51Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-11T02:31:51Z",
-    "prev_holder": "run-20261111T010144Z-opus48-cloud"
+    "released_at": "2026-11-11T02:03:14Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261111T020144Z-opus48-cloud"
   },
   "last_run_summary": {
-    "run_id": "run-20261110T220129Z-opus48-cloud",
-    "utc": "2026-11-10T22:03:16Z",
+    "run_id": "run-20261111T020144Z-opus48-cloud",
+    "utc": "2026-11-11T02:03:14Z",
     "result": "no-op",
-    "new_prs": 1,
+    "new_prs": 0,
     "docs_prs_created": 0,
-    "new_prs_decisions": {
-      "20216": "not_relevant"
-    },
-    "checkpoint": "2026-11-10T21:05:33Z",
+    "checkpoint": "2026-11-11T00:12:20Z",
     "model": "opus-4-8",
-    "method": "3-way reconcile: gh search merged:>CP=1 (#20216), gh pr list=1 (#20216), master git log=1 (45feee7d #20216); all agree. #20216 classified not_relevant (test-only build fix)."
+    "method": "3-way reconcile (search merged:>CP, gh pr list, upstream/master git log --first-parent) all agree: 0 new PRs after checkpoint."
   },
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261111T020144Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-11T02:01:51Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-11T02:31:51Z",
-    "prev_holder": "run-20261111T010144Z-opus48-cloud"
+    "released_at": "2026-11-11T02:03:14Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261111T020144Z-opus48-cloud"
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261109T210126Z-opus48-cloud-993",
-      "utc": "2026-11-09T21:02:49Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-09T13:33:00Z",
-      "model": "opus-4-8",
-      "method": "3-way reconcile (pulls updated-desc 100: 0 after checkpoint; pulls created-desc 50: 0 after; master commits since checkpoint: 0). HEAD=#20190 already ledgered not_relevant at boundary."
-    },
-    {
-      "run_id": "run-20261110T000124Z-opus48-cloud",
-      "utc": "2026-11-10T00:02:28Z",
-      "result": "no-op",
-      "new_prs": 1,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-09T23:13:32Z",
-      "model": "opus-4-8",
-      "method": "3-way reconcile; sole new PR #20195 (Dependabot pom.xml bump) classified not_relevant."
-    },
-    {
-      "run_id": "run-20261110T040143Z-opus48-cloud",
-      "utc": "2026-11-10T04:04:51Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-10T02:30:48Z",
-      "model": "opus-4-8",
-      "method": "3-way reconcile (pulls updated-desc 100: 0 after checkpoint; pulls created-desc 50: 0 after; search is:merged merged:>ckpt: total=0; apache/master commits since checkpoint: 0). HEAD=#20200 already ledgered not_relevant at boundary."
-    },
-    {
-      "run_id": "run-20261110T050126Z-opus48-cloud",
-      "utc": "2026-11-10T05:02:41Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-10T02:30:48Z",
-      "model": "opus-4-8",
-      "method": "3-way reconcile: pulls updated-desc 100 => 0 after ckpt; search is:pr is:merged merged:>ckpt total_count=0; apache/master authoritative HEAD=#20200 (merged 2026-11-10T02:30:48Z = checkpoint) already ledgered not_relevant. No new docs-relevant PRs."
-    },
-    {
-      "run_id": "run-20261110T060126Z-opus48-cloud",
-      "utc": "2026-11-10T06:02:22Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-10T02:30:48Z"
-    },
     {
       "run_id": "run-20261110T090141Z-opus48-cloud",
       "utc": "2026-11-10T09:04:00Z",
@@ -1213,9 +1162,16 @@
       "checkpoint": "2026-11-11T00:12:20Z",
       "model": "opus-4-8",
       "method": "3-way reconcile (search merged:>CP, gh pr list, upstream/master git log) all agree on #20218 and #20183. #20183 -> docs PR 1171 (merged), upstream comment posted. #20218 not_relevant (test-only flaky fix)."
+    },
+    {
+      "run_id": "run-20261111T020144Z-opus48-cloud",
+      "utc": "2026-11-11T02:03:14Z",
+      "result": "no-op",
+      "new_prs": 0,
+      "checkpoint": "2026-11-11T00:12:20Z"
     }
   ],
-  "last_run_note": "No PRs merged strictly after checkpoint 2026-11-10T21:05:33Z. Upstream master tip #20216 already processed. Coverage verified via search API + git log first-parent reconciliation.",
+  "last_run_note": "No PRs merged strictly after checkpoint 2026-11-11T00:12:20Z. 3-way reconcile: gh search merged:>CP = 0; gh pr list merged (max mergedAt=2026-11-11T00:12:20Z = #20183, == checkpoint, already processed); upstream/master git log --first-parent --since=CP = 0 new. Master tip fd91422b = #20183 (docs #1171, done). No new docs-relevant work.",
   "run_log": [
     {
       "run_id": "run-20261106T130139Z-opus48-1084",
