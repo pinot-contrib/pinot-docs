@@ -258,3 +258,13 @@ _No new upstream PRs merged after the checkpoint; nothing to triage._
 
 ### Blockers
 - None.
+
+## 2026-11-11T18:03:33Z — run-20261111T180206Z-opus48-cloud (no-op)
+- Result: **no-op**. 0 PRs merged strictly after checkpoint 2026-11-11T15:35:28Z.
+- 3-way reconcile (all agree on 0 new): (1) `gh pr list` most-recent merged = #20226 @ 2026-11-11T15:35:28Z == checkpoint (already ledgered not_relevant); (2) search API `is:pr is:merged merged:>=2026-11-11T15:35:28Z` = only #20226 (boundary PR, already processed); (3) apache/pinot `master` git log `--since 2026-11-11T15:35:29Z` = empty (tip 18e46648 #20226 = checkpoint commit). Complete coverage.
+- Preflight: auth xiangfu0 via GH_TOKEN; apache/pinot = WRITE, pinot-contrib/pinot-docs = ADMIN (confirmed via authed-only `collaborators/{user}/permission`). Durable read + CAS write OK. Read-only preflight; no test PRs, no Slack.
+- Checkpoint unchanged (2026-11-11T15:35:28Z). Ledger stays 124.
+- Lock/lease CAS-serialized via Contents API (acquired commit on state SHA 3be43873 → 9b18c7f3; lease holder unchanged across run = no overlap; released at end). No Slack (no-op).
+
+### Blockers
+- None.
