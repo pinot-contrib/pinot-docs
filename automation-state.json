@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-11T15:35:28Z",
-  "last_successful_run": "2026-11-11T17:03:10Z",
+  "last_successful_run": "2026-11-11T18:03:12Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -1134,53 +1134,24 @@
   "last_run_result": "no-op",
   "last_run_id": "run-20261111T180206Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261111T180206Z-opus48-cloud",
-    "status": "acquired",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-11T18:02:13Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-11T18:32:13Z",
-    "prev_holder": "run-20261111T170132Z-opus48-cloud"
+    "released_at": "2026-11-11T18:03:12Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261111T180206Z-opus48-cloud"
   },
-  "last_run_summary": "0 new PRs after CP 2026-11-11T15:35:28Z; no docs changes.",
+  "last_run_summary": "no-op: 0 PRs merged strictly after checkpoint 2026-11-11T15:35:28Z; 3-way reconcile (gh pr list / search API / apache master git log) all agree. Checkpoint & ledger (124) unchanged.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261111T180206Z-opus48-cloud",
-    "status": "acquired",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-11T18:02:13Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-11T18:32:13Z",
-    "prev_holder": "run-20261111T170132Z-opus48-cloud"
+    "released_at": "2026-11-11T18:03:12Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261111T180206Z-opus48-cloud"
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261110T230142Z-opus48-cloud",
-      "utc": "2026-11-10T23:02:58Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "checkpoint": "2026-11-10T21:05:33Z"
-    },
-    {
-      "run_id": "run-20261111T000219Z-opus48-cloud",
-      "utc": "2026-11-11T00:05:48Z",
-      "result": "no-op"
-    },
-    {
-      "run_id": "run-20261111T010144Z-opus48-cloud",
-      "utc": "2026-11-11T01:06:08Z",
-      "result": "docs_created",
-      "new_prs": 2,
-      "docs_prs_created": 1,
-      "checkpoint": "2026-11-11T00:12:20Z",
-      "model": "opus-4-8",
-      "method": "3-way reconcile (search merged:>CP, gh pr list, upstream/master git log) all agree on #20218 and #20183. #20183 -> docs PR 1171 (merged), upstream comment posted. #20218 not_relevant (test-only flaky fix)."
-    },
-    {
-      "run_id": "run-20261111T020144Z-opus48-cloud",
-      "utc": "2026-11-11T02:03:14Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "checkpoint": "2026-11-11T00:12:20Z"
-    },
     {
       "run_id": "run-20261111T030127Z-opus48-cloud",
       "finished_at": "2026-11-11T03:02:17Z",
@@ -1266,6 +1237,13 @@
     {
       "run_id": "run-20261111T170132Z-opus48-cloud",
       "utc": "2026-11-11T17:03:10Z",
+      "result": "no-op",
+      "new_prs": 0,
+      "docs_prs": 0
+    },
+    {
+      "run_id": "run-20261111T180206Z-opus48-cloud",
+      "utc": "2026-11-11T18:03:12Z",
       "result": "no-op",
       "new_prs": 0,
       "docs_prs": 0
