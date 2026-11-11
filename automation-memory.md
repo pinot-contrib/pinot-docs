@@ -29,3 +29,12 @@
 - not_relevant: #20108 (internal perf; primitive-array intermediates for HISTOGRAM/SUM_ARRAY, compatible serde), #20201 (FUNNELCOUNT empty-segment merge ClassCastException bugfix), #20211 (test-only MailboxServiceTest race), #20203 (off-heap distinct-count set serialized-size precedence bugfix, wire-compatible), #20210 (GET /tasks/subtask/workers/progress 500 bugfix, restores documented behavior, no new config/response shape).
 - Checkpoint advanced to 2026-11-11T04:57:09Z. Ledger 113 -> 119.
 - validate-docs.py PASS (638 files, 10 broken anchors pre-existing on clean latest, 0 new). git diff --check clean. Durable writes via Contents API CAS + GH_TOKEN; docs branch pushed via gh auth setup-git. Slack notified (new docs PR).
+
+## 2026-11-11T10:05Z — run-20261111T100213Z-opus48-cloud
+- Result: docs_created. 1 PR merged strictly after checkpoint 2026-11-11T04:57:09Z; 3-way reconcile (gh search merged:>CP / gh pr list / upstream/master git log) all agree: only #20221.
+- #20221 "Revert 'Reject time-based flush threshold for pauseless tables (#20168)'" -> docs-relevant REVERT. Reverses commit 1d0aae09; TableConfigUtils.validateIngestionConfig no longer rejects realtime.segment.flush.threshold.time (or legacy .llc) on pauseless tables; tests removed. No release contained #20168 (1.6.0 predates it). This made the docs we merged in #1170 stale.
+- Action: reversed docs PR #1170. Created docs PR 1173 against latest (operate-pinot/pauseless-consumption.md: restored "same segment flush thresholds as standard real-time ingestion", removed the "Not supported" note, removed the warning hint block, removed the #20168 reference link). Diff = exact inverse of #1170 (+2/-11). Checks PASS, squash-merged 2026-11-11T10:05:36Z (merge 6a3d1c29), upstream comment issuecomment-6792949350.
+- Ledger: annotated #20168 with superseded_by_revert=20221, docs_reverted_by_pr=1173.
+- Checkpoint advanced to 2026-11-11T09:24:21Z. Ledger 119 -> 120.
+- validate-docs.py PASS (638 files; 10 broken anchors pre-existing on clean latest, 0 new). git diff --check clean. Durable writes via Contents API CAS + GH_TOKEN (sha 84d6ca2c unchanged across run = no overlap); docs branch pushed via GH_TOKEN x-access-token URL (plain clone has no creds). Slack notified (new docs PR).
+- LESSON: reverts of previously-ledgered docs_created PRs require reversing the earlier docs PR, not just skipping. Always check if the reverted PR produced a docs PR.
