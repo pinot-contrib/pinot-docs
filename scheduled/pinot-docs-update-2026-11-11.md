@@ -121,3 +121,44 @@ _No new upstream PRs merged after the checkpoint; nothing to triage._
 - **Validation:** n/a (no changes).
 - **Blockers:** none. (Local git remote `origin` points to the xiangfu0/pinot fork, tip #19809 — stale; authoritative inventory uses the apache/pinot API, not the fork's git log. Cosmetic `gh-tentrix-wrap` stderr observed; all authenticated API/CAS ops succeeded, rate limit 15000.)
 - **Auth:** gh authenticated as xiangfu0; push=true on apache/pinot, admin on pinot-contrib/pinot-docs; durable read/write to automation-state branch verified via Contents API CAS. Ledger size 113.
+
+
+## Run run-20261111T050122Z-opus48-cloud — 2026-11-11T05:08:43Z
+
+**Result: docs_created (1 docs PR created + merged).**
+
+### Coverage
+- Checkpoint at run start: `2026-11-11T00:12:20Z`.
+- 3-way reconciliation of apache/pinot PRs merged **strictly after** the checkpoint (all agree, no gaps):
+  1. `search/issues ... is:merged merged:>CP` (paginated) → 6 PRs.
+  2. `gh pr list --state merged` → same set.
+  3. `git log upstream/master` since checkpoint → same PR refs (plus #20183/#20218 at/before boundary, already ledgered).
+- New PRs: **#20108, #20201, #20211, #20203, #20202, #20210**.
+
+### Decisions
+- **#20202** — *Run multi-server quickstarts in separate JVMs* → **docs-relevant**. Forked quickstart servers now each run their own JVM; two new system properties set each forked server's heap via the parent JVM's `JAVA_OPTS`: `pinot.quickstart.server.xmx` (default `1g`) and `pinot.quickstart.server.xms` (defaults to resolved `xmx`). Names/defaults verified against merged `QuickstartServerProcess.java` (`MAX_HEAP_PROPERTY`, `INITIAL_HEAP_PROPERTY`, `DEFAULT_MAX_HEAP="1g"`).
+- **#20108** — *Keep HISTOGRAM and SUM_ARRAY intermediate results as primitive arrays* → **not_relevant** (internal perf/memory optimization; serde stays compatible; no documented-behavior change).
+- **#20201** — *Fix set-mode FUNNELCOUNT merge with an empty segment's step sets* → **not_relevant** (ClassCastException bugfix; restores correct behavior).
+- **#20211** — *Fix EOS delivery race in MailboxServiceTest* → **not_relevant** (test-only).
+- **#20203** — *Fix the serialized size of off-heap distinct count sets* → **not_relevant** (operator-precedence bugfix; wire-compatible; no documented change).
+- **#20210** — *Fix subtask worker progress API failing on null worker key* → **not_relevant** (`GET /tasks/subtask/workers/progress` 500 bugfix; restores documented behavior, no new config/response shape).
+
+### Created / merged
+- Docs PR: https://github.com/pinot-contrib/pinot-docs/pull/1172 — **MERGED** 2026-11-11T05:07:03Z (squash, commit `8b5bbcd5`). Edited `basics/getting-started/quick-start.md` (+22/-0, new "Server heap for forked quickstarts" subsection).
+- Upstream comment: https://github.com/apache/pinot/pull/20202#issuecomment-6787589264
+
+### Validation
+- `git diff --check`: clean.
+- `scripts/validate-docs.py --summary-only`: **PASS** (638 files, 3563 links). The 10 broken-anchor warnings are pre-existing (identical on clean `latest`); this change introduces none.
+- PR checks all green: *Validate changed docs*, *Full docs audit (informational)*.
+
+### Durable state
+- Checkpoint **advanced** to `2026-11-11T04:57:09Z` (newest processed merged_at, #20210; all 6 fully decided).
+- Ledger size: 113 → 119.
+- Lock/lease: acquired via CAS at run start, released via CAS at end. Serialized, no overlap.
+
+### Notification
+- Slack summary sent (new docs PR created + merged).
+
+### Blockers
+- None. (Cosmetic `gh-tentrix-wrap: no GitHub token minted` wrapper stderr observed; all authenticated API/CAS ops and the `git push` via `gh auth setup-git` succeeded.)

@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-11T00:12:20Z",
-  "last_successful_run": "2026-11-11T04:02:31Z",
+  "last_processed_merged_at": "2026-11-11T04:57:09Z",
+  "last_successful_run": "2026-11-11T05:08:01Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20183,
-    "upstream_url": "https://github.com/apache/pinot/pull/20183",
-    "docs_pr": 1171,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1171",
+    "upstream_pr": 20202,
+    "upstream_url": "https://github.com/apache/pinot/pull/20202",
+    "docs_pr": 1172,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1172",
     "decision": "docs_created",
-    "note": "RLS filter-first evaluation; RLS responses hide table-layout stats."
+    "note": "Quickstart forked-server heap properties pinot.quickstart.server.xmx/xms."
   },
   "processed_prs": {
     "19862": {
@@ -1030,37 +1030,80 @@
       "reason": "Test-only flaky-test fix: ServerTableSizeReaderTest chose the unused port before binding all mock servers, causing duplicate-endpoint failures. Single test file (pinot-controller test), labels bug/flaky-test, no user-facing behavior/config/API/default change.",
       "merged_at": "2026-11-11T00:07:49Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20218"
+    },
+    "20108": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-11T04:32:44Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20108",
+      "reason": "Internal performance/memory optimization: HISTOGRAM, SUMARRAYLONG and SUMARRAYDOUBLE keep primitive double[]/long[] intermediates instead of fastutil lists, avoiding a copy when extracting the final result. Serialized intermediate format stays compatible (ObjectSerDeUtils updated with back-compat deserialization). No change to function names, query syntax, defaults, or documented behavior.",
+      "processed_by_run": "run-20261111T050122Z-opus48-cloud",
+      "processed_at": "2026-11-11T05:08:01Z"
+    },
+    "20201": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-11T04:42:00Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20201",
+      "reason": "Bug fix: set-mode FUNNELCOUNT threw ClassCastException when merging an empty segment's step sets. SetMergeStrategy.merge now takes the non-empty side whole. Restores correct behavior; no new config/syntax/documented behavior.",
+      "processed_by_run": "run-20261111T050122Z-opus48-cloud",
+      "processed_at": "2026-11-11T05:08:01Z"
+    },
+    "20211": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-11T04:43:27Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20211",
+      "reason": "Test-only: fixes an EOS delivery race in MailboxServiceTest (pinot-query-runtime test). No main-source or user-facing change.",
+      "processed_by_run": "run-20261111T050122Z-opus48-cloud",
+      "processed_at": "2026-11-11T05:08:01Z"
+    },
+    "20203": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-11T04:44:57Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20203",
+      "reason": "Internal bug fix: OffHeap32/64/128BitSet allocated serialized size with wrong operator precedence ((Integer.BYTES+size)<<N), writing trailing zero bytes nothing reads. Now Integer.BYTES+(size<<N). Format stays wire-compatible (deserialize reads size header then exactly size entries). No documented behavior change.",
+      "processed_by_run": "run-20261111T050122Z-opus48-cloud",
+      "processed_at": "2026-11-11T05:08:01Z"
+    },
+    "20202": {
+      "decision": "docs_created",
+      "merged_at": "2026-11-11T04:49:29Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20202",
+      "docs_pr": 1172,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1172",
+      "docs_merged_at": "2026-11-11T05:07:03Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20202#issuecomment-6787589264",
+      "note": "Multi-server quickstarts now run forked server JVMs; new system properties pinot.quickstart.server.xmx (default 1g) and pinot.quickstart.server.xms (defaults to resolved xmx) set each forked server's heap via the parent JVM's JAVA_OPTS. Documented in quick-start.md command options.",
+      "processed_by_run": "run-20261111T050122Z-opus48-cloud",
+      "processed_at": "2026-11-11T05:08:01Z"
+    },
+    "20210": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-11T04:57:09Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20210",
+      "reason": "Bug fix: GET /tasks/subtask/workers/progress returned 500 because CompletionServiceHelper suffixes response keys with '__<count>' (since #13314), breaking the URL->worker-id lookup. PinotHelixTaskResourceManager now strips the suffix. Restores the documented API's correct behavior; no new config, endpoint, or response-shape change to document.",
+      "processed_by_run": "run-20261111T050122Z-opus48-cloud",
+      "processed_at": "2026-11-11T05:08:01Z"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op",
+  "last_run_result": "docs_created",
   "last_run_id": "run-20261111T050122Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261111T050122Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-11T05:01:30Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-11T05:31:30Z",
-    "prev_holder": "run-20261111T040124Z-opus48-cloud"
+    "released_at": "2026-11-11T05:08:01Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261111T050122Z-opus48-cloud"
   },
-  "last_run_summary": {
-    "run_id": "run-20261111T020144Z-opus48-cloud",
-    "utc": "2026-11-11T02:03:14Z",
-    "result": "no-op",
-    "new_prs": 0,
-    "docs_prs_created": 0,
-    "checkpoint": "2026-11-11T00:12:20Z",
-    "model": "opus-4-8",
-    "method": "3-way reconcile (search merged:>CP, gh pr list, upstream/master git log --first-parent) all agree: 0 new PRs after checkpoint."
-  },
+  "last_run_summary": "Processed 6 new PRs; created+merged docs PR 1172 for apache/pinot#20202; 5 not_relevant.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261111T050122Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-11T05:01:30Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-11T05:31:30Z",
-    "prev_holder": "run-20261111T040124Z-opus48-cloud"
+    "released_at": "2026-11-11T05:08:01Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261111T050122Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1176,6 +1219,18 @@
       "result": "no-op",
       "merged_prs_after_ckpt": 0,
       "docs_prs_created": 0
+    },
+    {
+      "run_id": "run-20261111T050122Z-opus48-cloud",
+      "finished_at": "2026-11-11T05:08:01Z",
+      "result": "docs_created",
+      "merged_prs_after_ckpt": 6,
+      "new_prs": 6,
+      "docs_prs_created": 1,
+      "docs_prs_merged": 1,
+      "checkpoint": "2026-11-11T04:57:09Z",
+      "model": "opus-4-8",
+      "method": "3-way reconcile (search API merged:>CP, gh pr list, upstream/master git log) all agree on 6 new PRs: 20108,20201,20211,20203,20202,20210. 20202 -> docs PR 1172 (merged 05:07:03Z), upstream comment posted. Other 5 not_relevant (internal perf/serde/test/bugfix with no documented-behavior change)."
     }
   ],
   "last_run_note": "No PRs merged strictly after checkpoint 2026-11-11T00:12:20Z. 3-way reconcile agrees: gh search merged:>CP = 0; gh pr list top merged = #20183(CP)/#20218, both ledgered; apache/pinot master tip fd91422b = #20183 = checkpoint. Checkpoint unchanged; ledger stays 113.",
@@ -1430,6 +1485,18 @@
       "checkpoint": "2026-11-10T21:05:33Z",
       "model": "opus-4-8",
       "method": "3-way reconcile all agree on #20216; classified not_relevant (test-only build fix)."
+    },
+    {
+      "run_id": "run-20261111T050122Z-opus48-cloud",
+      "finished_at": "2026-11-11T05:08:01Z",
+      "result": "docs_created",
+      "merged_prs_after_ckpt": 6,
+      "new_prs": 6,
+      "docs_prs_created": 1,
+      "docs_prs_merged": 1,
+      "checkpoint": "2026-11-11T04:57:09Z",
+      "model": "opus-4-8",
+      "method": "3-way reconcile (search API merged:>CP, gh pr list, upstream/master git log) all agree on 6 new PRs: 20108,20201,20211,20203,20202,20210. 20202 -> docs PR 1172 (merged 05:07:03Z), upstream comment posted. Other 5 not_relevant (internal perf/serde/test/bugfix with no documented-behavior change)."
     }
   ],
   "run_history": [
