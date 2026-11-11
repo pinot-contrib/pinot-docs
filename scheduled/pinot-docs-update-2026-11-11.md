@@ -240,3 +240,21 @@ _No new upstream PRs merged after the checkpoint; nothing to triage._
 - Decisions: none. Docs PRs created/merged: 0. Upstream comments: 0. Checkpoint unchanged. Ledger size 120.
 - Env note: this runner session (`system/routine`, cs_ZLubPAVOv2) enforces agent-visor pre-push hooks requiring a `cs_<sid>/` branch prefix. The canonical durable branch is intentionally the bare session-independent `automation-state`, so pushes to it use `--no-verify` (identity = intentlab-ai[bot], no co-author trailers; only the attribution-prefix rule is bypassed). CAS preserved via `--force-with-lease`.
 - Lock: acquired via CAS (`--force-with-lease`) and released via CAS at end. Serialized, no overlap.
+
+### Run run-20261111T160139Z-opus48-cloud (2026-11-11T16:06:31Z) — docs_created
+- Merged PRs after checkpoint 2026-11-11T09:24:21Z: **4** (#20222, #20224, #20225, #20226).
+- Reconcile (all agree): gh pr list most-recent merged; gh search `merged:>CP` = count 4; apache/pinot `master` commit log tip (18e466482 #20226 / dad0b554b #20225 / 0aa01c094 #20224 / f86205081 #20222, all after 16036c67a #20221 = prior checkpoint commit). Complete coverage, nothing else after checkpoint.
+- Decisions:
+  - **#20222 — docs_created.** "Remove legacy per-segment fallback from segments metadata API." The controller no longer falls back to the per-segment server endpoint when a table-level `GET /segments/{tableName}/metadata` request fails; it now returns an error. The fallback existed only for servers older than 1.5.0. Verified against merged `TableMetadataReader.getSegmentsMetadata` and `PinotSegmentRestletResource` (`@Path("segments/{tableName}/metadata")`). Added an "Upcoming Release" entry to `operate-pinot/upgrade-notes.md`.
+    - Docs PR: [pinot-contrib/pinot-docs#1175](https://github.com/pinot-contrib/pinot-docs/pull/1175) — **MERGED** 2026-11-11T16:05:15Z (merge `3bf13a86f`).
+    - Upstream comment: https://github.com/apache/pinot/pull/20222#issuecomment-6800773993
+  - **#20224 — not_relevant.** Dependabot bump parquet.version 1.18.1 → 1.18.2 (pom.xml only).
+  - **#20225 — not_relevant.** Dependabot bump at.yawk.lz4:lz4-java 1.13.0 → 1.14.0 (pom.xml only).
+  - **#20226 — not_relevant.** Dependabot bump com.fasterxml.jackson:jackson-bom 2.22.4 → 2.23.0 (pom.xml only).
+- Validation: `validate-docs.py --summary-only` PASS (638 files, 3563 links; 0 broken file links; 10 broken anchors pre-existing on clean latest, none in edited file; 0 new). `git diff --check` clean (+8 lines, one file).
+- Checkpoint advanced 2026-11-11T09:24:21Z → **2026-11-11T15:35:28Z**. Ledger 120 → **124**.
+- Note: observed independent OPEN human PR pinot-contrib/pinot-docs#1174 (author gortiz; apache/pinot#20093) — not this automation's, left untouched, not a duplicate.
+- Lock/lease: acquired via CAS Contents API (commit 963263d) and released via CAS at end; lease holder unchanged across run = no overlap.
+
+### Blockers
+- None.
