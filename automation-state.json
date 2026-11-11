@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-11T04:57:09Z",
-  "last_successful_run": "2026-11-11T05:08:01Z",
+  "last_successful_run": "2026-11-11T06:02:52Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -1085,57 +1085,27 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "docs_created",
+  "last_run_result": "no-op",
   "last_run_id": "run-20261111T060147Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261111T060147Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-11T06:01:47Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-11T06:51:47Z",
-    "prev_holder": "run-20261111T050122Z-opus48-cloud"
+    "released_at": "2026-11-11T06:02:52Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261111T060147Z-opus48-cloud"
   },
-  "last_run_summary": "Processed 6 new PRs; created+merged docs PR 1172 for apache/pinot#20202; 5 not_relevant.",
+  "last_run_summary": "3-way reconcile (search API, gh pr list, upstream/master git log) agree: 0 merged PRs strictly after checkpoint 2026-11-11T04:57:09Z. upstream/master HEAD #20210 == checkpoint boundary, already processed not_relevant. No docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261111T060147Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-11T06:01:47Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-11T06:51:47Z",
-    "prev_holder": "run-20261111T050122Z-opus48-cloud"
+    "released_at": "2026-11-11T06:02:52Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261111T060147Z-opus48-cloud"
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261110T090141Z-opus48-cloud",
-      "utc": "2026-11-10T09:04:00Z",
-      "result": "processed-1",
-      "new_prs": 1,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-10T08:47:47Z",
-      "model": "opus-4-8",
-      "method": "3-way reconcile (search is:merged merged:>ckpt=1; pulls updated-desc/100 filtered=1; apache/master commits since ckpt=1 => #20151). Triaged #20151: test-only (2 files, both /src/test/, 121+/0-), not_relevant. Checkpoint advanced to 2026-11-10T08:47:47Z."
-    },
-    {
-      "run_id": "run-20261110T100147Z-opus48-cloud",
-      "utc": "2026-11-10T10:05:41Z",
-      "result": "processed-1-docs-created",
-      "new_prs": 1,
-      "docs_prs_created": 1,
-      "checkpoint": "2026-11-10T09:57:27Z",
-      "model": "opus-4-8",
-      "method": "3-way reconcile (search is:merged merged:>ckpt=1; apache/master commits since ckpt=1) => #20168. Triaged docs-relevant: new validation rejecting time-based flush threshold for pauseless tables. Created+merged docs PR #1170, commented upstream."
-    },
-    {
-      "run_id": "run-20261110T120123Z-opus48-cloud",
-      "utc": "2026-11-10T12:02:43Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-10T09:57:27Z",
-      "model": "opus-4-8",
-      "method": "3-way reconcile, all empty"
-    },
     {
       "run_id": "run-20261110T140120Z-opus48-cloud",
       "utc": "2026-11-10T14:02:25Z",
@@ -1231,9 +1201,20 @@
       "checkpoint": "2026-11-11T04:57:09Z",
       "model": "opus-4-8",
       "method": "3-way reconcile (search API merged:>CP, gh pr list, upstream/master git log) all agree on 6 new PRs: 20108,20201,20211,20203,20202,20210. 20202 -> docs PR 1172 (merged 05:07:03Z), upstream comment posted. Other 5 not_relevant (internal perf/serde/test/bugfix with no documented-behavior change)."
+    },
+    {
+      "run_id": "run-20261111T060147Z-opus48-cloud",
+      "finished_at": "2026-11-11T06:02:52Z",
+      "result": "no-op",
+      "merged_prs_after_ckpt": 0,
+      "new_prs": 0,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-11T04:57:09Z",
+      "model": "opus-4-8",
+      "method": "3-way reconcile all agree on 0 new PRs after checkpoint"
     }
   ],
-  "last_run_note": "No PRs merged strictly after checkpoint 2026-11-11T00:12:20Z. 3-way reconcile agrees: gh search merged:>CP = 0; gh pr list top merged = #20183(CP)/#20218, both ledgered; apache/pinot master tip fd91422b = #20183 = checkpoint. Checkpoint unchanged; ledger stays 113.",
+  "last_run_note": "Clean no-op. Checkpoint not advanced (nothing new).",
   "run_log": [
     {
       "run_id": "run-20261106T130139Z-opus48-1084",
