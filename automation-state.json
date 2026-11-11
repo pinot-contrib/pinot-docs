@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-11T04:57:09Z",
-  "last_successful_run": "2026-11-11T09:02:54.845492Z",
+  "last_processed_merged_at": "2026-11-11T09:24:21Z",
+  "last_successful_run": "2026-11-11T10:06:19.180090Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20202,
-    "upstream_url": "https://github.com/apache/pinot/pull/20202",
-    "docs_pr": 1172,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1172",
+    "upstream_pr": 20221,
+    "upstream_url": "https://github.com/apache/pinot/pull/20221",
+    "docs_pr": 1173,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1173",
     "decision": "docs_created",
-    "note": "Quickstart forked-server heap properties pinot.quickstart.server.xmx/xms."
+    "note": "Revert of #20168: reversed docs #1170, restored same-threshold wording in pauseless-consumption.md."
   },
   "processed_prs": {
     "19862": {
@@ -943,7 +943,10 @@
       "docs_pr": 1170,
       "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1170",
       "docs_merged_at": "2026-11-10T10:04:55Z",
-      "upstream_comment": "https://github.com/apache/pinot/pull/20168#issuecomment-6764531170"
+      "upstream_comment": "https://github.com/apache/pinot/pull/20168#issuecomment-6764531170",
+      "superseded_by_revert": 20221,
+      "docs_reverted_by_pr": 1173,
+      "note": "Reverted upstream by #20221; docs PR #1170 reversed by docs PR #1173."
     },
     "20182": {
       "decision": "not_relevant",
@@ -1082,48 +1085,40 @@
       "reason": "Bug fix: GET /tasks/subtask/workers/progress returned 500 because CompletionServiceHelper suffixes response keys with '__<count>' (since #13314), breaking the URL->worker-id lookup. PinotHelixTaskResourceManager now strips the suffix. Restores the documented API's correct behavior; no new config, endpoint, or response-shape change to document.",
       "processed_by_run": "run-20261111T050122Z-opus48-cloud",
       "processed_at": "2026-11-11T05:08:01Z"
+    },
+    "20221": {
+      "decision": "docs_created",
+      "docs_pr": 1173,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1173",
+      "docs_merged_at": "2026-11-11T10:05:36Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20221#issuecomment-6792949350",
+      "merged_at": "2026-11-11T09:24:21Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20221",
+      "note": "Revert of #20168. Reversed docs PR #1170 (restored pre-#20168 pauseless-consumption.md). Pauseless tables may set realtime.segment.flush.threshold.time again; no release contained #20168."
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op: no new docs-relevant PRs after checkpoint",
+  "last_run_result": "docs_created: 1 new docs-relevant PR (#20221 revert) -> docs #1173 merged",
   "last_run_id": "run-20261111T100213Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261111T100213Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-11T10:02:13.295650Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-11T10:52:13Z",
-    "prev_holder": "run-20261111T090134Z-opus48-cloud"
+    "released_at": "2026-11-11T10:06:19.180090Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261111T100213Z-opus48-cloud"
   },
   "last_run_summary": "No PRs merged strictly after checkpoint 2026-11-11T04:57:09Z (PR #20210). Verified via issues-search, apache master git log (tip=8d90c47 = #20210), and pulls API. All 8 PRs merged on 2026-11-11 already in ledger. No docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261111T100213Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-11T10:02:13.295650Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-11T10:52:13Z",
-    "prev_holder": "run-20261111T090134Z-opus48-cloud"
+    "released_at": "2026-11-11T10:06:19.180090Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261111T100213Z-opus48-cloud"
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261110T140120Z-opus48-cloud",
-      "utc": "2026-11-10T14:02:25Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "docs_prs_created": 0,
-      "checkpoint": "2026-11-10T09:57:27Z",
-      "model": "opus-4-8",
-      "method": "4-way reconcile all empty (search/pulls-updated/pulls-created/master-commits); HEAD #20168 already ledgered docs_created (PR #1170)."
-    },
-    {
-      "run_id": "run-20261110T180124Z-opus48-cloud",
-      "utc": "2026-11-10T18:03:36Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "docs_prs": 0,
-      "checkpoint": "2026-11-10T16:02:46Z"
-    },
     {
       "run_id": "run-20261110T200132Z-opus48-cloud",
       "utc": "2026-11-10T20:03:31Z",
@@ -1217,6 +1212,18 @@
       "run_id": "run-20261111T070141Z-opus48-cloud",
       "utc": "2026-11-11T07:05:05Z",
       "result": "no-op"
+    },
+    {
+      "run_id": "run-20261111T100213Z-opus48-cloud",
+      "finished_at": "2026-11-11T10:06:19Z",
+      "result": "docs_created",
+      "merged_prs_after_ckpt": 1,
+      "new_prs": 1,
+      "docs_prs_created": 1,
+      "docs_prs_merged": 1,
+      "checkpoint": "2026-11-11T09:24:21Z",
+      "model": "opus-4-8",
+      "method": "3-way reconcile (search API merged:>CP, gh pr list, upstream/master git log) all agree on 1 new PR: #20221. Revert of #20168; reversed docs #1170 via docs #1173 (merged 10:05:36Z), upstream comment posted. validate-docs.py PASS (10 broken anchors pre-existing)."
     }
   ],
   "last_run_note": "2026-11-11T09:02:54.845492Z run-20261111T090134Z-opus48-cloud: coverage verified; top of apache/pinot master is #20210 (checkpoint PR, already processed). 0 candidates after 2026-11-11T04:57:09Z. No docs PRs created.",
@@ -1668,6 +1675,12 @@
       "new_prs": 0,
       "checkpoint_after": "2026-11-10T21:05:33Z",
       "coverage": "search+gitlog reconciled, 0 strictly-after"
+    },
+    {
+      "run_id": "run-20261111T100213Z-opus48-cloud",
+      "finished_at": "2026-11-11T10:06:19Z",
+      "result": "docs_created",
+      "checkpoint": "2026-11-11T09:24:21Z"
     }
   ]
 }
