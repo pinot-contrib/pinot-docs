@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-11T15:35:28Z",
-  "last_successful_run": "2026-11-12T05:03:38Z",
+  "last_successful_run": "2026-11-12T06:03:00Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -1134,22 +1134,22 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261112T060135Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261112T060135Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-12T06:01:35Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-12T06:56:35Z",
-    "prev_holder": "run-20261112T050120Z-opus48-cloud"
+    "released_at": "2026-11-12T06:03:00Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261112T060135Z-opus48-cloud"
   },
   "last_run_summary": "No new upstream PRs merged after checkpoint 2026-11-11T15:35:28Z. 13 PRs merged on 2026-11-11 (all <= checkpoint) confirmed already in ledger; reconciled against upstream/master commits (HEAD #20226 @ checkpoint). No docs PRs created. Checkpoint unchanged.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261112T060135Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-12T06:01:35Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-12T06:56:35Z",
-    "prev_holder": "run-20261112T050120Z-opus48-cloud"
+    "released_at": "2026-11-12T06:03:00Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261112T060135Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1288,7 +1288,7 @@
       "method": "3-way reconcile (search API, gh pr list, apache master tip) all agree 0 new after checkpoint"
     }
   ],
-  "last_run_note": "noop: nothing merged after checkpoint",
+  "last_run_note": "No upstream PRs merged strictly after checkpoint 2026-11-11T15:35:28Z. Window PRs 20108,20183,20201-20203,20210,20211,20218,20221,20222,20224-20226 all already in ledger. Master tip reconciled at PR#20226.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -1722,6 +1722,14 @@
       "new_prs": 0,
       "checkpoint": "2026-11-11T15:35:28Z",
       "note": "No PRs merged after checkpoint 2026-11-11T15:35:28Z (apache/pinot master HEAD = #20226). 13 candidates inventoried (all merged on/before the boundary), 0 after checkpoint. Reconciled against master commit log. First run on this remote runner: established durable-write path via session-prefixed branch + squash-merge PR into automation-state (tentrix credential wrapper forces cs_ ref prefix on direct push, so direct commits to automation-state are not possible here)."
+    },
+    {
+      "run_id": "run-20261112T060135Z-opus48-cloud",
+      "utc": "2026-11-12T06:03:00Z",
+      "result": "noop",
+      "candidates_after_checkpoint": 0,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-11T15:35:28Z"
     }
   ],
   "last_run": {
