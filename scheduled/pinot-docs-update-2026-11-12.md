@@ -367,3 +367,39 @@ _No new upstream PRs merged after the checkpoint; nothing to triage._
 
 ### Blockers
 - None.
+
+## Run run-20261112T210134Z-opus48-cloud @ 2026-11-12T21:07Z
+
+**Result:** docs_created (1 new docs PR merged, 1 not-relevant).
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at = 2026-11-12T14:37:29Z` (read from `automation-state` branch; most-recent completed pair #20238 → docs#1179).
+- Inventory of apache/pinot PRs merged strictly after the checkpoint, reconciled 2 ways:
+  1. `search/issues repo:apache/pinot is:pr is:merged merged:>=2026-11-12` → 7 results; strictly after checkpoint → **1** (#20023).
+  2. `repos/apache/pinot/commits?sha=master&since=2026-11-12T14:37:29Z` → 3 commits: #20238 (= checkpoint, already in ledger), #20023, **#20241** — the git-log leg caught #20241 which the search index had not yet surfaced.
+- Net new PRs strictly after checkpoint: **2** (#20023, #20241). Both newly triaged.
+
+### Decisions
+- **#20023** (merged 2026-11-12T20:14:11Z) → **docs_created**. New server config `pinot.server.request.deadline.clock.skew.ms` (default `10000` ms). Broker stamps each server request with an epoch-millis deadline; a server receiving a request more than this clock-skew allowance after the deadline does not execute it, returns a `QUERY_SCHEDULING_TIMEOUT` "Expired on arrival:" error, and increments the new `QUERIES_EXPIRED_ON_ARRIVAL` server meter. Negative value disables the check. Backward compatible (older servers ignore the new `deadlineMs` thrift field). Default, key, metric, and error semantics verified against merged code (CommonConstants, InstanceRequestHandler, ServerMeter), not PR prose.
+- **#20241** (merged 2026-11-12T21:03:28Z) → **not_relevant**. Dependabot bump com.mchange:c3p0 0.14.2 → 0.15.0 (pom.xml, 1 line). No user-facing behavior/config/API/default change.
+
+### Outputs
+- Docs PRs created/merged: **1** — [pinot-contrib/pinot-docs#1180](https://github.com/pinot-contrib/pinot-docs/pull/1180) (merged 2026-11-12T21:06:22Z, squash, commit `4db4be80`).
+- Upstream comments: **1** — [apache/pinot#20023 issuecomment-6835954953](https://github.com/apache/pinot/pull/20023#issuecomment-6835954953).
+- Validation: `uv run --with pyyaml python scripts/validate-docs.py --summary-only` → RESULT **PASS** (638 files, 3563 links). 10 broken anchors are pre-existing (confirmed unchanged via stash comparison); 0 new failures. `git diff --check` clean.
+- Checks on #1180: "Validate changed docs" SUCCESS, "Full docs audit (informational)" SUCCESS, GitBook SUCCESS; mergeable CLEAN.
+- Slack: summary sent (1 new docs PR).
+
+### Durable state
+- Checkpoint advanced: 2026-11-12T14:37:29Z → **2026-11-12T21:03:28Z** (= #20241 merged_at, max across fully-processed PRs).
+- Ledger size: 130 → **132**.
+- Lease: acquired via Git-data API CAS (commit `a6f9eaa`, 30-min expiry guard) and released at end atomically with the state write; strictly serialized, no overlap.
+
+### Preflight
+- Environment: `/workspace/pinot` (origin = fork xiangfu0/pinot) unshallowed + apache/pinot inventory via API/commits. `pinot-contrib/pinot-docs` cloned fresh at `latest` (`/workspace/pinot-docs`), clean. `automation-state` branch cloned at `/workspace/pinot-docs-state`.
+- GitHub auth: `GH_TOKEN` account `xiangfu0`. Permissions: apache/pinot = WRITE, pinot-contrib/pinot-docs = ADMIN. Read-only preflight first; no test PRs, no test Slack.
+- Durable store: read + CAS write to `automation-state` confirmed before triage (lease acquire round-tripped).
+- Note: this session's git push to pinot-docs works via session-attribution auto-rename (`cs_vqX5vW3ftQ/...` prefix); automation-state writes still go via Git-data API CAS. Cosmetic `gh-tentrix-wrap` warnings; reads/writes succeed.
+
+### Blockers
+- None.

@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-12T14:37:29Z",
-  "last_successful_run": "2026-11-12T20:07:40Z",
+  "last_processed_merged_at": "2026-11-12T21:03:28Z",
+  "last_successful_run": "2026-11-12T21:07:03Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20238,
-    "upstream_url": "https://github.com/apache/pinot/pull/20238",
-    "docs_pr": 1179,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1179",
+    "upstream_pr": 20023,
+    "upstream_url": "https://github.com/apache/pinot/pull/20023",
+    "docs_pr": 1180,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1180",
     "decision": "docs_created",
-    "note": "Restored segments-metadata upgrade note after #20238 re-landed the fallback removal."
+    "note": "Documented pinot.server.request.deadline.clock.skew.ms server config + QUERIES_EXPIRED_ON_ARRIVAL meter."
   },
   "processed_prs": {
     "19862": {
@@ -1182,11 +1182,26 @@
       "merged_at": "2026-11-12T14:37:29Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20238",
       "note": "Re-removes legacy per-segment fallback (re-landing #20222 after revert #20237). Restored upgrade note that docs #1177 had removed, attributed to #20238."
+    },
+    "20023": {
+      "decision": "docs_created",
+      "docs_pr": 1180,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1180",
+      "docs_merged_at": "2026-11-12T21:06:22Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20023#issuecomment-6835954953",
+      "merged_at": "2026-11-12T20:14:11Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20023"
+    },
+    "20241": {
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency bump only: com.mchange:c3p0 0.14.2 -> 0.15.0 in pom.xml (single line). No user-facing behavior, config, API, or documented default change.",
+      "merged_at": "2026-11-12T21:03:28Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20241"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "noop",
-  "last_run_id": "run-20261112T130131Z-opus48-cloud",
+  "last_run_result": "docs_created",
+  "last_run_id": "run-20261112T210134Z-opus48-cloud",
   "lock": {
     "holder": null,
     "status": "released",
@@ -1198,12 +1213,12 @@
   "last_run_summary": "0 new PRs merged after checkpoint 2026-11-12T07:50:22Z; reconciled against apache/pinot master (0 commits since). No-op.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261112T210134Z-opus48-cloud",
-    "status": "acquired",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-12T21:02:00Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-12T21:32:00Z",
-    "prev_holder": "run-20261112T200124Z-opus48-cloud"
+    "released_at": "2026-11-12T21:07:03Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261112T210134Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1784,23 +1799,19 @@
     }
   ],
   "last_run": {
-    "run_id": "run-20261112T200124Z-opus48-cloud",
-    "utc": "2026-11-12T20:07:40Z",
+    "run_id": "run-20261112T210134Z-opus48-cloud",
+    "utc": "2026-11-12T21:07:03Z",
     "result": "docs_created",
-    "new_prs_processed": 5,
-    "docs_prs_created": 2,
+    "new_prs_processed": 2,
+    "docs_prs_created": 1,
     "checkpoint_advanced": true,
-    "checkpoint": "2026-11-12T14:37:29Z",
+    "checkpoint": "2026-11-12T21:03:28Z",
     "docs_prs": [
-      1178,
-      1179
+      1180
     ],
     "decisions": {
-      "18486": "docs_created",
-      "20238": "docs_created",
-      "20240": "not_relevant",
-      "20242": "not_relevant",
-      "20243": "not_relevant"
+      "20023": "docs_created",
+      "20241": "not_relevant"
     }
   }
 }
