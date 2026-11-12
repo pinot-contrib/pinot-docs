@@ -108,3 +108,10 @@
 - Preflight: apache/pinot WRITE, pinot-docs ADMIN; auth xiangfu0 via GH_TOKEN. Durable read + CAS write OK. Read-only preflight, no test PRs/Slack.
 - Env confirmation: /workspace/pinot pre-clone origin = fork xiangfu0/pinot (no apache remote); inventory via apache/pinot API directly, coverage unaffected. Did NOT add apache remote or fetch (API reconcile sufficient). Durable writes start-to-finish via Contents API CAS (`gh api -X PUT ... --input payload.json` with base64 content + blob sha guard); no git push to state branch, no lease PR needed — confirms the prior run's recommendation. gh-tentrix-wrap "no token minted" warnings cosmetic.
 - Lease acquired (CAS, file sha 856568→5c4e697, 06:01:35Z, 55-min expiry guard) / released (06:03:00Z, CAS). Single holder across run = no overlap. Daily report pinot-docs-update-2026-11-12.md appended (934a7aa2). No Slack (no-op).
+
+## 2026-11-12T07:02:48Z — run-20261112T070132Z-opus48-cloud (no-op)
+- Checkpoint unchanged: 2026-11-11T15:35:28Z. Ledger stays 124.
+- 3-way reconcile agrees 0 PRs strictly after checkpoint: (1) search API `merged:>CP` → total=0; (2) `gh pr list` merged/base=master → latest #20226 @ 2026-11-11T15:35:28Z == CP; (3) `git log upstream/master --since=CP` → tip 18e46648 (#20226), nothing newer. Window PRs 20221/20222/20224/20225/20226 all ≤ CP and in ledger.
+- Fresh remote-runner session (first run here today). Preflight read-only: apache/pinot WRITE, pinot-docs ADMIN, auth xiangfu0 via GH_TOKEN. Durable read + CAS write OK. No test PRs / no Slack.
+- Confirmed prior runs' env lesson: durable writes via GitHub **Contents API CAS** (`gh api -X PUT repos/pinot-contrib/pinot-docs/contents/<path>` + base64 content + blob sha guard). git push to automation-state blocked by tentrix credential wrapper. This run added `upstream`=apache/pinot remote + fetched master for git-log reconcile (local origin = fork xiangfu0/pinot); API reconcile alone is also sufficient.
+- Lease acquired + released this run via Contents API CAS on automation-state.json. Single holder = no overlap. No Slack (no-op).
