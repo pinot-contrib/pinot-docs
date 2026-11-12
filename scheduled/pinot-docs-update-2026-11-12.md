@@ -33,3 +33,34 @@ _No new upstream PRs merged after the checkpoint; nothing to triage._
 
 ### Blockers
 - None.
+
+## Run run-20261112T020122Z-opus48-cloud @ 2026-11-12T02:01Z
+
+**Result:** no-op (0 PRs merged after checkpoint; 0 docs PRs created).
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at = 2026-11-11T15:35:28Z` (read from pinot-contrib/pinot-docs `automation-state` branch; most-recent completed pair #20222 → docs#1175).
+- Inventory of apache/pinot PRs merged after the checkpoint, reconciled 3 ways (agree, no gaps):
+  1. `search/issues repo:apache/pinot is:pr is:merged merged:>2026-11-11T15:35:28Z` → **0 PRs**.
+  2. `gh pr list --repo apache/pinot --state merged --limit 30` → newest merged = #20226 @ `2026-11-11T15:35:28Z` (== checkpoint, already processed); **0** with mergedAt strictly after the checkpoint.
+  3. Authoritative apache/pinot master tip via API (`repos/apache/pinot/commits/master`) = `18e46648` = #20226 @ `2026-11-11T15:35:28Z` == checkpoint PR.
+- Note: the local `/workspace/pinot` `origin` is the fork `xiangfu0/pinot` whose `master` is stale (#19809, 2026-10-09); local `git log` is NOT authoritative for apache/pinot. This run used the GitHub API (search + pr list + commits/master) as the authoritative source instead.
+
+### Decisions
+_No new upstream PRs merged after the checkpoint; nothing to triage._
+
+### Outputs
+- Docs PRs created: **0**; upstream comments: **0**.
+- Validation: not run (no docs changes produced).
+- Slack: not sent (no-op run).
+
+### Durable state
+- Checkpoint **unchanged** at `2026-11-11T15:35:28Z`; ledger unchanged.
+- Lease: acquired via CAS (Contents API, commit `d1e27057`) and released via CAS (commit `9acb6682`); strictly serialized, 30-min lease-expiry stale guard.
+
+### Preflight
+- GitHub auth: `GH_TOKEN` account `xiangfu0`; apache/pinot = push/triage, pinot-contrib/pinot-docs = admin. Durable read+CAS-write to `automation-state` branch confirmed working.
+- Cosmetic `gh-tentrix-wrap: no GitHub token minted` stderr appears but all API/CAS operations succeeded (Contents API, not raw push).
+
+### Blockers
+- None.
