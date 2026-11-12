@@ -119,3 +119,28 @@ _No new upstream PRs merged after the checkpoint; nothing to triage._
 
 ### Blockers
 - None. (Note: lease-acquire PR was titled "automation lease test (will close)"; it is a legitimate lease commit, not a test artifact.)
+
+## Run run-20261112T060135Z-opus48-cloud (2026-11-12T06:03:00Z) — NO-OP
+
+### Coverage
+- Inventoried apache/pinot merged PRs strictly after checkpoint `2026-11-11T15:35:28Z` via GitHub search (`repo:apache/pinot is:pr is:merged merged:>=2026-11-11`, paginated) and reconciled against apache/pinot master commit log via the REST commits endpoint. **13 candidates in window; 0 strictly after the checkpoint.**
+- apache/pinot master HEAD = commit `18e46648` = #20226 (jackson-bom bump) at `2026-11-11T15:35:27Z`, at the checkpoint boundary and previously triaged. No new work.
+
+### Decisions
+- None (no new PRs after checkpoint).
+
+### Outputs
+- Docs PRs created: **0**; upstream comments: **0**.
+- Validation: not run (no docs changes).
+- Slack: not sent (no-op run).
+
+### Durable state
+- Checkpoint **unchanged** at `2026-11-11T15:35:28Z`; ledger unchanged (124 processed PRs).
+- Lease acquired (06:01:35Z) and released (06:03:00Z) via REST contents API compare-and-swap on `automation-state.json`; strictly serialized.
+
+### Notes
+- Durable writes this run used the GitHub REST contents API (`gh api -X PUT` with the file SHA for CAS), which round-tripped successfully for lease acquire + release. This path does not go through the git-push credential wrapper, so the PR-merge workaround noted by the prior run was not needed.
+- Local `/workspace/pinot` tracks fork `xiangfu0/pinot`; inventory uses the apache/pinot API directly, so coverage is unaffected.
+
+### Blockers
+- None.
