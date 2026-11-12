@@ -1,7 +1,0 @@
-{
-  "locked_by": "run-20261112T120135Z-1181",
-  "acquired_at": "2026-11-12T12:01:35Z",
-  "host": "intentlab-remote-runner",
-  "lease_expires_at": "2026-11-12T12:46:35Z",
-  "note": "Hourly pinot-docs automation run lease."
-}
