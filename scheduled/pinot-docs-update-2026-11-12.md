@@ -173,3 +173,28 @@ _No new upstream PRs merged after the checkpoint; nothing to triage._
 
 ### Blockers
 - None.
+
+
+## Run run-20261112T080119Z-opus48-cloud — 2026-11-12T08:04Z (docs_created)
+
+### Coverage
+- Checkpoint advanced: 2026-11-11T15:35:28Z -> **2026-11-12T07:50:22Z**. Processed ledger: 124 -> 125.
+- Inventory: merged apache/pinot PRs strictly after the prior checkpoint. 2-way reconcile (GitHub search API + apache/pinot master commit log) agreed on exactly **1** new PR: **#20237**.
+
+### Decisions
+- **apache/pinot#20237** — "Revert "Remove legacy per-segment fallback from segments metadata API"" (merged 2026-11-12T07:50:22Z) → **docs_corrected**.
+  - #20237 is a clean inverse revert of #20222, which had been documented in `operate-pinot/upgrade-notes.md` via docs PR #1175. Verified on apache/pinot master that the legacy per-segment fallback is restored in `TableMetadataReader.java`. The upgrade note no longer matches master behavior.
+
+### Created / merged
+- Docs PR **[#1177](https://github.com/pinot-contrib/pinot-docs/pull/1177)** — removes the now-incorrect upgrade note (8-line deletion in `operate-pinot/upgrade-notes.md`). Checks passed; squash-merged into `latest` at 2026-11-12T08:04:22Z (merge sha a7dc0258).
+- Upstream comment: https://github.com/apache/pinot/pull/20237#issuecomment-6818211621
+
+### Validation
+- `git diff --check`: clean.
+- `scripts/validate-docs.py --summary-only`: **RESULT PASS**. 10 broken anchors are pre-existing in unrelated files; none reference the removed section. Verified the section is absent from `latest` after merge.
+
+### Durable state / concurrency
+- Lease acquired via Contents API CAS (blob SHA guard, 30-min expiry) and released via an atomic Git-tree commit; single holder — no overlap.
+
+### Blockers
+- None.
