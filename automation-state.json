@@ -1150,11 +1150,11 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261112T100138Z-opus48-cloud",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-12T10:01:38Z",
-    "released_at": "2026-11-12T10:02:39Z",
-    "lease_expires_at": null,
+    "holder": "run-20261112T110139Z-opus48-cloud-1161",
+    "status": "held",
+    "acquired_at": "2026-11-12T11:03:17Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-12T11:53:17Z",
     "prev_holder": "run-20261112T100138Z-opus48-cloud"
   },
   "last_run_summary": "0 new merged PRs after checkpoint 2026-11-12T07:50:22Z; 3-way reconcile (search API, gh pr list, upstream/master git log) all agree 0 new. apache/pinot master HEAD=#20237 @ checkpoint boundary (mergedAt==checkpoint, already in ledger as docs #1177). Checkpoint unchanged.",
