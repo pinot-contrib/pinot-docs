@@ -327,3 +327,43 @@ _No new upstream PRs merged after the checkpoint; nothing to triage._
 
 ### Blockers
 - None.
+
+## Run 2026-11-12T20:08:46Z — run-20261112T200124Z-opus48-cloud (docs_created)
+
+### Coverage
+- Prior checkpoint: `last_processed_merged_at=2026-11-12T07:50:22Z`. Ledger 125 PRs.
+- Inventory of merged PRs strictly after checkpoint (search API + apache/master git-log reconcile, both agree): **5 PRs**, all new.
+  - #18486, #20238, #20240, #20242, #20243.
+- New checkpoint: **2026-11-12T14:37:29Z** (= #20238 merged_at, max of the 5). Ledger → 130.
+
+### Decisions
+| Upstream PR | merged_at (UTC) | Decision | Rationale |
+|---|---|---|---|
+| #18486 | 2026-11-12T13:24:34Z | docs_created | New controller config `controller.segment.upload.reject.out.of.retention` (default false); user-facing 403 on out-of-retention single-segment upload when enabled. |
+| #20238 | 2026-11-12T14:37:29Z | docs_created | Re-removes legacy per-segment fallback in segments metadata API (re-lands #20222 after revert #20237); upgrade note restored. |
+| #20240 | 2026-11-12T14:03:45Z | not_relevant | Dependency bump (mchange-commons-java 0.6.1→0.7.0). |
+| #20242 | 2026-11-12T14:04:29Z | not_relevant | Build-plugin bump (sisu-maven-plugin 1.1.1→1.1.2). |
+| #20243 | 2026-11-12T14:33:28Z | not_relevant | Dependency bump (commons-lang3 3.21.0→3.22.0). |
+
+### Created / merged
+- Docs **#1178** → https://github.com/pinot-contrib/pinot-docs/pull/1178 — **merged** 2026-11-12T20:06:34Z. (`reference/configuration-reference/controller.md`). Upstream comment: apache/pinot#18486 issuecomment-6834628046.
+- Docs **#1179** → https://github.com/pinot-contrib/pinot-docs/pull/1179 — **merged** 2026-11-12T20:06:52Z. (`operate-pinot/upgrade-notes.md`). Upstream comment: apache/pinot#20238 issuecomment-6834628593.
+
+### Verification against merged code
+- #18486: config key confirmed as `controller.segment.upload.reject.out.of.retention` (default `false`) in merged `ControllerConf.java` — PR prose's `rejectOutOfRetention.enabled` was inaccurate and NOT used.
+- #20238: confirmed merged `TableMetadataReader.java` removes the `catch (RuntimeException)` per-segment fallback and now throws; matches the restored upgrade note semantics.
+
+### Validation
+- `git diff --check`: clean (both files).
+- `uv run --with pyyaml python scripts/validate-docs.py --summary-only`: **RESULT PASS** on both edits. 10 broken anchors are pre-existing (identical before/after the edits); 0 new failures introduced.
+- Docs PR CI ("Validate changed docs", "Full docs audit", GitBook): all SUCCESS before merge.
+
+### Durable state / concurrency
+- Durable reads/writes via GitHub Contents/Git-data API compare-and-swap (blob/file SHA guard) on the `automation-state` orphan branch. Lease acquired at run start and released atomically with the final state write; single holder, no overlap.
+- Branch/commit construction note: PRs built via Git-data API (blob→tree→commit) with explicit `intentlab-ai[bot]` author/committer, since raw push is blocked and Contents-API commits default to the token-owner identity (rejected by the PR-create guard).
+
+### Slack
+- Compact summary sent (new docs PRs created this run).
+
+### Blockers
+- None.
