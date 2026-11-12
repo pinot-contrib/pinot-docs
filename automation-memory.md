@@ -126,3 +126,10 @@
 - Precedent followed: this is the same revert-handling pattern as #1173 (docs revert for upstream revert #20221).
 - Env: /workspace/pinot pre-clone origin = fork xiangfu0/pinot; inventory via apache/pinot API directly (coverage unaffected). Durable writes via Contents/Git API (git push to automation-state blocked by tentrix wrapper — auto-renames to cs_<sid>/ prefix). Docs branch push to pinot-docs latest DID work after `gh auth setup-git` (branch auto-renamed to cs_edZF-xHzIw/... but pushed fine; PR created against latest from the prefixed head).
 - Lease acquired via Contents API CAS (file sha b4b7d6ad -> 0c68b08b, 30-min expiry guard) / released at end via atomic Git-tree commit. Single holder across run = no overlap. Slack summary sent (new docs PR created).
+
+## 2026-11-12T09:05:06Z — run-20261112T090127Z-opus48-cloud (no-op)
+- Checkpoint unchanged: 2026-11-12T07:50:22Z. Ledger stays 125.
+- 2-way reconcile agrees 0 PRs strictly after checkpoint: (1) full paginated REST `pulls?state=closed&base=master` (7655 merged total) filtered to merged_at > CP → COUNT 0; max merged_at across all = 2026-11-12T07:50:22Z (#20237, already in ledger). (2) `repos/apache/pinot/commits?sha=master` tip = #20237 @ 2026-11-12T07:50:21Z == CP. Recent master PRs (20237/20226/20225/20224/20222/20221/20210/20202/20203/20211/20201/20108/20183/20218/20216) all present in ledger. apache/master fully triaged.
+- Fresh remote-runner session. Preflight read-only: apache/pinot WRITE, pinot-docs ADMIN; auth xiangfu0 via GH_TOKEN. Durable read + CAS write OK. No test PRs / no Slack.
+- Env: /workspace/pinot pre-clone origin = fork xiangfu0/pinot (no apache remote); inventory via apache/pinot API directly, coverage unaffected. Durable writes via Contents/Git API CAS (blob sha guard); gh-tentrix-wrap "no token minted" warnings cosmetic (API reads/writes succeed).
+- Lease acquired via Contents API CAS (file sha e3b9a92f, 30-min expiry guard) / released at end via atomic Git-tree commit. Single holder across run = no overlap. No Slack (no-op).
