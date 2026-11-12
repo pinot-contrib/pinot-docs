@@ -140,3 +140,10 @@
 - Fresh remote-runner session. Preflight read-only: apache/pinot WRITE, pinot-docs ADMIN; auth xiangfu0 via GH_TOKEN. Durable read + CAS write OK. No test PRs / no Slack.
 - Env: /workspace/pinot pre-clone origin = fork xiangfu0/pinot; added `upstream`=apache/pinot remote + fetched master for git-log reconcile leg. Durable writes via Contents/Git API CAS (blob sha guard); gh-tentrix-wrap "no token minted" warnings cosmetic (reads/writes succeed).
 - Lock/lease acquired via Contents API CAS (blob sha 568c42be → 66dda712, 50-min expiry guard) / released at end. Single holder across run = no overlap. No Slack (no-op).
+
+## 2026-11-12T12:03:03Z — run-20261112T120135Z-1181 (no-op)
+- Checkpoint unchanged: 2026-11-12T07:50:22Z. Ledger stays 125.
+- 3-way reconcile all agree 0 PRs strictly after checkpoint: (1) search API `repo:apache/pinot is:pr is:merged merged:>=2026-11-12` total_count=1 = only #20237 (merged exactly at CP, already in ledger); (2) `pulls?state=closed&sort=updated` first page filtered mergedAt > CP = 0; (3) `apache/master` git log — added `apache`=apache/pinot remote, fetched master; tip = #20237 @ 2026-11-12T07:50:21+05:30 (07:50:22Z UTC == CP boundary), ZERO commits strictly after CP in UTC. Recent master merges (20237/20226/20225/20224/20222/20221/20210/20202/...) all in ledger. apache/master fully triaged.
+- Fresh remote-runner session. Preflight read-only: apache/pinot WRITE, pinot-docs ADMIN; auth xiangfu0 via GH_TOKEN (rate_limit 15000 confirms authed; viewer=xiangfu0). Durable read + CAS write OK. No test PRs / no Slack.
+- Env note: /workspace/pinot pre-clone origin = fork xiangfu0/pinot; inventory via apache/pinot API + apache remote git-log. gh-tentrix-wrap "no token minted" warnings cosmetic (reads/writes succeed). CAS PUT must use `--input <file>` not `-f content=` for large base64 (argv length limit).
+- Lease acquired via Contents API CAS (automation-lock.json created, 45-min expiry guard, holder run-20261112T120135Z-1181) / released at end. Single holder across run = no overlap. No Slack (no-op).
