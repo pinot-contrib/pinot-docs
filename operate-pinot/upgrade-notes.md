@@ -116,14 +116,6 @@ Before this fix, `GET /tables/{table}/metadata?columns=*` could remove columns f
 
 *Source: [PR #19665](https://github.com/apache/pinot/pull/19665)*
 
-### Segments metadata API no longer falls back to the legacy per-segment endpoint
-
-The controller previously fell back to the per-segment server endpoint whenever a table-level `GET /segments/{tableName}/metadata` request failed. That fallback existed only for servers older than 1.5.0, the first release with the table-level server endpoint. A failed request now returns an error instead of falling back.
-
-**Action required.** `GET /segments/{tableName}/metadata` returns an error while any server hosting the table is older than 1.5.0, so the API is unavailable until those servers are upgraded. When upgrading from a release older than 1.5.0, upgrade to 1.5.x or 1.6.x first.
-
-*Source: [PR #20222](https://github.com/apache/pinot/pull/20222)*
-
 ### Index plugin registry supports at most 64 index types
 
 Pinot now limits the combined index types registered by built-in and custom `IndexPlugin` implementations to 64. A server with more than 64 registered types fails startup before joining the cluster, rather than failing during segment loads. The segment format is unchanged.
