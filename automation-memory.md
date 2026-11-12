@@ -133,3 +133,10 @@
 - Fresh remote-runner session. Preflight read-only: apache/pinot WRITE, pinot-docs ADMIN; auth xiangfu0 via GH_TOKEN. Durable read + CAS write OK. No test PRs / no Slack.
 - Env: /workspace/pinot pre-clone origin = fork xiangfu0/pinot (no apache remote); inventory via apache/pinot API directly, coverage unaffected. Durable writes via Contents/Git API CAS (blob sha guard); gh-tentrix-wrap "no token minted" warnings cosmetic (API reads/writes succeed).
 - Lease acquired via Contents API CAS (file sha e3b9a92f, 30-min expiry guard) / released at end via atomic Git-tree commit. Single holder across run = no overlap. No Slack (no-op).
+
+## 2026-11-12T10:03:08Z — run-20261112T100138Z-opus48-cloud (no-op)
+- Checkpoint unchanged: 2026-11-12T07:50:22Z. Ledger stays 125.
+- 3-way reconcile all agree 0 PRs strictly after checkpoint: (1) search API `repo:apache/pinot is:pr is:merged merged:>CP` total_count=0; (2) `gh pr list --state merged` filtered mergedAt > CP = 0 (newest 20 merged PRs all <= CP, all in ledger); (3) `upstream/master` git log tip = eaef9a2a3 (#20237) @ 2026-11-12T07:50:22Z == CP boundary, already in ledger (docs #1177). apache/master fully triaged.
+- Fresh remote-runner session. Preflight read-only: apache/pinot WRITE, pinot-docs ADMIN; auth xiangfu0 via GH_TOKEN. Durable read + CAS write OK. No test PRs / no Slack.
+- Env: /workspace/pinot pre-clone origin = fork xiangfu0/pinot; added `upstream`=apache/pinot remote + fetched master for git-log reconcile leg. Durable writes via Contents/Git API CAS (blob sha guard); gh-tentrix-wrap "no token minted" warnings cosmetic (reads/writes succeed).
+- Lock/lease acquired via Contents API CAS (blob sha 568c42be → 66dda712, 50-min expiry guard) / released at end. Single holder across run = no overlap. No Slack (no-op).
