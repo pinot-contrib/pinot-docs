@@ -1150,21 +1150,21 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261112T090127Z-opus48-cloud",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-12T09:01:32Z",
-    "released_at": "2026-11-12T09:04:39Z",
-    "lease_expires_at": null,
+    "holder": "run-20261112T100138Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-12T10:01:38Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-12T10:51:39Z",
     "prev_holder": "run-20261112T090127Z-opus48-cloud"
   },
   "last_run_summary": "No upstream PRs merged strictly after checkpoint 2026-11-11T15:35:28Z. 3-way reconcile (search API merged:>CP=0, gh pr list, upstream/master git log) all agree 0 new. apache/pinot master HEAD=#20226 @ checkpoint boundary; PRs 20221,20222,20224,20225,20226 all <= checkpoint and already in ledger. No docs PRs created. Checkpoint unchanged.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-12T09:01:32Z",
-    "released_at": "2026-11-12T09:04:39Z",
-    "lease_expires_at": null,
+    "holder": "run-20261112T100138Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-12T10:01:38Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-12T10:51:39Z",
     "prev_holder": "run-20261112T090127Z-opus48-cloud"
   },
   "recent_runs": [
