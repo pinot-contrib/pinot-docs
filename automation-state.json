@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-12T07:50:22Z",
-  "last_successful_run": "2026-11-12T13:02:32Z",
+  "last_processed_merged_at": "2026-11-12T14:37:29Z",
+  "last_successful_run": "2026-11-12T20:07:40Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20237,
-    "upstream_url": "https://github.com/apache/pinot/pull/20237",
-    "docs_pr": 1177,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1177",
-    "decision": "docs_corrected",
-    "note": "Revert of #20222 restored the per-segment fallback; removed the now-incorrect upgrade note added by docs #1175."
+    "upstream_pr": 20238,
+    "upstream_url": "https://github.com/apache/pinot/pull/20238",
+    "docs_pr": 1179,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1179",
+    "decision": "docs_created",
+    "note": "Restored segments-metadata upgrade note after #20238 re-landed the fallback removal."
   },
   "processed_prs": {
     "19862": {
@@ -1144,6 +1144,44 @@
       "merged_at": "2026-11-12T07:50:22Z",
       "processed_by_run": "run-20261112T080119Z-opus48-cloud",
       "processed_at": "2026-11-12T08:05:10Z"
+    },
+    "20240": {
+      "decision": "not_relevant",
+      "reason": "Dependency version bump only (com.mchange:mchange-commons-java 0.6.1->0.7.0). No user-facing behavior, config, or API change.",
+      "merged_at": "2026-11-12T14:03:45Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20240"
+    },
+    "20242": {
+      "decision": "not_relevant",
+      "reason": "Build-plugin version bump only (org.eclipse.sisu:sisu-maven-plugin 1.1.1->1.1.2). No user-facing change.",
+      "merged_at": "2026-11-12T14:04:29Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20242"
+    },
+    "20243": {
+      "decision": "not_relevant",
+      "reason": "Dependency version bump only (org.apache.commons:commons-lang3 3.21.0->3.22.0). No user-facing change.",
+      "merged_at": "2026-11-12T14:33:28Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20243"
+    },
+    "18486": {
+      "decision": "docs_created",
+      "docs_pr": 1178,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1178",
+      "docs_merged_at": "2026-11-12T20:06:34Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/18486#issuecomment-6834628046",
+      "merged_at": "2026-11-12T13:24:34Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/18486",
+      "note": "New controller config controller.segment.upload.reject.out.of.retention (default false). Name verified from merged ControllerConf.java (prose said rejectOutOfRetention.enabled; actual is dotted key)."
+    },
+    "20238": {
+      "decision": "docs_created",
+      "docs_pr": 1179,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1179",
+      "docs_merged_at": "2026-11-12T20:06:52Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20238#issuecomment-6834628593",
+      "merged_at": "2026-11-12T14:37:29Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20238",
+      "note": "Re-removes legacy per-segment fallback (re-landing #20222 after revert #20237). Restored upgrade note that docs #1177 had removed, attributed to #20238."
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
@@ -1160,12 +1198,12 @@
   "last_run_summary": "0 new PRs merged after checkpoint 2026-11-12T07:50:22Z; reconciled against apache/pinot master (0 commits since). No-op.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261112T200124Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-12T20:01:39Z",
-    "released_at": null,
+    "released_at": "2026-11-12T20:07:40Z",
     "lease_expires_at": null,
-    "prev_holder": null
+    "prev_holder": "run-20261112T200124Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1723,15 +1761,46 @@
       "docs_prs": 0,
       "checkpoint": "2026-11-12T07:50:22Z",
       "method": "3-way reconcile all agree 0 new after checkpoint; master HEAD #20237 == checkpoint boundary"
+    },
+    {
+      "run_id": "run-20261112T200124Z-opus48-cloud",
+      "utc": "2026-11-12T20:07:40Z",
+      "result": "docs_created",
+      "new_prs": 5,
+      "docs_prs_created": 2,
+      "checkpoint": "2026-11-12T14:37:29Z",
+      "model": "claude-opus-4-8",
+      "docs_prs": [
+        1178,
+        1179
+      ],
+      "processed": [
+        18486,
+        20238,
+        20240,
+        20242,
+        20243
+      ]
     }
   ],
   "last_run": {
-    "run_id": "run-20261112T130131Z-opus48-cloud",
-    "utc": "2026-11-12T13:02:32Z",
-    "result": "noop",
-    "new_prs_processed": 0,
-    "docs_prs_created": 0,
-    "checkpoint_advanced": false,
-    "candidates_after_checkpoint": 0
+    "run_id": "run-20261112T200124Z-opus48-cloud",
+    "utc": "2026-11-12T20:07:40Z",
+    "result": "docs_created",
+    "new_prs_processed": 5,
+    "docs_prs_created": 2,
+    "checkpoint_advanced": true,
+    "checkpoint": "2026-11-12T14:37:29Z",
+    "docs_prs": [
+      1178,
+      1179
+    ],
+    "decisions": {
+      "18486": "docs_created",
+      "20238": "docs_created",
+      "20240": "not_relevant",
+      "20242": "not_relevant",
+      "20243": "not_relevant"
+    }
   }
 }
