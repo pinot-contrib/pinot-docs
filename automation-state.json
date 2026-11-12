@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-12T21:03:28Z",
-  "last_successful_run": "2026-11-12T22:02:19Z",
+  "last_successful_run": "2026-11-12T23:04:23Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -1203,22 +1203,22 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261112T230259Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261112T230259Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-12T23:02:59Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-12T23:52:59Z",
-    "prev_holder": "run-20261112T220123Z-opus48-cloud"
+    "released_at": "2026-11-12T23:04:23Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261112T230259Z-opus48-cloud"
   },
   "last_run_summary": "0 new PRs merged after checkpoint 2026-11-12T07:50:22Z; reconciled against apache/pinot master (0 commits since). No-op.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261112T230259Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-12T23:02:59Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-12T23:52:59Z",
-    "prev_holder": "run-20261112T220123Z-opus48-cloud"
+    "released_at": "2026-11-12T23:04:23Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261112T230259Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1301,9 +1301,15 @@
       "docs_prs": 0,
       "checkpoint": "2026-11-12T07:50:22Z",
       "method": "3-way reconcile (pulls list, master commits-since, search) all agree 0 merged strictly after checkpoint; master HEAD eaef9a2a3 == PR #20237 == checkpoint boundary"
+    },
+    {
+      "run_id": "run-20261112T230259Z-opus48-cloud",
+      "utc": "2026-11-12T23:04:23Z",
+      "result": "noop",
+      "checkpoint": "2026-11-12T21:03:28Z"
     }
   ],
-  "last_run_note": "No-op. Verified coverage via gh pr list (merged:>checkpoint=0), search qualifier, and commits API reconciliation (0). Checkpoint unchanged.",
+  "last_run_note": "No new docs-relevant PRs after checkpoint 2026-11-12T21:03:28Z; most recent upstream merge #20241 already processed (not_relevant). Coverage reconciled vs origin/master commits and merged-PR search.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
