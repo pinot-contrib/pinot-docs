@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-13T06:03:42Z",
-  "last_successful_run": "2026-11-13T14:02:29Z",
+  "last_processed_merged_at": "2026-11-13T14:34:40Z",
+  "last_successful_run": "2026-11-13T15:03:01Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -1232,20 +1232,44 @@
       "reason": "Dependabot dependency version bump only: org.apache.datasketches:datasketches-java 9.0.0 -> 9.1.0. Single file changed (pom.xml, +1/-1), label \"dependencies\", author dependabot[bot]. No user-facing behavior, configuration, API, SPI, serialization format, or documented default changed. Not docs-relevant.",
       "merged_at": "2026-11-13T06:03:42Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20227"
+    },
+    "20252": {
+      "decision": "not_relevant",
+      "reason": "Dependency/build-plugin version bump: only pom.xml changed (Bump org.codehaus.mojo:versions-maven-plugin from 2.24.0 to 2.25.1). No user-facing behavior, config, API, or documented default changes.",
+      "merged_at": "2026-11-13T14:03:47Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20252"
+    },
+    "20258": {
+      "decision": "not_relevant",
+      "reason": "Dependency/build-plugin version bump: only pom.xml changed (Bump org.codehaus.mojo:javacc-maven-plugin from 3.2.1 to 3.3.0). No user-facing behavior, config, API, or documented default changes.",
+      "merged_at": "2026-11-13T14:04:08Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20258"
+    },
+    "20250": {
+      "decision": "not_relevant",
+      "reason": "Dependency/build-plugin version bump: only pom.xml changed (Bump org.codehaus.mojo:buildnumber-maven-plugin from 3.3.1 to 3.4.0). No user-facing behavior, config, API, or documented default changes.",
+      "merged_at": "2026-11-13T14:34:01Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20250"
+    },
+    "20251": {
+      "decision": "not_relevant",
+      "reason": "Dependency/build-plugin version bump: only pom.xml changed (Bump com.microsoft.azure:msal4j from 1.26.0 to 1.26.1). No user-facing behavior, config, API, or documented default changes.",
+      "merged_at": "2026-11-13T14:34:40Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20251"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261113T140118Z-opus48-cloud",
+  "last_run_id": "run-20261113T150142Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261113T150142Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-13T15:01:42Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-13T15:31:42Z",
-    "prev_holder": "run-20261113T140118Z-opus48-cloud"
+    "released_at": "2026-11-13T15:03:01Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261113T150142Z-opus48-cloud"
   },
-  "last_run_summary": "No new merged PRs strictly after checkpoint 2026-11-13T06:03:42Z. 3-way reconcile (search API total_count=0, pulls API newest=#20227 at checkpoint, apache/master git log 0 commits after checkpoint) all agree: boundary PR #20227 already processed (not_relevant). Nothing new; no docs PRs created.",
+  "last_run_summary": "4 dependency-bump PRs after checkpoint (#20252, #20258, #20250, #20251), all pom.xml-only -> not_relevant. No docs PRs created.",
   "run_history_note": "",
   "lease": {
     "holder": null,
@@ -1256,14 +1280,6 @@
     "prev_holder": "run-20261113T140118Z-opus48-cloud"
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261112T000123Z-opus48-cloud",
-      "utc": "2026-11-12T00:03:09Z",
-      "result": "no-op",
-      "new_prs": 0,
-      "docs_prs": 0,
-      "checkpoint": "2026-11-11T15:35:28Z"
-    },
     {
       "run_id": "run-20261112T010112Z-opus48-cloud",
       "utc": "2026-11-12T01:02:51Z",
@@ -1426,9 +1442,16 @@
       "utc": "2026-11-13T14:02:29Z",
       "checkpoint": "2026-11-13T06:03:42Z",
       "inventory": "0 merged PRs after checkpoint; HEAD #20227 already processed"
+    },
+    {
+      "run_id": "run-20261113T150142Z-opus48-cloud",
+      "utc": "2026-11-13T15:03:01Z",
+      "result": "noop",
+      "checkpoint": "2026-11-13T14:34:40Z",
+      "inventory": "4 merged PRs after prev checkpoint (all dependency bumps, pom.xml-only); classified not_relevant"
     }
   ],
-  "last_run_note": "Inventory after checkpoint 2026-11-13T06:03:42Z: zero merged PRs. apache/master HEAD=#20227 (b09fec33) exactly at checkpoint, already in ledger. Coverage reconciled across search/pulls/git-log. No-op.",
+  "last_run_note": "Checkpoint advanced 2026-11-13T06:03:42Z -> 2026-11-13T14:34:40Z.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
