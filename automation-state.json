@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-13T06:03:42Z",
-  "last_successful_run": "2026-11-13T07:02:38Z",
+  "last_successful_run": "2026-11-13T08:02:25Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -1236,7 +1236,7 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261113T070123Z-opus48-cloud",
+  "last_run_id": "run-20261113T080122Z-opus48-cloud",
   "lock": {
     "holder": null,
     "status": "released",
@@ -1245,15 +1245,15 @@
     "lease_expires_at": null,
     "prev_holder": "run-20261113T030134Z-opus48-cloud"
   },
-  "last_run_summary": "1 new merged PR after checkpoint 2026-11-13T03:37:04Z: #20227 (dependabot datasketches-java bump) classified not_relevant. 3-way reconcile (search API, pulls API, apache/master git log) all agree on exactly 1 PR. No docs PR created. Checkpoint advanced to 2026-11-13T06:03:42Z.",
+  "last_run_summary": "No new merged PRs strictly after checkpoint 2026-11-13T06:03:42Z. 3-way reconcile (search API, pulls API, apache/master git log) all agree: boundary PR #20227 already processed (not_relevant); nothing new. No docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261113T080122Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-13T08:01:22Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-13T08:46:22Z",
-    "prev_holder": "run-20261113T070123Z-opus48-cloud"
+    "released_at": "2026-11-13T08:02:25Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261113T080122Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1406,9 +1406,15 @@
         20227
       ],
       "docs_created": 0
+    },
+    {
+      "run_id": "run-20261113T080122Z-opus48-cloud",
+      "result": "no-op",
+      "utc": "2026-11-13T08:02:25Z",
+      "checkpoint": "2026-11-13T06:03:42Z"
     }
   ],
-  "last_run_note": "1 new merged PR after checkpoint 2026-11-13T03:37:04Z: #20227 (dependabot datasketches-java bump) classified not_relevant. 3-way reconcile (search API, pulls API, apache/master git log) all agree on exactly 1 PR. No docs PR created. Checkpoint advanced to 2026-11-13T06:03:42Z.",
+  "last_run_note": "No new merged PRs strictly after checkpoint 2026-11-13T06:03:42Z. 3-way reconcile (search API, pulls API, apache/master git log) all agree: boundary PR #20227 already processed (not_relevant); nothing new. No docs PRs created.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -1650,6 +1656,13 @@
       "utc": "2026-11-13T03:03:41Z",
       "result": "noop",
       "checkpoint": "2026-11-13T00:54:18Z"
+    },
+    {
+      "run_id": "run-20261113T080122Z-opus48-cloud",
+      "utc": "2026-11-13T08:02:25Z",
+      "result": "no-op",
+      "checkpoint": "2026-11-13T06:03:42Z",
+      "new_prs": 0
     }
   ],
   "run_history": [
@@ -1951,12 +1964,10 @@
     }
   ],
   "last_run": {
-    "run_id": "run-20261113T070123Z-opus48-cloud",
-    "utc": "2026-11-13T07:02:38Z",
+    "run_id": "run-20261113T080122Z-opus48-cloud",
+    "utc": "2026-11-13T08:02:25Z",
     "result": "noop",
-    "new_prs": [
-      20227
-    ],
+    "new_prs": [],
     "docs_prs_created": []
   }
 }
