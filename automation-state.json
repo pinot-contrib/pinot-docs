@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-13T06:03:42Z",
-  "last_successful_run": "2026-11-13T10:02:33Z",
+  "last_successful_run": "2026-11-13T11:02:50Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -1236,7 +1236,7 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261113T090139Z-opus48-cloud",
+  "last_run_id": "run-20261113T110121Z-opus48-cloud",
   "lock": {
     "holder": null,
     "status": "released",
@@ -1248,12 +1248,12 @@
   "last_run_summary": "No new merged PRs strictly after checkpoint 2026-11-13T06:03:42Z. 3-way reconcile (search API, pulls API, apache/master git log) all agree: boundary PR #20227 already processed (not_relevant); nothing new. No docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261113T110121Z-opus48-cloud",
-    "status": "acquired",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-13T11:01:21Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-13T11:51:21Z",
-    "prev_holder": null
+    "released_at": "2026-11-13T11:02:50Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261113T110121Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1421,7 +1421,7 @@
       "inventory": "no merged PRs after checkpoint; HEAD #20227 already processed"
     }
   ],
-  "last_run_note": "No new merged PRs strictly after checkpoint 2026-11-13T06:03:42Z. 3-way reconcile (search API, pulls API, apache/master git log) all agree: boundary PR #20227 already processed (not_relevant); nothing new. No docs PRs created.",
+  "last_run_note": "No PRs merged after checkpoint 2026-11-13T06:03:42Z; 4 same-day PRs (19529,20227,20228,20239) all at/before checkpoint and already in ledger. Coverage reconciled vs master commits (0 after checkpoint) and search window. No-op.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -1670,6 +1670,13 @@
       "result": "no-op",
       "checkpoint": "2026-11-13T06:03:42Z",
       "new_prs": 0
+    },
+    {
+      "run_id": "run-20261113T110121Z-opus48-cloud",
+      "utc": "2026-11-13T11:02:50Z",
+      "result": "noop",
+      "new_docs_prs": 0,
+      "checkpoint": "2026-11-13T06:03:42Z"
     }
   ],
   "run_history": [
