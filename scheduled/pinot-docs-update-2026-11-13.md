@@ -1,0 +1,40 @@
+# Pinot Docs Automation — 2026-11-13 (UTC)
+
+## Run run-20261113T000124Z-opus48-cloud @ 2026-11-13T00:01Z
+
+**Result:** no-op (no PRs merged strictly after checkpoint; 0 docs PRs created).
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at = 2026-11-12T21:03:28Z` (read from pinot-contrib/pinot-docs `automation-state` branch; most-recent completed pair #20023 → docs#1180). Well ahead of the migrated bootstrap boundary (2026-10-26T23:24:33Z), which was correctly not reset.
+- Inventory of apache/pinot PRs merged on/after the checkpoint, reconciled 3 ways (all agree, no gaps):
+  1. `search/issues repo:apache/pinot is:pr is:merged merged:>=2026-11-12` → 8 PRs; each fetched for exact `merged_at`. All ≤ checkpoint; highest is #20241 at exactly `2026-11-12T21:03:28Z` (the boundary PR). Filtered strictly `> 2026-11-12T21:03:28Z` → **0 PRs**. All 8 already in the processed ledger.
+  2. Closed PRs sorted `updated desc` (page 1, 100) filtered to `merged_at > checkpoint` → **0 PRs**.
+  3. `repos/apache/pinot/commits?sha=master&since=2026-11-12T21:03:28Z` → **1 commit**: `203c166cf` (#20241) at the checkpoint instant itself; nothing strictly after. apache/pinot master HEAD == #20241 == checkpoint boundary.
+- Highest processed PR in ledger = #20243; master tip #20241 already processed.
+- Note: the local `/workspace/pinot` origin is the fork `xiangfu0/pinot` (stale at #19809); authoritative inventory used the apache/pinot GitHub API, not the stale clone.
+
+### Decisions
+_No new upstream PRs merged after the checkpoint; nothing to triage._
+
+### Partial-work check
+- No automation docs branches left dangling. Open docs PRs (#1174, #1153, #1131, #1080, #978, #912, #911, #453, #436) are unrelated manual contributions, not from this automation. Orphan branch `docs/pr-18047-dynamic-server-thread-pool` has no associated PR and is not referenced in automation state — not this automation's work; left untouched.
+
+### Outputs
+- Docs PRs created: **0**
+- Upstream comments: **0**
+- Validation: not run (no docs changes produced).
+- Slack: not sent (no-op run).
+
+### Durable state
+- Checkpoint **unchanged** at `2026-11-12T21:03:28Z` (no new, processed, or failed work; did not advance).
+- Ledger size: 132 (unchanged).
+- Lease: acquired via CAS (Contents API, content SHA `e3c8cc87`, commit `acd2c005`) and released at end via CAS (content SHA `6c479ac9`, commit `df4a5af3`); strictly serialized, no overlap. 50-minute lease expiry set as a stale-lock guard.
+
+### Preflight
+- Environment: `/workspace/pinot` present (origin = fork `xiangfu0/pinot`, branch master, clean, rebased — up to date). `pinot-contrib/pinot-docs` present at `/workspace/pinot-docs` on `latest` (clean, up to date; HEAD = docs#1180).
+- GitHub auth: `GH_TOKEN` (ghu_, account `xiangfu0`) authenticated (rate limit 15000 confirms auth). Permissions: apache/pinot = **WRITE** (pull/push/triage true), pinot-contrib/pinot-docs = **ADMIN**.
+- Durable store: read + CAS write to `automation-state` branch confirmed working via Contents API.
+- Note: cosmetic `gh-tentrix-wrap: no GitHub token minted` stderr appears on apache/pinot & pinot-docs API calls, but every API/CAS operation succeeded with the authenticated identity. Durable writes use the Contents API (not raw `git push`).
+
+### Blockers
+- None.
