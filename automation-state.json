@@ -1215,21 +1215,21 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261113T010127Z-opus48-cloud",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-13T01:01:36Z",
-    "released_at": "2026-11-13T01:03:32Z",
-    "lease_expires_at": null,
+    "holder": "run-20261113T020131Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-13T02:01:31Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-13T02:31:31Z",
     "prev_holder": "run-20261113T010127Z-opus48-cloud"
   },
   "last_run_summary": "0 new PRs merged after checkpoint 2026-11-12T07:50:22Z; reconciled against apache/pinot master (0 commits since). No-op.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-13T01:01:36Z",
-    "released_at": "2026-11-13T01:03:32Z",
-    "lease_expires_at": null,
+    "holder": "run-20261113T020131Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-13T02:01:31Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-13T02:31:31Z",
     "prev_holder": "run-20261113T010127Z-opus48-cloud"
   },
   "recent_runs": [
