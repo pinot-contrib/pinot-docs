@@ -342,3 +342,36 @@ _No new upstream PRs merged after the checkpoint; nothing to triage._
 - None.
 
 ---
+
+## Run run-20261113T150142Z-opus48-cloud — 2026-11-13T15:03:24Z (no-op, checkpoint advanced)
+
+### Coverage
+- Incoming durable checkpoint read from `automation-state` branch: `last_processed_merged_at = 2026-11-13T06:03:42Z` (#20227; most-recent completed pair #19529 → docs#1181). Ledger size 136. Lease released by prior run run-20261113T140118Z (noop).
+- Inventoried apache/pinot merged PRs strictly after the checkpoint, reconciled two ways (agree, no gaps):
+  1. `pulls?state=closed&sort=updated&direction=desc&per_page=100&base=master` across 3 pages (255 merged rows scanned back to 2025-08-11, fully covering the window) filtered to `merged_at > 2026-11-13T06:03:42Z` → **4 PRs**: #20252, #20258, #20250, #20251.
+  2. Cross-checked against processed ledger: none of the 4 previously recorded.
+- Note: local `/workspace/pinot` origin is the fork `xiangfu0/pinot` (stale at #19809); authoritative inventory used the apache/pinot GitHub API.
+
+### Decisions (all triaged → not_relevant)
+- **#20252** — Bump versions-maven-plugin 2.24.0 → 2.25.1 → **not_relevant** (pom.xml-only build-plugin bump).
+- **#20258** — Bump javacc-maven-plugin 3.2.1 → 3.3.0 → **not_relevant** (pom.xml-only build-plugin bump).
+- **#20250** — Bump buildnumber-maven-plugin 3.3.1 → 3.4.0 → **not_relevant** (pom.xml-only build-plugin bump).
+- **#20251** — Bump msal4j 1.26.0 → 1.26.1 → **not_relevant** (pom.xml-only dependency bump).
+- Each verified via `pulls/{n}/files`: **only `pom.xml` changed**. No user-facing behavior, config, API, SPI, serialization, or documented default changed.
+
+### Outputs
+- Docs PRs created: **0** | Upstream comments: **0**
+- Validation: N/A (no docs changes). Slack: not sent (no-op; policy fires only on new docs PRs).
+
+### Durable state
+- Checkpoint **advanced**: `2026-11-13T06:03:42Z` → **`2026-11-13T14:34:40Z`** (= #20251 merged_at; all 4 fully processed as not_relevant). Ledger **136 → 140**.
+- Lease acquired via Contents API CAS (acquire file sha `f50af589` → `6eaf43e1`, commit `46d6c795`, 30-min expiry, holder run-20261113T150142Z-opus48-cloud); released at end via CAS atomically with the state+report write. Single holder, strictly serialized, no overlap.
+
+### Preflight
+- GitHub auth: `GH_TOKEN` account `xiangfu0`. apache/pinot = **WRITE** (pull/push/triage), pinot-contrib/pinot-docs = **ADMIN**. Durable read + CAS write to `automation-state` branch confirmed working.
+- Cosmetic `gh-tentrix-wrap: no GitHub token minted` stderr appears but all authenticated API/CAS operations succeeded.
+
+### Blockers
+- None.
+
+---
