@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-12T21:03:28Z",
-  "last_successful_run": "2026-11-13T00:03:14Z",
+  "last_processed_merged_at": "2026-11-13T00:54:18Z",
+  "last_successful_run": "2026-11-13T01:03:32Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -1197,28 +1197,40 @@
       "reason": "Dependabot dependency bump only: com.mchange:c3p0 0.14.2 -> 0.15.0 in pom.xml (single line). No user-facing behavior, config, API, or documented default change.",
       "merged_at": "2026-11-12T21:03:28Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20241"
+    },
+    "20239": {
+      "decision": "not_relevant",
+      "reason": "Dependency version bump only: com.github.luben:zstd-jni 1.5.7-25 -> 1.5.7-26 (Dependabot). No user-facing behavior, config, API, default, or documented change.",
+      "merged_at": "2026-11-13T00:03:31Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20239"
+    },
+    "20228": {
+      "decision": "not_relevant",
+      "reason": "Internal sketch-aggregation correctness bug fix (CPC/Theta/integer-tuple accumulator lifecycle, tuple serialization size bound, KLL null/unused-row deserialization). Serialized formats explicitly unchanged; no public config name, default, query-function signature, or documented API changed. The corrected internal integer-tuple raw-forward-index byte bound (e.g. 196632->213016 at default nominalEntries) is not a documented value in pinot-docs and is an internal space-allocation detail, not a user-tunable default. Verified against merged diff: changes are constructor/setter refactors on internal accumulator classes plus size-bound math. Labeled release-notes upstream but no documented user-facing doc surface changed.",
+      "merged_at": "2026-11-13T00:54:18Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20228"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261113T000124Z-opus48-cloud",
+  "last_run_id": "run-20261113T010127Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261113T010127Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-13T01:01:36Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-13T01:56:36Z",
-    "prev_holder": "run-20261113T000124Z-opus48-cloud"
+    "released_at": "2026-11-13T01:03:32Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261113T010127Z-opus48-cloud"
   },
   "last_run_summary": "0 new PRs merged after checkpoint 2026-11-12T07:50:22Z; reconciled against apache/pinot master (0 commits since). No-op.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261113T010127Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-13T01:01:36Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-13T01:56:36Z",
-    "prev_holder": "run-20261113T000124Z-opus48-cloud"
+    "released_at": "2026-11-13T01:03:32Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261113T010127Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1315,9 +1327,23 @@
       "new_prs": 0,
       "docs_prs": 0,
       "checkpoint": "2026-11-12T21:03:28Z"
+    },
+    {
+      "run_id": "run-20261113T010127Z-opus48-cloud",
+      "utc": "2026-11-13T01:03:32Z",
+      "result": "noop",
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-13T00:54:18Z",
+      "model": "claude-opus-4-8",
+      "docs_prs": [],
+      "processed": [
+        20239,
+        20228
+      ],
+      "new_prs": 2
     }
   ],
-  "last_run_note": "No merged upstream PRs strictly after checkpoint 2026-11-12T21:03:28Z. 3-way reconcile (search merged:>=2026-11-12, closed-PRs updated-desc, apache/pinot master commits since checkpoint) all agree: only #20241 at exactly the checkpoint boundary, already processed. apache/pinot master HEAD == #20241 == checkpoint. Open docs PRs are unrelated manual contributions; orphan docs/pr-18047 branch not from this automation.",
+  "last_run_note": "2 new merged PRs after checkpoint; both not_relevant (dep bump + internal sketch bugfix). Coverage reconciled via search + live apache/pinot master commits. No docs PRs created.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -1810,18 +1836,46 @@
         20242,
         20243
       ]
+    },
+    {
+      "run_id": "run-20261113T010127Z-opus48-cloud",
+      "utc": "2026-11-13T01:03:32Z",
+      "result": "noop",
+      "new_prs_processed": 2,
+      "docs_prs_created": 0,
+      "checkpoint_advanced": true,
+      "checkpoint": "2026-11-13T00:54:18Z",
+      "model": "claude-opus-4-8",
+      "docs_prs": [],
+      "processed": [
+        20239,
+        20228
+      ],
+      "decisions": {
+        "20239": "not_relevant",
+        "20228": "not_relevant"
+      },
+      "note": "2 new merged PRs after checkpoint; both not_relevant (dep bump + internal sketch bugfix). Coverage reconciled via search + live apache/pinot master commits. No docs PRs created."
     }
   ],
   "last_run": {
-    "run_id": "run-20261113T000124Z-opus48-cloud",
-    "utc": "2026-11-13T00:03:14Z",
+    "run_id": "run-20261113T010127Z-opus48-cloud",
+    "utc": "2026-11-13T01:03:32Z",
     "result": "noop",
-    "new_prs_processed": 0,
+    "new_prs_processed": 2,
     "docs_prs_created": 0,
-    "checkpoint_advanced": false,
-    "checkpoint": "2026-11-12T21:03:28Z",
+    "checkpoint_advanced": true,
+    "checkpoint": "2026-11-13T00:54:18Z",
+    "model": "claude-opus-4-8",
     "docs_prs": [],
-    "decisions": {},
-    "note": "No new merged PRs after checkpoint; reconciled 3 ways."
+    "processed": [
+      20239,
+      20228
+    ],
+    "decisions": {
+      "20239": "not_relevant",
+      "20228": "not_relevant"
+    },
+    "note": "2 new merged PRs after checkpoint; both not_relevant (dep bump + internal sketch bugfix). Coverage reconciled via search + live apache/pinot master commits. No docs PRs created."
   }
 }

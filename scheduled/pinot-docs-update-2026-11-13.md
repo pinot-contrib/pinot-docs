@@ -38,3 +38,28 @@ _No new upstream PRs merged after the checkpoint; nothing to triage._
 
 ### Blockers
 - None.
+
+---
+
+## Run run-20261113T010127Z-opus48-cloud — 2026-11-13T01:04:02Z (noop, checkpoint advanced)
+
+### Coverage
+- Inventoried merged apache/pinot PRs strictly after checkpoint `2026-11-12T21:03:28Z`. Reconciled two ways: Search API (`repo:apache/pinot is:pr is:merged merged:>=2026-11-12`, full pagination) and live apache/pinot `commits?sha=master` endpoint. Both agree: **2 new PRs** (#20239, #20228). Local checkout mirror lagged behind live master, so the live API commits endpoint was used as the authoritative reconciliation source.
+
+### Decisions
+- **#20239** (zstd-jni 1.5.7-25 → 1.5.7-26 dependabot bump) → **not_relevant**.
+- **#20228** ("Fix sketch accumulator initialization, tuple sizing, and KLL null handling") → **not_relevant**. Internal sketch-aggregation correctness bugfix; serialized formats unchanged; no public config/default/API/function-signature or documented value changed. The internal integer-tuple raw-forward-index byte bound change is not documented in pinot-docs. Verified against merged diff.
+
+### Outputs
+- Docs PRs created: **0**
+- Upstream comments: **0**
+- Validation: not run (no docs changes).
+- Slack: not sent (no new docs PRs).
+
+### Durable state
+- Checkpoint **advanced**: `2026-11-12T21:03:28Z` → `2026-11-13T00:54:18Z` (both new PRs fully processed as not_relevant).
+- Ledger size: 132 → **134**.
+- Lease: acquired via Contents API CAS (file sha `6c479ac9` → `fedd2106`) and released at end atomically with the combined state+reports write; strictly serialized, no overlap. 55-minute lease expiry stale-lock guard.
+
+### Blockers
+- None.
