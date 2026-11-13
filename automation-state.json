@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-12T21:03:28Z",
-  "last_successful_run": "2026-11-12T23:04:23Z",
+  "last_successful_run": "2026-11-13T00:03:14Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -1201,24 +1201,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261112T230259Z-opus48-cloud",
+  "last_run_id": "run-20261113T000124Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261113T000124Z-opus48-cloud",
-    "status": "held",
-    "acquired_at": "2026-11-13T00:01:24Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-13T00:51:33Z",
-    "prev_holder": "run-20261112T230259Z-opus48-cloud"
+    "holder": null,
+    "status": "released",
+    "acquired_at": "2026-11-12T23:02:59Z",
+    "released_at": "2026-11-13T00:03:14Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261113T000124Z-opus48-cloud"
   },
   "last_run_summary": "0 new PRs merged after checkpoint 2026-11-12T07:50:22Z; reconciled against apache/pinot master (0 commits since). No-op.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261113T000124Z-opus48-cloud",
-    "status": "held",
-    "acquired_at": "2026-11-13T00:01:24Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-13T00:51:33Z",
-    "prev_holder": "run-20261112T230259Z-opus48-cloud"
+    "holder": null,
+    "status": "released",
+    "acquired_at": "2026-11-12T23:02:59Z",
+    "released_at": "2026-11-13T00:03:14Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261113T000124Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1307,9 +1307,17 @@
       "utc": "2026-11-12T23:04:23Z",
       "result": "noop",
       "checkpoint": "2026-11-12T21:03:28Z"
+    },
+    {
+      "run_id": "run-20261113T000124Z-opus48-cloud",
+      "utc": "2026-11-13T00:03:14Z",
+      "result": "noop",
+      "new_prs": 0,
+      "docs_prs": 0,
+      "checkpoint": "2026-11-12T21:03:28Z"
     }
   ],
-  "last_run_note": "No new docs-relevant PRs after checkpoint 2026-11-12T21:03:28Z; most recent upstream merge #20241 already processed (not_relevant). Coverage reconciled vs origin/master commits and merged-PR search.",
+  "last_run_note": "No merged upstream PRs strictly after checkpoint 2026-11-12T21:03:28Z. 3-way reconcile (search merged:>=2026-11-12, closed-PRs updated-desc, apache/pinot master commits since checkpoint) all agree: only #20241 at exactly the checkpoint boundary, already processed. apache/pinot master HEAD == #20241 == checkpoint. Open docs PRs are unrelated manual contributions; orphan docs/pr-18047 branch not from this automation.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -1805,8 +1813,8 @@
     }
   ],
   "last_run": {
-    "run_id": "run-20261112T220123Z-opus48-cloud",
-    "utc": "2026-11-12T22:02:19Z",
+    "run_id": "run-20261113T000124Z-opus48-cloud",
+    "utc": "2026-11-13T00:03:14Z",
     "result": "noop",
     "new_prs_processed": 0,
     "docs_prs_created": 0,
@@ -1814,6 +1822,6 @@
     "checkpoint": "2026-11-12T21:03:28Z",
     "docs_prs": [],
     "decisions": {},
-    "note": "No merged upstream PRs after checkpoint 2026-11-12T21:03:28Z; master HEAD #20241 already processed; reconciled via search + master commit log."
+    "note": "No new merged PRs after checkpoint; reconciled 3 ways."
   }
 }
