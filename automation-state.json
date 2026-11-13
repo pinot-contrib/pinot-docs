@@ -1248,11 +1248,11 @@
   "last_run_summary": "1 new merged PR after checkpoint 2026-11-13T03:37:04Z: #20227 (dependabot datasketches-java bump) classified not_relevant. 3-way reconcile (search API, pulls API, apache/master git log) all agree on exactly 1 PR. No docs PR created. Checkpoint advanced to 2026-11-13T06:03:42Z.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-13T07:01:31Z",
-    "released_at": "2026-11-13T07:02:38Z",
-    "lease_expires_at": null,
+    "holder": "run-20261113T080122Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-13T08:01:22Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-13T08:46:22Z",
     "prev_holder": "run-20261113T070123Z-opus48-cloud"
   },
   "recent_runs": [
