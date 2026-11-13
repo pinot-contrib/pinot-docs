@@ -133,3 +133,32 @@ _No new upstream PRs merged after the checkpoint; nothing to triage._
 
 ### Blockers
 - None.
+
+
+## Run run-20261113T040157Z-opus48-cloud — 2026-11-13T04:04:58Z (docs_created, checkpoint advanced)
+
+### Coverage
+- Incoming durable checkpoint from `automation-state`: `last_processed_merged_at = 2026-11-13T00:54:18Z` (lease released by prior run run-20261113T030134Z).
+- Inventoried merged apache/pinot PRs strictly after the checkpoint. Reconciled three ways, all agree (exactly 1, no gaps):
+  1. `search/issues repo:apache/pinot is:pr is:merged merged:>2026-11-13T00:54:18Z` → **#19529**.
+  2. `pulls?state=closed&sort=updated&direction=desc` filtered to `merged_at > checkpoint` → **#19529** (merge_commit `c5e6b52c`, merged 2026-11-13T03:37:04Z).
+  3. `git fetch apache/pinot master` → tip `c5e6b52c` = #19529; parent `967bbe2a` = #20228 = prior checkpoint boundary. Nothing else strictly after.
+
+### Decisions
+- **#19529** "[pinot-server] Add consuming-segment decoder observability" (anuragrai16) → **docs-relevant → docs_created**.
+  - Adds `@Nullable decoderClassName` (FQCN of the `StreamMessageDecoder` actually instantiated for a consuming segment) to `SegmentConsumerInfo` and `ConsumingSegmentInfoReader`, surfaced on `GET /tables/{tableName}/consumingSegmentsInfo` and server `/debug` + `/tables/.../consumingSegmentsInfo`. Null when returned by an older server during a rolling upgrade.
+  - Verified against merged code at `c5e6b52c` (not PR prose): field value = `streamMessageDecoder.getClass().getName()`; @JsonCreator back-compat constructor retained.
+
+### Outputs
+- Docs PRs created: **1** — https://github.com/pinot-contrib/pinot-docs/pull/1181 (**merged** 2026-11-13T04:04:58Z, squash).
+- Upstream comment: https://github.com/apache/pinot/pull/19529#issuecomment-6843532306
+- Edit (minimal): `build-with-pinot/ingestion/stream-ingestion/README.md` — added `decoderClassName` to the `/consumingSegmentsInfo` sample JSON + field table (+2 lines).
+- Validation: `validate-docs.py --summary-only` **PASS** (baseline and with-edit identical: 10 pre-existing broken anchors, 0 new); `git diff --check` clean. PR checks "Validate changed docs" + "Full docs audit" both success.
+- Slack: compact summary sent (1 new docs PR).
+
+### Durable state
+- Checkpoint advanced: `2026-11-13T00:54:18Z` → **`2026-11-13T03:37:04Z`** (= #19529 merged_at). Ledger 134 → **135**.
+- Lease: acquired via Contents API CAS (state sha `ecb1b4a8` → `ded4e0d4`, commit `64f7d5da`, 30-min expiry guard) / released at end atomically with the state+report write. Single holder, no overlap.
+
+### Blockers
+- None.
