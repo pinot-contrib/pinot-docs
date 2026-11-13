@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-13T06:03:42Z",
-  "last_successful_run": "2026-11-13T09:02:50Z",
+  "last_successful_run": "2026-11-13T10:02:33Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -1248,12 +1248,12 @@
   "last_run_summary": "No new merged PRs strictly after checkpoint 2026-11-13T06:03:42Z. 3-way reconcile (search API, pulls API, apache/master git log) all agree: boundary PR #20227 already processed (not_relevant); nothing new. No docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261113T100114Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-13T10:01:21Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-13T10:31:21Z",
-    "prev_holder": "run-20261113T090139Z-opus48-cloud"
+    "released_at": "2026-11-13T10:02:33Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261113T100114Z-opus48-cloud"
   },
   "recent_runs": [
     {
