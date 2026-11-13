@@ -443,3 +443,33 @@ All 4 are dependabot dependency/build-plugin version bumps, each touching only `
 
 ### Blockers
 - None.
+
+---
+
+## Run 2026-11-13T22:03Z — run-20261113T220116Z-opus48-cloud
+
+### Coverage
+- Checkpoint at run start: `2026-11-13T15:04:51Z` (#20259).
+- Inventory strictly after checkpoint via 2-way reconcile:
+  - Search API `repo:apache/pinot is:pr is:merged merged:>2026-11-13T15:04:51Z` → **3**.
+  - pulls API `state=closed&sort=updated&direction=desc&per_page=80` filtered merged_at > CP → identical set.
+  - Merge commits reconciled as ancestors of `apache/master` (tip `65df1f76`). No gaps.
+- **3 new upstream PRs, 0 docs-relevant.**
+
+### Decisions (all not_relevant, by code inspection of changed files)
+- **#20236** (merged 21:17:49Z) — test-only: `RetentionManagerTest.java`. No documented user behavior.
+- **#20256** (merged 21:29:51Z) — dependency bump `com.mchange:mchange-commons-java` 0.7.0→0.7.1, `pom.xml`-only.
+- **#20257** (merged 21:29:36Z) — dependency bump `software.amazon.awssdk:bom` 2.57.11→2.57.12, `pom.xml`-only.
+- Docs PRs created: **0**. Upstream comments: **0**. Validation: not run (no docs changes). Slack: not sent (no new docs PRs).
+
+### Durable state
+- Checkpoint **advanced** `2026-11-13T15:04:51Z` → **`2026-11-13T21:29:51Z`** (#20256, max merged_at).
+- Ledger size: **144 → 147**.
+- Lock: acquired via Contents API CAS (blob `2e8dd5a1`, 30-min expiry guard, holder run-20261113T220116Z-opus48-cloud); released atomically with final state write (blob `b930cc11` → `7b9ec562`, commit `6f540ece`). Single holder, strictly serialized, no overlap with 21:01Z run (released 21:04:48Z).
+
+### Preflight
+- GitHub auth: `GH_TOKEN` account `xiangfu0`. Permissions: apache/pinot = **WRITE**, pinot-contrib/pinot-docs = **ADMIN**.
+- Durable store: read + CAS write to `automation-state` confirmed via **Contents API** (writes verified against commit log, not stale GET cache).
+
+### Blockers
+- None.
