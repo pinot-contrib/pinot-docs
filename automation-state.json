@@ -1242,11 +1242,11 @@
   "last_run_summary": "0 new PRs merged strictly after checkpoint 2026-11-13T03:37:04Z (#19529). 3-way reconcile (search API, pulls API, apache/master git log) all agree 0. No-op.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-13T06:02:30Z",
-    "released_at": "2026-11-13T06:02:30Z",
-    "lease_expires_at": null,
+    "holder": "run-20261113T070123Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-13T07:01:31Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-13T07:31:31Z",
     "prev_holder": "run-20261113T060131Z-opus48-cloud"
   },
   "recent_runs": [
