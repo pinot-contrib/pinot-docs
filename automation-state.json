@@ -1,8 +1,8 @@
 {
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
- "last_processed_merged_at": "2026-11-13T15:04:51Z",
- "last_successful_run": "2026-11-13T21:04:48Z",
+ "last_processed_merged_at": "2026-11-13T21:29:51Z",
+ "last_successful_run": "2026-11-13T22:03:18Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -1280,18 +1280,36 @@
    "decision": "not_relevant",
    "reason": "Dependency bump (exec-maven-plugin 3.6.4->3.7.0), pom.xml-only.",
    "docs_pr": null
+  },
+  "20236": {
+   "merged_at": "2026-11-13T21:17:49Z",
+   "decision": "not_relevant",
+   "reason": "Test-only change: RetentionManagerTest.java (spy a plain RetentionManager for subclass reuse). No documented user behavior.",
+   "docs_pr": null
+  },
+  "20256": {
+   "merged_at": "2026-11-13T21:29:51Z",
+   "decision": "not_relevant",
+   "reason": "Dependency bump (com.mchange:mchange-commons-java 0.7.0->0.7.1), pom.xml-only.",
+   "docs_pr": null
+  },
+  "20257": {
+   "merged_at": "2026-11-13T21:29:36Z",
+   "decision": "not_relevant",
+   "reason": "Dependency bump (software.amazon.awssdk:bom 2.57.11->2.57.12), pom.xml-only.",
+   "docs_pr": null
   }
  },
  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
  "last_run_result": "noop",
- "last_run_id": "run-20261113T210120Z-opus48-cloud",
+ "last_run_id": "run-20261113T220116Z-opus48-cloud",
  "lock": {
-  "holder": "run-20261113T220116Z-opus48-cloud",
-  "status": "held",
+  "holder": null,
+  "status": "released",
   "acquired_at": "2026-11-13T22:01:16Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-13T22:31:16Z",
-  "prev_holder": "run-20261113T210120Z-opus48-cloud"
+  "released_at": "2026-11-13T22:03:18Z",
+  "lease_expires_at": null,
+  "prev_holder": "run-20261113T220116Z-opus48-cloud"
  },
  "last_run_summary": "4 dependency-bump PRs after checkpoint (#20253, #20254, #20255, #20259), all pom.xml-only -> not_relevant. No docs PRs created.",
  "run_history_note": "",
@@ -1976,13 +1994,17 @@
   }
  ],
  "last_run": {
-  "run_id": "run-20261113T210120Z-opus48-cloud",
-  "utc": "2026-11-13T21:04:48Z",
+  "run_id": "run-20261113T220116Z-opus48-cloud",
+  "utc": "2026-11-13T22:03:18Z",
   "result": "noop",
-  "new_prs": [],
+  "new_prs": [
+   20236,
+   20256,
+   20257
+  ],
   "docs_prs_created": [],
-  "checkpoint": "2026-11-13T15:04:51Z",
-  "inventory": "0 merged PRs after checkpoint 2026-11-13T15:04:51Z (HEAD merged PR #20259 merged_at==checkpoint, already in ledger); verified via Search API (merged:>checkpoint => 0) and reconciled via pulls API sorted by created desc.",
-  "note": "No upstream PRs merged after checkpoint. No partial work pending (ledger scan clean). Checkpoint unchanged."
+  "checkpoint": "2026-11-13T21:29:51Z",
+  "inventory": "3 merged PRs after checkpoint 2026-11-13T15:04:51Z: #20236 (test-only), #20256 (dep bump pom.xml), #20257 (dep bump pom.xml). Verified via Search API (merged:>checkpoint => 3) and reconciled via pulls API + merge-commit ancestry against apache/master.",
+  "note": "All 3 PRs classified not_relevant by code inspection (file lists). No docs PRs created. Checkpoint advanced to 2026-11-13T21:29:51Z."
  }
 }
