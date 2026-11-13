@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-13T00:54:18Z",
-  "last_successful_run": "2026-11-13T02:01:31Z",
+  "last_successful_run": "2026-11-13T03:03:41Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -1213,24 +1213,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261113T020131Z-opus48-cloud",
+  "last_run_id": "run-20261113T030134Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261113T030134Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-13T03:01:34Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-13T03:31:34Z",
-    "prev_holder": null
+    "released_at": "2026-11-13T03:03:41Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261113T030134Z-opus48-cloud"
   },
   "last_run_summary": "0 new PRs merged after checkpoint 2026-11-12T07:50:22Z; reconciled against apache/pinot master (0 commits since). No-op.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261113T030134Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-13T03:01:34Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-13T03:31:34Z",
-    "prev_holder": null
+    "released_at": "2026-11-13T03:03:41Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261113T030134Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1341,9 +1341,20 @@
         20228
       ],
       "new_prs": 2
+    },
+    {
+      "run_id": "run-20261113T030134Z-opus48-cloud",
+      "utc": "2026-11-13T03:03:41Z",
+      "result": "noop",
+      "new_prs": 0,
+      "docs_prs_created": 0,
+      "checkpoint": "2026-11-13T00:54:18Z",
+      "model": "claude-opus-4-8",
+      "docs_prs": [],
+      "processed": []
     }
   ],
-  "last_run_note": "2 new merged PRs after checkpoint; both not_relevant (dep bump + internal sketch bugfix). Coverage reconciled via search + live apache/pinot master commits. No docs PRs created.",
+  "last_run_note": "No new merged PRs after checkpoint 2026-11-13T00:54:18Z. apache/pinot master tip is PR #20228 (merged exactly at checkpoint, already processed as not_relevant). Coverage reconciled 3 ways: GitHub search API (is:merged merged:>checkpoint -> 0), pulls API (state=closed sort=updated, merged_at>checkpoint -> 0), and git log of freshly-fetched apache/pinot master (tip commit date == checkpoint). No docs PR created; no upstream comment; no Slack (no-op). Env/auth preflight: git read OK on apache/pinot + pinot-docs; durable state read/write via authenticated GitHub Contents API (session git-hook enforces cs_-prefixed branches, so bare 'automation-state' pushes are rejected; Contents API with GH_TOKEN is the working write path).",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -1579,6 +1590,12 @@
       "result": "noop",
       "new": 0,
       "created": 0
+    },
+    {
+      "run_id": "run-20261113T030134Z-opus48-cloud",
+      "utc": "2026-11-13T03:03:41Z",
+      "result": "noop",
+      "checkpoint": "2026-11-13T00:54:18Z"
     }
   ],
   "run_history": [
@@ -1863,11 +1880,25 @@
         "20228": "not_relevant"
       },
       "note": "2 new merged PRs after checkpoint; both not_relevant (dep bump + internal sketch bugfix). Coverage reconciled via search + live apache/pinot master commits. No docs PRs created."
+    },
+    {
+      "run_id": "run-20261113T030134Z-opus48-cloud",
+      "utc": "2026-11-13T03:03:41Z",
+      "result": "noop",
+      "new_prs_processed": 0,
+      "docs_prs_created": 0,
+      "checkpoint_advanced": false,
+      "checkpoint": "2026-11-13T00:54:18Z",
+      "model": "claude-opus-4-8",
+      "docs_prs": [],
+      "processed": [],
+      "decisions": {},
+      "note": "No new merged PRs after checkpoint 2026-11-13T00:54:18Z. apache/pinot master tip is PR #20228 (merged exactly at checkpoint, already processed as not_relevant). Coverage reconciled 3 ways: GitHub search API (is:merged merged:>checkpoint -> 0), pulls API (state=closed sort=updated, merged_at>checkpoint -> 0), and git log of freshly-fetched apache/pinot master (tip commit date == checkpoint). No docs PR created; no upstream comment; no Slack (no-op). Env/auth preflight: git read OK on apache/pinot + pinot-docs; durable state read/write via authenticated GitHub Contents API (session git-hook enforces cs_-prefixed branches, so bare 'automation-state' pushes are rejected; Contents API with GH_TOKEN is the working write path)."
     }
   ],
   "last_run": {
-    "run_id": "run-20261113T020131Z-opus48-cloud",
-    "utc": "2026-11-13T02:01:31Z",
+    "run_id": "run-20261113T030134Z-opus48-cloud",
+    "utc": "2026-11-13T03:03:41Z",
     "result": "noop",
     "new_prs_processed": 0,
     "docs_prs_created": 0,
@@ -1877,6 +1908,6 @@
     "docs_prs": [],
     "processed": [],
     "decisions": {},
-    "note": "No new merged PRs after checkpoint 2026-11-13T00:54:18Z (apache master tip is PR #20228, already processed). Coverage reconciled via search API + pulls API (sort=updated) + git log of apache/pinot master. No-op run."
+    "note": "No new merged PRs after checkpoint 2026-11-13T00:54:18Z. apache/pinot master tip is PR #20228 (merged exactly at checkpoint, already processed as not_relevant). Coverage reconciled 3 ways: GitHub search API (is:merged merged:>checkpoint -> 0), pulls API (state=closed sort=updated, merged_at>checkpoint -> 0), and git log of freshly-fetched apache/pinot master (tip commit date == checkpoint). No docs PR created; no upstream comment; no Slack (no-op). Env/auth preflight: git read OK on apache/pinot + pinot-docs; durable state read/write via authenticated GitHub Contents API (session git-hook enforces cs_-prefixed branches, so bare 'automation-state' pushes are rejected; Contents API with GH_TOKEN is the working write path)."
   }
 }
