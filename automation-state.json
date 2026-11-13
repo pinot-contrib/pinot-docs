@@ -1238,11 +1238,11 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261113T140118Z-opus48-cloud",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-13T14:01:17Z",
-    "released_at": "2026-11-13T14:02:29Z",
-    "lease_expires_at": null,
+    "holder": "run-20261113T150142Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-13T15:01:42Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-13T15:31:42Z",
     "prev_holder": "run-20261113T140118Z-opus48-cloud"
   },
   "last_run_summary": "No new merged PRs strictly after checkpoint 2026-11-13T06:03:42Z. 3-way reconcile (search API total_count=0, pulls API newest=#20227 at checkpoint, apache/master git log 0 commits after checkpoint) all agree: boundary PR #20227 already processed (not_relevant). Nothing new; no docs PRs created.",
