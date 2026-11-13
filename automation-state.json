@@ -1248,12 +1248,12 @@
   "last_run_summary": "No new merged PRs strictly after checkpoint 2026-11-13T06:03:42Z. 3-way reconcile (search API, pulls API, apache/master git log) all agree: boundary PR #20227 already processed (not_relevant); nothing new. No docs PRs created.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-13T11:01:21Z",
-    "released_at": "2026-11-13T11:02:50Z",
-    "lease_expires_at": null,
-    "prev_holder": "run-20261113T110121Z-opus48-cloud"
+    "holder": "run-20261113T120124Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-13T12:01:42Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-13T12:51:42Z",
+    "prev_holder": null
   },
   "recent_runs": [
     {
