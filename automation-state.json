@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-13T00:54:18Z",
-  "last_successful_run": "2026-11-13T03:03:41Z",
+  "last_processed_merged_at": "2026-11-13T03:37:04Z",
+  "last_successful_run": "2026-11-13T04:05:44Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20023,
-    "upstream_url": "https://github.com/apache/pinot/pull/20023",
-    "docs_pr": 1180,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1180",
+    "upstream_pr": 19529,
+    "upstream_url": "https://github.com/apache/pinot/pull/19529",
+    "docs_pr": 1181,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1181",
     "decision": "docs_created",
-    "note": "Documented pinot.server.request.deadline.clock.skew.ms server config + QUERIES_EXPIRED_ON_ARRIVAL meter."
+    "note": "Documented decoderClassName field in consuming segments info API response."
   },
   "processed_prs": {
     "19862": {
@@ -1209,11 +1209,28 @@
       "reason": "Internal sketch-aggregation correctness bug fix (CPC/Theta/integer-tuple accumulator lifecycle, tuple serialization size bound, KLL null/unused-row deserialization). Serialized formats explicitly unchanged; no public config name, default, query-function signature, or documented API changed. The corrected internal integer-tuple raw-forward-index byte bound (e.g. 196632->213016 at default nominalEntries) is not a documented value in pinot-docs and is an internal space-allocation detail, not a user-tunable default. Verified against merged diff: changes are constructor/setter refactors on internal accumulator classes plus size-bound math. Labeled release-notes upstream but no documented user-facing doc surface changed.",
       "merged_at": "2026-11-13T00:54:18Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20228"
+    },
+    "19529": {
+      "upstream_pr": 19529,
+      "upstream_url": "https://github.com/apache/pinot/pull/19529",
+      "title": "[pinot-server] Add consuming-segment decoder observability",
+      "author": "anuragrai16",
+      "decision": "docs_created",
+      "docs_pr": 1181,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1181",
+      "docs_merged_at": "2026-11-13T04:04:58Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/19529#issuecomment-6843532306",
+      "merged_at": "2026-11-13T03:37:04Z",
+      "upstream_merged_at": "2026-11-13T03:37:04Z",
+      "merge_commit_sha": "c5e6b52c975a66f07fb49c5993b9350f436907d6",
+      "summary": "Adds a decoderClassName field (FQCN of the StreamMessageDecoder actually instantiated for a consuming segment) to SegmentConsumerInfo / ConsumingSegmentInfoReader, surfaced via GET /tables/{tableName}/consumingSegmentsInfo and the server /debug and /tables/.../consumingSegmentsInfo endpoints. @Nullable; null when the response comes from an older server during a rolling upgrade. Documented the field in the sample JSON and field table in build-with-pinot/ingestion/stream-ingestion/README.md.",
+      "processed_by_run": "run-20261113T040157Z-opus48-cloud",
+      "processed_at": "2026-11-13T04:05:44Z"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "noop",
-  "last_run_id": "run-20261113T030134Z-opus48-cloud",
+  "last_run_result": "docs_created",
+  "last_run_id": "run-20261113T040157Z-opus48-cloud",
   "lock": {
     "holder": null,
     "status": "released",
@@ -1225,12 +1242,12 @@
   "last_run_summary": "0 new PRs merged after checkpoint 2026-11-12T07:50:22Z; reconciled against apache/pinot master (0 commits since). No-op.",
   "run_history_note": "",
   "lease": {
-    "holder": "run-20261113T040157Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-13T04:02:49Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-13T04:32:49Z",
-    "prev_holder": null
+    "released_at": "2026-11-13T04:05:44Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261113T040157Z-opus48-cloud"
   },
   "recent_runs": [
     {
