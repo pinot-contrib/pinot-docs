@@ -1225,12 +1225,12 @@
   "last_run_summary": "0 new PRs merged after checkpoint 2026-11-12T07:50:22Z; reconciled against apache/pinot master (0 commits since). No-op.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-13T03:01:34Z",
-    "released_at": "2026-11-13T03:03:41Z",
-    "lease_expires_at": null,
-    "prev_holder": "run-20261113T030134Z-opus48-cloud"
+    "holder": "run-20261113T040157Z-opus48-cloud",
+    "status": "held",
+    "acquired_at": "2026-11-13T04:02:49Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-13T04:32:49Z",
+    "prev_holder": null
   },
   "recent_runs": [
     {
