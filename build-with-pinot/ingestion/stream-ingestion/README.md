@@ -585,6 +585,7 @@ A sample response from a Kafka-based real-time table is shown below. The ingesti
         "serverName": "Server_192.168.0.103_7000",
         "consumerState": "CONSUMING",
         "lastConsumedTimestamp": 1666161593904,
+        "decoderClassName": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder", // <-- Decoder actually in use
         "partitionToOffsetMap": { // <<-- Deprecated. See currentOffsetsMap for same info
           "0": "6"
         },
@@ -608,6 +609,7 @@ A sample response from a Kafka-based real-time table is shown below. The ingesti
 
 | Term                      | Description                                                                                                                                                                                                                                                                |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| decoderClassName          | Fully qualified class name of the `StreamMessageDecoder` actually instantiated for the consuming segment (the source of truth for what is decoding the segment). Useful for confirming which decoder a table resolved to. Absent (null) when the response comes from an older server that does not report it, for example during a rolling upgrade.                                                                                                                                   |
 | currentOffsetsMap         | Current consuming offset position per partition                                                                                                                                                                                                                            |
 | latestUpstreamOffsetMap   | (Wherever applicable) Latest offset found in the upstream topic partition                                                                                                                                                                                                  |
 | recordsLagMap             | (Whenever applicable) Defines how far behind the current record's offset / pointer is from upstream latest record. This is calculated as the difference between the `latestUpstreamOffset` and `currentOffset` for the partition when the lag computation request is made. |
