@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-13T03:37:04Z",
-  "last_successful_run": "2026-11-13T05:03:17Z",
+  "last_successful_run": "2026-11-13T06:02:30Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -1230,7 +1230,7 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261113T050222Z-opus48-cloud",
+  "last_run_id": "run-20261113T060131Z-opus48-cloud",
   "lock": {
     "holder": null,
     "status": "released",
@@ -1239,15 +1239,15 @@
     "lease_expires_at": null,
     "prev_holder": "run-20261113T030134Z-opus48-cloud"
   },
-  "last_run_summary": "0 new PRs merged after checkpoint 2026-11-12T07:50:22Z; reconciled against apache/pinot master (0 commits since). No-op.",
+  "last_run_summary": "0 new PRs merged strictly after checkpoint 2026-11-13T03:37:04Z (#19529). 3-way reconcile (search API, pulls API, apache/master git log) all agree 0. No-op.",
   "run_history_note": "",
   "lease": {
     "holder": null,
     "status": "released",
-    "acquired_at": "2026-11-13T05:02:22Z",
-    "released_at": "2026-11-13T05:03:17Z",
+    "acquired_at": "2026-11-13T06:02:30Z",
+    "released_at": "2026-11-13T06:02:30Z",
     "lease_expires_at": null,
-    "prev_holder": "run-20261113T050222Z-opus48-cloud"
+    "prev_holder": "run-20261113T060131Z-opus48-cloud"
   },
   "recent_runs": [
     {
@@ -1378,6 +1378,19 @@
       "docs_prs": 0,
       "checkpoint": "2026-11-13T03:37:04Z",
       "method": "3-way reconcile (search API, pulls API, apache/master git-log) all agree 0 strictly after CP"
+    },
+    {
+      "run_id": "run-20261113T060131Z-opus48-cloud",
+      "utc": "2026-11-13T06:02:30Z",
+      "result": "noop",
+      "new_prs": 0,
+      "docs_prs": 0,
+      "checkpoint_advanced": false,
+      "checkpoint": "2026-11-13T03:37:04Z",
+      "model": "claude-opus-4-8",
+      "docs_prs_list": [],
+      "processed": [],
+      "method": "3-way reconcile: search API is:merged merged:>CP total_count=0; pulls?state=closed&sort=updated max merged_at=#19529@CP; git fetch apache/master tip c5e6b52c=#19529=CP, 0 commits strictly after. Preflight OK: push=write apache/pinot, admin pinot-docs."
     }
   ],
   "last_run_note": "No new merged PRs after checkpoint 2026-11-13T00:54:18Z. apache/pinot master tip is PR #20228 (merged exactly at checkpoint, already processed as not_relevant). Coverage reconciled 3 ways: GitHub search API (is:merged merged:>checkpoint -> 0), pulls API (state=closed sort=updated, merged_at>checkpoint -> 0), and git log of freshly-fetched apache/pinot master (tip commit date == checkpoint). No docs PR created; no upstream comment; no Slack (no-op). Env/auth preflight: git read OK on apache/pinot + pinot-docs; durable state read/write via authenticated GitHub Contents API (session git-hook enforces cs_-prefixed branches, so bare 'automation-state' pushes are rejected; Contents API with GH_TOKEN is the working write path).",
@@ -1923,17 +1936,16 @@
     }
   ],
   "last_run": {
-    "run_id": "run-20261113T050222Z-opus48-cloud",
-    "utc": "2026-11-13T05:03:17Z",
+    "run_id": "run-20261113T060131Z-opus48-cloud",
+    "utc": "2026-11-13T06:02:30Z",
     "result": "noop",
     "new_prs": 0,
-    "docs_prs_created": 0,
+    "docs_prs": 0,
     "checkpoint_advanced": false,
     "checkpoint": "2026-11-13T03:37:04Z",
     "model": "claude-opus-4-8",
-    "docs_prs": [],
+    "docs_prs_list": [],
     "processed": [],
-    "decisions": {},
-    "note": "No new merged PRs strictly after checkpoint 2026-11-13T03:37:04Z (#19529). 3-way reconcile all agree 0: search API is:merged merged:>CP total_count=0; pulls?state=closed&sort=updated filtered merged_at>CP = 0 (max observed = #19529 @ CP); git fetch apache/master tip = c5e6b52c = #19529 = CP boundary, 0 commits strictly after. Top-6 recent merged PRs (#19529,#20228,#20239,#20241,#20023,#20238) all in ledger. apache/master fully triaged. No docs PR, no upstream comment, no Slack (no-op)."
+    "method": "3-way reconcile: search API is:merged merged:>CP total_count=0; pulls?state=closed&sort=updated max merged_at=#19529@CP; git fetch apache/master tip c5e6b52c=#19529=CP, 0 commits strictly after. Preflight OK: push=write apache/pinot, admin pinot-docs."
   }
 }
