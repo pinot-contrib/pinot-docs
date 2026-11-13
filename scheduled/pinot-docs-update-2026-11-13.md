@@ -375,3 +375,44 @@ _No new upstream PRs merged after the checkpoint; nothing to triage._
 - None.
 
 ---
+
+---
+
+## Run run-20261113T160115Z-opus48-cloud @ 2026-11-13T16:04Z
+
+**Result:** no-op, checkpoint advanced (4 PRs triaged → not_relevant; 0 docs PRs created).
+
+### Coverage
+- Incoming durable checkpoint: `last_processed_merged_at = 2026-11-13T14:34:40Z` (#20251), read from `automation-state` branch (tip `44b3524`). Ledger size 140.
+- Inventory of apache/pinot merged PRs, reconciled 2 ways (agree, no gaps):
+  1. `gh pr list --repo apache/pinot --state merged --search "merged:>=2026-11-13"` → 12 merged today; filtered strictly `> 2026-11-13T14:34:40Z` → **4 new PRs** (#20253, #20254, #20255, #20259).
+  2. `git fetch https://github.com/apache/pinot master`: tip `9735d6ce` = #20259 (new CP boundary); top 4 commits = the 4 new PRs; all commits below ≤ prev checkpoint and already in ledger.
+- Local `/workspace/pinot` origin = fork `xiangfu0/pinot` (stale at #19809); authoritative inventory via apache/pinot API + direct `git fetch apache`.
+
+### Decisions
+All 4 are dependabot dependency/build-plugin version bumps, each touching only `pom.xml` (verified via PR `files`), with no documented user-facing behavior/config/API/default change → **not_relevant**:
+- #20253 — Bump com.mchange:c3p0 0.15.0 → 0.15.1
+- #20254 — Bump org.codehaus.mojo:animal-sniffer-annotations 1.29 → 1.29.1
+- #20255 — Bump org.codehaus.mojo:build-helper-maven-plugin 3.7.0 → 3.8.0
+- #20259 — Bump org.codehaus.mojo:exec-maven-plugin 3.6.4 → 3.7.0
+
+### Partial-work check
+- No automation docs branches left dangling; no partial work to resume. Prior completed pair (#19529 → docs#1181) intact.
+
+### Outputs
+- Docs PRs created: **0**
+- Upstream comments: **0**
+- Validation: not run (no docs changes produced).
+- Slack: not sent (no-op run, no new docs PRs).
+
+### Durable state
+- Checkpoint **advanced** `2026-11-13T14:34:40Z` → `2026-11-13T15:04:51Z` (#20259).
+- Ledger size: 140 → **144**.
+- Lock: acquired via Git Data API CAS (parent `44b3524` → commit `70e9e59`, 55-min expiry guard); released atomically with final state+memory+report write. Single holder, strictly serialized.
+
+### Preflight
+- GitHub auth: `GH_TOKEN` account `xiangfu0`. Permissions: apache/pinot = **WRITE**, pinot-contrib/pinot-docs = **ADMIN**.
+- Durable store: read + CAS write to `automation-state` confirmed via **Git Data API** (git push wrapper requires session-prefixed refs incompatible with the canonical orphan branch; API commits used instead).
+
+### Blockers
+- None.

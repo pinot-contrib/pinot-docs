@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-13T14:34:40Z",
-  "last_successful_run": "2026-11-13T15:03:01Z",
+  "last_processed_merged_at": "2026-11-13T15:04:51Z",
+  "last_successful_run": "2026-11-13T16:03:25Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -1256,20 +1256,44 @@
       "reason": "Dependency/build-plugin version bump: only pom.xml changed (Bump com.microsoft.azure:msal4j from 1.26.0 to 1.26.1). No user-facing behavior, config, API, or documented default changes.",
       "merged_at": "2026-11-13T14:34:40Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20251"
+    },
+    "20253": {
+      "merged_at": "2026-11-13T15:03:54Z",
+      "decision": "not_relevant",
+      "reason": "Dependency bump (com.mchange:c3p0 0.15.0->0.15.1), pom.xml-only, no documented user behavior change.",
+      "docs_pr": null
+    },
+    "20254": {
+      "merged_at": "2026-11-13T15:04:10Z",
+      "decision": "not_relevant",
+      "reason": "Dependency bump (animal-sniffer-annotations 1.29->1.29.1), pom.xml-only.",
+      "docs_pr": null
+    },
+    "20255": {
+      "merged_at": "2026-11-13T15:04:25Z",
+      "decision": "not_relevant",
+      "reason": "Dependency bump (build-helper-maven-plugin 3.7.0->3.8.0), pom.xml-only.",
+      "docs_pr": null
+    },
+    "20259": {
+      "merged_at": "2026-11-13T15:04:51Z",
+      "decision": "not_relevant",
+      "reason": "Dependency bump (exec-maven-plugin 3.6.4->3.7.0), pom.xml-only.",
+      "docs_pr": null
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261113T150142Z-opus48-cloud",
+  "last_run_id": "run-20261113T160115Z-opus48-cloud",
   "lock": {
-    "holder": "run-20261113T160115Z-opus48-cloud",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-13T16:01:15Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-13T16:56:15Z",
-    "prev_holder": "run-20261113T150142Z-opus48-cloud"
+    "released_at": "2026-11-13T16:03:25Z",
+    "lease_expires_at": null,
+    "prev_holder": "run-20261113T160115Z-opus48-cloud"
   },
-  "last_run_summary": "4 dependency-bump PRs after checkpoint (#20252, #20258, #20250, #20251), all pom.xml-only -> not_relevant. No docs PRs created.",
+  "last_run_summary": "4 dependency-bump PRs after checkpoint (#20253, #20254, #20255, #20259), all pom.xml-only -> not_relevant. No docs PRs created.",
   "run_history_note": "",
   "lease": {
     "holder": null,
@@ -1280,15 +1304,6 @@
     "prev_holder": "run-20261113T140118Z-opus48-cloud"
   },
   "recent_runs": [
-    {
-      "run_id": "run-20261112T010112Z-opus48-cloud",
-      "utc": "2026-11-12T01:02:51Z",
-      "result": "noop",
-      "checkpoint": "2026-11-11T15:35:28Z",
-      "new_docs_prs": 0,
-      "candidates_checked": 13,
-      "new_after_checkpoint": 0
-    },
     {
       "run_id": "run-20261112T020122Z-opus48-cloud",
       "utc": "2026-11-12T02:02:51Z",
@@ -1449,9 +1464,22 @@
       "result": "noop",
       "checkpoint": "2026-11-13T14:34:40Z",
       "inventory": "4 merged PRs after prev checkpoint (all dependency bumps, pom.xml-only); classified not_relevant"
+    },
+    {
+      "run_id": "run-20261113T160115Z-opus48-cloud",
+      "utc": "2026-11-13T16:03:25Z",
+      "result": "noop",
+      "new_prs": [
+        20253,
+        20254,
+        20255,
+        20259
+      ],
+      "docs_prs": [],
+      "checkpoint": "2026-11-13T15:04:51Z"
     }
   ],
-  "last_run_note": "Checkpoint advanced 2026-11-13T06:03:42Z -> 2026-11-13T14:34:40Z.",
+  "last_run_note": "Checkpoint advanced 2026-11-13T14:34:40Z -> 2026-11-13T15:04:51Z.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
