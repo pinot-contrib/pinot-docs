@@ -2,7 +2,7 @@
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
  "last_processed_merged_at": "2026-11-14T02:52:16Z",
- "last_successful_run": "2026-11-14T03:05:12Z",
+ "last_successful_run": "2026-11-14T04:02:06Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -1324,48 +1324,26 @@
  },
  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
  "last_run_result": "no-op",
- "last_run_id": "run-20261114T020102Z-opus48-cloud",
+ "last_run_id": "run-20261114T040105Z-opus48-cloud",
  "lock": {
-  "holder": "run-20261114T040105Z-opus48-cloud",
-  "status": "held",
+  "holder": null,
+  "status": "released",
   "acquired_at": "2026-11-14T04:01:11Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-14T04:56:11Z",
-  "prev_holder": "run-20261114T030113Z-opus48-cloud"
+  "released_at": "2026-11-14T04:02:06Z",
+  "lease_expires_at": null,
+  "prev_holder": "run-20261114T040105Z-opus48-cloud"
  },
  "last_run_summary": "4 dependency-bump PRs after checkpoint (#20253, #20254, #20255, #20259), all pom.xml-only -> not_relevant. No docs PRs created.",
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261114T040105Z-opus48-cloud",
-  "status": "held",
+  "holder": null,
+  "status": "released",
   "acquired_at": "2026-11-14T04:01:11Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-14T04:56:11Z",
-  "prev_holder": "run-20261114T030113Z-opus48-cloud"
+  "released_at": "2026-11-14T04:02:06Z",
+  "lease_expires_at": null,
+  "prev_holder": "run-20261114T040105Z-opus48-cloud"
  },
  "recent_runs": [
-  {
-   "run_id": "run-20261113T070123Z-opus48-cloud",
-   "utc": "2026-11-13T07:02:38Z",
-   "result": "noop",
-   "new_prs": [
-    20227
-   ],
-   "docs_created": 0
-  },
-  {
-   "run_id": "run-20261113T080122Z-opus48-cloud",
-   "result": "no-op",
-   "utc": "2026-11-13T08:02:25Z",
-   "checkpoint": "2026-11-13T06:03:42Z"
-  },
-  {
-   "run_id": "run-20261113T090139Z-opus48-cloud",
-   "utc": "2026-11-13T09:02:50Z",
-   "result": "noop",
-   "checkpoint": "2026-11-13T06:03:42Z",
-   "inventory": "no merged PRs after checkpoint; HEAD #20227 already processed"
-  },
   {
    "run_id": "run-20261113T130119Z-opus48-cloud",
    "utc": "2026-11-13T13:02:28Z",
@@ -1438,6 +1416,13 @@
    ],
    "docs_prs_created": [],
    "checkpoint": "2026-11-14T00:31:59Z"
+  },
+  {
+   "run_id": "run-20261114T040105Z-opus48-cloud",
+   "finished_utc": "2026-11-14T04:02:06Z",
+   "result": "no-op",
+   "new_prs": 0,
+   "docs_prs_created": 0
   }
  ],
  "last_run_note": "No upstream PRs merged after checkpoint 2026-11-14T00:31:59Z (verified via pulls API + search API). No docs PRs created.",
@@ -2030,11 +2015,11 @@
   }
  ],
  "last_run": {
-  "run_id": "run-20261114T020102Z-opus48-cloud",
-  "finished_utc": "2026-11-14T02:04:34Z",
+  "run_id": "run-20261114T040105Z-opus48-cloud",
+  "finished_utc": "2026-11-14T04:02:06Z",
   "result": "no-op",
   "new_prs": 0,
   "docs_prs_created": 0,
-  "checkpoint_after": "2026-11-14T00:31:59Z"
+  "checkpoint_after": "2026-11-14T02:52:16Z"
  }
 }
