@@ -6,6 +6,16 @@ The access control factory can be configured in the controller configs by settin
 
 The access control factory can be configured in the broker configs by setting the fully qualified class name of the AccessControlFactory in the property `pinot.broker.access.control.class`. Any other properties required for initializing the factory can be set in the broker configs as properties with the prefix `pinot.broker.access.control`.
 
+## Querying logical tables
+
+A [logical table](../basics/components/table/logical-table.md) is authorized against its underlying physical tables, not against the logical table name. To query a logical table, the principal must have `READ` access to **every** physical table referenced by the logical table configuration; access to only some of them (or to the logical table name itself) is not sufficient. This applies to both the broker query endpoint and the controller `/sql` endpoint (including the query console).
+
+For example, if the logical table `orders` maps to the physical tables `ordersUS_OFFLINE`, `ordersEU_OFFLINE`, and `ordersAPAC_OFFLINE`, a Basic Auth principal must be granted all three physical tables to query `orders`:
+
+```properties
+pinot.broker.access.control.principals.alice.tables=ordersUS_OFFLINE,ordersEU_OFFLINE,ordersAPAC_OFFLINE
+```
+
 ## Row-Level Security (RLS)
 
 {% hint style="info" %}
