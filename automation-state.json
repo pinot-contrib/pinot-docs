@@ -1304,11 +1304,11 @@
  "last_run_result": "noop",
  "last_run_id": "run-20261113T230131Z-opus48-cloud",
  "lock": {
-  "holder": null,
-  "status": "released",
-  "acquired_at": "2026-11-13T23:01:42Z",
-  "released_at": "2026-11-13T23:02:31Z",
-  "lease_expires_at": null,
+  "holder": "run-20261114T000106Z-opus48-cloud",
+  "status": "held",
+  "acquired_at": "2026-11-14T00:01:15Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-14T00:31:15Z",
   "prev_holder": "run-20261113T230131Z-opus48-cloud"
  },
  "last_run_summary": "4 dependency-bump PRs after checkpoint (#20253, #20254, #20255, #20259), all pom.xml-only -> not_relevant. No docs PRs created.",
