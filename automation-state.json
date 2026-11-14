@@ -1,17 +1,17 @@
 {
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
- "last_processed_merged_at": "2026-11-14T00:31:59Z",
- "last_successful_run": "2026-11-14T02:04:34Z",
+ "last_processed_merged_at": "2026-11-14T02:52:16Z",
+ "last_successful_run": "2026-11-14T03:05:12Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
-  "upstream_pr": 19529,
-  "upstream_url": "https://github.com/apache/pinot/pull/19529",
-  "docs_pr": 1181,
-  "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1181",
+  "upstream_pr": 20167,
+  "upstream_url": "https://github.com/apache/pinot/pull/20167",
+  "docs_pr": 1182,
+  "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1182",
   "decision": "docs_created",
-  "note": "Documented decoderClassName field in consuming segments info API response."
+  "note": "Logical table authorization requires READ on all physical tables."
  },
  "processed_prs": {
   "19862": {
@@ -1304,18 +1304,34 @@
    "reason": "Test-only change: single file pinot-core/.../IntermediateResultByteBufferSerDeTest.java (+194/-8). Expands IntermediateResultByteBufferSerDeTest to cover every AggregationFunctionType (via testEveryTypeIsCheckedOrExcluded) for intermediate-result byte-buffer ser/de, adding rows for MV/raw percentile & distinct-count variants, funnel window functions, variance/stddev/covar/skewness, and tuple-sketch functions, plus testDistinctCountOffHeap. Labels: functions, serialization, test-coverage. No production code, config, public API, SPI, wire format, or documented default changes; no user-facing behavior to document.",
    "merged_at": "2026-11-14T00:31:59Z",
    "upstream_url": "https://github.com/apache/pinot/pull/20248"
+  },
+  "20165": {
+   "decision": "not_relevant",
+   "reason": "Internal Helm template fix only: renames the ZooKeeper container env var names ZOO_AUTOPURGE_PURGE_INTERVAL->ZOO_AUTOPURGE_PURGEINTERVAL and ZOO_AUTOPURGE_SNAP_RETAIN_COUNT->ZOO_AUTOPURGE_SNAPRETAINCOUNT in helm/pinot/templates/zookeeper/statefulset.yaml to match the zookeeper Docker image. The user-facing values.yaml keys (zookeeper.autopurge.purgeInterval, .snapRetainCount) are unchanged; no documented user interface/config/default changes.",
+   "merged_at": "2026-11-14T02:36:01Z",
+   "upstream_url": "https://github.com/apache/pinot/pull/20165"
+  },
+  "20167": {
+   "decision": "docs_created",
+   "docs_pr": 1182,
+   "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1182",
+   "docs_merged_at": "2026-11-14T03:04:35Z",
+   "upstream_comment": "https://github.com/apache/pinot/pull/20167#issuecomment-6870680808",
+   "merged_at": "2026-11-14T02:52:16Z",
+   "upstream_url": "https://github.com/apache/pinot/pull/20167",
+   "note": "Documented that querying a logical table requires READ access to all underlying physical tables (controller /sql endpoint fixed to match broker). access-control.md new \"Querying logical tables\" section."
   }
  },
  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
  "last_run_result": "no-op",
  "last_run_id": "run-20261114T020102Z-opus48-cloud",
  "lock": {
-  "holder": "run-20261114T030113Z-opus48-cloud",
-  "status": "held",
+  "holder": null,
+  "status": "released",
   "acquired_at": "2026-11-14T03:01:13Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-14T03:51:13Z",
-  "prev_holder": null
+  "released_at": "2026-11-14T03:05:12Z",
+  "lease_expires_at": null,
+  "prev_holder": "run-20261114T030113Z-opus48-cloud"
  },
  "last_run_summary": "4 dependency-bump PRs after checkpoint (#20253, #20254, #20255, #20259), all pom.xml-only -> not_relevant. No docs PRs created.",
  "run_history_note": "",

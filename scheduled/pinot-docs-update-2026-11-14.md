@@ -59,3 +59,37 @@ Automation: pinot-docs maintenance from merged apache/pinot PRs (IntentLab routi
 ### Notes
 - Slack notification: not sent (no new docs PRs created this run).
 - Durable state: lock acquired and released via CAS on the `automation-state` branch; checkpoint not advanced (no work).
+
+## Run run-20261114T030113Z-opus48-cloud — 2026-11-14T03:05Z
+
+**Result:** processed 2 PRs → 1 docs_created, 1 not_relevant. Docs PR #1182 created and merged.
+
+### Coverage
+- Previous checkpoint: `2026-11-14T00:31:59Z` (#20248).
+- New checkpoint: `2026-11-14T02:52:16Z` (#20167).
+- Ledger: 148 → 150 processed PRs.
+- Inventory method: 2-way reconcile, both agree exactly on 2 PRs strictly after previous checkpoint.
+  - Search API `is:pr is:merged merged:>2026-11-14T00:31:59Z` → total_count **2** = #20165, #20167.
+  - Pulls API `state=closed&sort=updated&direction=desc&per_page=100` filtered merged_at > CP → same set (#20165 @ 02:36:01Z, #20167 @ 02:52:16Z).
+  - Git-level reconcile not applicable (local origin is stale fork; apache/pinot GitHub API authoritative).
+
+### Decisions
+| Upstream PR | Merged (UTC) | Decision | Rationale |
+|---|---|---|---|
+| [#20165](https://github.com/apache/pinot/pull/20165) | 2026-11-14T02:36:01Z | not_relevant | Internal Helm template env-var rename (`ZOO_AUTOPURGE_*`) to match the zookeeper Docker image; user-facing `values.yaml` keys unchanged. No documented interface/config/default change. |
+| [#20167](https://github.com/apache/pinot/pull/20167) | 2026-11-14T02:52:16Z | docs_created | Controller `/sql` endpoint now authorizes logical-table queries against every underlying physical table (matching broker). Established a previously-undocumented access-control contract. |
+
+### Created / merged docs PRs
+- [pinot-contrib/pinot-docs#1182](https://github.com/pinot-contrib/pinot-docs/pull/1182) — "Document logical table authorization requires READ on all physical tables (apache/pinot#20167)". Merged 2026-11-14T03:04:35Z (merge `6903f1ba`). Upstream comment: https://github.com/apache/pinot/pull/20167#issuecomment-6870680808
+  - Change: new "Querying logical tables" section in `operate-pinot/access-control.md`.
+
+### Validation
+- `validate-docs.py --summary-only` → PASS (638 files, 3564 links; 0 broken file links; 10 broken anchors pre-existing on clean latest, none in edited file; 0 new failures).
+- `git diff --check` clean.
+
+### Blockers
+- None.
+
+### Notes
+- Slack notification: sent (1 new docs PR created this run).
+- Durable state: lock acquired/released via CAS on the `automation-state` branch; checkpoint advanced `2026-11-14T00:31:59Z` → `2026-11-14T02:52:16Z`.
