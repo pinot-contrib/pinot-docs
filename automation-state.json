@@ -1326,21 +1326,21 @@
  "last_run_result": "no-op",
  "last_run_id": "run-20261114T040105Z-opus48-cloud",
  "lock": {
-  "holder": null,
-  "status": "released",
-  "acquired_at": "2026-11-14T04:01:11Z",
-  "released_at": "2026-11-14T04:02:06Z",
-  "lease_expires_at": null,
+  "holder": "run-20261114T050109Z-opus48-cloud",
+  "status": "held",
+  "acquired_at": "2026-11-14T05:01:17Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-14T05:31:17Z",
   "prev_holder": "run-20261114T040105Z-opus48-cloud"
  },
  "last_run_summary": "4 dependency-bump PRs after checkpoint (#20253, #20254, #20255, #20259), all pom.xml-only -> not_relevant. No docs PRs created.",
  "run_history_note": "",
  "lease": {
-  "holder": null,
-  "status": "released",
-  "acquired_at": "2026-11-14T04:01:11Z",
-  "released_at": "2026-11-14T04:02:06Z",
-  "lease_expires_at": null,
+  "holder": "run-20261114T050109Z-opus48-cloud",
+  "status": "held",
+  "acquired_at": "2026-11-14T05:01:17Z",
+  "released_at": null,
+  "lease_expires_at": "2026-11-14T05:31:17Z",
   "prev_holder": "run-20261114T040105Z-opus48-cloud"
  },
  "recent_runs": [
@@ -1425,7 +1425,7 @@
    "docs_prs_created": 0
   }
  ],
- "last_run_note": "No upstream PRs merged after checkpoint 2026-11-14T00:31:59Z (verified via pulls API + search API). No docs PRs created.",
+ "last_run_note": "lease acquired for run-20261114T050109Z-opus48-cloud at 2026-11-14T05:01:17Z",
  "run_log": [
   {
    "run_id": "run-20261107T100112Z-opus48-875",
