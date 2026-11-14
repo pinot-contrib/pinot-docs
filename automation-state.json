@@ -1,8 +1,8 @@
 {
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
- "last_processed_merged_at": "2026-11-13T21:29:51Z",
- "last_successful_run": "2026-11-14T00:06:25Z",
+ "last_processed_merged_at": "2026-11-14T00:31:59Z",
+ "last_successful_run": "2026-11-14T01:06:20Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -1298,11 +1298,17 @@
    "decision": "not_relevant",
    "reason": "Dependency bump (software.amazon.awssdk:bom 2.57.11->2.57.12), pom.xml-only.",
    "docs_pr": null
+  },
+  "20248": {
+   "decision": "not_relevant",
+   "reason": "Test-only change: single file pinot-core/.../IntermediateResultByteBufferSerDeTest.java (+194/-8). Expands IntermediateResultByteBufferSerDeTest to cover every AggregationFunctionType (via testEveryTypeIsCheckedOrExcluded) for intermediate-result byte-buffer ser/de, adding rows for MV/raw percentile & distinct-count variants, funnel window functions, variance/stddev/covar/skewness, and tuple-sketch functions, plus testDistinctCountOffHeap. Labels: functions, serialization, test-coverage. No production code, config, public API, SPI, wire format, or documented default changes; no user-facing behavior to document.",
+   "merged_at": "2026-11-14T00:31:59Z",
+   "upstream_url": "https://github.com/apache/pinot/pull/20248"
   }
  },
  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
- "last_run_result": "noop",
- "last_run_id": "run-20261114T000106Z-opus48-cloud",
+ "last_run_result": "processed_no_docs",
+ "last_run_id": "run-20261114T010109Z-opus48-cloud",
  "lock": {
   "holder": null,
   "status": "released",
@@ -1314,27 +1320,14 @@
  "last_run_summary": "4 dependency-bump PRs after checkpoint (#20253, #20254, #20255, #20259), all pom.xml-only -> not_relevant. No docs PRs created.",
  "run_history_note": "",
  "lease": {
-  "holder": "run-20261114T010109Z-opus48-cloud",
-  "status": "held",
+  "holder": null,
+  "status": "released",
   "acquired_at": "2026-11-14T01:01:09Z",
-  "released_at": null,
-  "lease_expires_at": "2026-11-14T01:51:17Z",
-  "prev_holder": "run-20261113T230131Z-opus48-cloud"
+  "released_at": "2026-11-14T01:06:20Z",
+  "lease_expires_at": null,
+  "prev_holder": "run-20261114T010109Z-opus48-cloud"
  },
  "recent_runs": [
-  {
-   "run_id": "run-20261113T060131Z-opus48-cloud",
-   "utc": "2026-11-13T06:02:30Z",
-   "result": "noop",
-   "new_prs": 0,
-   "docs_prs": 0,
-   "checkpoint_advanced": false,
-   "checkpoint": "2026-11-13T03:37:04Z",
-   "model": "claude-opus-4-8",
-   "docs_prs_list": [],
-   "processed": [],
-   "method": "3-way reconcile: search API is:merged merged:>CP total_count=0; pulls?state=closed&sort=updated max merged_at=#19529@CP; git fetch apache/master tip c5e6b52c=#19529=CP, 0 commits strictly after. Preflight OK: push=write apache/pinot, admin pinot-docs."
-  },
   {
    "run_id": "run-20261113T070123Z-opus48-cloud",
    "utc": "2026-11-13T07:02:38Z",
@@ -1419,6 +1412,16 @@
    "new_prs": [],
    "docs_prs_created": [],
    "checkpoint": "2026-11-13T21:29:51Z"
+  },
+  {
+   "run_id": "run-20261114T010109Z-opus48-cloud",
+   "utc": "2026-11-14T01:05:38Z",
+   "result": "processed_no_docs",
+   "new_prs": [
+    20248
+   ],
+   "docs_prs_created": [],
+   "checkpoint": "2026-11-14T00:31:59Z"
   }
  ],
  "last_run_note": "2026-11-13T19:02:29Z: No-op. No apache/pinot PRs merged after checkpoint 2026-11-13T15:04:51Z (max merged_at among candidates == checkpoint). All 12 candidate PRs on 2026-11-13 already in ledger. Preflight: auth OK (xiangfu0), WRITE apache/pinot, ADMIN pinot-contrib/pinot-docs, durable branch read/write OK.",
@@ -1684,6 +1687,13 @@
    "result": "noop",
    "checkpoint": "2026-11-13T15:04:51Z",
    "new_prs": 0
+  },
+  {
+   "run_id": "run-20261114T010109Z-opus48-cloud",
+   "utc": "2026-11-14T01:05:38Z",
+   "result": "processed_no_docs",
+   "checkpoint": "2026-11-14T00:31:59Z",
+   "new_prs": 1
   }
  ],
  "run_history": [
@@ -1987,16 +1997,25 @@
    "result": "noop",
    "new_prs": 0,
    "checkpoint": "2026-11-13T15:04:51Z"
+  },
+  {
+   "run_id": "run-20261114T010109Z-opus48-cloud",
+   "utc": "2026-11-14T01:05:38Z",
+   "result": "processed_no_docs",
+   "new_prs": 1,
+   "checkpoint": "2026-11-14T00:31:59Z"
   }
  ],
  "last_run": {
-  "run_id": "run-20261114T000106Z-opus48-cloud",
-  "utc": "2026-11-14T00:06:25Z",
-  "result": "noop",
-  "new_prs": [],
+  "run_id": "run-20261114T010109Z-opus48-cloud",
+  "utc": "2026-11-14T01:06:20Z",
+  "result": "processed_no_docs",
+  "new_prs": [
+   20248
+  ],
   "docs_prs_created": [],
-  "checkpoint": "2026-11-13T21:29:51Z",
-  "inventory": "0 merged PRs after checkpoint 2026-11-13T21:29:51Z. 3-way reconcile agrees: Search API merged:>CP = 0; authoritative pulls API full scan = 0 strictly-after (most recent merged #20256 @ 21:29:51Z == checkpoint, ledgered not_relevant dep-bump); no new docs-relevant work.",
-  "note": "Clean no-op. Checkpoint unchanged; ledger stays 147."
+  "checkpoint": "2026-11-14T00:31:59Z",
+  "inventory": "3-way reconcile: Search API (merged:>=2026-11-13, 16 items) -> 1 strictly after prev CP 2026-11-13T21:29:51Z; authoritative pulls API 2-page scan (state=closed,sort=updated desc,200 rows, oldest updated_at 2026-10-25T10:58:06Z proving coverage) -> same 1; fork checkout stale (xiangfu0/pinot, 1 commit) so git-level reconcile N/A, API authoritative. Only new PR: #20248.",
+  "note": "#20248 classified not_relevant (test-only ser/de coverage). No docs PR. Checkpoint advanced 2026-11-13T21:29:51Z -> 2026-11-14T00:31:59Z. Ledger 147 -> 148."
  }
 }
