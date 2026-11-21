@@ -199,6 +199,8 @@ You can instead configure the sparse blob with `sparseFieldConfig` inside `open_
 
 Keys with array values can be stored and queried as multi-value keys. A declared child field controls its type and single- or multi-value shape; for an undeclared key, Pinot infers the shape and element type from ingested values. You can also select the whole `OPEN_STRUCT` column (including through `SELECT *`); Pinot reconstructs it as a JSON document from dense and sparse keys.
 
+In a whole-object result, top-level keys declared as `BOOLEAN` render as JSON `true` or `false`, including elements of multi-value keys, rather than the stored integers `0` and `1`. Older segments whose materialized child is still typed `INT` can continue to return numbers for that key. Nested objects retain their original JSON types.
+
 New segments record the inferred type of undeclared sparse keys, so a key keeps its type whether it is dense or sparse in that segment. Older segments without this type metadata continue to expose undeclared sparse keys as `STRING`; rebuild those segments if you need their inferred types preserved.
 
 For typed sparse keys with numeric storage, Pinot uses the same conversion as the dense tier. If conversion rejects the value, Pinot treats the key as absent rather than substituting a number. For a multi-value key, an empty array or a rejected element makes the whole key absent for that row.
