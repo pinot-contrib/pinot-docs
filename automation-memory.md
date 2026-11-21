@@ -328,3 +328,5 @@
 - Checkpoint unchanged; ledger stays 150. No docs PR, no upstream comment, no Slack (no-op).
 
 - 2026-11-21T02:57:05.298Z — Reconciled 62 post-checkpoint master merges; 19 docs PRs merged and linked upstream, 43 skipped, 0 pending. Checkpoint: 2026-11-20T21:54:13Z. Manual catch-up after the IntentLab checkpoint stopped advancing. Slack: one summary delivered (HTTP 200).
+
+- 2026-11-21T03:03:55.295Z — Codex takeover: apache/pinot#20336 → docs #1202 merged after four exact-head hosted checks passed and linked upstream. Checkpoint: 2026-11-21T03:01:28Z.

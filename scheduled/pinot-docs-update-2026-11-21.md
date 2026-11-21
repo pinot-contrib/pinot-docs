@@ -72,3 +72,10 @@ Slack: One catch-up summary delivered (HTTP 200).
 - [#20323](https://github.com/apache/pinot/pull/20323) — Bump software.amazon.awssdk:bom from 2.59.1 to 2.59.2. Dependency update only; no documented user-facing change.
 - [#20324](https://github.com/apache/pinot/pull/20324) — Bump at.yawk.lz4:lz4-java from 1.14.0 to 1.14.1. Dependency update only; no documented user-facing change.
 - [#20319](https://github.com/apache/pinot/pull/20319) — Extract SQL query options without parsing the executable statement. Merged [#1201](https://github.com/pinot-contrib/pinot-docs/pull/1201); [upstream comment](https://github.com/apache/pinot/pull/20319#issuecomment-7056264352)
+
+## Codex takeover — 2026-11-21T03:03:55.295Z
+
+- [Upstream #20336](https://github.com/apache/pinot/pull/20336) → [docs #1202](https://github.com/pinot-contrib/pinot-docs/pull/1202), merged after four exact-head hosted checks passed and linked upstream ([upstream comment](https://github.com/apache/pinot/pull/20336#issuecomment-7056343266)).
+- Resume boundary: `2026-11-21T03:01:28Z`. Reconciled GitHub merge inventory against the first-parent master history.
+- Local validation passed: 0 broken file links, 10 existing anchor warnings.
+- Slack: Summary delivered (HTTP 200).

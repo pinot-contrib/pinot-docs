@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-20T21:54:13Z",
-  "last_successful_run": "2026-11-21T02:57:05.298Z",
+  "last_processed_merged_at": "2026-11-21T03:01:28Z",
+  "last_successful_run": "2026-11-21T03:03:55.295Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20319,
-    "upstream_url": "https://github.com/apache/pinot/pull/20319",
-    "docs_pr": 1201,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1201",
+    "upstream_pr": 20336,
+    "upstream_url": "https://github.com/apache/pinot/pull/20336",
+    "docs_pr": 1202,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1202",
     "decision": "docs_created",
-    "note": "Document extracting SQL query options without parsing (apache/pinot#20319)"
+    "note": "Document sparse time-series responses and errors"
   },
   "processed_prs": {
     "18486": {
@@ -1811,24 +1811,38 @@
       "merged_at": "2026-11-20T12:43:47Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20325",
       "docs_pr": null
+    },
+    "20336": {
+      "decision": "docs_created",
+      "docs_pr": 1202,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1202",
+      "merged_at": "2026-11-21T03:01:28Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20336",
+      "note": "Document sparse time-series responses and errors",
+      "docs_merged_at": "2026-11-21T03:03:38Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20336#issuecomment-7056343266"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "processed_docs",
-  "last_run_id": "codex-catchup-20261120",
+  "last_run_id": "codex-takeover-20336",
   "lock": {
-    "holder": "codex-takeover-20336",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-21T03:02:31.863Z",
-    "lease_expires_at": "2026-11-21T03:32:31.863Z"
+    "released_at": "2026-11-21T03:03:55.295Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-takeover-20336"
   },
-  "last_run_summary": "Reconciled 62 post-checkpoint master merges; 19 docs PRs merged and linked upstream, 43 skipped, 0 pending. Checkpoint: 2026-11-20T21:54:13Z.",
+  "last_run_summary": "Codex takeover: apache/pinot#20336 → docs #1202 merged after four exact-head hosted checks passed and linked upstream. Checkpoint: 2026-11-21T03:01:28Z.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-takeover-20336",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-21T03:02:31.863Z",
-    "lease_expires_at": "2026-11-21T03:32:31.863Z"
+    "released_at": "2026-11-21T03:03:55.295Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-takeover-20336"
   },
   "recent_runs": [
     {
@@ -2032,9 +2046,26 @@
       ],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-20T21:54:13Z"
+    },
+    {
+      "run_id": "codex-takeover-20336",
+      "started_utc": "2026-11-21T03:02:31.863Z",
+      "finished_utc": "2026-11-21T03:03:55.295Z",
+      "result": "processed_docs",
+      "new_prs": [
+        20336
+      ],
+      "docs_prs_created": [
+        1202
+      ],
+      "docs_prs_merged": [
+        1202
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-21T03:01:28Z"
     }
   ],
-  "last_run_note": "Manual catch-up from the IntentLab checkpoint; schedules unchanged.",
+  "last_run_note": "Codex heartbeat resumed on this thread; IntentLab was not changed.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -2431,6 +2462,23 @@
       ],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-20T21:54:13Z"
+    },
+    {
+      "run_id": "codex-takeover-20336",
+      "started_utc": "2026-11-21T03:02:31.863Z",
+      "finished_utc": "2026-11-21T03:03:55.295Z",
+      "result": "processed_docs",
+      "new_prs": [
+        20336
+      ],
+      "docs_prs_created": [
+        1202
+      ],
+      "docs_prs_merged": [
+        1202
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-21T03:01:28Z"
     }
   ],
   "run_history": [
@@ -2864,120 +2912,40 @@
       ],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-20T21:54:13Z"
+    },
+    {
+      "run_id": "codex-takeover-20336",
+      "started_utc": "2026-11-21T03:02:31.863Z",
+      "finished_utc": "2026-11-21T03:03:55.295Z",
+      "result": "processed_docs",
+      "new_prs": [
+        20336
+      ],
+      "docs_prs_created": [
+        1202
+      ],
+      "docs_prs_merged": [
+        1202
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-21T03:01:28Z"
     }
   ],
   "last_run": {
-    "run_id": "codex-catchup-20261120",
-    "started_utc": "2026-11-21T02:50:54.140Z",
-    "finished_utc": "2026-11-21T02:57:05.298Z",
+    "run_id": "codex-takeover-20336",
+    "started_utc": "2026-11-21T03:02:31.863Z",
+    "finished_utc": "2026-11-21T03:03:55.295Z",
     "result": "processed_docs",
     "new_prs": [
-      20111,
-      19776,
-      20162,
-      20267,
-      20270,
-      20273,
-      20269,
-      20272,
-      20274,
-      20268,
-      20271,
-      20247,
-      20249,
-      20260,
-      20171,
-      20137,
-      20266,
-      20261,
-      20278,
-      20281,
-      20010,
-      20287,
-      19775,
-      20286,
-      20289,
-      20099,
-      20277,
-      18758,
-      20279,
-      20288,
-      20262,
-      20282,
-      20091,
-      19887,
-      20280,
-      20244,
-      20307,
-      20308,
-      20302,
-      20039,
-      20296,
-      19873,
-      20136,
-      20304,
-      20305,
-      20299,
-      20306,
-      19536,
-      20309,
-      20285,
-      20315,
-      20058,
-      20301,
-      20106,
-      20312,
-      20293,
-      19235,
-      20092,
-      20325,
-      20323,
-      20324,
-      20319
+      20336
     ],
     "docs_prs_created": [
-      1183,
-      1184,
-      1185,
-      1186,
-      1187,
-      1188,
-      1189,
-      1190,
-      1191,
-      1192,
-      1193,
-      1194,
-      1195,
-      1196,
-      1197,
-      1198,
-      1199,
-      1200,
-      1201
+      1202
     ],
     "docs_prs_merged": [
-      1185,
-      1183,
-      1184,
-      1189,
-      1190,
-      1191,
-      1192,
-      1193,
-      1188,
-      1200,
-      1194,
-      1195,
-      1196,
-      1197,
-      1198,
-      1186,
-      1199,
-      1187,
-      1201
+      1202
     ],
     "pending_docs_prs": [],
-    "checkpoint": "2026-11-20T21:54:13Z"
+    "checkpoint": "2026-11-21T03:01:28Z"
   }
 }
