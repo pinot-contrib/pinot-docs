@@ -35,6 +35,19 @@ In order to add a new type of stream (say, Foo) implement the following classes:
 
 The properties for the stream implementation are to be set in the table configuration, inside `streamConfigs` section.
 
+### Retry transient decode failures
+
+A custom decoder can throw `RetriableDecodeException` for a transient dependency failure. Pinot retries the same stream message without advancing its offset. Use an ordinary decode exception for a permanently bad record.
+
+Set these keys directly in `streamConfigs`, without the stream-type prefix:
+
+| Key | Default | Effect |
+| --- | --- | --- |
+| `decodeRetryMaxBackoffMillis` | `10000` | Caps exponential backoff, which starts at 100 ms. |
+| `decodeRetryMaxDurationMillis` | Unlimited | Bounds a retry outage per segment. Use `0` to disable retries; after the limit, Pinot handles the failure as an ordinary decode failure. A new segment, pause, restart, or rebalance starts a fresh window. |
+
+Monitor `REALTIME_DECODE_RETRIES` when investigating stalled consumption.
+
 Use the `streamType` property to define the stream type. For example, for the implementation of stream `foo`, set the property `"streamType" : "foo"`.
 
 The rest of the configuration properties for your stream should be set with the prefix `"stream.foo"`. Be sure to use the same suffix for: (see examples below):
