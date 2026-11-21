@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-21T06:19:30Z",
-  "last_successful_run": "2026-11-21T08:06:43.465Z",
+  "last_processed_merged_at": "2026-11-21T10:35:05Z",
+  "last_successful_run": "2026-11-21T18:26:02.083Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20303,
-    "upstream_url": "https://github.com/apache/pinot/pull/20303",
-    "docs_pr": 1204,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1204",
+    "upstream_pr": 20337,
+    "upstream_url": "https://github.com/apache/pinot/pull/20337",
+    "docs_pr": 1206,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1206",
     "decision": "docs_created",
-    "note": "Documented multi-stage OPEN_STRUCT queries, literal key lookups, and declared versus undeclared SQL types."
+    "note": "Boolean rendering in whole OPEN_STRUCT documents, with older-segment caveat."
   },
   "processed_prs": {
     "18486": {
@@ -143,6 +143,16 @@
       "merged_at": "2026-11-18T02:31:57Z",
       "upstream_url": "https://github.com/apache/pinot/pull/19887",
       "note": "Document ingestion Groovy compilation policy (apache/pinot#19887)"
+    },
+    "19888": {
+      "decision": "docs_created",
+      "docs_pr": 1205,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1205",
+      "docs_merged_at": "2026-11-21T18:25:29Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/19888#issuecomment-7067245091",
+      "merged_at": "2026-11-21T08:23:17Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19888",
+      "note": "Cluster-wide ingestion Groovy policy and legacy controller fallback."
     },
     "19905": {
       "decision": "not_relevant",
@@ -1841,24 +1851,38 @@
       "note": "Document sparse time-series responses and errors",
       "docs_merged_at": "2026-11-21T03:03:38Z",
       "upstream_comment": "https://github.com/apache/pinot/pull/20336#issuecomment-7056343266"
+    },
+    "20337": {
+      "decision": "docs_created",
+      "docs_pr": 1206,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1206",
+      "docs_merged_at": "2026-11-21T18:25:40Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20337#issuecomment-7067247202",
+      "merged_at": "2026-11-21T10:35:05Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20337",
+      "note": "Boolean rendering in whole OPEN_STRUCT documents, with older-segment caveat."
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "noop",
-  "last_run_id": "codex-hourly-20261121T080537Z",
+  "last_run_result": "processed_docs",
+  "last_run_id": "codex-hourly-20261121T182329Z",
   "lock": {
-    "holder": "codex-hourly-20261121T182329Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-21T18:24:24.958Z",
-    "lease_expires_at": "2026-11-21T18:54:24.959Z"
+    "released_at": "2026-11-21T18:26:02.083Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261121T182329Z"
   },
-  "last_run_summary": "No post-checkpoint merges or pending follow-ups; first-parent master and complete GitHub merge inventory agree.",
+  "last_run_summary": "2 post-checkpoint merges reconciled; 2 docs PRs merged and linked upstream; 0 pending. Checkpoint: 2026-11-21T10:35:05Z.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-hourly-20261121T182329Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-21T18:24:24.958Z",
-    "lease_expires_at": "2026-11-21T18:54:24.959Z"
+    "released_at": "2026-11-21T18:26:02.083Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261121T182329Z"
   },
   "recent_runs": [
     {
@@ -2146,9 +2170,29 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-21T06:19:30Z"
+    },
+    {
+      "run_id": "codex-hourly-20261121T182329Z",
+      "started_utc": "2026-11-21T18:24:24.958Z",
+      "finished_utc": "2026-11-21T18:26:02.083Z",
+      "result": "processed_docs",
+      "new_prs": [
+        19888,
+        20337
+      ],
+      "docs_prs_created": [
+        1205,
+        1206
+      ],
+      "docs_prs_merged": [
+        1205,
+        1206
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-21T10:35:05Z"
     }
   ],
-  "last_run_note": "Checkpoint unchanged; no docs PRs created and no Slack summary sent.",
+  "last_run_note": "One follow-up per docs-relevant upstream merge.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -2629,6 +2673,26 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-21T06:19:30Z"
+    },
+    {
+      "run_id": "codex-hourly-20261121T182329Z",
+      "started_utc": "2026-11-21T18:24:24.958Z",
+      "finished_utc": "2026-11-21T18:26:02.083Z",
+      "result": "processed_docs",
+      "new_prs": [
+        19888,
+        20337
+      ],
+      "docs_prs_created": [
+        1205,
+        1206
+      ],
+      "docs_prs_merged": [
+        1205,
+        1206
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-21T10:35:05Z"
     }
   ],
   "run_history": [
@@ -3146,17 +3210,46 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-21T06:19:30Z"
+    },
+    {
+      "run_id": "codex-hourly-20261121T182329Z",
+      "started_utc": "2026-11-21T18:24:24.958Z",
+      "finished_utc": "2026-11-21T18:26:02.083Z",
+      "result": "processed_docs",
+      "new_prs": [
+        19888,
+        20337
+      ],
+      "docs_prs_created": [
+        1205,
+        1206
+      ],
+      "docs_prs_merged": [
+        1205,
+        1206
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-21T10:35:05Z"
     }
   ],
   "last_run": {
-    "run_id": "codex-hourly-20261121T080537Z",
-    "started_utc": "2026-11-21T08:06:09.319Z",
-    "finished_utc": "2026-11-21T08:06:43.465Z",
-    "result": "noop",
-    "new_prs": [],
-    "docs_prs_created": [],
-    "docs_prs_merged": [],
+    "run_id": "codex-hourly-20261121T182329Z",
+    "started_utc": "2026-11-21T18:24:24.958Z",
+    "finished_utc": "2026-11-21T18:26:02.083Z",
+    "result": "processed_docs",
+    "new_prs": [
+      19888,
+      20337
+    ],
+    "docs_prs_created": [
+      1205,
+      1206
+    ],
+    "docs_prs_merged": [
+      1205,
+      1206
+    ],
     "pending_docs_prs": [],
-    "checkpoint": "2026-11-21T06:19:30Z"
+    "checkpoint": "2026-11-21T10:35:05Z"
   }
 }

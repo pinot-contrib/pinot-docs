@@ -105,3 +105,11 @@ No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slac
 ## Hourly check — 2026-11-21T08:05:37.155Z
 
 No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slack summary sent. Checkpoint remains `2026-11-21T06:19:30Z`.
+
+## Hourly docs follow-ups — 2026-11-21T18:26:02.083Z
+
+- [Upstream #19888](https://github.com/apache/pinot/pull/19888) → [docs #1205](https://github.com/pinot-contrib/pinot-docs/pull/1205), merged after all four hosted checks passed; [linked upstream](https://github.com/apache/pinot/pull/19888#issuecomment-7067245091). Cluster-wide ingestion Groovy policy and legacy controller fallback.
+- [Upstream #20337](https://github.com/apache/pinot/pull/20337) → [docs #1206](https://github.com/pinot-contrib/pinot-docs/pull/1206), merged after all four hosted checks passed; [linked upstream](https://github.com/apache/pinot/pull/20337#issuecomment-7067247202). Boolean rendering in whole OPEN_STRUCT documents, with older-segment caveat.
+- Local docs validation passed: zero broken file links and 10 existing anchor warnings.
+- Reconciled two post-checkpoint merges with first-parent master. Checkpoint: `2026-11-21T10:35:05Z`.
+- Slack: Summary delivered (HTTP 200).
