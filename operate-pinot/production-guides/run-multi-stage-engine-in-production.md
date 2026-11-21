@@ -100,7 +100,8 @@ For production clusters, review whether the defaults are appropriate for your da
 
 The broker and server controls protect different parts of the system:
 
-* The broker throttle limits how much multi-stage work a broker dispatches concurrently across the cluster.
+* The broker throttle limits how much multi-stage work a broker dispatches concurrently across the cluster. Its permit budget divides the server capacity among brokers assigned to at least one table, not all registered brokers.
+* With `WAIT`, a query whose estimate exceeds the broker's permit budget waits for the full budget and runs alone under that throttle, subject to its timeout. `LOG` still admits work and warns when it would have been throttled.
 * The server hard limit caps how many multi-stage executor tasks can run at the same time on an individual server.
 * The cluster config `pinot.beta.multistage.engine.max.server.query.threads` is only a fallback. Broker-local and server-local configs take precedence when they are set to positive values.
 
