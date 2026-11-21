@@ -43,6 +43,12 @@ See the [Pinot source code for ScalarFunction](https://github.com/apache/pinot/t
 
 Transform functions run during query execution to compute derived values on the fly. They implement the `TransformFunction` interface and are registered in `TransformFunctionFactory`. Custom transform functions are useful when you need server-side computation that is not expressible as a UDF.
 
+### Read SQL query options without compiling a query
+
+Use `CalciteSqlParser.extractQueryOptions(sql)` when your integration needs query options but does not need a parsed statement. It reads options from `SET` (before or after the query) and from a trailing `OPTION(...)`. For an HTTP request, use `RequestUtils.extractQueryOptions(sql, requestJson)` to apply the broker's option policy to both the SQL and JSON request options.
+
+This API does not validate the executable SQL. Use the full parser if you need to validate or inspect the statement itself.
+
 ## Prerequisites
 
 Before extending Pinot, make sure you have:
