@@ -6,6 +6,8 @@ description: Schema configuration reference.
 
 This page is the flat reference for Pinot schema JSON. It brings the top-level schema object, field-spec tables, null-handling rules, date-time formats, `MAP` and `OPEN_STRUCT` support, and advanced column options into one place.
 
+During schema creation, updates, and validation, the controller checks ingestion Groovy in field-level `transformFunction` expressions against the cluster's `controller.disable.ingestion.groovy` policy. On an existing cluster, an explicit `false` enables ingestion Groovy validation; missing or invalid cluster values disable it. Changes to the cluster policy take effect without restarting the controller.
+
 ## Key Areas
 
 | Area | What it covers | Jump |
