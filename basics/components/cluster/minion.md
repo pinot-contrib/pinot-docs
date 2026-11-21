@@ -43,6 +43,8 @@ bin/pinot-admin.sh StartMinion \
 {% endtab %}
 {% endtabs %}
 
+Set `pinot.minion.instance.dataDir` in the minion configuration to choose its local data directory. If both this key and the deprecated unprefixed `dataDir` are set, the prefixed key takes precedence. If neither is set, the directory defaults to `PinotMinion/data` under the JVM temporary directory.
+
 ## Interfaces
 
 ![](../../../.gitbook/assets/task-interface-diagram.png)
