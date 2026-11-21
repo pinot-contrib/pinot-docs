@@ -327,4 +327,4 @@
 - Preflight: auth xiangfu0 via GH_TOKEN; apache/pinot = WRITE, pinot-contrib/pinot-docs = ADMIN (verified via collaborators/permission). gh-tentrix-wrap "no token minted" notice is benign — GH_TOKEN fallback works (reads/writes succeed). Durable read via git `git show origin/automation-state:<file>`; CAS lock/release via Contents API `--input <json>` (acquire state blob b1d51804 → 20aa9acb commit 3e39ce7e, 45-min expiry; released atomically). Single holder, no overlap with 06:01Z run (released 06:02:35Z).
 - Checkpoint unchanged; ledger stays 150. No docs PR, no upstream comment, no Slack (no-op).
 
-- 2026-11-21T02:57:05.298Z — Reconciled 62 post-checkpoint master merges; 19 docs PRs merged and linked upstream, 43 skipped, 0 pending. Checkpoint: 2026-11-20T21:54:13Z. Manual catch-up after the IntentLab checkpoint stopped advancing. Slack: Not yet sent.
+- 2026-11-21T02:57:05.298Z — Reconciled 62 post-checkpoint master merges; 19 docs PRs merged and linked upstream, 43 skipped, 0 pending. Checkpoint: 2026-11-20T21:54:13Z. Manual catch-up after the IntentLab checkpoint stopped advancing. Slack: one summary delivered (HTTP 200).

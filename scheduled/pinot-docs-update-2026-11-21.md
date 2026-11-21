@@ -6,7 +6,7 @@ IntentLab continued triggering, but its two latest inspected sessions only showe
 
 Coverage: GitHub merged timestamps matched the 62 first-parent Apache Pinot master changes through `92468bf3d1`. Local docs validation passed with zero broken links and 10 existing anchor warnings; merged follow-ups passed four hosted checks at their exact heads.
 
-Slack: Not yet sent.
+Slack: One catch-up summary delivered (HTTP 200).
 
 ## Triage decisions
 
