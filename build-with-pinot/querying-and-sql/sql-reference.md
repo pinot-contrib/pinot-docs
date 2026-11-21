@@ -315,7 +315,7 @@ JOIN teams t ON e.team_id = t.id
 GROUP BY ARRAY_TO_MV(e.tags)
 ```
 
-Upgrade the brokers and servers before relying on plans that use the new multi-value aggregate. Straightforward leaf-only grouping over a table scan can still use the existing aggregate.
+Upgrade the brokers and servers before relying on plans that use the new multi-value aggregate. Straightforward leaf-only grouping over a table scan can still use the existing aggregate. The new aggregate is not used with `usePhysicalOptimizer=true`.
 
 ### GROUPING SETS, ROLLUP, and CUBE
 
