@@ -240,7 +240,8 @@ Pauseless consumption is compatible with upsert and dedup tables, with the follo
 
 * **Upsert tables**: Pauseless consumption works with upsert tables. During the build and upload phase, the consuming segment and the committing segment can coexist, and upsert metadata is maintained correctly.
 * **Dedup tables**: Pauseless consumption works with dedup tables, but reingestion is disabled by default (`DEFAULT` disaster recovery mode) because dedup requires in-order consumption. Re-ingesting a segment out of order could produce incorrect dedup results. Set `disasterRecoveryMode` to `ALWAYS` if you need automatic disaster recovery at the cost of temporary dedup inconsistency.
-* **Partial upsert tables**: Consumption during build is also supported for partial upsert tables.
+* **New upsert tables**: Pauseless consumption cannot be combined with partial upsert, `upsertConfig.dropOutOfOrderRecord: true`, or `upsertConfig.outOfOrderRecordColumn`. Recovery may replay a failed segment's offsets against different upsert metadata, changing merged values or which records are dropped or marked out of order. Use full upsert without those two options, or disable pauseless consumption.
+* **Existing upsert tables**: An existing table can retain an already configured combination. Enabling one of these combinations on an existing table is a backward-compatibility violation; a forced update bypasses that check but does not remove the recovery risk.
 
 {% hint style="warning" %}
 For dedup tables with pauseless consumption, if a disaster occurs and reingestion is disabled (the default), you may need to perform a manual bulk delete of affected segments and restart ingestion. This is operationally heavy but preserves dedup correctness.
