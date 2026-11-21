@@ -27,6 +27,12 @@ pinot-admin.sh AddTable \\
    * For tar push, the client must be able to stream the segment tar file to the controller.
    * For URI push and metadata push, the controller must be able to access the URI scheme you use. For PinotFS-backed schemes such as HDFS, S3, GCS, and ADLS, configure the matching [Pinot file system](../../build-with-pinot/ingestion/file-systems). For custom schemes, implement a [segment fetcher](../../developers/developers-and-contributors/extending-pinot/segment-fetchers.md).
 
+## Realtime segment metadata in deep storage
+
+The PinotFS uploader can store a best-effort metadata sidecar containing `metadata.properties` and `creation.meta` next to a committed realtime segment. Pinot can use this sidecar to read metadata without downloading the full segment.
+
+To keep existing sidecars when segments are deleted, set `controller.deleted.segments.preserveMetadata` to `true` (default `false`). With positive deleted-segment retention, the controller moves the sidecars to `Deleted_Segments_Metadata/<raw-table-name>/` under its data directory. Retention cleanup expires them with the corresponding archived segments. With zero retention, Pinot deletes the sidecar rather than archiving it.
+
 ## Controller upload endpoints
 
 The controller exposes three upload endpoints:
