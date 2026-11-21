@@ -283,6 +283,12 @@ For example:
 
 While this older method is still supported, it is not the recommended way to configure these parameters. There are no plans to remove support for this older method, but keep in mind that any new parameters added in the future may only be configurable in the `forward` JSON object.
 
+## Limit values per multi-value row
+
+Set `fieldConfigList[].indexes.forward.maxNumMultiValues` to an integer from 1 through 65,536 to limit the number of values in a single row for that multi-value column. The legacy `fieldConfigList[].properties.maxNumMultiValues` accepts a string. Without an explicit value, realtime ingestion limits rows to 1,000 values and batch builds have no limit from this setting. Vector columns with a vector index use the configured vector dimension instead.
+
+Realtime consumers read the setting when creating a consuming segment. Upgrade all consuming replicas and batch builders before you enable it.
+
 ## Disabling the forward index
 
 Traditionally the forward index has been a mandatory index for all columns in the on-disk segment file format.
