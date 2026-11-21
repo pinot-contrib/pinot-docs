@@ -43,6 +43,8 @@ Allowing executable Groovy in ingestion transformation can be a security vulnera
 
 If not set, Groovy for ingestion transformation is disabled by default.
 
+Disabling ingestion Groovy blocks new compilation; it does not stop already compiled evaluators. Operations that compile an ingestion expression, such as starting a consuming segment or rebuilding a derived column during reload, can fail on services that enforce the ingestion policy. Query-time Groovy is governed separately by broker query admission and static analysis.
+
 #### Groovy static analysis
 
 Pinot can also apply static analysis to Groovy scripts before compiling them. This is configured with cluster-level Groovy analyzer configs:
