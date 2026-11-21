@@ -48,6 +48,12 @@ Operators can change `pinot.broker.query.option.validationMode` and `pinot.broke
 
 For a request gateway that must prevent SQL text from overriding trusted request options, pass `sqlOptionsMode` in the request's `queryOptions` (REST) or gRPC metadata. `ALLOW` (default) merges SQL `SET` and legacy `OPTION(...)` values over request options, `IGNORE` drops SQL-embedded options, and `REJECT` returns `QUERY_VALIDATION` with the offending keys. For example, a REST request can include `"queryOptions": "sqlOptionsMode=IGNORE;timeoutMs=5000"` alongside its `sql` string. The mode is **not** honored when supplied inside the SQL itself. An invalid mode fails with `QUERY_VALIDATION`, even if the SQL contains no options.
 
+## Resolve GROUP BY aliases before columns
+
+In the multi-stage engine, `SET preferSelectAliasInGroupBy = true;` makes an unqualified name in `GROUP BY` resolve to a matching `SELECT` alias before an input column with the same name. By default, the input column wins. Qualify the input column with its table alias if you want to refer to that column explicitly.
+
+The broker can set the default with `pinot.broker.multistage.prefer.select.alias.in.group.by` (default `false`). An explicit query option overrides that default.
+
 ## AND restriction pushdown
 
 `andRestrictionPushdownMode` controls pushing an AND filter's candidate document IDs into composite filter children, including OR and NOT filters, to restrict their work. The per-query option overrides the server setting `pinot.server.query.executor.and.restriction.pushdown.mode`.
