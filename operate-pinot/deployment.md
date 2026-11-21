@@ -16,6 +16,8 @@ This section covers everything you need to deploy an Apache Pinot cluster, from 
 - Access to a deep store (local filesystem for development; S3, GCS, HDFS, or ADLS for production).
 - The Pinot binary distribution downloaded from [pinot.apache.org/download](https://pinot.apache.org/download) or the official Docker image.
 
+Official Pinot Docker images enable the Java Vector API with `JDK_JAVA_OPTIONS=--add-modules=jdk.incubator.vector`. This stays in effect when deployment tooling supplies its own `JAVA_OPTS`. Preserve the module option if you replace `JDK_JAVA_OPTIONS` and want Lucene to use its vectorized implementation.
+
 ## Child pages
 
 ### Cluster setup
