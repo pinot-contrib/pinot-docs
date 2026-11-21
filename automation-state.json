@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-21T04:18:54Z",
-  "last_successful_run": "2026-11-21T06:11:43.742Z",
+  "last_processed_merged_at": "2026-11-21T06:19:30Z",
+  "last_successful_run": "2026-11-21T07:09:47.163Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20300,
-    "upstream_url": "https://github.com/apache/pinot/pull/20300",
-    "docs_pr": 1203,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1203",
+    "upstream_pr": 20303,
+    "upstream_url": "https://github.com/apache/pinot/pull/20303",
+    "docs_pr": 1204,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1204",
     "decision": "docs_created",
-    "note": "Documented dotted sparse JSON lookup, literal-key precedence, and typed sparse conversion."
+    "note": "Documented multi-stage OPEN_STRUCT queries, literal key lookups, and declared versus undeclared SQL types."
   },
   "processed_prs": {
     "18486": {
@@ -1732,6 +1732,16 @@
       "upstream_url": "https://github.com/apache/pinot/pull/20302",
       "note": "Document the Java Vector API in Docker images (apache/pinot#20302)"
     },
+    "20303": {
+      "decision": "docs_created",
+      "docs_pr": 1204,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1204",
+      "docs_merged_at": "2026-11-21T07:09:25Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20303#issuecomment-7059069733",
+      "merged_at": "2026-11-21T06:19:30Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20303",
+      "note": "Documented multi-stage OPEN_STRUCT queries, literal key lookups, and declared versus undeclared SQL types."
+    },
     "20304": {
       "decision": "not_relevant",
       "reason": "Container build and CI patch-level enforcement. The upstream Docker README already covers the changed build requirements.",
@@ -1834,21 +1844,25 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "noop",
-  "last_run_id": "codex-hourly-20261121T061035Z",
+  "last_run_result": "processed_docs",
+  "last_run_id": "codex-hourly-20261121T070735Z",
   "lock": {
-    "holder": "codex-hourly-20261121T070735Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-21T07:08:23.959Z",
-    "lease_expires_at": "2026-11-21T07:38:23.960Z"
+    "released_at": "2026-11-21T07:09:47.163Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261121T070735Z"
   },
-  "last_run_summary": "No post-checkpoint merges or pending follow-ups; first-parent master and complete GitHub merge inventory agree.",
+  "last_run_summary": "Upstream #20303 → docs #1204 merged after all four hosted checks passed; linked upstream. Checkpoint: 2026-11-21T06:19:30Z.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-hourly-20261121T070735Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-21T07:08:23.959Z",
-    "lease_expires_at": "2026-11-21T07:38:23.960Z"
+    "released_at": "2026-11-21T07:09:47.163Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261121T070735Z"
   },
   "recent_runs": [
     {
@@ -2108,9 +2122,26 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-21T04:18:54Z"
+    },
+    {
+      "run_id": "codex-hourly-20261121T070735Z",
+      "started_utc": "2026-11-21T07:08:23.959Z",
+      "finished_utc": "2026-11-21T07:09:47.163Z",
+      "result": "processed_docs",
+      "new_prs": [
+        20303
+      ],
+      "docs_prs_created": [
+        1204
+      ],
+      "docs_prs_merged": [
+        1204
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-21T06:19:30Z"
     }
   ],
-  "last_run_note": "Checkpoint unchanged; no docs PRs created and no Slack summary sent.",
+  "last_run_note": "Documented multi-stage OPEN_STRUCT queries, literal key lookups, and declared versus undeclared SQL types.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -2563,6 +2594,23 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-21T04:18:54Z"
+    },
+    {
+      "run_id": "codex-hourly-20261121T070735Z",
+      "started_utc": "2026-11-21T07:08:23.959Z",
+      "finished_utc": "2026-11-21T07:09:47.163Z",
+      "result": "processed_docs",
+      "new_prs": [
+        20303
+      ],
+      "docs_prs_created": [
+        1204
+      ],
+      "docs_prs_merged": [
+        1204
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-21T06:19:30Z"
     }
   ],
   "run_history": [
@@ -3052,17 +3100,40 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-21T04:18:54Z"
+    },
+    {
+      "run_id": "codex-hourly-20261121T070735Z",
+      "started_utc": "2026-11-21T07:08:23.959Z",
+      "finished_utc": "2026-11-21T07:09:47.163Z",
+      "result": "processed_docs",
+      "new_prs": [
+        20303
+      ],
+      "docs_prs_created": [
+        1204
+      ],
+      "docs_prs_merged": [
+        1204
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-21T06:19:30Z"
     }
   ],
   "last_run": {
-    "run_id": "codex-hourly-20261121T061035Z",
-    "started_utc": "2026-11-21T06:11:10.685Z",
-    "finished_utc": "2026-11-21T06:11:43.742Z",
-    "result": "noop",
-    "new_prs": [],
-    "docs_prs_created": [],
-    "docs_prs_merged": [],
+    "run_id": "codex-hourly-20261121T070735Z",
+    "started_utc": "2026-11-21T07:08:23.959Z",
+    "finished_utc": "2026-11-21T07:09:47.163Z",
+    "result": "processed_docs",
+    "new_prs": [
+      20303
+    ],
+    "docs_prs_created": [
+      1204
+    ],
+    "docs_prs_merged": [
+      1204
+    ],
     "pending_docs_prs": [],
-    "checkpoint": "2026-11-21T04:18:54Z"
+    "checkpoint": "2026-11-21T06:19:30Z"
   }
 }

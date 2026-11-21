@@ -94,3 +94,10 @@ No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slac
 ## Hourly check — 2026-11-21T06:10:35.094Z
 
 No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slack summary sent. Checkpoint remains `2026-11-21T04:18:54Z`.
+
+## Hourly MSE OPEN_STRUCT follow-up — 2026-11-21T07:09:47.163Z
+
+- [Upstream #20303](https://github.com/apache/pinot/pull/20303) → [docs #1204](https://github.com/pinot-contrib/pinot-docs/pull/1204), merged after all four hosted checks passed; linked upstream ([upstream comment](https://github.com/apache/pinot/pull/20303#issuecomment-7059069733)).
+- Documented multi-stage OPEN_STRUCT queries, literal key lookups, and declared versus undeclared SQL types. Local validation passed: zero broken file links and 10 existing anchor warnings.
+- Reconciled the sole new merge against first-parent master. Checkpoint: `2026-11-21T06:19:30Z`.
+- Slack: Summary delivered (HTTP 200).
