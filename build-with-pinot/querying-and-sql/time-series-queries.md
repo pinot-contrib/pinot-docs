@@ -52,6 +52,8 @@ The time series API `POST /query/timeseries` returns responses in the standard `
 
 The request body must include `query`. If the broker receives malformed JSON or the `query` field is missing, it returns HTTP `400 Bad Request`.
 
+When the broker denies access to a time series query, it returns HTTP `403 Forbidden` with the endpoint's usual error body. For `POST /query/timeseries`, inspect the `exceptions` field of the Pinot response. Other query errors can still be reported in that field with HTTP `200 OK`.
+
 Time series data is returned in a `ResultTable` with the following key columns:
 - `ts` - Array of timestamps for each time bucket
 - `values` - Array of metric values corresponding to each timestamp
@@ -94,28 +96,24 @@ curl -G 'http://localhost:8099/timeseries/api/v1/query_range' \
 
 #### Example Response
 
-The response follows the standard Pinot `BrokerResponse` format, containing time series data in a `ResultTable`:
+Unlike `POST /query/timeseries`, the range endpoint returns a Prometheus-style matrix. Each sample is a `[timestamp, "value"]` pair. Missing samples are omitted rather than returned as null values, so use the timestamps to align series. A series with no samples is omitted; if none of the series has samples, the matrix has an empty `result` array.
 
 ```json
 {
-  "resultTable": {
-    "dataSchema": {
-      "columnNames": ["ts", "values", "__name__"],
-      "columnDataTypes": ["LONG_ARRAY", "DOUBLE_ARRAY", "STRING"]
-    },
-    "rows": [
-      [
-        [1700000000, 1700000060, 1700000120],
-        [1.5, 2.3, 3.1],
-        "sum(rate(myMetric[5m])){}"
-      ]
+  "status": "success",
+  "data": {
+    "resultType": "matrix",
+    "result": [
+      {
+        "metric": {"__name__": "myMetric"},
+        "values": [[1700000000, "1.5"], [1700000120, "3.1"]]
+      }
     ]
-  },
-  "numDocsScanned": 10000,
-  "numSegmentsQueried": 4,
-  "totalDocs": 50000
+  }
 }
 ```
+
+For a broker range request, access denial returns HTTP `403 Forbidden` with `status: "error"`, `errorType`, and `error` in the body. If the broker's exchange times out before any server replies, the range response reports the server timeout in the error body instead of losing it during response formatting.
 
 #### Controller Proxy
 
