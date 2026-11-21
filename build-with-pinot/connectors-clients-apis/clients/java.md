@@ -290,6 +290,8 @@ Connection connection = ConnectionFactory.fromController(properties, "controller
 
 When you customize `JsonAsyncHttpPinotClientTransportFactory` directly, the `scheme` property only overrides the factory when you set `scheme` in `Properties`. If `scheme` is absent, `withConnectionProperties(...)` keeps any scheme you already set on the factory and falls back to `http` only when neither the factory nor the properties specify one.
 
+For HTTPS broker connections, the default Java transport verifies the broker hostname even when supplied with a custom `SSLContext`. Use broker addresses that match the server certificates, including the addresses returned by broker discovery.
+
 ## Request Tracing
 
 The Java client (`JsonAsyncHttpPinotClientTransport`) automatically attaches an `X-Correlation-Id` header — a unique UUID per request — to every HTTP query. This ID:
