@@ -275,6 +275,12 @@ When you're using a text index, add the indexed column to the `noDictionaryColum
 For instructions on that configuration property, see the [Raw value forward index](forward-index.md#raw-value-forward-index) documentation.
 {% endhint %}
 
+### Build a per-column text index on the dictionary
+
+For a dictionary-encoded, single-value string column, set `fieldConfigList[].indexes.text.buildOnDictionary` to `true` to index each distinct value once in immutable segments. This can reduce Lucene index size for columns with repeated values. It defaults to `false`.
+
+Consuming segments continue to use per-row indexing; the dictionary mode applies when Pinot builds an immutable segment. Queries still use `TEXT_MATCH(column, query)`. Rebuilding an existing index in a different mode requires an available source for the column values and row mapping; regenerate the segment from source if Pinot cannot rebuild it from its existing indexes.
+
 ## Enable a per-segment text index
 
 Unlike the per-column text index (which is configured per column in `fieldConfigList`), the per-segment multi-column text index is configured once in `tableIndexConfig` by adding a `multiColumnTextIndexConfig` element.
