@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-14T02:52:16Z",
-  "last_successful_run": "2026-11-14T07:02:52Z",
+  "last_processed_merged_at": "2026-11-20T21:54:13Z",
+  "last_successful_run": "2026-11-21T02:57:05.298Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20167,
-    "upstream_url": "https://github.com/apache/pinot/pull/20167",
-    "docs_pr": 1182,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1182",
+    "upstream_pr": 20319,
+    "upstream_url": "https://github.com/apache/pinot/pull/20319",
+    "docs_pr": 1201,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1201",
     "decision": "docs_created",
-    "note": "Logical table authorization requires READ on all physical tables."
+    "note": "Document extracting SQL query options without parsing (apache/pinot#20319)"
   },
   "processed_prs": {
     "18486": {
@@ -24,6 +24,16 @@
       "upstream_url": "https://github.com/apache/pinot/pull/18486",
       "note": "New controller config controller.segment.upload.reject.out.of.retention (default false). Name verified from merged ControllerConf.java (prose said rejectOutOfRetention.enabled; actual is dotted key)."
     },
+    "18758": {
+      "decision": "docs_created",
+      "docs_pr": 1190,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1190",
+      "docs_merged_at": "2026-11-21T02:55:43Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/18758#issuecomment-7056267920",
+      "merged_at": "2026-11-17T19:04:52Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/18758",
+      "note": "Document dictionary-based Lucene text indexing (apache/pinot#18758)"
+    },
     "19120": {
       "decision": "docs_created",
       "docs_pr": 1161,
@@ -33,6 +43,16 @@
       "merged_at": "2026-11-04T09:46:02Z",
       "upstream_url": "https://github.com/apache/pinot/pull/19120",
       "summary": "Add streaming selection ORDER BY k-way-merge combine for physically sorted segments. Documented new query options sortedSelectionMergeMode (OFF/ON/AUTO, default OFF; ON/AUTO experimental), sortedSelectionMergeAutoMinSortedRatio (default 0.8) and sortedSelectionMergeBlockSize (default 10000), plus their server-config overrides, in query-options.md."
+    },
+    "19235": {
+      "decision": "docs_created",
+      "docs_pr": 1199,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1199",
+      "docs_merged_at": "2026-11-21T02:56:15Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/19235#issuecomment-7056265002",
+      "merged_at": "2026-11-20T00:07:17Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19235",
+      "note": "Document cluster ingestion Groovy policy for schemas (apache/pinot#19235)"
     },
     "19450": {
       "decision": "docs_created",
@@ -61,6 +81,30 @@
       "processed_by_run": "run-20261113T040157Z-opus48-cloud",
       "processed_at": "2026-11-13T04:05:44Z"
     },
+    "19536": {
+      "decision": "not_relevant",
+      "reason": "Batch iterator performance optimization with unchanged results.",
+      "merged_at": "2026-11-19T01:08:29Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19536",
+      "docs_pr": null
+    },
+    "19775": {
+      "decision": "not_relevant",
+      "reason": "Masks credentials in logging; no change to stream credential configuration.",
+      "merged_at": "2026-11-17T12:46:26Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19775",
+      "docs_pr": null
+    },
+    "19776": {
+      "decision": "docs_created",
+      "docs_pr": 1185,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1185",
+      "docs_merged_at": "2026-11-21T02:55:29Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/19776#issuecomment-7056269146",
+      "merged_at": "2026-11-16T06:32:14Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19776",
+      "note": "Document realtime segment metadata sidecars (apache/pinot#19776)"
+    },
     "19838": {
       "upstream_pr": 19838,
       "upstream_url": "https://github.com/apache/pinot/pull/19838",
@@ -82,6 +126,23 @@
       "docs_pr": 1148,
       "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1148",
       "merged_at": "2026-10-26T23:24:33Z"
+    },
+    "19873": {
+      "decision": "not_relevant",
+      "reason": "Internal MSE transport validation; no supported protocol use or operator action changes.",
+      "merged_at": "2026-11-18T23:05:11Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19873",
+      "docs_pr": null
+    },
+    "19887": {
+      "decision": "docs_created",
+      "docs_pr": 1193,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1193",
+      "docs_merged_at": "2026-11-21T02:55:53Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/19887#issuecomment-7056266893",
+      "merged_at": "2026-11-18T02:31:57Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19887",
+      "note": "Document ingestion Groovy compilation policy (apache/pinot#19887)"
     },
     "19905": {
       "decision": "not_relevant",
@@ -152,6 +213,13 @@
       "merged_at": "2026-10-28T21:49:28Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20009"
     },
+    "20010": {
+      "decision": "not_relevant",
+      "reason": "Retention manager internal caching; no retention configuration or policy change.",
+      "merged_at": "2026-11-17T07:08:33Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20010",
+      "docs_pr": null
+    },
     "20015": {
       "decision": "not_relevant",
       "reason": "Internal integration-test harness change only: modifies BaseClusterIntegrationTest.waitForAllDocsLoaded to require N consecutive successful doc-count queries (N = _serverStarters.size()) to fix a flaky WindowFunnelTest. Single test-source file in pinot-integration-test-base; no user-facing behavior, config, API, or documented default changes.",
@@ -208,6 +276,16 @@
       "merged_at": "2026-10-28T23:58:25Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20035"
     },
+    "20039": {
+      "decision": "docs_created",
+      "docs_pr": 1194,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1194",
+      "docs_merged_at": "2026-11-21T02:55:57Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20039#issuecomment-7056266555",
+      "merged_at": "2026-11-18T19:19:52Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20039",
+      "note": "Document the minion queue-stall gauge (apache/pinot#20039)"
+    },
     "20048": {
       "decision": "not_relevant",
       "reason": "Dependabot dependency version bump. Verified from merged diff: single file root pom.xml (+1/-1) bumping google.errorprone.version (com.google.errorprone:error_prone_annotations) 2.50.0->2.51.0 by dependabot[bot]. error-prone is a compile-time static-analysis/annotation library used during the build only; no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
@@ -227,6 +305,13 @@
       "reverted_by": 20101,
       "processed_by_run": "run-20261030T090116Z-874",
       "processed_at": "2026-10-30T09:03:24Z"
+    },
+    "20058": {
+      "decision": "not_relevant",
+      "reason": "Internal Helix capability advertisement groundwork; the built-in capability registry is empty.",
+      "merged_at": "2026-11-19T14:36:35Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20058",
+      "docs_pr": null
     },
     "20060": {
       "decision": "docs_created",
@@ -329,6 +414,26 @@
       "merged_at": "2026-11-07T00:00:47Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20089"
     },
+    "20091": {
+      "decision": "docs_created",
+      "docs_pr": 1192,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1192",
+      "docs_merged_at": "2026-11-21T02:55:50Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20091#issuecomment-7056267241",
+      "merged_at": "2026-11-18T00:18:56Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20091",
+      "note": "Document GROUP BY SELECT alias precedence in MSE (apache/pinot#20091)"
+    },
+    "20092": {
+      "decision": "docs_created",
+      "docs_pr": 1187,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1187",
+      "docs_merged_at": "2026-11-21T02:55:32Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20092#issuecomment-7056268858",
+      "merged_at": "2026-11-20T08:26:46Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20092",
+      "note": "Document dimension-column aliases in lookup joins (apache/pinot#20092)"
+    },
     "20096": {
       "upstream_pr": 20096,
       "upstream_url": "https://github.com/apache/pinot/pull/20096",
@@ -371,6 +476,16 @@
       "summary": "Follow-up to #20074 implementing mergeFinalResult for aggregation functions whose final results are merged on the serverReturnFinalResult / is_leaf_return_final_result paths (HISTOGRAM, SUMARRAYLONG/DOUBLE, ARRAYAGG, LISTAGG, ANYVALUE, IDSET, STUNION, raw HLL/HLL+/CPC/ULL/Theta/tuple/t-digest/KLL/frequent sketches; fixes CPC/ULL/Theta ClassCastException; SUMPRECISION rounding; FUNNELCOUNT no-mutate; FUNNELSTEPDURATIONSTATS now rejects merge). Most of this is internal correctness with NO SQL-surface change. Two user-visible changes documented (ship in 1.7.0): (1) LISTAGG returns null instead of empty string when it aggregates no values in the multi-stage engine, distinguishing an empty group from a single empty-string value -> functions/aggregation/listagg.md; (2) DistinctCountRawULLAggregationFunction.getType() fixed from DISTINCTCOUNTULL to DISTINCTCOUNTRAWULL, so unaliased DISTINCTCOUNTRAWULL(col) now yields result column distinctcountrawull(col) instead of distinctcountull(col) -> functions/sketch/distinctcountrawull.md. Both verified against merged code at 96fe714, not just PR prose.",
       "processed_by_run": "run-20261031T000101Z-811",
       "processed_at": "2026-10-31T00:07:30Z"
+    },
+    "20099": {
+      "decision": "docs_created",
+      "docs_pr": 1189,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1189",
+      "docs_merged_at": "2026-11-21T02:55:39Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20099#issuecomment-7056268215",
+      "merged_at": "2026-11-17T16:56:30Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20099",
+      "note": "Document MSE throttle capacity and oversize queries (apache/pinot#20099)"
     },
     "20101": {
       "upstream_pr": 20101,
@@ -426,6 +541,13 @@
       "processed_by_run": "run-20261030T200056Z-840",
       "processed_at": "2026-10-30T20:01:58Z"
     },
+    "20106": {
+      "decision": "not_relevant",
+      "reason": "Correctness fix in upsert/dedup consumer admission and partition readiness; no new configuration or operator steps.",
+      "merged_at": "2026-11-19T21:27:07Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20106",
+      "docs_pr": null
+    },
     "20107": {
       "decision": "not_relevant",
       "reason": "Internal server-side Helix callback optimization only: ServerMailboxChannelRefreshHandler skips redundant server-config scans when a coherent membership snapshot proves all child changes involved non-servers (e.g. minion join/leave). Changes one main source file + its unit test; references only internal Helix InstanceConfig/membership-metadata reads. No new or changed documented config key, default, query option, function, table-config field, SPI, or doc page. No user-facing behavior change.",
@@ -445,6 +567,13 @@
       "reason": "Dependabot bump of transitive npm dependency follow-redirects 1.16.1->1.16.2 in pinot-controller/src/main/resources/package-lock.json (controller web UI). Lock-file only (3+/3-, 1 file). No user-facing behavior, config, API, or documented default changes.",
       "merged_at": "2026-10-31T11:11:36Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20110"
+    },
+    "20111": {
+      "decision": "not_relevant",
+      "reason": "Concurrency guard for replace-segments cleanup; no request or recovery-procedure change.",
+      "merged_at": "2026-11-16T04:21:16Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20111",
+      "docs_pr": null
     },
     "20112": {
       "upstream_pr": 20112,
@@ -679,6 +808,26 @@
       "merged_at": "2026-11-03T05:06:57Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20135"
     },
+    "20136": {
+      "decision": "docs_created",
+      "docs_pr": 1195,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1195",
+      "docs_merged_at": "2026-11-21T02:56:00Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20136#issuecomment-7056266184",
+      "merged_at": "2026-11-18T23:25:39Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20136",
+      "note": "Document broker hostname verification in Java clients (apache/pinot#20136)"
+    },
+    "20137": {
+      "decision": "docs_created",
+      "docs_pr": 1184,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1184",
+      "docs_merged_at": "2026-11-21T02:54:43Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20137#issuecomment-7056246052",
+      "merged_at": "2026-11-17T04:11:10Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20137",
+      "note": "Document retryable stream decoder failures (apache/pinot#20137)"
+    },
     "20138": {
       "decision": "not_relevant",
       "reason": "Internal-only logging improvement in MutableSegmentImpl.recordIndexingError: adds the column name to realtime indexing error log messages and reworks wording ('failed to index value with {}' -> 'Failed to index value for column: {} with index: {}'). Single source file (pinot-segment-local); no change to metric names, the indexingError metric key format, ServerMeter.INDEXING_FAILURES, configs, public APIs, or any documented user-facing behavior. Log message text is not documented in pinot-docs.",
@@ -797,6 +946,16 @@
       "merged_at": "2026-11-05T19:20:27Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20159"
     },
+    "20162": {
+      "decision": "docs_created",
+      "docs_pr": 1183,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1183",
+      "docs_merged_at": "2026-11-21T02:54:03Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20162#issuecomment-7056238608",
+      "merged_at": "2026-11-16T14:42:01Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20162",
+      "note": "Distinguish filtered and invalid realtime row metrics (apache/pinot#20162)"
+    },
     "20164": {
       "decision": "not_relevant",
       "reason": "Changes only apache/pinot's own README.md and .asf.yaml (repo landing page + ASF repo metadata/topics): adds a pinned Pinot 1.6.0 Docker batch quickstart snippet with sample SQL to the README, vector-search/RAG/agent-analytics wording with links to existing docs, and updates the GitHub description and discovery topics. These are repository-landing and ASF-metadata files, not the pinot-docs (docs.pinot.apache.org / GitBook) documentation site, and there are no runtime code, config, API, function, or documented-default changes. Not relevant to pinot-docs.",
@@ -840,6 +999,13 @@
       "upstream_comment": "https://github.com/apache/pinot/pull/20169#issuecomment-6700755122",
       "merged_at": "2026-11-07T01:41:31Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20169"
+    },
+    "20171": {
+      "decision": "not_relevant",
+      "reason": "Corrects shared planner state for logical table requests; no time-boundary contract change.",
+      "merged_at": "2026-11-17T00:58:35Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20171",
+      "docs_pr": null
     },
     "20173": {
       "upstream_pr": 20173,
@@ -1255,11 +1421,35 @@
       "merged_at": "2026-11-12T14:33:28Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20243"
     },
+    "20244": {
+      "decision": "docs_created",
+      "docs_pr": 1188,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1188",
+      "docs_merged_at": "2026-11-21T02:55:36Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20244#issuecomment-7056268521",
+      "merged_at": "2026-11-18T09:30:44Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20244",
+      "note": "Document Netty direct memory behavior on recent JDKs (apache/pinot#20244)"
+    },
+    "20247": {
+      "decision": "not_relevant",
+      "reason": "Compatibility verification harness and diagnostics only.",
+      "merged_at": "2026-11-17T00:29:49Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20247",
+      "docs_pr": null
+    },
     "20248": {
       "decision": "not_relevant",
       "reason": "Test-only change: single file pinot-core/.../IntermediateResultByteBufferSerDeTest.java (+194/-8). Expands IntermediateResultByteBufferSerDeTest to cover every AggregationFunctionType (via testEveryTypeIsCheckedOrExcluded) for intermediate-result byte-buffer ser/de, adding rows for MV/raw percentile & distinct-count variants, funnel window functions, variance/stddev/covar/skewness, and tuple-sketch functions, plus testDistinctCountOffHeap. Labels: functions, serialization, test-coverage. No production code, config, public API, SPI, wire format, or documented default changes; no user-facing behavior to document.",
       "merged_at": "2026-11-14T00:31:59Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20248"
+    },
+    "20249": {
+      "decision": "not_relevant",
+      "reason": "Internal serialization threshold tuning; no configuration or wire contract change.",
+      "merged_at": "2026-11-17T00:30:42Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20249",
+      "docs_pr": null
     },
     "20250": {
       "decision": "not_relevant",
@@ -1320,24 +1510,329 @@
       "decision": "not_relevant",
       "reason": "Dependency bump (exec-maven-plugin 3.6.4->3.7.0), pom.xml-only.",
       "docs_pr": null
+    },
+    "20260": {
+      "decision": "not_relevant",
+      "reason": "Test synchronization only.",
+      "merged_at": "2026-11-17T00:43:35Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20260",
+      "docs_pr": null
+    },
+    "20261": {
+      "decision": "not_relevant",
+      "reason": "Restores the already documented FORCE_OVERWRITE semantics for incoming nulls.",
+      "merged_at": "2026-11-17T04:55:33Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20261",
+      "docs_pr": null
+    },
+    "20262": {
+      "decision": "not_relevant",
+      "reason": "Corrects internal optional-segment handling; no new setting or query syntax.",
+      "merged_at": "2026-11-17T23:59:39Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20262",
+      "docs_pr": null
+    },
+    "20266": {
+      "decision": "not_relevant",
+      "reason": "Restores the existing documented boolean out-of-order flag under null handling.",
+      "merged_at": "2026-11-17T04:52:22Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20266",
+      "docs_pr": null
+    },
+    "20267": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-16T15:34:56Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20267",
+      "docs_pr": null
+    },
+    "20268": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-16T21:39:49Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20268",
+      "docs_pr": null
+    },
+    "20269": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-16T15:35:23Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20269",
+      "docs_pr": null
+    },
+    "20270": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-16T15:34:58Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20270",
+      "docs_pr": null
+    },
+    "20271": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-16T21:40:17Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20271",
+      "docs_pr": null
+    },
+    "20272": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-16T16:04:42Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20272",
+      "docs_pr": null
+    },
+    "20273": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-16T15:35:01Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20273",
+      "docs_pr": null
+    },
+    "20274": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-16T18:04:56Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20274",
+      "docs_pr": null
+    },
+    "20277": {
+      "decision": "not_relevant",
+      "reason": "Restores existing MSE literal and cast semantics; no new syntax or operator action.",
+      "merged_at": "2026-11-17T18:54:11Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20277",
+      "docs_pr": null
+    },
+    "20278": {
+      "decision": "not_relevant",
+      "reason": "Flaky test assertion fix only.",
+      "merged_at": "2026-11-17T05:03:06Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20278",
+      "docs_pr": null
+    },
+    "20279": {
+      "decision": "docs_created",
+      "docs_pr": 1191,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1191",
+      "docs_merged_at": "2026-11-21T02:55:46Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20279#issuecomment-7056267607",
+      "merged_at": "2026-11-17T19:28:11Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20279",
+      "note": "Document the configurable multi-value row limit (apache/pinot#20279)"
+    },
+    "20280": {
+      "decision": "not_relevant",
+      "reason": "Protected time-series broker extension hook; no OSS deployment setting or query contract change.",
+      "merged_at": "2026-11-18T04:59:57Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20280",
+      "docs_pr": null
+    },
+    "20281": {
+      "decision": "not_relevant",
+      "reason": "Kafka startup script race in schema registry tests only.",
+      "merged_at": "2026-11-17T05:03:21Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20281",
+      "docs_pr": null
+    },
+    "20282": {
+      "decision": "not_relevant",
+      "reason": "Offline upsert integration test readiness only.",
+      "merged_at": "2026-11-18T00:00:05Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20282",
+      "docs_pr": null
+    },
+    "20285": {
+      "decision": "not_relevant",
+      "reason": "Internal pauseless commit deadline handling; no change to user-facing controls or recovery steps.",
+      "merged_at": "2026-11-19T11:31:58Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20285",
+      "docs_pr": null
+    },
+    "20286": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-17T13:05:26Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20286",
+      "docs_pr": null
+    },
+    "20287": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-17T12:35:19Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20287",
+      "docs_pr": null
+    },
+    "20288": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-17T21:48:44Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20288",
+      "docs_pr": null
+    },
+    "20289": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-17T13:35:16Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20289",
+      "docs_pr": null
+    },
+    "20293": {
+      "decision": "docs_created",
+      "docs_pr": 1186,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1186",
+      "docs_merged_at": "2026-11-21T02:56:45Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20293#issuecomment-7056271198",
+      "merged_at": "2026-11-19T23:04:50Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20293",
+      "note": "Document multi-stage grouping by ARRAY_TO_MV (apache/pinot#20293)"
+    },
+    "20296": {
+      "decision": "not_relevant",
+      "reason": "Lucene startup deadlock fix; no operator action or new option.",
+      "merged_at": "2026-11-18T21:31:16Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20296",
+      "docs_pr": null
+    },
+    "20299": {
+      "decision": "docs_created",
+      "docs_pr": 1196,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1196",
+      "docs_merged_at": "2026-11-21T02:56:03Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20299#issuecomment-7056265874",
+      "merged_at": "2026-11-19T00:41:19Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20299",
+      "note": "Document mmap during immutable HNSW index merges (apache/pinot#20299)"
+    },
+    "20301": {
+      "decision": "docs_created",
+      "docs_pr": 1197,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1197",
+      "docs_merged_at": "2026-11-21T02:56:07Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20301#issuecomment-7056265588",
+      "merged_at": "2026-11-19T16:45:02Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20301",
+      "note": "Document pauseless upsert compatibility restrictions (apache/pinot#20301)"
+    },
+    "20302": {
+      "decision": "docs_created",
+      "docs_pr": 1200,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1200",
+      "docs_merged_at": "2026-11-21T02:56:19Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20302#issuecomment-7056264681",
+      "merged_at": "2026-11-18T18:46:04Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20302",
+      "note": "Document the Java Vector API in Docker images (apache/pinot#20302)"
+    },
+    "20304": {
+      "decision": "not_relevant",
+      "reason": "Container build and CI patch-level enforcement. The upstream Docker README already covers the changed build requirements.",
+      "merged_at": "2026-11-18T23:29:15Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20304",
+      "docs_pr": null
+    },
+    "20305": {
+      "decision": "not_relevant",
+      "reason": "Internal SQL table-reference discovery helper; no supported SQL syntax change.",
+      "merged_at": "2026-11-19T00:28:30Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20305",
+      "docs_pr": null
+    },
+    "20306": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-19T01:08:00Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20306",
+      "docs_pr": null
+    },
+    "20307": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-18T13:05:48Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20307",
+      "docs_pr": null
+    },
+    "20308": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-18T13:05:59Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20308",
+      "docs_pr": null
+    },
+    "20309": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-19T01:08:54Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20309",
+      "docs_pr": null
+    },
+    "20312": {
+      "decision": "docs_created",
+      "docs_pr": 1198,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1198",
+      "docs_merged_at": "2026-11-21T02:56:11Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20312#issuecomment-7056265302",
+      "merged_at": "2026-11-19T21:31:47Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20312",
+      "note": "Document the prefixed minion dataDir setting (apache/pinot#20312)"
+    },
+    "20315": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-19T13:06:03Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20315",
+      "docs_pr": null
+    },
+    "20319": {
+      "decision": "docs_created",
+      "docs_pr": 1201,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1201",
+      "docs_merged_at": "2026-11-21T02:56:22Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20319#issuecomment-7056264352",
+      "merged_at": "2026-11-20T21:54:13Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20319",
+      "note": "Document extracting SQL query options without parsing (apache/pinot#20319)"
+    },
+    "20323": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-20T13:13:50Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20323",
+      "docs_pr": null
+    },
+    "20324": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-20T13:13:59Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20324",
+      "docs_pr": null
+    },
+    "20325": {
+      "decision": "not_relevant",
+      "reason": "Dependency update only; no documented user-facing change.",
+      "merged_at": "2026-11-20T12:43:47Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20325",
+      "docs_pr": null
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "noop",
-  "last_run_id": "run-20261114T070138Z-opus48-cloud",
+  "last_run_result": "processed_docs",
+  "last_run_id": "codex-catchup-20261120",
   "lock": {
-    "holder": "codex-catchup-20261120",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-21T02:50:54.140Z",
-    "lease_expires_at": "2026-11-21T03:50:54.145Z"
+    "released_at": "2026-11-21T02:57:05.298Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-catchup-20261120"
   },
-  "last_run_summary": "No merged apache/pinot PRs after checkpoint 2026-11-14T02:52:16Z. Newest upstream merge is #20167 (the checkpoint PR). Candidates on 2026-11-14 (#20167, #20165, #20248) all already in ledger. Reconciled against authoritative master commit log; no gaps. No docs PRs created.",
+  "last_run_summary": "Reconciled 62 post-checkpoint master merges; 19 docs PRs merged and linked upstream, 43 skipped, 0 pending. Checkpoint: 2026-11-20T21:54:13Z.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-catchup-20261120",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-21T02:50:54.140Z",
-    "lease_expires_at": "2026-11-21T03:50:54.145Z"
+    "released_at": "2026-11-21T02:57:05.298Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-catchup-20261120"
   },
   "recent_runs": [
     {
@@ -1427,9 +1922,123 @@
       "new_prs": [],
       "docs_prs_created": [],
       "checkpoint": "2026-11-14T02:52:16Z"
+    },
+    {
+      "run_id": "codex-catchup-20261120",
+      "started_utc": "2026-11-21T02:50:54.140Z",
+      "finished_utc": "2026-11-21T02:57:05.298Z",
+      "result": "processed_docs",
+      "new_prs": [
+        20111,
+        19776,
+        20162,
+        20267,
+        20270,
+        20273,
+        20269,
+        20272,
+        20274,
+        20268,
+        20271,
+        20247,
+        20249,
+        20260,
+        20171,
+        20137,
+        20266,
+        20261,
+        20278,
+        20281,
+        20010,
+        20287,
+        19775,
+        20286,
+        20289,
+        20099,
+        20277,
+        18758,
+        20279,
+        20288,
+        20262,
+        20282,
+        20091,
+        19887,
+        20280,
+        20244,
+        20307,
+        20308,
+        20302,
+        20039,
+        20296,
+        19873,
+        20136,
+        20304,
+        20305,
+        20299,
+        20306,
+        19536,
+        20309,
+        20285,
+        20315,
+        20058,
+        20301,
+        20106,
+        20312,
+        20293,
+        19235,
+        20092,
+        20325,
+        20323,
+        20324,
+        20319
+      ],
+      "docs_prs_created": [
+        1183,
+        1184,
+        1185,
+        1186,
+        1187,
+        1188,
+        1189,
+        1190,
+        1191,
+        1192,
+        1193,
+        1194,
+        1195,
+        1196,
+        1197,
+        1198,
+        1199,
+        1200,
+        1201
+      ],
+      "docs_prs_merged": [
+        1185,
+        1183,
+        1184,
+        1189,
+        1190,
+        1191,
+        1192,
+        1193,
+        1188,
+        1200,
+        1194,
+        1195,
+        1196,
+        1197,
+        1198,
+        1186,
+        1199,
+        1187,
+        1201
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-20T21:54:13Z"
     }
   ],
-  "last_run_note": "no-op; checkpoint not advanced.",
+  "last_run_note": "Manual catch-up from the IntentLab checkpoint; schedules unchanged.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -1712,6 +2321,120 @@
       "utc": "2026-11-14T05:02:20Z",
       "result": "no-op",
       "new_prs": 0
+    },
+    {
+      "run_id": "codex-catchup-20261120",
+      "started_utc": "2026-11-21T02:50:54.140Z",
+      "finished_utc": "2026-11-21T02:57:05.298Z",
+      "result": "processed_docs",
+      "new_prs": [
+        20111,
+        19776,
+        20162,
+        20267,
+        20270,
+        20273,
+        20269,
+        20272,
+        20274,
+        20268,
+        20271,
+        20247,
+        20249,
+        20260,
+        20171,
+        20137,
+        20266,
+        20261,
+        20278,
+        20281,
+        20010,
+        20287,
+        19775,
+        20286,
+        20289,
+        20099,
+        20277,
+        18758,
+        20279,
+        20288,
+        20262,
+        20282,
+        20091,
+        19887,
+        20280,
+        20244,
+        20307,
+        20308,
+        20302,
+        20039,
+        20296,
+        19873,
+        20136,
+        20304,
+        20305,
+        20299,
+        20306,
+        19536,
+        20309,
+        20285,
+        20315,
+        20058,
+        20301,
+        20106,
+        20312,
+        20293,
+        19235,
+        20092,
+        20325,
+        20323,
+        20324,
+        20319
+      ],
+      "docs_prs_created": [
+        1183,
+        1184,
+        1185,
+        1186,
+        1187,
+        1188,
+        1189,
+        1190,
+        1191,
+        1192,
+        1193,
+        1194,
+        1195,
+        1196,
+        1197,
+        1198,
+        1199,
+        1200,
+        1201
+      ],
+      "docs_prs_merged": [
+        1185,
+        1183,
+        1184,
+        1189,
+        1190,
+        1191,
+        1192,
+        1193,
+        1188,
+        1200,
+        1194,
+        1195,
+        1196,
+        1197,
+        1198,
+        1186,
+        1199,
+        1187,
+        1201
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-20T21:54:13Z"
     }
   ],
   "run_history": [
@@ -2031,15 +2754,234 @@
       "docs_prs_created": 0,
       "checkpoint_after": "2026-11-14T02:52:16Z",
       "coverage": "3 merged PRs on/after 2026-11-14, all <=checkpoint, 0 strictly after checkpoint"
+    },
+    {
+      "run_id": "codex-catchup-20261120",
+      "started_utc": "2026-11-21T02:50:54.140Z",
+      "finished_utc": "2026-11-21T02:57:05.298Z",
+      "result": "processed_docs",
+      "new_prs": [
+        20111,
+        19776,
+        20162,
+        20267,
+        20270,
+        20273,
+        20269,
+        20272,
+        20274,
+        20268,
+        20271,
+        20247,
+        20249,
+        20260,
+        20171,
+        20137,
+        20266,
+        20261,
+        20278,
+        20281,
+        20010,
+        20287,
+        19775,
+        20286,
+        20289,
+        20099,
+        20277,
+        18758,
+        20279,
+        20288,
+        20262,
+        20282,
+        20091,
+        19887,
+        20280,
+        20244,
+        20307,
+        20308,
+        20302,
+        20039,
+        20296,
+        19873,
+        20136,
+        20304,
+        20305,
+        20299,
+        20306,
+        19536,
+        20309,
+        20285,
+        20315,
+        20058,
+        20301,
+        20106,
+        20312,
+        20293,
+        19235,
+        20092,
+        20325,
+        20323,
+        20324,
+        20319
+      ],
+      "docs_prs_created": [
+        1183,
+        1184,
+        1185,
+        1186,
+        1187,
+        1188,
+        1189,
+        1190,
+        1191,
+        1192,
+        1193,
+        1194,
+        1195,
+        1196,
+        1197,
+        1198,
+        1199,
+        1200,
+        1201
+      ],
+      "docs_prs_merged": [
+        1185,
+        1183,
+        1184,
+        1189,
+        1190,
+        1191,
+        1192,
+        1193,
+        1188,
+        1200,
+        1194,
+        1195,
+        1196,
+        1197,
+        1198,
+        1186,
+        1199,
+        1187,
+        1201
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-20T21:54:13Z"
     }
   ],
   "last_run": {
-    "run_id": "run-20261114T070138Z-opus48-cloud",
-    "started_utc": "2026-11-14T07:01:38Z",
-    "finished_utc": "2026-11-14T07:02:52Z",
-    "result": "noop",
-    "new_prs": [],
-    "docs_prs_created": [],
-    "checkpoint": "2026-11-14T02:52:16Z"
+    "run_id": "codex-catchup-20261120",
+    "started_utc": "2026-11-21T02:50:54.140Z",
+    "finished_utc": "2026-11-21T02:57:05.298Z",
+    "result": "processed_docs",
+    "new_prs": [
+      20111,
+      19776,
+      20162,
+      20267,
+      20270,
+      20273,
+      20269,
+      20272,
+      20274,
+      20268,
+      20271,
+      20247,
+      20249,
+      20260,
+      20171,
+      20137,
+      20266,
+      20261,
+      20278,
+      20281,
+      20010,
+      20287,
+      19775,
+      20286,
+      20289,
+      20099,
+      20277,
+      18758,
+      20279,
+      20288,
+      20262,
+      20282,
+      20091,
+      19887,
+      20280,
+      20244,
+      20307,
+      20308,
+      20302,
+      20039,
+      20296,
+      19873,
+      20136,
+      20304,
+      20305,
+      20299,
+      20306,
+      19536,
+      20309,
+      20285,
+      20315,
+      20058,
+      20301,
+      20106,
+      20312,
+      20293,
+      19235,
+      20092,
+      20325,
+      20323,
+      20324,
+      20319
+    ],
+    "docs_prs_created": [
+      1183,
+      1184,
+      1185,
+      1186,
+      1187,
+      1188,
+      1189,
+      1190,
+      1191,
+      1192,
+      1193,
+      1194,
+      1195,
+      1196,
+      1197,
+      1198,
+      1199,
+      1200,
+      1201
+    ],
+    "docs_prs_merged": [
+      1185,
+      1183,
+      1184,
+      1189,
+      1190,
+      1191,
+      1192,
+      1193,
+      1188,
+      1200,
+      1194,
+      1195,
+      1196,
+      1197,
+      1198,
+      1186,
+      1199,
+      1187,
+      1201
+    ],
+    "pending_docs_prs": [],
+    "checkpoint": "2026-11-20T21:54:13Z"
   }
 }
