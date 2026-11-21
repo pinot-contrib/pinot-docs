@@ -78,6 +78,10 @@ Pinot's Arrow allocator integration is also updated for Netty 4.2 while preservi
 
 *Source: [PR #19828](https://github.com/apache/pinot/pull/19828)*
 
+### Netty direct memory on JDK 24 and later
+
+The Pinot launcher passes `--sun-misc-unsafe-memory-access=allow` and `--enable-native-access=ALL-UNNAMED` on JDK 24 and later. On JDK 25 and later, Netty may otherwise fall back to slower allocation and be unable to allocate buffers larger than 2 GB through its direct-memory path. If a custom launcher or `JAVA_OPTS` changes these flags, check the Netty startup diagnostic for disabled Unsafe access.
+
 ### Native t-digest implementation replaces the tdunning dependency
 
 Pinot removes `com.tdunning:t-digest` while retaining legacy verbose/compact digest BYTES and object serialization type 10. Byte compatibility does **not** guarantee identical percentile results or downgrade safety. Before upgrading, compare representative percentile queries, especially duplicate-value plateaus, fractional weights, infinities, and SmartTDigest multi-valued inputs with null handling. SmartTDigest MV now includes each non-null row once. Empty SmartTDigest returns NULL with null handling and -Infinity otherwise; ordinary TDigest still returns NaN without null handling.
