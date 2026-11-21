@@ -37,13 +37,13 @@ Any valid Groovy expression can be used.
 
 :warning: **Enabling Groovy**
 
-Allowing executable Groovy in ingestion transformation can be a security vulnerability. To enable Groovy for ingestion, set the following controller configuration:
+Ingestion Groovy can execute code in Pinot processes. Leave it disabled unless you trust the people who can define ingestion expressions.
 
-`controller.disable.ingestion.groovy=false`
+The cluster setting `pinot.groovy.ingestion.disabled` controls controller validation and new ingestion Groovy compilation on servers and minions. Only an explicit value of `false` enables ingestion Groovy; missing, removed, or invalid values disable it. Upgraded processes apply changes to the cluster setting without a restart.
 
-If not set, Groovy for ingestion transformation is disabled by default.
+Controllers honor the legacy cluster key `controller.disable.ingestion.groovy` only when the new key is absent. Servers and minions read only the new key. Review the cluster setting before upgrading a cluster that already uses ingestion Groovy: the legacy key alone does not keep new compilation enabled on upgraded servers and minions.
 
-Disabling ingestion Groovy blocks new compilation; it does not stop already compiled evaluators. Operations that compile an ingestion expression, such as starting a consuming segment or rebuilding a derived column during reload, can fail on services that enforce the ingestion policy. Query-time Groovy is governed separately by broker query admission and static analysis.
+Disabling ingestion Groovy blocks new compilation; it does not stop already compiled evaluators. Operations that compile an ingestion expression, such as starting a consuming segment, rebuilding a derived column during reload, or running a minion task that uses a Groovy transform, can fail. Query-time Groovy is governed separately by broker query admission and static analysis.
 
 #### Groovy static analysis
 
@@ -63,7 +63,7 @@ Each static analyzer config is a JSON object with these fields:
 - `disallowedMethodNames`: method names Pinot rejects even if the receiver is otherwise allowed
 - `methodDefinitionAllowed`: whether Groovy method definitions are allowed inside the script
 
-Static analysis does not enable Groovy by itself. You still need `controller.disable.ingestion.groovy=false` to use Groovy in ingestion transforms.
+Static analysis does not enable Groovy by itself. The cluster ingestion policy must also allow it.
 
 Use the controller API to inspect and update these configs:
 
