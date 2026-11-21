@@ -37,6 +37,8 @@ JOIN dim_rates r
 The predicate order can be reversed without changing the lookup. A literal on a `BYTES` primary-key column is not supported. `SEMI` and `ANTI` lookup joins do not support non-equi conditions because their output does not include right-table columns needed to evaluate those filters.
 
 
+You can alias dimension columns in the lookup input, including its primary-key columns. Pinot uses the underlying dimension-table column names to look up the data and retains the aliases in the query output.
+
 ## Physical Optimizer Support
 
 As of Pinot 1.6.0, lookup joins are now supported by the V2 physical optimizer. Previously, attempting to use lookup join with the physical optimizer would fail with "Right input must be leaf operator" because the optimizer would insert a BROADCAST_EXCHANGE on the dimension table, splitting it into a separate fragment incompatible with LookupJoinOperator.
