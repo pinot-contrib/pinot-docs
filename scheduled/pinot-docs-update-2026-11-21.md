@@ -90,3 +90,7 @@ No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slac
 - Documented dotted sparse JSON lookup, literal-key precedence, and typed sparse conversion. Local validation passed: zero broken file links and 10 existing anchor warnings.
 - Reconciled the sole new merge against first-parent master. Checkpoint: `2026-11-21T04:18:54Z`.
 - Slack: Summary delivered (HTTP 200).
+
+## Hourly check — 2026-11-21T06:10:35.094Z
+
+No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slack summary sent. Checkpoint remains `2026-11-21T04:18:54Z`.
