@@ -68,6 +68,8 @@ Vector indexes are configured in the table's field-level `indexes` section using
 }
 ```
 
+For immutable HNSW builds, the final merge uses a memory-mapped graph by default. This reduces Java heap needed to construct the merge graph but uses scratch disk space in the index build directory. To opt out, set `mmapGraphOnMerge` to `"false"` in the vector index's `properties`. This setting does not change the on-disk index format or how HNSW queries run.
+
 ### IVF_FLAT Configuration
 
 ```json
