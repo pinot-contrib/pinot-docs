@@ -332,3 +332,5 @@
 - 2026-11-21T03:03:55.295Z — Codex takeover: apache/pinot#20336 → docs #1202 merged after four exact-head hosted checks passed and linked upstream. Checkpoint: 2026-11-21T03:01:28Z.
 
 - 2026-11-21T04:07:03.980Z — Hourly check: No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slack summary sent. Checkpoint remains `2026-11-21T03:01:28Z`.
+
+- 2026-11-21T05:13:08.760Z — Upstream #20300 → docs #1203 merged after all four hosted checks passed; linked upstream. Checkpoint: 2026-11-21T04:18:54Z. Slack: Summary delivered (HTTP 200).

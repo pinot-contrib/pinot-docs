@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-21T03:01:28Z",
-  "last_successful_run": "2026-11-21T04:08:01.568Z",
+  "last_processed_merged_at": "2026-11-21T04:18:54Z",
+  "last_successful_run": "2026-11-21T05:13:08.760Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20336,
-    "upstream_url": "https://github.com/apache/pinot/pull/20336",
-    "docs_pr": 1202,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1202",
+    "upstream_pr": 20300,
+    "upstream_url": "https://github.com/apache/pinot/pull/20300",
+    "docs_pr": 1203,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1203",
     "decision": "docs_created",
-    "note": "Document sparse time-series responses and errors"
+    "note": "Documented dotted sparse JSON lookup, literal-key precedence, and typed sparse conversion."
   },
   "processed_prs": {
     "18486": {
@@ -1702,6 +1702,16 @@
       "upstream_url": "https://github.com/apache/pinot/pull/20299",
       "note": "Document mmap during immutable HNSW index merges (apache/pinot#20299)"
     },
+    "20300": {
+      "decision": "docs_created",
+      "docs_pr": 1203,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1203",
+      "docs_merged_at": "2026-11-21T05:12:47Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20300#issuecomment-7057755897",
+      "merged_at": "2026-11-21T04:18:54Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20300",
+      "note": "Documented dotted sparse JSON lookup, literal-key precedence, and typed sparse conversion."
+    },
     "20301": {
       "decision": "docs_created",
       "docs_pr": 1197,
@@ -1824,21 +1834,25 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "noop",
-  "last_run_id": "codex-hourly-20261121T040703Z",
+  "last_run_result": "processed_docs",
+  "last_run_id": "codex-hourly-20261121T051034Z",
   "lock": {
-    "holder": "codex-hourly-20261121T051034Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-21T05:11:23.233Z",
-    "lease_expires_at": "2026-11-21T05:41:23.234Z"
+    "released_at": "2026-11-21T05:13:08.760Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261121T051034Z"
   },
-  "last_run_summary": "No post-checkpoint merges or pending follow-ups; first-parent master and complete GitHub merge inventory agree.",
+  "last_run_summary": "Upstream #20300 → docs #1203 merged after all four hosted checks passed; linked upstream. Checkpoint: 2026-11-21T04:18:54Z.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-hourly-20261121T051034Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-21T05:11:23.233Z",
-    "lease_expires_at": "2026-11-21T05:41:23.234Z"
+    "released_at": "2026-11-21T05:13:08.760Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261121T051034Z"
   },
   "recent_runs": [
     {
@@ -2070,9 +2084,26 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-21T03:01:28Z"
+    },
+    {
+      "run_id": "codex-hourly-20261121T051034Z",
+      "started_utc": "2026-11-21T05:11:23.233Z",
+      "finished_utc": "2026-11-21T05:13:08.760Z",
+      "result": "processed_docs",
+      "new_prs": [
+        20300
+      ],
+      "docs_prs_created": [
+        1203
+      ],
+      "docs_prs_merged": [
+        1203
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-21T04:18:54Z"
     }
   ],
-  "last_run_note": "Checkpoint unchanged; no docs PRs created and no Slack summary sent.",
+  "last_run_note": "Documented dotted sparse JSON lookup, literal-key precedence, and typed sparse conversion.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -2497,6 +2528,23 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-21T03:01:28Z"
+    },
+    {
+      "run_id": "codex-hourly-20261121T051034Z",
+      "started_utc": "2026-11-21T05:11:23.233Z",
+      "finished_utc": "2026-11-21T05:13:08.760Z",
+      "result": "processed_docs",
+      "new_prs": [
+        20300
+      ],
+      "docs_prs_created": [
+        1203
+      ],
+      "docs_prs_merged": [
+        1203
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-21T04:18:54Z"
     }
   ],
   "run_history": [
@@ -2958,17 +3006,40 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-21T03:01:28Z"
+    },
+    {
+      "run_id": "codex-hourly-20261121T051034Z",
+      "started_utc": "2026-11-21T05:11:23.233Z",
+      "finished_utc": "2026-11-21T05:13:08.760Z",
+      "result": "processed_docs",
+      "new_prs": [
+        20300
+      ],
+      "docs_prs_created": [
+        1203
+      ],
+      "docs_prs_merged": [
+        1203
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-21T04:18:54Z"
     }
   ],
   "last_run": {
-    "run_id": "codex-hourly-20261121T040703Z",
-    "started_utc": "2026-11-21T04:07:35.782Z",
-    "finished_utc": "2026-11-21T04:08:01.568Z",
-    "result": "noop",
-    "new_prs": [],
-    "docs_prs_created": [],
-    "docs_prs_merged": [],
+    "run_id": "codex-hourly-20261121T051034Z",
+    "started_utc": "2026-11-21T05:11:23.233Z",
+    "finished_utc": "2026-11-21T05:13:08.760Z",
+    "result": "processed_docs",
+    "new_prs": [
+      20300
+    ],
+    "docs_prs_created": [
+      1203
+    ],
+    "docs_prs_merged": [
+      1203
+    ],
     "pending_docs_prs": [],
-    "checkpoint": "2026-11-21T03:01:28Z"
+    "checkpoint": "2026-11-21T04:18:54Z"
   }
 }
