@@ -1817,22 +1817,18 @@
   "last_run_result": "processed_docs",
   "last_run_id": "codex-catchup-20261120",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-21T02:50:54.140Z",
-    "released_at": "2026-11-21T02:57:05.298Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-catchup-20261120"
+    "holder": "codex-takeover-20336",
+    "status": "held",
+    "acquired_at": "2026-11-21T03:02:31.863Z",
+    "lease_expires_at": "2026-11-21T03:32:31.863Z"
   },
   "last_run_summary": "Reconciled 62 post-checkpoint master merges; 19 docs PRs merged and linked upstream, 43 skipped, 0 pending. Checkpoint: 2026-11-20T21:54:13Z.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-21T02:50:54.140Z",
-    "released_at": "2026-11-21T02:57:05.298Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-catchup-20261120"
+    "holder": "codex-takeover-20336",
+    "status": "held",
+    "acquired_at": "2026-11-21T03:02:31.863Z",
+    "lease_expires_at": "2026-11-21T03:32:31.863Z"
   },
   "recent_runs": [
     {
