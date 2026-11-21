@@ -304,6 +304,19 @@ GROUP BY city
 - Aggregation functions and non-aggregation columns cannot be mixed in the `SELECT` list without a `GROUP BY`.
 - Aggregate expressions are not allowed inside the `GROUP BY` clause.
 
+### Group by elements of an array in MSE
+
+Use `ARRAY_TO_MV` in a grouping key to group by the array's individual values rather than by the array as a single value. Upgraded multi-stage brokers and servers can evaluate this grouping beyond the leaf stage, for example after a join:
+
+```sql
+SELECT ARRAY_TO_MV(e.tags) AS tag, COUNT(*) AS event_count
+FROM events e
+JOIN teams t ON e.team_id = t.id
+GROUP BY ARRAY_TO_MV(e.tags)
+```
+
+Upgrade the brokers and servers before relying on plans that use the new multi-value aggregate. Straightforward leaf-only grouping over a table scan can still use the existing aggregate.
+
 ### GROUPING SETS, ROLLUP, and CUBE
 
 Both Pinot query engines support grouped subtotal queries. To run a grouping-set query on the multi-stage engine,
