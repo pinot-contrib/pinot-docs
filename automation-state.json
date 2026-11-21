@@ -1847,22 +1847,18 @@
   "last_run_result": "processed_docs",
   "last_run_id": "codex-hourly-20261121T070735Z",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-21T07:08:23.959Z",
-    "released_at": "2026-11-21T07:09:47.163Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261121T070735Z"
+    "holder": "codex-hourly-20261121T080537Z",
+    "status": "held",
+    "acquired_at": "2026-11-21T08:06:09.319Z",
+    "lease_expires_at": "2026-11-21T08:21:09.319Z"
   },
   "last_run_summary": "Upstream #20303 → docs #1204 merged after all four hosted checks passed; linked upstream. Checkpoint: 2026-11-21T06:19:30Z.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-21T07:08:23.959Z",
-    "released_at": "2026-11-21T07:09:47.163Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261121T070735Z"
+    "holder": "codex-hourly-20261121T080537Z",
+    "status": "held",
+    "acquired_at": "2026-11-21T08:06:09.319Z",
+    "lease_expires_at": "2026-11-21T08:21:09.319Z"
   },
   "recent_runs": [
     {
