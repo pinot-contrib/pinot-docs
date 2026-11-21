@@ -101,3 +101,7 @@ No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slac
 - Documented multi-stage OPEN_STRUCT queries, literal key lookups, and declared versus undeclared SQL types. Local validation passed: zero broken file links and 10 existing anchor warnings.
 - Reconciled the sole new merge against first-parent master. Checkpoint: `2026-11-21T06:19:30Z`.
 - Slack: Summary delivered (HTTP 200).
+
+## Hourly check — 2026-11-21T08:05:37.155Z
+
+No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slack summary sent. Checkpoint remains `2026-11-21T06:19:30Z`.
