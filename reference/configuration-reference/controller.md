@@ -315,6 +315,8 @@ This task checks tenant rebalance jobs that may be stuck after a controller cras
 
 This task periodically emits controller metrics about minion tasks, including task counts by state. It also publishes the per-table, per-task-type gauges `MAX_SUBTASK_WAIT_TIME_MS` and `MAX_SUBTASK_RUNNING_TIME_MS`. Pinot rewrites both gauges every emit cycle and sets them to `0` when no matching subtasks are in `WAITING` or `RUNNING`, so alerts based on these gauges self-resolve after the queue drains.
 
+Use `MAX_SUBTASK_QUEUE_STALL_TIME_MS` to distinguish a stalled queue from a long job that is still making progress. This gauge tracks the longest queue stall across the task groups for the table and task type, and resets to `0` when no applicable waiting subtasks remain.
+
 | Config | Default Value |
 | --- | --- |
 | controller.minion.task.metrics.emitter.frequencyPeriod | 5m |
