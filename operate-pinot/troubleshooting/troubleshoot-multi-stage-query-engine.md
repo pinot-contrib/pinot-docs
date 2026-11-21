@@ -144,7 +144,7 @@ SELECT distinctcounthll(col, 8) FROM myTable
 
 ### Multi-value column behavior
 
-Support for multi-value columns in the MSE is limited to projections. Predicates, GROUP BY, and ORDER BY clauses that reference multi-value columns must use the `arrayToMv` function. For example, to run:
+You can project multi-value columns as arrays in the MSE. To group by their elements, use `GROUP BY arrayToMv(column)`. The logical planner can group this way above a join or subquery, not just over a table scan. This does not extend `arrayToMv` predicates beyond the table scan. For example, to run:
 
 {% code overflow="wrap" %}
 ```sql
