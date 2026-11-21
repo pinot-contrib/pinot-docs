@@ -185,6 +185,10 @@ WHERE attributes['country'] IN ('US', 'CA')
 GROUP BY attributes['customerId']
 ```
 
+The multi-stage engine also supports `OPEN_STRUCT`. Use a literal key on a column reference, such as `attributes['customerId']`. A key supplied by another column or a lookup on a computed object, such as a `CASE` result, is not supported. Selecting the whole column returns the object as JSON text.
+
+In multi-stage queries, the key's declaration in `childFieldSpecs` determines its SQL type. Undeclared keys are exposed as `VARCHAR`, even if a segment stores them as numbers. For example, ordering an undeclared key whose values are `2` and `10` sorts `'10'` before `'2'`. Declare a numeric child field, or explicitly cast the key, when you need numeric ordering or aggregation.
+
 For a materialized key, Pinot reads the generated child column and can use its dictionary, inverted, range, or other configured index. Per-key index filtering supports equality and inequality, `IN`, `NOT IN`, ranges, `IS NULL`, and `IS NOT NULL`. `EXPLAIN PLAN` reports `delegateTo:per_key_index` when the filter uses this path.
 
 Keys stored in the shared sparse column are also available through the item operator. Pinot exposes each sparse key as a virtual typed data source, so projections, filters, grouping, and aggregations use the same SQL syntax as dense keys. Sparse keys use scan-based execution by default. Set `sparseJsonIndex` to `true` to build a JSON index over the sparse column; Pinot can use it for compatible string-key equality and `IN` predicates, while other predicates continue to scan the virtual data source.
