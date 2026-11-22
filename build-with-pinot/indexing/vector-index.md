@@ -201,6 +201,21 @@ ORDER BY dist ASC
 LIMIT 10;
 ```
 
+#### Reuse approximate cosine distances
+
+By default, `cosineDistance` computes the distance from the stored vectors. On the single-stage query engine, set `vectorApproximateDistance=true` to let it reuse distances from a paired `VECTOR_SIMILARITY` search on a COSINE HNSW index. Both expressions must use the same column and query vector:
+
+```sql
+SET vectorApproximateDistance = true;
+SELECT ProductId, cosineDistance(embedding, ARRAY[1.0, 0.0]) AS dist
+FROM products
+WHERE VECTOR_SIMILARITY(embedding, ARRAY[1.0, 0.0], 10)
+ORDER BY dist, ProductId
+LIMIT 10;
+```
+
+Use a query vector with the same dimension as the indexed vectors. The index supplies single-precision distances, which can change comparisons and result ordering. Pinot falls back to computing from stored vectors if no finite matching score is available, or if the query uses exact reranking, a distance threshold, or row-level security.
+
 ### VECTOR_SIMILARITY_RADIUS — Distance-Based Search
 
 Returns all vectors within a distance threshold, without requiring a fixed top-K:
