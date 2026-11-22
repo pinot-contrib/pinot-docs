@@ -68,7 +68,17 @@ Vector indexes are configured in the table's field-level `indexes` section using
 }
 ```
 
-For immutable HNSW builds, the final merge uses a memory-mapped graph by default. This reduces Java heap needed to construct the merge graph but uses scratch disk space in the index build directory. To opt out, set `mmapGraphOnMerge` to `"false"` in the vector index's `properties`. This setting does not change the on-disk index format or how HNSW queries run.
+#### Tune immutable HNSW builds
+
+HNSW builds use one writer by default. To build small immutable segments in parallel, add `"buildThreads": "4"` to `indexes.vector.properties`. These settings do not apply to the live index in a consuming segment.
+
+| Property | Default | Behavior |
+| --- | --- | --- |
+| `buildThreads` | `1` | Number of part writers per vector column (1–32, up to the number of rows). Each writer uses its own Lucene RAM buffer. |
+| `parallelBuildMaxDocs` | Smaller of 50,000 rows or the number of vectors that fit in 64 MiB | Maximum vectors to buffer for a parallel build. Above this limit, Pinot switches to a single streaming writer. An explicit positive row count replaces the dimension-based default. |
+| `forceMerge` | `true` | Merge into one Lucene segment. Setting this to `"false"` skips the final merge; searching multiple graphs can increase query latency. |
+| `concurrentMerge` | `false` | With more than one build thread and `forceMerge` enabled, use a concurrent, heap-backed final merge. Thread timing can change graph edges and lead to different recall or top-K results across replicas. |
+| `mmapGraphOnMerge` | `true` unless concurrent merge is selected | Use scratch disk space to reduce Java heap during the final merge. Explicitly setting this to `"true"` takes precedence over `concurrentMerge`. |
 
 ### IVF_FLAT Configuration
 
