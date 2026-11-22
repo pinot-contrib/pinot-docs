@@ -482,6 +482,37 @@ In practice, Pinot supports `TEXT_MATCH` across selection, aggregation, and aggr
 
 The search expression (the second argument to `TEXT_MATCH` function) is the query string that Pinot will use to perform text search on the column's text index.
 
+## Rank results by text relevance
+
+Use `TEXT_SCORE` to rank matching rows by Lucene relevance (BM25 by default). It returns zero for nonmatching rows; use `TEXT_MATCH` to filter, because a matching row can also score zero.
+
+```sql
+TEXT_SCORE(column, 'query' [, 'options' [, 'stats']])
+TEXT_SCORE_STATS(column, 'query' [, 'options'])
+```
+
+```sql
+SELECT id, TEXT_SCORE(title, 'wireless headphones') AS score
+FROM products
+WHERE TEXT_MATCH(title, 'wireless headphones')
+ORDER BY score DESC
+LIMIT 10;
+```
+
+Both functions require a single-valued `STRING` column with a Lucene index built per row. They support consuming and immutable segments, including multi-column indexes. They do not support dictionary-built indexes or queries with row-level security filters. The optional `options` string uses the [same parser options as TEXT_MATCH](#text_match-query-options).
+
+### Use the same scoring statistics across segments
+
+By default, each segment scores using its own term statistics, so scores are only approximately comparable across segments. To use the same statistics everywhere, first run:
+
+```sql
+SELECT TEXT_SCORE_STATS(title, 'wireless headphones') AS stats
+FROM products;
+```
+
+Pass the returned JSON string as the fourth argument to `TEXT_SCORE`, using the same search expression and parser options in both queries. Use `''` for the third argument when using the default parser. If the index changes and the saved statistics become inconsistent, collect them again.
+
+The statistics include all indexed documents in the segments that survive pruning, not just rows that pass row filters. They can include superseded upsert rows and rows from segments that overlap the hybrid time boundary. The statistics query does not support `GROUP BY`, aggregate `FILTER` clauses, or combining `TEXT_SCORE_STATS` with other aggregate types. Use local scoring for queries whose scoring terms can expand differently by segment, such as fuzzy queries.
 
 ## TEXT\_MATCH Query Options
 
