@@ -360,3 +360,5 @@
 - 2026-11-22T02:34:41.367Z — Reconciled four master merges; merged and linked docs #1207 for upstream #20072 (immutable HNSW build tuning) and docs #1208 for #20075 (BM25 scoring). Skipped #20070 and #20071 as internal optimizations. Checkpoint `2026-11-22T02:19:22Z`, no pending follow-ups, one Slack summary delivered.
 
 - 2026-11-22T03:38:42.790Z — Hourly check: No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slack summary sent. Checkpoint remains `2026-11-22T02:19:22Z`.
+
+- 2026-11-22T04:35:13.172Z — Merged and linked docs #1209 for upstream #20073 (opt-in approximate cosine distances from HNSW). Checkpoint `2026-11-22T03:56:21Z`, no pending follow-ups, one Slack summary delivered.

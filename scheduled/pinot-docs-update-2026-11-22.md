@@ -22,3 +22,9 @@ Both PRs passed local diff/docs validation (10 pre-existing anchor warnings, zer
 ## Hourly check — 2026-11-22T03:38:42.790Z
 
 No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slack summary sent. Checkpoint remains `2026-11-22T02:19:22Z`.
+
+## Hourly check — 2026-11-22T04:35:13.172Z
+
+Reconciled one post-checkpoint merge. [Upstream #20073](https://github.com/apache/pinot/pull/20073) adds the opt-in `vectorApproximateDistance` query option. [Docs #1209](https://github.com/pinot-contrib/pinot-docs/pull/1209) covers the default, precision trade-off, fallback behavior, and a SQL example. It passed local validation (zero broken file links; 10 existing anchor warnings) and the four hosted checks on its exact head, then merged and was [linked upstream](https://github.com/apache/pinot/pull/20073#issuecomment-7074281948).
+
+Checkpoint advanced to `2026-11-22T03:56:21Z`. No pending follow-ups. One Slack summary delivered (HTTP 200).
