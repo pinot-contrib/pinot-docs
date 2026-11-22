@@ -18,3 +18,7 @@ Four post-checkpoint merges reconciled against first-parent master. Two docs PRs
 - [#20075](https://github.com/apache/pinot/pull/20075) — Documented BM25 scoring in [docs #1208](https://github.com/pinot-contrib/pinot-docs/pull/1208) (merged; [upstream comment](https://github.com/apache/pinot/pull/20075#issuecomment-7073026273)).
 
 Both PRs passed local diff/docs validation (10 pre-existing anchor warnings, zero broken file links) and both hosted docs and both GitBook checks on their exact heads. One Slack summary delivered (HTTP 200).
+
+## Hourly check — 2026-11-22T03:38:42.790Z
+
+No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slack summary sent. Checkpoint remains `2026-11-22T02:19:22Z`.
