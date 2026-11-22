@@ -362,11 +362,41 @@
       "merged_at": "2026-10-28T23:54:13Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20069"
     },
+    "20070": {
+      "decision": "skipped",
+      "merged_at": "2026-11-22T01:45:31Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20070",
+      "note": "Planner constant-folding optimization; no SQL syntax, type, or behavior contract change."
+    },
+    "20071": {
+      "decision": "skipped",
+      "merged_at": "2026-11-22T02:12:32Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20071",
+      "note": "Automatic Lucene buffer read optimization; no configuration or query change."
+    },
+    "20072": {
+      "decision": "pending",
+      "merged_at": "2026-11-22T01:56:22Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20072",
+      "note": "Immutable HNSW build tuning; awaiting hosted checks and merge.",
+      "docs_pr": 1207,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1207",
+      "docs_head_sha": "dae1bba65965b4a13cbaf05c7457bd7e99512747"
+    },
     "20074": {
       "decision": "not_relevant",
       "reason": "Internal multi-stage-engine / Java-SPI correctness fix (follow-up to #20063). Verified from merged commit e58b6fc2 (53 files, +491/-721): makes an AggregationFunction's final result the stored value of getFinalResultColumnType() (e.g. int[] for INT_ARRAY) so array functions (ARRAYAGG, SUMARRAYLONG/DOUBLE, HISTOGRAM, funnel functions) and raw sketch functions (DISTINCTCOUNTRAWHLL etc.) no longer throw ClassCastException / serialization errors when an MSE leaf returns final results. Removes the 'FinalResult extends Comparable' bound; extractFinalResult/mergeFinalResult erasure changes from Comparable to Object (internal Java interface for aggregation implementers, requires recompile of custom AggregationFunctions - not documented user behavior). Adds StoredValueComparator in pinot-spi; removes ArrayListUtils helpers and TypeUtils conversions. Compatibility section states the wire format and MSE plans do NOT change. No new SQL function, config key, query option, or default. The only user-observable change: FUNNELEVENTSFUNCTIONEVAL final results merged from several servers now carry ONE header (counts summed) instead of concatenated headers - this brings runtime output into conformance with the EXISTING docs page functions/aggregation/funneleventsfunctioneval.md, which already documents the single-header STRING[] format; the funnel README has no merge/header details. No docs page becomes stale and no new behavior needs documenting. Not docs-relevant.",
       "merged_at": "2026-10-29T21:38:16Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20074"
+    },
+    "20075": {
+      "decision": "pending",
+      "merged_at": "2026-11-22T02:19:22Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20075",
+      "note": "BM25 text scoring; awaiting hosted checks and merge.",
+      "docs_pr": 1208,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1208",
+      "docs_head_sha": "1553bff485bd83bc38584705cb031247a9f3ec33"
     },
     "20077": {
       "decision": "not_relevant",
