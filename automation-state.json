@@ -1915,22 +1915,18 @@
   "last_run_result": "noop",
   "last_run_id": "codex-hourly-20261122T224148Z",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-22T22:42:16.524Z",
-    "released_at": "2026-11-22T22:42:38.244Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261122T224148Z"
+    "holder": "codex-hourly-20261122T234418Z",
+    "status": "held",
+    "acquired_at": "2026-11-22T23:44:47.036Z",
+    "lease_expires_at": "2026-11-22T23:59:47.036Z"
   },
   "last_run_summary": "No post-checkpoint merges or pending follow-ups; first-parent master and complete GitHub merge inventory agree.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-22T22:42:16.524Z",
-    "released_at": "2026-11-22T22:42:38.244Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261122T224148Z"
+    "holder": "codex-hourly-20261122T234418Z",
+    "status": "held",
+    "acquired_at": "2026-11-22T23:44:47.036Z",
+    "lease_expires_at": "2026-11-22T23:59:47.036Z"
   },
   "recent_runs": [
     {
