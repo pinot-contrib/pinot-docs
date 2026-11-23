@@ -841,6 +841,23 @@ curl -X POST "http://localhost:9000/applicationQuotas/myApp" \
 
 ## Segments
 
+### GET /segments/\{tableName\}/metadata
+
+Return server metadata for the selected table segments as a JSON object keyed by segment name.
+
+| Query parameter | Behavior |
+| --- | --- |
+| `type` | Select `OFFLINE` or `REALTIME`. |
+| `segments` | Repeat to select specific segment names. Omit to include all segments. |
+| `columns` | Repeat to select columns, or use `*` for all schema columns. Omit for segment-level metadata only. |
+| `maxEntries` | Maximum number of entries to fetch. If omitted, the controller uses `controller.segment.metadata.default.entry.limit` (50,000 by default). An explicit value must be positive and no greater than `controller.segment.metadata.max.entry.limit` (100,000 by default). |
+
+```bash
+curl "http://localhost:9000/segments/myTable/metadata?type=OFFLINE&segments=myTable_OFFLINE_0&columns=memberId"
+```
+
+Pinot counts one entry per segment replica and one more per requested column on each replica. The limit applies to the entries fetched, not the number of keys in the returned JSON. An invalid `maxEntries` value or a request above the limit returns HTTP `400`; the controller does not return a partial result. If the request is too large, fetch smaller batches of named segments or request fewer columns.
+
 ### GET /segments/\{tableName\}/invalidPartitionMetadata
 
 Return a map of segment name to raw partition metadata JSON for segments whose partition metadata is invalid.
