@@ -15,3 +15,9 @@ Checkpoint advanced through #20085 to `2026-11-23T18:32:35Z`. No pending follow-
 ## Hourly check — 2026-11-23T20:15:06.012Z
 
 No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slack summary sent. Checkpoint remains `2026-11-23T18:32:35Z`.
+
+## Hourly check — 2026-11-23T21:11:06.645Z
+
+Reconciled one post-checkpoint master merge. [Docs #1212](https://github.com/pinot-contrib/pinot-docs/pull/1212) documents configuring the `AlphanumericAnalyzer` added in [upstream #20292](https://github.com/apache/pinot/pull/20292), including digit-preserving tokenization, case handling, and rebuilding existing indexes. It passed local validation (zero broken file links; 10 existing anchor warnings) and the four hosted checks on its exact head, then merged and was [linked upstream](https://github.com/apache/pinot/pull/20292#issuecomment-7114168155).
+
+Checkpoint advanced through #20292 to `2026-11-23T20:38:15Z`. No pending follow-ups. One Slack summary delivered (HTTP 200).
