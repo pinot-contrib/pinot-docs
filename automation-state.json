@@ -1753,6 +1753,16 @@
       "upstream_url": "https://github.com/apache/pinot/pull/20289",
       "docs_pr": null
     },
+    "20292": {
+      "decision": "pending",
+      "merged_at": "2026-11-23T20:38:15Z",
+      "upstream_merge_sha": "87886387a9ecc89889b9c50c7c7f4748bef8fa03",
+      "upstream_url": "https://github.com/apache/pinot/pull/20292",
+      "docs_pr": 1212,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1212",
+      "docs_head_sha": "13a90a70cbac3e4e3bb3d77155aaf7fdc8620812",
+      "note": "AlphanumericAnalyzer configuration; awaiting hosted checks and merge."
+    },
     "20293": {
       "decision": "docs_created",
       "docs_pr": 1186,
