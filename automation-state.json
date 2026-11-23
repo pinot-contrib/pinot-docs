@@ -1753,6 +1753,16 @@
       "upstream_url": "https://github.com/apache/pinot/pull/20289",
       "docs_pr": null
     },
+    "20291": {
+      "decision": "pending",
+      "merged_at": "2026-11-23T22:46:53Z",
+      "upstream_merge_sha": "d044ff6ad23b5a20bc71a3bcde7ba3de339f78cd",
+      "upstream_url": "https://github.com/apache/pinot/pull/20291",
+      "docs_pr": 1213,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1213",
+      "docs_head_sha": "5103aab8758d163907f6b167cedb7340211bc80b",
+      "note": "Segments metadata API entry limit; awaiting hosted checks and merge."
+    },
     "20292": {
       "decision": "docs_created",
       "merged_at": "2026-11-23T20:38:15Z",
@@ -1963,6 +1973,13 @@
       "upstream_url": "https://github.com/apache/pinot/pull/20349",
       "upstream_merge_sha": "59022022b4318172ce0e99637147e923040cdb27",
       "note": "Dependency version bump only; no Pinot documentation contract change."
+    },
+    "20350": {
+      "decision": "skipped",
+      "merged_at": "2026-11-23T22:21:06Z",
+      "upstream_merge_sha": "9ce72cda8c04f0cc360cf8d838dd1383609a61e0",
+      "upstream_url": "https://github.com/apache/pinot/pull/20350",
+      "note": "POM-only Reactor Netty version bump; no documented Pinot contract change."
     },
     "20351": {
       "decision": "skipped",
