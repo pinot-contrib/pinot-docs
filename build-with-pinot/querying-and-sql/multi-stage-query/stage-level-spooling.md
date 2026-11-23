@@ -5,11 +5,7 @@ description: Also know as reuse common expressions
 # Stage-Level Spooling
 
 {% hint style="warning" %}
-Stage-level spooling is an optional optimization for the multi-stage engine that is still under development and may have some limitations. This under-development label applies to spooling specifically, not to the core multi-stage engine, which is generally available.
-
-It is not recommended to turn spooling on by default but instead to enable it on a per-query basis after testing it actually improves the query performance.&#x20;
-
-Users are encouraged to report any issues they encounter.
+Keep the default `auto` mode for general use. The `on` mode bypasses the planner's deadlock check and is not recommended as a broker-wide default.
 {% endhint %}
 
 ## Overview [](#overview)
@@ -22,7 +18,7 @@ To address this issue, Apache Pinot now supports **stage-level spooling**, which
 
 ### How do I enable/disable this feature for specific queries? [](#q1-how-do-i-enabledisabled-this-feature-for-specific-queries)
 
-Use `SET useSpools = true;` or `SET useSpools = false;` in your query.
+Use `SET useSpools = 'off';` to disable spooling for a query, or `SET useSpools = 'auto';` to select the guarded mode explicitly.
 
 ### What happens if two stages are not equivalent? [](#q2-what-happens-if-two-stages-are-not-equivalent)
 
@@ -31,6 +27,8 @@ The query will run as usual, without any optimization.
 ### How can I verify if stage-level spooling is working for my query? [](#q3-how-can-i-verify-if-stage-level-spooling-is-working-for-my-query)
 
 Use the stage stats visualizer or `EXPLAIN IMPLEMENTATION PLAN FOR` to see the query execution plan. Look for the stage ID for each send operator. If stage-level spooling is applied, you should see the same stage ID for equivalent stages.
+
+To see the planner's decisions, add `SET spoolsFeedback = true;` before the query. The response includes `responseMetadata.spools` with the selected `mode` and a `substitutions` array. Each entry identifies the affected stages, reports its `outcome`, and includes a `reason` when available. At the broker level, the `SPOOLS_APPLIED` and `SPOOLS_REJECTED_BY_GUARD` meters count applied substitutions and those rejected by the deadlock check.
 
 ### Is this feature limited to WITH expressions? [](#q4-is-this-feature-limited-to-with-expressions)
 
@@ -42,10 +40,15 @@ No, the feature is only applied if the stages are equivalent after other optimiz
 
 ## Configuration [](#configuration)
 
-Stage-level spooling is **disabled by default** but can be enabled in the following ways:
+Set the broker default with `pinot.broker.multistage.spools`. The `useSpools` query option overrides that setting:
 
-* **Globally**: Change `pinot.broker.multistage.spools` in the broker configuration file to set whether stage-level spooling is enabled by default for all queries.
-* **Per Query**: Use the `useSpools` option in the query to enable or disable stage-level spooling for that query.
+| Mode | Behavior |
+| --- | --- |
+| `auto` (default) | Share an eligible equivalent stage only if it passes the planner's deadlock check. If the check rejects a proposed substitution, the planner keeps the separate stages. |
+| `off` (`false`, `no`) | Do not share stages. Set this explicitly to retain the behavior of the former default. |
+| `on` (`true`, `yes`) | Share eligible equivalent stages without the deadlock check. This preserves the behavior of `useSpools=true`. |
+
+The spool mode applies only to the default multi-stage planner. Pinot ignores it when `usePhysicalOptimizer=true`.
 
 ## Example [](#example)
 
@@ -77,7 +80,7 @@ flowchart BT
     S22 --> J1
 ```
 
-When stage-level spooling is enabled (ie, with `SET useSpools = true`), the plan will be optimized as follows:
+When the planner can share the two scans, the plan looks like this:
 
 ```mermaid
 flowchart BT
@@ -96,7 +99,7 @@ flowchart BT
 
 ### Equivalent stages [](#equivalent-stages)
 
-Stage-level spooling is automatically applied when the query planner detects equivalent stages. Users do not need to modify their queries to benefit from this optimization. However, understanding how it works can help in writing more efficient queries.
+In `auto` mode, detecting equivalent stages makes them candidates for spooling. The planner still checks each proposed substitution before applying it.
 
 Two stages are considered equivalent if they:
 
@@ -152,8 +155,6 @@ The same thing happens with projection pushdown, an optimization that pushes the
 Pinot decides to give higher priority to these optimizations than to stage-level spooling for several reasons. The main one is that these optimizations are more common and have a bigger impact on query performance. If you find use cases where you think stage-level spooling should have higher priority, please report them as a GitHub issue.
 
 ## Known issues [](#known-issues)
-
-Stage-level spooling is a very extensive feature, and some scenarios are difficult to predict. This is why it is considered still under development and why it is not enabled by default. Users are encouraged to test it before enabling it for all queries and open GitHub issues if they find any issues.
 
 Here is a list of known issues that were detected during the design and early development of this feature.
 
