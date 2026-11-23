@@ -11,3 +11,7 @@ Reconciled 12 post-checkpoint merges with first-parent master. [Docs #1211](http
 Skipped version-only dependency and Maven Wrapper bumps ([#20346](https://github.com/apache/pinot/pull/20346), [#20348](https://github.com/apache/pinot/pull/20348), [#20349](https://github.com/apache/pinot/pull/20349), [#20354](https://github.com/apache/pinot/pull/20354), [#20357](https://github.com/apache/pinot/pull/20357), [#20351](https://github.com/apache/pinot/pull/20351), [#20352](https://github.com/apache/pinot/pull/20352), [#20353](https://github.com/apache/pinot/pull/20353), [#20356](https://github.com/apache/pinot/pull/20356), [#20358](https://github.com/apache/pinot/pull/20358)) and the PR CI worker rebalance ([#20085](https://github.com/apache/pinot/pull/20085)).
 
 Checkpoint advanced through #20085 to `2026-11-23T18:32:35Z`. No pending follow-ups. One Slack summary delivered (HTTP 200).
+
+## Hourly check — 2026-11-23T20:15:06.012Z
+
+No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slack summary sent. Checkpoint remains `2026-11-23T18:32:35Z`.
