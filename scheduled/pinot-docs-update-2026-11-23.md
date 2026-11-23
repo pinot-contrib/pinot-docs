@@ -25,3 +25,9 @@ Checkpoint advanced through #20292 to `2026-11-23T20:38:15Z`. No pending follow-
 ## Hourly check — 2026-11-23T22:15:08.453Z
 
 No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slack summary sent. Checkpoint remains `2026-11-23T20:38:15Z`.
+
+## Hourly check — 2026-11-23T23:17:38.423Z
+
+Reconciled two post-checkpoint master merges. [Docs #1213](https://github.com/pinot-contrib/pinot-docs/pull/1213) covers the segment metadata request limits and how to scope requests from [upstream #20291](https://github.com/apache/pinot/pull/20291). It passed local validation (zero broken file links; 10 existing anchor warnings) and the four hosted checks on its exact head, then merged and was [linked upstream](https://github.com/apache/pinot/pull/20291#issuecomment-7116835112). Skipped [#20350](https://github.com/apache/pinot/pull/20350), a dependency-only Reactor Netty update.
+
+Checkpoint advanced through #20291 to `2026-11-23T22:46:53Z`. No pending follow-ups. One Slack summary delivered (HTTP 200).
