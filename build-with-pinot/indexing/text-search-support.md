@@ -844,6 +844,20 @@ The text index supports the following configuration parameters in the `indexes.t
 | `caseSensitive` | false | Whether the text index should be case-sensitive |
 | `storeInSegmentFile` | false | Store the text index inside the segment file |
 
+### Split log text on non-alphanumeric characters
+
+Choose Pinot's `AlphanumericAnalyzer` when you want punctuation to split terms without losing digits. It keeps consecutive Unicode letters and digits together and lowercases them by default. For example, `send_Email status=200 HTTP2` produces `send`, `email`, `status`, `200`, and `http2`.
+
+In the column's `indexes.text` configuration, set:
+
+```json
+{
+  "luceneAnalyzerClass": "org.apache.pinot.segment.local.segment.index.text.AlphanumericAnalyzer"
+}
+```
+
+To preserve case, also set `luceneAnalyzerClassArgs` to `"true"` and `luceneAnalyzerClassArgTypes` to `"java.lang.Boolean.TYPE"`. Pinot uses the configured analyzer for both indexing and query analysis. Changing the table configuration alone does not update existing single-column text indexes on reload. Rebuild those indexes or regenerate their segments to apply the new tokenization across the table.
+
 ### Example with custom parameters
 
 ```json
