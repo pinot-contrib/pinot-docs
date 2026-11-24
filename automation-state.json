@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-24T09:35:46Z",
-  "last_successful_run": "2026-11-24T12:21:17.546Z",
+  "last_processed_merged_at": "2026-11-24T12:59:56Z",
+  "last_successful_run": "2026-11-24T13:17:00.970Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -2107,24 +2107,35 @@
       "upstream_merge_sha": "23311e4d658984910442866a7a688e1423ccfeaa",
       "upstream_url": "https://github.com/apache/pinot/pull/20364",
       "note": "Minion test race fixes only; no production behavior or configuration changed."
+    },
+    "20375": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-24T12:59:56Z",
+      "upstream_merge_sha": "9d9ec4b1e304bd6b52f538521ea945f55009ec9b",
+      "upstream_url": "https://github.com/apache/pinot/pull/20375",
+      "note": "Dependency-only AWS SDK BOM patch bump (2.59.5 to 2.59.7); merged diff changes only the Maven version property, with no Pinot documentation change identified."
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "complete",
-  "last_run_id": "codex-hourly-20261124T121950Z",
+  "last_run_id": "codex-hourly-20261124T131550Z",
   "lock": {
-    "holder": "codex-hourly-20261124T131550Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-24T13:16:32.666Z",
-    "lease_expires_at": "2026-11-24T13:36:32.666Z"
+    "released_at": "2026-11-24T13:17:00.970Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261124T131550Z"
   },
-  "last_run_summary": "No post-checkpoint master merges or pending docs follow-ups.",
+  "last_run_summary": "One master merge reconciled and skipped; AWS SDK BOM patch bump only.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-hourly-20261124T131550Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-24T13:16:32.666Z",
-    "lease_expires_at": "2026-11-24T13:36:32.666Z"
+    "released_at": "2026-11-24T13:17:00.970Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261124T131550Z"
   },
   "recent_runs": [
     {
@@ -3021,9 +3032,22 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-24T09:35:46Z"
+    },
+    {
+      "run_id": "codex-hourly-20261124T131550Z",
+      "started_utc": "2026-11-24T13:15:50.952Z",
+      "finished_utc": "2026-11-24T13:17:00.970Z",
+      "result": "complete",
+      "new_prs": [
+        20375
+      ],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-24T12:59:56Z"
     }
   ],
-  "last_run_note": "Kept the checkpoint and did not send Slack.",
+  "last_run_note": "Checkpoint advanced through upstream #20375; no docs PR or Slack summary.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -4113,6 +4137,19 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-24T09:35:46Z"
+    },
+    {
+      "run_id": "codex-hourly-20261124T131550Z",
+      "started_utc": "2026-11-24T13:15:50.952Z",
+      "finished_utc": "2026-11-24T13:17:00.970Z",
+      "result": "complete",
+      "new_prs": [
+        20375
+      ],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-24T12:59:56Z"
     }
   ],
   "run_history": [
@@ -5239,17 +5276,32 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-24T09:35:46Z"
+    },
+    {
+      "run_id": "codex-hourly-20261124T131550Z",
+      "started_utc": "2026-11-24T13:15:50.952Z",
+      "finished_utc": "2026-11-24T13:17:00.970Z",
+      "result": "complete",
+      "new_prs": [
+        20375
+      ],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-24T12:59:56Z"
     }
   ],
   "last_run": {
-    "run_id": "codex-hourly-20261124T121950Z",
-    "started_utc": "2026-11-24T12:19:50.394Z",
-    "finished_utc": "2026-11-24T12:21:17.546Z",
+    "run_id": "codex-hourly-20261124T131550Z",
+    "started_utc": "2026-11-24T13:15:50.952Z",
+    "finished_utc": "2026-11-24T13:17:00.970Z",
     "result": "complete",
-    "new_prs": [],
+    "new_prs": [
+      20375
+    ],
     "docs_prs_created": [],
     "docs_prs_merged": [],
     "pending_docs_prs": [],
-    "checkpoint": "2026-11-24T09:35:46Z"
+    "checkpoint": "2026-11-24T12:59:56Z"
   }
 }
