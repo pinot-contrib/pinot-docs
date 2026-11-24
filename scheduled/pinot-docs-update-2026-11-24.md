@@ -46,3 +46,10 @@ Checkpoint advanced through #20334 to `2026-11-24T07:41:33Z`. No pending follow-
 Reconciled [#20364](https://github.com/apache/pinot/pull/20364) against first-parent master. Skipped: fixes only minion test races; no production code or user-facing behavior changed.
 
 Checkpoint advanced through #20364 to `2026-11-24T08:33:40Z`. No pending follow-ups, docs PRs, or Slack summary.
+
+## Hourly check — 2026-11-24T10:17:18.729Z
+
+- Reconciled one post-checkpoint `master` merge: [Apache Pinot #20314](https://github.com/apache/pinot/pull/20314). Its user-facing change makes it possible to unnest an array produced by `ARRAY_AGG` in a grouped subquery.
+- Opened and squash-merged [docs #1215](https://github.com/pinot-contrib/pinot-docs/pull/1215) into `latest` and verified the [upstream comment](https://github.com/apache/pinot/pull/20314#issuecomment-7128636539).
+- `git diff --check` and the full docs validator passed (no broken file links; 10 pre-existing anchor warnings). All four hosted checks passed on the merged PR head.
+- Checkpoint advanced to `2026-11-24T09:35:46Z`. No pending follow-ups. Slack summary delivered (HTTP 200).

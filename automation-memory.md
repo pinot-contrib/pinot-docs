@@ -428,3 +428,4 @@
 - 2026-11-24T08:15:16.984Z — Reconciled and skipped #20334: MV aggregation cleanup; SQL and upgrade guidance already match. Checkpoint `2026-11-24T07:41:33Z`, no pending follow-ups or Slack summary.
 
 - 2026-11-24T09:13:47.106Z — Reconciled and skipped #20364 (minion test races only). Checkpoint `2026-11-24T08:33:40Z`, no pending follow-ups or Slack summary.
+- 2026-11-24T10:17:18.729Z — Reconciled #20314 and merged docs #1215 with an UNNEST-over-ARRAY_AGG example. Verified upstream comment and Slack delivery. Checkpoint `2026-11-24T09:35:46Z`; no pending follow-ups.
