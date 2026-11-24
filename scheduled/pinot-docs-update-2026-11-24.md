@@ -74,3 +74,7 @@ Checkpoint advanced to `2026-11-24T12:59:56Z`. No pending follow-ups, new docs P
 - Opened and squash-merged [docs #1216](https://github.com/pinot-contrib/pinot-docs/pull/1216) into `latest` and verified the [upstream comment](https://github.com/apache/pinot/pull/20344#issuecomment-7134128193).
 - `git diff --check` and the docs validator passed (no broken file links; 10 pre-existing anchor warnings). All four hosted checks passed on the merged PR head.
 - Checkpoint advanced to `2026-11-24T13:48:06Z`. No pending follow-ups. Slack summary delivered (HTTP 200).
+
+## Hourly check — 2026-11-24T15:10:23.708Z
+
+No `master` merges after #20344 in either GitHub's complete merged-PR search or the first-parent history. The checkpoint stays at `2026-11-24T13:48:06Z`; no pending follow-ups, new docs PRs, or Slack summary.
