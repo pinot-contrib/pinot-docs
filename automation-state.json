@@ -2168,22 +2168,18 @@
   "last_run_result": "pending",
   "last_run_id": "codex-hourly-20261124T222041Z",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-24T22:21:52.762Z",
-    "released_at": "2026-11-24T22:24:50.701Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261124T222041Z"
+    "holder": "codex-hourly-20261124T232412Z",
+    "status": "held",
+    "acquired_at": "2026-11-24T23:24:56.094Z",
+    "lease_expires_at": "2026-11-24T23:44:56.094Z"
   },
   "last_run_summary": "Opened docs #1218 for Apache Pinot #19894; exact-head hosted validation remains in progress.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-24T22:21:52.762Z",
-    "released_at": "2026-11-24T22:24:50.701Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261124T222041Z"
+    "holder": "codex-hourly-20261124T232412Z",
+    "status": "held",
+    "acquired_at": "2026-11-24T23:24:56.094Z",
+    "lease_expires_at": "2026-11-24T23:44:56.094Z"
   },
   "recent_runs": [
     {
