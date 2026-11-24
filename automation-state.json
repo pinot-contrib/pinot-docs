@@ -2052,22 +2052,18 @@
   "last_run_result": "complete",
   "last_run_id": "codex-hourly-20261124T001709Z",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-24T00:17:56.070Z",
-    "released_at": "2026-11-24T00:18:22.382Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261124T001709Z"
+    "holder": "codex-hourly-20261124T012110Z",
+    "status": "held",
+    "acquired_at": "2026-11-24T01:22:08.321Z",
+    "lease_expires_at": "2026-11-24T01:42:08.321Z"
   },
   "last_run_summary": "Two post-checkpoint master merges reconciled and skipped because neither changed the documented Pinot contract.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-24T00:17:56.070Z",
-    "released_at": "2026-11-24T00:18:22.382Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261124T001709Z"
+    "holder": "codex-hourly-20261124T012110Z",
+    "status": "held",
+    "acquired_at": "2026-11-24T01:22:08.321Z",
+    "lease_expires_at": "2026-11-24T01:42:08.321Z"
   },
   "recent_runs": [
     {
