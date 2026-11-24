@@ -67,3 +67,10 @@ No `master` merges after #20314 in either GitHub's complete merged-PR search or 
 Reconciled one post-checkpoint `master` merge: [Apache Pinot #20375](https://github.com/apache/pinot/pull/20375). Skipped: Dependency-only AWS SDK BOM patch bump (2.59.5 to 2.59.7); merged diff changes only the Maven version property, with no Pinot documentation change identified.
 
 Checkpoint advanced to `2026-11-24T12:59:56Z`. No pending follow-ups, new docs PRs, or Slack summary.
+
+## Hourly check — 2026-11-24T14:14:21.724Z
+
+- Reconciled one post-checkpoint `master` merge: [Apache Pinot #20344](https://github.com/apache/pinot/pull/20344). Document the opt-in MSE broadcast join fusion and parallel leaf scan options, including eligibility, the join hint, and spool precedence.
+- Opened and squash-merged [docs #1216](https://github.com/pinot-contrib/pinot-docs/pull/1216) into `latest` and verified the [upstream comment](https://github.com/apache/pinot/pull/20344#issuecomment-7134128193).
+- `git diff --check` and the docs validator passed (no broken file links; 10 pre-existing anchor warnings). All four hosted checks passed on the merged PR head.
+- Checkpoint advanced to `2026-11-24T13:48:06Z`. No pending follow-ups. Slack summary delivered (HTTP 200).
