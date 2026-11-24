@@ -2120,22 +2120,18 @@
   "last_run_result": "complete",
   "last_run_id": "codex-hourly-20261124T131550Z",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-24T13:16:32.666Z",
-    "released_at": "2026-11-24T13:17:00.970Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261124T131550Z"
+    "holder": "codex-hourly-20261124T141421Z",
+    "status": "held",
+    "acquired_at": "2026-11-24T14:15:37.283Z",
+    "lease_expires_at": "2026-11-24T14:35:37.283Z"
   },
   "last_run_summary": "One master merge reconciled and skipped; AWS SDK BOM patch bump only.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-24T13:16:32.666Z",
-    "released_at": "2026-11-24T13:17:00.970Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261124T131550Z"
+    "holder": "codex-hourly-20261124T141421Z",
+    "status": "held",
+    "acquired_at": "2026-11-24T14:15:37.283Z",
+    "lease_expires_at": "2026-11-24T14:35:37.283Z"
   },
   "recent_runs": [
     {
