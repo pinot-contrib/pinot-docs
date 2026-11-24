@@ -424,3 +424,5 @@
 - 2026-11-24T06:15:45.036Z — Hourly check: No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slack summary sent. Checkpoint remains `2026-11-24T00:46:39Z`.
 
 - 2026-11-24T07:17:46.166Z — Hourly check: No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slack summary sent. Checkpoint remains `2026-11-24T00:46:39Z`.
+
+- 2026-11-24T08:15:16.984Z — Reconciled and skipped #20334: MV aggregation cleanup; SQL and upgrade guidance already match. Checkpoint `2026-11-24T07:41:33Z`, no pending follow-ups or Slack summary.

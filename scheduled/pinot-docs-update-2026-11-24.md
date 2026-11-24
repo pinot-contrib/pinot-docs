@@ -34,3 +34,9 @@ No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slac
 ## Hourly check — 2026-11-24T07:17:46.166Z
 
 No post-checkpoint merges or pending follow-ups; no docs PRs created and no Slack summary sent. Checkpoint remains `2026-11-24T00:46:39Z`.
+
+## Hourly check — 2026-11-24T08:15:16.984Z
+
+Reconciled [#20334](https://github.com/apache/pinot/pull/20334) against first-parent master. Skipped: it removes stale implementation comments, test references, and an internal exception subclass without changing the SQL behavior or the planning error code. The SQL reference already covers leaf and intermediate aggregation and the rolling-upgrade guidance.
+
+Checkpoint advanced through #20334 to `2026-11-24T07:41:33Z`. No pending follow-ups, docs PRs, or Slack summary.
