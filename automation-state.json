@@ -2140,22 +2140,18 @@
   "last_run_result": "complete",
   "last_run_id": "codex-hourly-20261124T201456Z",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-24T20:15:57.185Z",
-    "released_at": "2026-11-24T20:16:23.307Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261124T201456Z"
+    "holder": "codex-hourly-20261124T211826Z",
+    "status": "held",
+    "acquired_at": "2026-11-24T21:19:35.084Z",
+    "lease_expires_at": "2026-11-24T21:39:35.084Z"
   },
   "last_run_summary": "One master merge reconciled; existing broker authentication documentation covers it.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-24T20:15:57.185Z",
-    "released_at": "2026-11-24T20:16:23.307Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261124T201456Z"
+    "holder": "codex-hourly-20261124T211826Z",
+    "status": "held",
+    "acquired_at": "2026-11-24T21:19:35.084Z",
+    "lease_expires_at": "2026-11-24T21:39:35.084Z"
   },
   "recent_runs": [
     {
