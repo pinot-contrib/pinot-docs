@@ -2017,6 +2017,16 @@
       "docs_merge_sha": "be7c584a4b48c4073f42e1b1e8f596e1cbf8e495",
       "upstream_comment": "https://github.com/apache/pinot/pull/20338#issuecomment-7119052953"
     },
+    "20344": {
+      "decision": "pending",
+      "merged_at": "2026-11-24T13:48:06Z",
+      "upstream_merge_sha": "eec6794fbe076bf236eed9930165268488655177",
+      "upstream_url": "https://github.com/apache/pinot/pull/20344",
+      "docs_pr": 1216,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1216",
+      "docs_head_sha": "862bdc35e4f2f37211960b5ce72c2f6a9e86dbea",
+      "note": "Document opt-in broadcast join fusion and parallel leaf scan workers; awaiting hosted checks and merge."
+    },
     "20346": {
       "decision": "skipped",
       "merged_at": "2026-11-23T13:29:46Z",
