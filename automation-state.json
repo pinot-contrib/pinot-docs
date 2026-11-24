@@ -2166,20 +2166,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "pending",
-  "last_run_id": "codex-hourly-20261124T222041Z",
+  "last_run_id": "codex-hourly-20261124T232412Z",
   "lock": {
-    "holder": "codex-hourly-20261124T232412Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-24T23:24:56.094Z",
-    "lease_expires_at": "2026-11-24T23:44:56.094Z"
+    "released_at": "2026-11-24T23:25:21.715Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261124T232412Z"
   },
-  "last_run_summary": "Opened docs #1218 for Apache Pinot #19894; exact-head hosted validation remains in progress.",
+  "last_run_summary": "Existing docs #1218 remains open; exact-head validation still shows in progress.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-hourly-20261124T232412Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-24T23:24:56.094Z",
-    "lease_expires_at": "2026-11-24T23:44:56.094Z"
+    "released_at": "2026-11-24T23:25:21.715Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261124T232412Z"
   },
   "recent_runs": [
     {
@@ -3214,9 +3218,23 @@
       "checkpoint": "2026-11-24T21:14:37Z",
       "slack_status": "delivered",
       "slack_http_status": 200
+    },
+    {
+      "run_id": "codex-hourly-20261124T232412Z",
+      "started_utc": "2026-11-24T23:24:12.811Z",
+      "finished_utc": "2026-11-24T23:25:21.715Z",
+      "result": "pending",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [
+        1218
+      ],
+      "checkpoint": "2026-11-24T21:14:37Z",
+      "slack_status": "not_applicable"
     }
   ],
-  "last_run_note": "Checkpoint unchanged; no merge or upstream comment. Slack delivered.",
+  "last_run_note": "No new docs PR or Slack summary. Kept the checkpoint and pending follow-up.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -4444,6 +4462,20 @@
       "checkpoint": "2026-11-24T21:14:37Z",
       "slack_status": "delivered",
       "slack_http_status": 200
+    },
+    {
+      "run_id": "codex-hourly-20261124T232412Z",
+      "started_utc": "2026-11-24T23:24:12.811Z",
+      "finished_utc": "2026-11-24T23:25:21.715Z",
+      "result": "pending",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [
+        1218
+      ],
+      "checkpoint": "2026-11-24T21:14:37Z",
+      "slack_status": "not_applicable"
     }
   ],
   "run_history": [
@@ -5708,25 +5740,34 @@
       "checkpoint": "2026-11-24T21:14:37Z",
       "slack_status": "delivered",
       "slack_http_status": 200
+    },
+    {
+      "run_id": "codex-hourly-20261124T232412Z",
+      "started_utc": "2026-11-24T23:24:12.811Z",
+      "finished_utc": "2026-11-24T23:25:21.715Z",
+      "result": "pending",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [
+        1218
+      ],
+      "checkpoint": "2026-11-24T21:14:37Z",
+      "slack_status": "not_applicable"
     }
   ],
   "last_run": {
-    "run_id": "codex-hourly-20261124T222041Z",
-    "started_utc": "2026-11-24T22:20:41.184Z",
-    "finished_utc": "2026-11-24T22:24:50.701Z",
+    "run_id": "codex-hourly-20261124T232412Z",
+    "started_utc": "2026-11-24T23:24:12.811Z",
+    "finished_utc": "2026-11-24T23:25:21.715Z",
     "result": "pending",
-    "new_prs": [
-      19894
-    ],
-    "docs_prs_created": [
-      1218
-    ],
+    "new_prs": [],
+    "docs_prs_created": [],
     "docs_prs_merged": [],
     "pending_docs_prs": [
       1218
     ],
     "checkpoint": "2026-11-24T21:14:37Z",
-    "slack_status": "delivered",
-    "slack_http_status": 200
+    "slack_status": "not_applicable"
   }
 }
