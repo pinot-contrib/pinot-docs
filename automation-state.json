@@ -2153,22 +2153,18 @@
   "last_run_result": "complete",
   "last_run_id": "codex-hourly-20261124T211826Z",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-24T21:19:35.084Z",
-    "released_at": "2026-11-24T21:21:32.416Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261124T211826Z"
+    "holder": "codex-hourly-20261124T222041Z",
+    "status": "held",
+    "acquired_at": "2026-11-24T22:21:52.762Z",
+    "lease_expires_at": "2026-11-24T22:41:52.762Z"
   },
   "last_run_summary": "One master merge reconciled; one docs PR created and merged.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-24T21:19:35.084Z",
-    "released_at": "2026-11-24T21:21:32.416Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261124T211826Z"
+    "holder": "codex-hourly-20261124T222041Z",
+    "status": "held",
+    "acquired_at": "2026-11-24T22:21:52.762Z",
+    "lease_expires_at": "2026-11-24T22:41:52.762Z"
   },
   "recent_runs": [
     {
