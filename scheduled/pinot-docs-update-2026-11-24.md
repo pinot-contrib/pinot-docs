@@ -107,3 +107,9 @@ Checkpoint advanced to `2026-11-24T19:19:10Z`. No pending follow-ups, new docs P
 - Opened and squash-merged [docs #1217](https://github.com/pinot-contrib/pinot-docs/pull/1217) into `latest` and verified the [upstream comment](https://github.com/apache/pinot/pull/20369#issuecomment-7144807651).
 - `git diff --check` and the docs validator passed (no broken file links; 10 existing anchor warnings). All four hosted checks passed on the merged PR head.
 - Checkpoint advanced to `2026-11-24T21:14:37Z`. No pending follow-ups. Slack summary delivered (HTTP 200).
+
+## Hourly check — 2026-11-24T22:20:41.184Z
+
+- Reconciled one post-checkpoint `master` merge: [Apache Pinot #19894](https://github.com/apache/pinot/pull/19894). Opened [docs #1218](https://github.com/pinot-contrib/pinot-docs/pull/1218) with Lucene 10.6 upgrade, rollback, and regex guidance.
+- `git diff --check` and the docs validator passed (no broken file links; 10 existing anchor warnings). Docs PR is open. The exact-head Validate changed docs check reports a success conclusion but remains IN_PROGRESS; the other three hosted checks passed. Do not merge until the pending status clears. No upstream comment was posted.
+- Checkpoint unchanged at `2026-11-24T21:14:37Z`; #19894 is pending. Slack summary for the new PR delivered (HTTP 200).

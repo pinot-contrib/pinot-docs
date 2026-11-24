@@ -440,3 +440,4 @@
 - 2026-11-24T19:14:26.213Z — No post-checkpoint master merges or pending docs follow-ups. Kept checkpoint `2026-11-24T13:48:06Z`; no Slack summary.
 - 2026-11-24T20:14:56.651Z — Reconciled #20370; existing ZooKeeper Basic Auth guidance covers the broker authentication requirement. Checkpoint `2026-11-24T19:19:10Z`; no pending follow-ups or Slack summary.
 - 2026-11-24T21:18:26.885Z — Reconciled #20369 and merged docs #1217 covering time-series table permissions and row filters. Verified the upstream comment. Slack: delivered. Checkpoint `2026-11-24T21:14:37Z`; no pending follow-ups.
+- 2026-11-24T22:20:41.184Z — Opened docs #1218 for #19894; the exact-head docs validation status remains in progress. Kept checkpoint `2026-11-24T21:14:37Z` and left the follow-up pending. Slack: delivered.
