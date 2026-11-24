@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-24T13:48:06Z",
-  "last_successful_run": "2026-11-24T19:15:43.562Z",
+  "last_processed_merged_at": "2026-11-24T19:19:10Z",
+  "last_successful_run": "2026-11-24T20:16:23.307Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -2121,6 +2121,13 @@
       "upstream_url": "https://github.com/apache/pinot/pull/20364",
       "note": "Minion test race fixes only; no production behavior or configuration changed."
     },
+    "20370": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-24T19:19:10Z",
+      "upstream_merge_sha": "3c43f6853cbf2a42d1417766962f08a284f21bc7",
+      "upstream_url": "https://github.com/apache/pinot/pull/20370",
+      "note": "Existing ZooKeeper Basic Auth docs already state that broker API requests require credentials when enabled. The change enforces that documented requirement without adding a setting or changing setup."
+    },
     "20375": {
       "decision": "not_relevant",
       "merged_at": "2026-11-24T12:59:56Z",
@@ -2131,20 +2138,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "complete",
-  "last_run_id": "codex-hourly-20261124T191426Z",
+  "last_run_id": "codex-hourly-20261124T201456Z",
   "lock": {
-    "holder": "codex-hourly-20261124T201456Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-24T20:15:57.185Z",
-    "lease_expires_at": "2026-11-24T20:35:57.185Z"
+    "released_at": "2026-11-24T20:16:23.307Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261124T201456Z"
   },
-  "last_run_summary": "No post-checkpoint master merges or pending docs follow-ups.",
+  "last_run_summary": "One master merge reconciled; existing broker authentication documentation covers it.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-hourly-20261124T201456Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-24T20:15:57.185Z",
-    "lease_expires_at": "2026-11-24T20:35:57.185Z"
+    "released_at": "2026-11-24T20:16:23.307Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261124T201456Z"
   },
   "recent_runs": [
     {
@@ -3128,9 +3139,22 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-24T13:48:06Z"
+    },
+    {
+      "run_id": "codex-hourly-20261124T201456Z",
+      "started_utc": "2026-11-24T20:14:56.651Z",
+      "finished_utc": "2026-11-24T20:16:23.307Z",
+      "result": "complete",
+      "new_prs": [
+        20370
+      ],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-24T19:19:10Z"
     }
   ],
-  "last_run_note": "Kept the checkpoint and did not send Slack.",
+  "last_run_note": "Checkpoint advanced through upstream #20370; no docs PR or Slack summary.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -4307,6 +4331,19 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-24T13:48:06Z"
+    },
+    {
+      "run_id": "codex-hourly-20261124T201456Z",
+      "started_utc": "2026-11-24T20:14:56.651Z",
+      "finished_utc": "2026-11-24T20:16:23.307Z",
+      "result": "complete",
+      "new_prs": [
+        20370
+      ],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-24T19:19:10Z"
     }
   ],
   "run_history": [
@@ -5520,17 +5557,32 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-24T13:48:06Z"
+    },
+    {
+      "run_id": "codex-hourly-20261124T201456Z",
+      "started_utc": "2026-11-24T20:14:56.651Z",
+      "finished_utc": "2026-11-24T20:16:23.307Z",
+      "result": "complete",
+      "new_prs": [
+        20370
+      ],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-24T19:19:10Z"
     }
   ],
   "last_run": {
-    "run_id": "codex-hourly-20261124T191426Z",
-    "started_utc": "2026-11-24T19:14:26.213Z",
-    "finished_utc": "2026-11-24T19:15:43.562Z",
+    "run_id": "codex-hourly-20261124T201456Z",
+    "started_utc": "2026-11-24T20:14:56.651Z",
+    "finished_utc": "2026-11-24T20:16:23.307Z",
     "result": "complete",
-    "new_prs": [],
+    "new_prs": [
+      20370
+    ],
     "docs_prs_created": [],
     "docs_prs_merged": [],
     "pending_docs_prs": [],
-    "checkpoint": "2026-11-24T13:48:06Z"
+    "checkpoint": "2026-11-24T19:19:10Z"
   }
 }

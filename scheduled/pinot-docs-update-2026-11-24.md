@@ -94,3 +94,9 @@ No merges to `master` after #20344, per GitHub's complete merged-PR search and t
 ## Hourly check — 2026-11-24T19:14:26.213Z
 
 No new `master` merges after #20344; the complete GitHub search and first-parent history agree. Checkpoint unchanged at `2026-11-24T13:48:06Z`. No pending follow-ups, new docs PRs, or Slack summary.
+
+## Hourly check — 2026-11-24T20:14:56.651Z
+
+Reconciled one post-checkpoint `master` merge: [Apache Pinot #20370](https://github.com/apache/pinot/pull/20370). No docs change: Existing ZooKeeper Basic Auth docs already state that broker API requests require credentials when enabled. The change enforces that documented requirement without adding a setting or changing setup.
+
+Checkpoint advanced to `2026-11-24T19:19:10Z`. No pending follow-ups, new docs PRs, or Slack summary.
