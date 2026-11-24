@@ -1919,6 +1919,16 @@
       "upstream_url": "https://github.com/apache/pinot/pull/20312",
       "note": "Document the prefixed minion dataDir setting (apache/pinot#20312)"
     },
+    "20314": {
+      "decision": "pending",
+      "merged_at": "2026-11-24T09:35:46Z",
+      "upstream_merge_sha": "7d140168189272c501814998fdb42a55f5aac96a",
+      "upstream_url": "https://github.com/apache/pinot/pull/20314",
+      "docs_pr": 1215,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1215",
+      "docs_head_sha": "7d3f1f4288ddaacb21b92dbe0d93dcddea982216",
+      "note": "UNNEST over an aggregate result; awaiting hosted checks and merge."
+    },
     "20315": {
       "decision": "not_relevant",
       "reason": "Dependency update only; no documented user-facing change.",
