@@ -647,6 +647,13 @@
       "processed_by_run": "run-20261111T050122Z-opus48-cloud",
       "processed_at": "2026-11-11T05:08:01Z"
     },
+    "20109": {
+      "decision": "skipped",
+      "merged_at": "2026-11-24T00:46:39Z",
+      "upstream_merge_sha": "ed05b3875971a63ffad9fc1c0f738f152809383b",
+      "upstream_url": "https://github.com/apache/pinot/pull/20109",
+      "note": "Test-only cluster fixture and suite changes."
+    },
     "20110": {
       "decision": "not_relevant",
       "reason": "Dependabot bump of transitive npm dependency follow-redirects 1.16.1->1.16.2 in pinot-controller/src/main/resources/package-lock.json (controller web UI). Lock-file only (3+/3-, 1 file). No user-facing behavior, config, API, or documented default changes.",
@@ -1950,6 +1957,13 @@
       "upstream_url": "https://github.com/apache/pinot/pull/20325",
       "docs_pr": null
     },
+    "20331": {
+      "decision": "skipped",
+      "merged_at": "2026-11-24T00:21:20Z",
+      "upstream_merge_sha": "4bd680a4da26a63efd2c058bb89cd768db535312",
+      "upstream_url": "https://github.com/apache/pinot/pull/20331",
+      "note": "Restores existing null semantics for v1 range-index filters; no contract or configuration change."
+    },
     "20336": {
       "decision": "docs_created",
       "docs_pr": 1202,
@@ -1969,6 +1983,16 @@
       "merged_at": "2026-11-21T10:35:05Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20337",
       "note": "Boolean rendering in whole OPEN_STRUCT documents, with older-segment caveat."
+    },
+    "20338": {
+      "decision": "pending",
+      "merged_at": "2026-11-24T00:31:46Z",
+      "upstream_merge_sha": "465b1320bf843cdb9be9c7bbb6af23cd0d111edb",
+      "upstream_url": "https://github.com/apache/pinot/pull/20338",
+      "note": "Awaiting hosted checks and merge for multi-stage BOOLEAN bitwise operands.",
+      "docs_pr": 1214,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1214",
+      "docs_head_sha": "8486983cf610067c8aa4c67e371fa06175cbb6e1"
     },
     "20346": {
       "decision": "skipped",
@@ -2025,6 +2049,13 @@
       "upstream_url": "https://github.com/apache/pinot/pull/20354",
       "upstream_merge_sha": "423dd618efb1362c99d4fc8963129d70ab84ef8e",
       "note": "Maven Wrapper patch update only."
+    },
+    "20355": {
+      "decision": "skipped",
+      "merged_at": "2026-11-24T00:29:35Z",
+      "upstream_merge_sha": "712f506aca0de3a8bf511ff1b4ba7918ecbefc33",
+      "upstream_url": "https://github.com/apache/pinot/pull/20355",
+      "note": "POM-only error_prone_annotations dependency bump."
     },
     "20356": {
       "decision": "skipped",
