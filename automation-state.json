@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-24T13:48:06Z",
-  "last_successful_run": "2026-11-24T15:11:23.514Z",
+  "last_successful_run": "2026-11-24T16:08:51.921Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -2131,20 +2131,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "complete",
-  "last_run_id": "codex-hourly-20261124T151023Z",
+  "last_run_id": "codex-hourly-20261124T160753Z",
   "lock": {
-    "holder": "codex-hourly-20261124T160753Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-24T16:08:18.771Z",
-    "lease_expires_at": "2026-11-24T16:28:18.771Z"
+    "released_at": "2026-11-24T16:08:51.921Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261124T160753Z"
   },
   "last_run_summary": "No post-checkpoint master merges or pending docs follow-ups.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-hourly-20261124T160753Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-24T16:08:18.771Z",
-    "lease_expires_at": "2026-11-24T16:28:18.771Z"
+    "released_at": "2026-11-24T16:08:51.921Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261124T160753Z"
   },
   "recent_runs": [
     {
@@ -3078,6 +3082,17 @@
       "run_id": "codex-hourly-20261124T151023Z",
       "started_utc": "2026-11-24T15:10:23.708Z",
       "finished_utc": "2026-11-24T15:11:23.514Z",
+      "result": "complete",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-24T13:48:06Z"
+    },
+    {
+      "run_id": "codex-hourly-20261124T160753Z",
+      "started_utc": "2026-11-24T16:07:53.305Z",
+      "finished_utc": "2026-11-24T16:08:51.921Z",
       "result": "complete",
       "new_prs": [],
       "docs_prs_created": [],
@@ -4213,6 +4228,17 @@
       "run_id": "codex-hourly-20261124T151023Z",
       "started_utc": "2026-11-24T15:10:23.708Z",
       "finished_utc": "2026-11-24T15:11:23.514Z",
+      "result": "complete",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-24T13:48:06Z"
+    },
+    {
+      "run_id": "codex-hourly-20261124T160753Z",
+      "started_utc": "2026-11-24T16:07:53.305Z",
+      "finished_utc": "2026-11-24T16:08:51.921Z",
       "result": "complete",
       "new_prs": [],
       "docs_prs_created": [],
@@ -5388,12 +5414,23 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-24T13:48:06Z"
+    },
+    {
+      "run_id": "codex-hourly-20261124T160753Z",
+      "started_utc": "2026-11-24T16:07:53.305Z",
+      "finished_utc": "2026-11-24T16:08:51.921Z",
+      "result": "complete",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-24T13:48:06Z"
     }
   ],
   "last_run": {
-    "run_id": "codex-hourly-20261124T151023Z",
-    "started_utc": "2026-11-24T15:10:23.708Z",
-    "finished_utc": "2026-11-24T15:11:23.514Z",
+    "run_id": "codex-hourly-20261124T160753Z",
+    "started_utc": "2026-11-24T16:07:53.305Z",
+    "finished_utc": "2026-11-24T16:08:51.921Z",
     "result": "complete",
     "new_prs": [],
     "docs_prs_created": [],
