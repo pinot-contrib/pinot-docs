@@ -2038,22 +2038,18 @@
   "last_run_result": "complete",
   "last_run_id": "codex-hourly-20261123T231738Z",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-23T23:18:31.745Z",
-    "released_at": "2026-11-23T23:20:48.533Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261123T231738Z"
+    "holder": "codex-hourly-20261124T001709Z",
+    "status": "held",
+    "acquired_at": "2026-11-24T00:17:56.070Z",
+    "lease_expires_at": "2026-11-24T00:32:56.070Z"
   },
   "last_run_summary": "Two post-checkpoint master merges reconciled; one docs follow-up merged and linked upstream and one dependency bump skipped.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-23T23:18:31.745Z",
-    "released_at": "2026-11-23T23:20:48.533Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261123T231738Z"
+    "holder": "codex-hourly-20261124T001709Z",
+    "status": "held",
+    "acquired_at": "2026-11-24T00:17:56.070Z",
+    "lease_expires_at": "2026-11-24T00:32:56.070Z"
   },
   "recent_runs": [
     {
