@@ -100,3 +100,10 @@ No new `master` merges after #20344; the complete GitHub search and first-parent
 Reconciled one post-checkpoint `master` merge: [Apache Pinot #20370](https://github.com/apache/pinot/pull/20370). No docs change: Existing ZooKeeper Basic Auth docs already state that broker API requests require credentials when enabled. The change enforces that documented requirement without adding a setting or changing setup.
 
 Checkpoint advanced to `2026-11-24T19:19:10Z`. No pending follow-ups, new docs PRs, or Slack summary.
+
+## Hourly check — 2026-11-24T21:18:26.885Z
+
+- Reconciled one post-checkpoint `master` merge: [Apache Pinot #20369](https://github.com/apache/pinot/pull/20369). Clarify table checks for time-series queries and explain plans, and explain why Pinot denies requests when applicable row filters cannot be enforced.
+- Opened and squash-merged [docs #1217](https://github.com/pinot-contrib/pinot-docs/pull/1217) into `latest` and verified the [upstream comment](https://github.com/apache/pinot/pull/20369#issuecomment-7144807651).
+- `git diff --check` and the docs validator passed (no broken file links; 10 existing anchor warnings). All four hosted checks passed on the merged PR head.
+- Checkpoint advanced to `2026-11-24T21:14:37Z`. No pending follow-ups. Slack summary delivered (HTTP 200).
