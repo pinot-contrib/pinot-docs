@@ -2121,6 +2121,16 @@
       "upstream_url": "https://github.com/apache/pinot/pull/20364",
       "note": "Minion test race fixes only; no production behavior or configuration changed."
     },
+    "20369": {
+      "decision": "pending",
+      "merged_at": "2026-11-24T21:14:37Z",
+      "upstream_merge_sha": "cba500f6ee5281d2c6b081c79a3f714ab7b617a4",
+      "upstream_url": "https://github.com/apache/pinot/pull/20369",
+      "docs_pr": 1217,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1217",
+      "docs_head_sha": "b6ecc8044c97822759411d21c23e4ae7544c4797",
+      "note": "Document time-series table permissions and row-filter behavior; awaiting hosted checks and merge."
+    },
     "20370": {
       "decision": "not_relevant",
       "merged_at": "2026-11-24T19:19:10Z",
