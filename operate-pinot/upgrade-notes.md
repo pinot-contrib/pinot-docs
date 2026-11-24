@@ -40,6 +40,16 @@ Table-config getters now record the release in which each property was deprecate
 
 *Source: [PR #18411](https://github.com/apache/pinot/pull/18411)*
 
+### Lucene 10.6 upgrade
+
+Pinot now uses Lucene 10.6.0. It can still read existing Lucene 8 text indexes and Lucene 9 text and HNSW vector indexes. Newly built text and HNSW indexes use the Lucene 10 format, which Pinot 1.5.x and earlier cannot read.
+
+Upgrade to Pinot 1.6.0 first, and retain the original forward indexes. Pinot 1.6.0 is the earliest supported rollback target: it [rebuilds newer-format indexes during segment loading](#lucene-index-recovery-on-rollback) when those forward indexes are available. Before rolling back to a release that does not support dictionary-based text indexes, disable `buildOnDictionary` and rebuild those text indexes.
+
+Review saved `TEXT_MATCH` queries that use the regex complement operator (`~`), which Lucene 10 no longer supports in `TEXT_MATCH`. FST and IFST `REGEXP_LIKE` still support it. Pinot rejects regex repetitions that exceed its automaton construction budget.
+
+*Source: [PR #19894](https://github.com/apache/pinot/pull/19894)*
+
 ### Lucene index recovery on rollback
 
 Normal segment preprocessing now automatically rebuilds unreadable newer-format Lucene indexes from retained original forward-index values using the running version's writer and table configuration. This covers single-column text, multi-column text, and directory or packed HNSW indexes; compatible indexes are reused. No recovery flag is required, but existing preprocessing opt-outs still apply.
