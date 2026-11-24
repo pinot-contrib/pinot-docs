@@ -5,13 +5,15 @@ description: >-
 
 # Bitwise Functions
 
-Bitwise scalar functions perform bitwise operations on INT and LONG integer types.
+Bitwise scalar functions operate on `INT` and `LONG`. In the multi-stage query engine, they also accept `BOOLEAN` wherever an integer operand is accepted below, including for shift counts and bit positions. Pinot uses `0` for `FALSE` and `1` for `TRUE`. The result is numeric, not Boolean.
 
 ## Type Behavior
 
-- **INT inputs**: When all arguments are INT, the result is INT
-- **Mixed or LONG inputs**: When any argument is LONG, the result is LONG
-- **bitExtract**: Always returns INT, regardless of input types
+- `bitAnd`, `bitOr`, and `bitXor` return `LONG` if either operand is `LONG`, otherwise `INT`.
+- `bitNot` and the shift functions return `LONG` if the value being inverted or shifted is `LONG`, otherwise `INT`.
+- `bitExtract` returns `INT`; `bitMask` returns `LONG`.
+
+For example, in the multi-stage engine, `bitAnd(TRUE, 3)` returns `1`, `bitNot(TRUE)` returns `-2`, and `bitShiftLeft(TRUE, TRUE)` returns `2`. With null handling enabled, a null operand produces a null result.
 
 ## bitAnd / bit_and
 
@@ -149,9 +151,9 @@ Creates a bitmask with a single bit set at position n.
 
 | Argument | Type | Description |
 | -------- | ---- | ----------- |
-| `n`      | INT | Bit position (0-indexed) |
+| `n`      | INT or LONG | Bit position (0-indexed) |
 
-Returns: **INT**
+Returns: **LONG**
 
 ### Usage Examples
 
