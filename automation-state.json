@@ -154,6 +154,16 @@
       "upstream_url": "https://github.com/apache/pinot/pull/19888",
       "note": "Cluster-wide ingestion Groovy policy and legacy controller fallback."
     },
+    "19894": {
+      "decision": "pending",
+      "merged_at": "2026-11-24T21:21:42Z",
+      "upstream_merge_sha": "3d82b040b138028686b5317aa38045fa96dd75c5",
+      "upstream_url": "https://github.com/apache/pinot/pull/19894",
+      "docs_pr": 1218,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1218",
+      "docs_head_sha": "e4f5c7f36715aa7bee607fd0832becb9d674b5ca",
+      "note": "Document Lucene 10.6 upgrade and rollback requirements; awaiting hosted checks and merge."
+    },
     "19905": {
       "decision": "not_relevant",
       "reason": "Test-coverage-only change. Verified from the merged diff: exactly one file changed, pinot-core/src/test/java/.../AnyValueAggregationFunctionTest.java (+31/-8); no production source, config, API, function, query option, or default. Extends the existing testGroupByReadsValuesOncePerBlock regression to all seven stored types (INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL, STRING, BYTES), asserting one value-array read per block and the first value retained per group. The underlying once-per-block ANY_VALUE production fix was already shipped and documented via #19990 (docs PR #1150); this PR only adds test coverage for it. Not docs-relevant.",
