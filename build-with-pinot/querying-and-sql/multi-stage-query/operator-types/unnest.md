@@ -74,6 +74,21 @@ ORDER BY occurrences DESC
 LIMIT 10
 ```
 
+## Unnesting an aggregate result
+
+With the default multi-stage planner, `UNNEST` can expand an array returned by a grouped subquery. Give the `ARRAY_AGG` result an alias, then reference that alias from the outer query. This example returns one row per collected reading:
+
+```sql
+SELECT grouped.series, u.reading
+FROM (
+  SELECT series, ARRAY_AGG(reading, 'INT') AS readings
+  FROM measurements
+  GROUP BY series
+) AS grouped
+CROSS JOIN UNNEST(grouped.readings) AS u(reading)
+ORDER BY grouped.series, u.reading;
+```
+
 ## Implementation details
 
 ### Blocking nature
