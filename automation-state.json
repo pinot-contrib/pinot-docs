@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-24T00:10:39Z",
-  "last_successful_run": "2026-11-24T00:18:22.382Z",
+  "last_processed_merged_at": "2026-11-24T00:46:39Z",
+  "last_successful_run": "2026-11-24T01:24:15.101Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20291,
-    "upstream_url": "https://github.com/apache/pinot/pull/20291",
-    "docs_pr": 1213,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1213",
+    "upstream_pr": 20338,
+    "upstream_url": "https://github.com/apache/pinot/pull/20338",
+    "docs_pr": 1214,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1214",
     "decision": "docs_created",
-    "note": "Document request entry counting, controller defaults and ceilings, HTTP 400, and how to scope metadata reads."
+    "note": "Document BOOLEAN operands, numeric results, and null propagation for multi-stage bitwise functions."
   },
   "processed_prs": {
     "18486": {
@@ -1985,14 +1985,17 @@
       "note": "Boolean rendering in whole OPEN_STRUCT documents, with older-segment caveat."
     },
     "20338": {
-      "decision": "pending",
+      "decision": "docs_created",
       "merged_at": "2026-11-24T00:31:46Z",
       "upstream_merge_sha": "465b1320bf843cdb9be9c7bbb6af23cd0d111edb",
       "upstream_url": "https://github.com/apache/pinot/pull/20338",
-      "note": "Awaiting hosted checks and merge for multi-stage BOOLEAN bitwise operands.",
+      "note": "Document BOOLEAN operands, numeric results, and null propagation for multi-stage bitwise functions.",
       "docs_pr": 1214,
       "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1214",
-      "docs_head_sha": "8486983cf610067c8aa4c67e371fa06175cbb6e1"
+      "docs_head_sha": "8486983cf610067c8aa4c67e371fa06175cbb6e1",
+      "docs_merged_at": "2026-11-24T01:23:24Z",
+      "docs_merge_sha": "be7c584a4b48c4073f42e1b1e8f596e1cbf8e495",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20338#issuecomment-7119052953"
     },
     "20346": {
       "decision": "skipped",
@@ -2081,20 +2084,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "complete",
-  "last_run_id": "codex-hourly-20261124T001709Z",
+  "last_run_id": "codex-hourly-20261124T012110Z",
   "lock": {
-    "holder": "codex-hourly-20261124T012110Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-24T01:22:08.321Z",
-    "lease_expires_at": "2026-11-24T01:42:08.321Z"
+    "released_at": "2026-11-24T01:24:15.101Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261124T012110Z"
   },
-  "last_run_summary": "Two post-checkpoint master merges reconciled and skipped because neither changed the documented Pinot contract.",
+  "last_run_summary": "Four post-checkpoint master merges reconciled; one docs follow-up merged and linked upstream, three changes skipped.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-hourly-20261124T012110Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-24T01:22:08.321Z",
-    "lease_expires_at": "2026-11-24T01:42:08.321Z"
+    "released_at": "2026-11-24T01:24:15.101Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261124T012110Z"
   },
   "recent_runs": [
     {
@@ -2858,9 +2865,31 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-24T00:10:39Z"
+    },
+    {
+      "run_id": "codex-hourly-20261124T012110Z",
+      "started_utc": "2026-11-24T01:21:10.695Z",
+      "finished_utc": "2026-11-24T01:24:15.101Z",
+      "result": "complete",
+      "new_prs": [
+        20331,
+        20355,
+        20338,
+        20109
+      ],
+      "docs_prs_created": [
+        1214
+      ],
+      "docs_prs_merged": [
+        1214
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-24T00:46:39Z",
+      "slack_status": "delivered",
+      "slack_http_status": 200
     }
   ],
-  "last_run_note": "Checkpoint advanced through upstream #20209; no docs PR or Slack summary.",
+  "last_run_note": "Checkpoint advanced through upstream #20109; Slack delivery delivered.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -3817,6 +3846,28 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-24T00:10:39Z"
+    },
+    {
+      "run_id": "codex-hourly-20261124T012110Z",
+      "started_utc": "2026-11-24T01:21:10.695Z",
+      "finished_utc": "2026-11-24T01:24:15.101Z",
+      "result": "complete",
+      "new_prs": [
+        20331,
+        20355,
+        20338,
+        20109
+      ],
+      "docs_prs_created": [
+        1214
+      ],
+      "docs_prs_merged": [
+        1214
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-24T00:46:39Z",
+      "slack_status": "delivered",
+      "slack_http_status": 200
     }
   ],
   "run_history": [
@@ -4810,20 +4861,50 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-24T00:10:39Z"
+    },
+    {
+      "run_id": "codex-hourly-20261124T012110Z",
+      "started_utc": "2026-11-24T01:21:10.695Z",
+      "finished_utc": "2026-11-24T01:24:15.101Z",
+      "result": "complete",
+      "new_prs": [
+        20331,
+        20355,
+        20338,
+        20109
+      ],
+      "docs_prs_created": [
+        1214
+      ],
+      "docs_prs_merged": [
+        1214
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-24T00:46:39Z",
+      "slack_status": "delivered",
+      "slack_http_status": 200
     }
   ],
   "last_run": {
-    "run_id": "codex-hourly-20261124T001709Z",
-    "started_utc": "2026-11-24T00:17:09.857Z",
-    "finished_utc": "2026-11-24T00:18:22.382Z",
+    "run_id": "codex-hourly-20261124T012110Z",
+    "started_utc": "2026-11-24T01:21:10.695Z",
+    "finished_utc": "2026-11-24T01:24:15.101Z",
     "result": "complete",
     "new_prs": [
-      19915,
-      20209
+      20331,
+      20355,
+      20338,
+      20109
     ],
-    "docs_prs_created": [],
-    "docs_prs_merged": [],
+    "docs_prs_created": [
+      1214
+    ],
+    "docs_prs_merged": [
+      1214
+    ],
     "pending_docs_prs": [],
-    "checkpoint": "2026-11-24T00:10:39Z"
+    "checkpoint": "2026-11-24T00:46:39Z",
+    "slack_status": "delivered",
+    "slack_http_status": 200
   }
 }
