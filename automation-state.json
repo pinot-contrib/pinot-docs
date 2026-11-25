@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-25T12:30:29Z",
-  "last_successful_run": "2026-11-25T13:19:09.804Z",
+  "last_successful_run": "2026-11-25T14:20:31.502Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -2227,20 +2227,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "complete",
-  "last_run_id": "codex-hourly-20261125T131800Z",
+  "last_run_id": "codex-hourly-20261125T141932Z",
   "lock": {
-    "holder": "codex-hourly-20261125T141932Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-25T14:20:10.016Z",
-    "lease_expires_at": "2026-11-25T14:40:10.016Z"
+    "released_at": "2026-11-25T14:20:31.502Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261125T141932Z"
   },
-  "last_run_summary": "One master merge reconciled; dependency-only jnr-posix patch bump.",
+  "last_run_summary": "No post-checkpoint master merges or pending docs follow-ups.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-hourly-20261125T141932Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-25T14:20:10.016Z",
-    "lease_expires_at": "2026-11-25T14:40:10.016Z"
+    "released_at": "2026-11-25T14:20:31.502Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261125T141932Z"
   },
   "recent_runs": [
     {
@@ -3482,9 +3486,21 @@
       "pending_docs_prs": [],
       "checkpoint": "2026-11-25T12:30:29Z",
       "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261125T141932Z",
+      "started_utc": "2026-11-25T14:19:32.317Z",
+      "finished_utc": "2026-11-25T14:20:31.502Z",
+      "result": "complete",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-25T12:30:29Z",
+      "slack_status": "not_applicable"
     }
   ],
-  "last_run_note": "Checkpoint advanced through upstream #20387; no docs PR or Slack summary.",
+  "last_run_note": "Kept the checkpoint; no new docs PR or Slack summary.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -4914,6 +4930,18 @@
       "new_prs": [
         20387
       ],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-25T12:30:29Z",
+      "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261125T141932Z",
+      "started_utc": "2026-11-25T14:19:32.317Z",
+      "finished_utc": "2026-11-25T14:20:31.502Z",
+      "result": "complete",
+      "new_prs": [],
       "docs_prs_created": [],
       "docs_prs_merged": [],
       "pending_docs_prs": [],
@@ -6390,16 +6418,26 @@
       "pending_docs_prs": [],
       "checkpoint": "2026-11-25T12:30:29Z",
       "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261125T141932Z",
+      "started_utc": "2026-11-25T14:19:32.317Z",
+      "finished_utc": "2026-11-25T14:20:31.502Z",
+      "result": "complete",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-25T12:30:29Z",
+      "slack_status": "not_applicable"
     }
   ],
   "last_run": {
-    "run_id": "codex-hourly-20261125T131800Z",
-    "started_utc": "2026-11-25T13:18:00.734Z",
-    "finished_utc": "2026-11-25T13:19:09.804Z",
+    "run_id": "codex-hourly-20261125T141932Z",
+    "started_utc": "2026-11-25T14:19:32.317Z",
+    "finished_utc": "2026-11-25T14:20:31.502Z",
     "result": "complete",
-    "new_prs": [
-      20387
-    ],
+    "new_prs": [],
     "docs_prs_created": [],
     "docs_prs_merged": [],
     "pending_docs_prs": [],
