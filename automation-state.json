@@ -2168,22 +2168,18 @@
   "last_run_result": "pending",
   "last_run_id": "codex-hourly-20261124T232412Z",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-24T23:24:56.094Z",
-    "released_at": "2026-11-24T23:25:21.715Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261124T232412Z"
+    "holder": "codex-hourly-20261125T001912Z",
+    "status": "held",
+    "acquired_at": "2026-11-25T00:20:06.221Z",
+    "lease_expires_at": "2026-11-25T00:40:06.221Z"
   },
   "last_run_summary": "Existing docs #1218 remains open; exact-head validation still shows in progress.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-24T23:24:56.094Z",
-    "released_at": "2026-11-24T23:25:21.715Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261124T232412Z"
+    "holder": "codex-hourly-20261125T001912Z",
+    "status": "held",
+    "acquired_at": "2026-11-25T00:20:06.221Z",
+    "lease_expires_at": "2026-11-25T00:40:06.221Z"
   },
   "recent_runs": [
     {
