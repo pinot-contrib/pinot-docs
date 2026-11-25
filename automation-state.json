@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-24T21:14:37Z",
-  "last_successful_run": "2026-11-24T21:21:32.416Z",
+  "last_processed_merged_at": "2026-11-25T00:58:24Z",
+  "last_successful_run": "2026-11-25T02:31:38.337Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 19589,
-    "upstream_url": "https://github.com/apache/pinot/pull/19589",
-    "docs_pr": 1219,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1219",
+    "upstream_pr": 19894,
+    "upstream_url": "https://github.com/apache/pinot/pull/19894",
+    "docs_pr": 1218,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1218",
     "decision": "docs_created",
-    "note": "Document STREAMING AND restriction pushdown eligibility and fallback, row-level security behavior, and rolling-upgrade compatibility."
+    "note": "Document Lucene 10.6 upgrade, rollback prerequisites, and regex compatibility. Reconciled an existing merge on latest and verified the upstream link."
   },
   "processed_prs": {
     "18486": {
@@ -170,19 +170,22 @@
       "note": "Cluster-wide ingestion Groovy policy and legacy controller fallback."
     },
     "19894": {
-      "decision": "pending",
+      "decision": "docs_created",
       "merged_at": "2026-11-24T21:21:42Z",
       "upstream_merge_sha": "3d82b040b138028686b5317aa38045fa96dd75c5",
       "upstream_url": "https://github.com/apache/pinot/pull/19894",
       "docs_pr": 1218,
       "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1218",
       "docs_head_sha": "e4f5c7f36715aa7bee607fd0832becb9d674b5ca",
-      "note": "Docs PR is open. The exact-head Validate changed docs check reports a success conclusion but remains IN_PROGRESS; the other three hosted checks passed. Do not merge until the pending status clears.",
+      "note": "Document Lucene 10.6 upgrade, rollback prerequisites, and regex compatibility. Reconciled an existing merge on latest and verified the upstream link.",
       "docs_check_url": "https://github.com/pinot-contrib/pinot-docs/actions/runs/45500339611/job/138821623155",
       "docs_check_status": "IN_PROGRESS",
       "docs_check_conclusion": "SUCCESS",
       "creation_run_id": "codex-hourly-20261124T222041Z",
-      "creation_slack_status": "delivered"
+      "creation_slack_status": "delivered",
+      "docs_merged_at": "2026-11-25T01:59:56Z",
+      "docs_merge_sha": "23d6e4e16591460051b37085ac102bd87d1d8d27",
+      "upstream_comment": "https://github.com/apache/pinot/pull/19894#issuecomment-7150822812"
     },
     "19905": {
       "decision": "not_relevant",
@@ -2187,21 +2190,25 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "pending",
-  "last_run_id": "codex-hourly-20261125T011914Z",
+  "last_run_result": "complete",
+  "last_run_id": "codex-hourly-20261125T021815Z",
   "lock": {
-    "holder": "codex-hourly-20261125T021815Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-25T02:30:43.214Z",
-    "lease_expires_at": "2026-11-25T02:50:43.214Z"
+    "released_at": "2026-11-25T02:31:38.337Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261125T021815Z"
   },
-  "last_run_summary": "Merged docs #1219 for upstream #19589; earlier docs #1218 still awaits exact-head hosted validation.",
+  "last_run_summary": "Reconciled existing merge of docs #1218, verified its upstream comment, and cleared the checkpoint gap.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-hourly-20261125T021815Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-25T02:30:43.214Z",
-    "lease_expires_at": "2026-11-25T02:50:43.214Z"
+    "released_at": "2026-11-25T02:31:38.337Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261125T021815Z"
   },
   "recent_runs": [
     {
@@ -3287,9 +3294,21 @@
       "checkpoint": "2026-11-24T21:14:37Z",
       "slack_status": "delivered",
       "slack_http_status": 200
+    },
+    {
+      "run_id": "codex-hourly-20261125T021815Z",
+      "started_utc": "2026-11-25T02:18:15.313Z",
+      "finished_utc": "2026-11-25T02:31:38.337Z",
+      "result": "complete",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-25T00:58:24Z",
+      "slack_status": "not_applicable"
     }
   ],
-  "last_run_note": "Checkpoint unchanged. Verified upstream comment for #19589; Slack delivered.",
+  "last_run_note": "No new docs PRs or Slack summary. Checkpoint advanced through #19589.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -4568,6 +4587,18 @@
       "checkpoint": "2026-11-24T21:14:37Z",
       "slack_status": "delivered",
       "slack_http_status": 200
+    },
+    {
+      "run_id": "codex-hourly-20261125T021815Z",
+      "started_utc": "2026-11-25T02:18:15.313Z",
+      "finished_utc": "2026-11-25T02:31:38.337Z",
+      "result": "complete",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-25T00:58:24Z",
+      "slack_status": "not_applicable"
     }
   ],
   "run_history": [
@@ -5883,27 +5914,30 @@
       "checkpoint": "2026-11-24T21:14:37Z",
       "slack_status": "delivered",
       "slack_http_status": 200
+    },
+    {
+      "run_id": "codex-hourly-20261125T021815Z",
+      "started_utc": "2026-11-25T02:18:15.313Z",
+      "finished_utc": "2026-11-25T02:31:38.337Z",
+      "result": "complete",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-25T00:58:24Z",
+      "slack_status": "not_applicable"
     }
   ],
   "last_run": {
-    "run_id": "codex-hourly-20261125T011914Z",
-    "started_utc": "2026-11-25T01:19:14.519Z",
-    "finished_utc": "2026-11-25T01:22:41.812Z",
-    "result": "pending",
-    "new_prs": [
-      19589
-    ],
-    "docs_prs_created": [
-      1219
-    ],
-    "docs_prs_merged": [
-      1219
-    ],
-    "pending_docs_prs": [
-      1218
-    ],
-    "checkpoint": "2026-11-24T21:14:37Z",
-    "slack_status": "delivered",
-    "slack_http_status": 200
+    "run_id": "codex-hourly-20261125T021815Z",
+    "started_utc": "2026-11-25T02:18:15.313Z",
+    "finished_utc": "2026-11-25T02:31:38.337Z",
+    "result": "complete",
+    "new_prs": [],
+    "docs_prs_created": [],
+    "docs_prs_merged": [],
+    "pending_docs_prs": [],
+    "checkpoint": "2026-11-25T00:58:24Z",
+    "slack_status": "not_applicable"
   }
 }
