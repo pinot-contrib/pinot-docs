@@ -459,3 +459,4 @@
 - 2026-11-25T14:19:32.317Z — No post-checkpoint master merges or pending docs follow-ups. Checkpoint `2026-11-25T12:30:29Z`; no Slack summary.
 - 2026-11-25T15:24:02.617Z — No post-checkpoint master merges or pending docs follow-ups. Checkpoint `2026-11-25T12:30:29Z`; no Slack summary.
 - 2026-11-25T16:26:35.304Z — No post-checkpoint master merges or pending docs follow-ups. Checkpoint `2026-11-25T12:30:29Z`; no Slack summary.
+- 2026-11-25T17:31:36.886Z — Skipped #20359 and merged docs #1221 for #19021. Verified the upstream comment; Slack: delivered. Checkpoint `2026-11-25T16:55:47Z`; no pending follow-ups.

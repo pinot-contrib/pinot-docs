@@ -79,3 +79,9 @@ GitHub's merged-PR inventory and first-parent history agree: no new `master` mer
 ## Hourly check — 2026-11-25T16:26:35.304Z
 
 GitHub's merged-PR inventory and first-parent history agree: no new `master` merges after #20387. The shared checkpoint remains `2026-11-25T12:30:29Z`. No pending follow-ups, new docs PRs, or Slack summary.
+
+## Hourly check — 2026-11-25T17:31:36.886Z
+
+- Skipped [Apache Pinot #20359](https://github.com/apache/pinot/pull/20359). Fixes streamed encoding for some plugin pipeline-breaker operator trees; retains the existing stats contract and legacy folding behavior. No new option or response field.
+- Opened and squash-merged [docs #1221](https://github.com/pinot-contrib/pinot-docs/pull/1221) for [Apache Pinot #19021](https://github.com/apache/pinot/pull/19021). Document the opt-in Java FFM buffer factory, Java 25 requirement, startup settings, and unchanged ByteBuffer and Unsafe defaults. Local validation and all four hosted checks passed; verified the [upstream comment](https://github.com/apache/pinot/pull/19021#issuecomment-7169702172).
+- Advanced the shared checkpoint to `2026-11-25T16:55:47Z` with no pending follow-ups. Slack summary delivered (HTTP 200).
