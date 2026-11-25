@@ -35,3 +35,9 @@ GitHub's complete merged-PR inventory and the first-parent history both show no 
 - Skipped [Apache Pinot #20335](https://github.com/apache/pinot/pull/20335). Removed unused or duplicate Java constants and switched remaining call sites to existing constants; no documented config or operational behavior changed.
 - Opened and squash-merged [docs #1220](https://github.com/pinot-contrib/pinot-docs/pull/1220) for [Apache Pinot #20376](https://github.com/apache/pinot/pull/20376). Correct the range-index guide: BIG_DECIMAL requires a dictionary; RAW forward storage is supported with a standalone dictionary and range index version 2. Local validation and all four hosted checks passed; verified the [upstream comment](https://github.com/apache/pinot/pull/20376#issuecomment-7154665560).
 - Advanced the shared checkpoint to `2026-11-25T05:30:33Z` with no pending follow-ups. Slack summary delivered (HTTP 200).
+
+## Hourly check — 2026-11-25T07:14:55.638Z
+
+Reconciled [Apache Pinot #20362](https://github.com/apache/pinot/pull/20362). No docs change: Internal table shutdown fix: an interrupt no longer abandons queued segment offloads before the existing timeout. No setting, timeout, or operator procedure changed.
+
+Advanced the shared checkpoint to `2026-11-25T06:33:47Z`. No pending follow-ups, new docs PRs, or Slack summary.
