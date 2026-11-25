@@ -56,18 +56,21 @@ The broker can set the default with `pinot.broker.multistage.prefer.select.alias
 
 ## AND restriction pushdown
 
-`andRestrictionPushdownMode` controls pushing an AND filter's candidate document IDs into composite filter children, including OR and NOT filters, to restrict their work. The per-query option overrides the server setting `pinot.server.query.executor.and.restriction.pushdown.mode`.
+`andRestrictionPushdownMode` controls whether an AND filter passes its candidate rows to the remaining filters so they can do less work. The per-query option overrides the server setting `pinot.server.query.executor.and.restriction.pushdown.mode`.
 
-- `NEVER` (default): disables restriction pushdown.
-- `AUTO`: enables it for aggregation and group-by queries with a positive `LIMIT`, excluding DISTINCT queries. Selection queries are excluded, including those with `ORDER BY`, because some segment plans can stop early.
-- `ALWAYS`: enables it regardless of query shape.
+- `NEVER` (default): disables restriction pushdown for queries without row-level security.
+- `AUTO`: materializes the restricted filter result for aggregation and group-by queries with a positive `LIMIT`, excluding `DISTINCT`. It leaves pushdown off for other queries without row-level security.
+- `ALWAYS`: materializes the restricted filter result regardless of query shape. This can add work to queries that would otherwise stop at their limit.
+- `STREAMING`: evaluates eligible filters incrementally for unordered selections with a positive, finite `LIMIT`. Pinot materializes the restricted result if the query or execution path does not support incremental evaluation.
 
 ```sql
 SET andRestrictionPushdownMode = 'AUTO';
 SELECT COUNT(*) FROM events WHERE tenantId = 42 AND (status = 'error' OR message LIKE '%timeout%');
 ```
 
-Pushdown materializes filter results instead of streaming them, so `ALWAYS` can add work to queries that would otherwise stop after satisfying their limit. Evaluate it on your workload; it does not guarantee a speedup.
+When a row-level security filter applies, Pinot always restricts the rows before evaluating the user filter. `NEVER`, `AUTO`, and `STREAMING` can evaluate a single eligible `WHERE` predicate incrementally; other queries materialize the restricted result. None of these modes disables row-level security.
+
+During a rolling upgrade, wait until all servers that can receive the query support `STREAMING` before selecting it. Older servers reject this value.
 
 ## When to reach for options
 
