@@ -2193,22 +2193,18 @@
   "last_run_result": "complete",
   "last_run_id": "codex-hourly-20261125T021815Z",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-25T02:30:43.214Z",
-    "released_at": "2026-11-25T02:31:38.337Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261125T021815Z"
+    "holder": "codex-hourly-20261125T031746Z",
+    "status": "held",
+    "acquired_at": "2026-11-25T03:18:23.827Z",
+    "lease_expires_at": "2026-11-25T03:38:23.827Z"
   },
   "last_run_summary": "Reconciled existing merge of docs #1218, verified its upstream comment, and cleared the checkpoint gap.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-25T02:30:43.214Z",
-    "released_at": "2026-11-25T02:31:38.337Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261125T021815Z"
+    "holder": "codex-hourly-20261125T031746Z",
+    "status": "held",
+    "acquired_at": "2026-11-25T03:18:23.827Z",
+    "lease_expires_at": "2026-11-25T03:38:23.827Z"
   },
   "recent_runs": [
     {
