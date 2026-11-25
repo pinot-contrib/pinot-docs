@@ -88,6 +88,16 @@
       "upstream_url": "https://github.com/apache/pinot/pull/19536",
       "docs_pr": null
     },
+    "19589": {
+      "decision": "pending",
+      "merged_at": "2026-11-25T00:58:24Z",
+      "upstream_merge_sha": "38f00813ef4a6f9afc86f19219101bd9130b14ea",
+      "upstream_url": "https://github.com/apache/pinot/pull/19589",
+      "docs_pr": 1219,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1219",
+      "docs_head_sha": "c56c0e16d30a059af257f31c332337ed8d7dd3cb",
+      "note": "Document STREAMING mode and rolling-upgrade compatibility; awaiting hosted checks and merge."
+    },
     "19775": {
       "decision": "not_relevant",
       "reason": "Masks credentials in logging; no change to stream credential configuration.",
