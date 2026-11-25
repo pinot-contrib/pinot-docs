@@ -2222,22 +2222,18 @@
   "last_run_result": "complete",
   "last_run_id": "codex-hourly-20261125T071455Z",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-25T07:15:59.163Z",
-    "released_at": "2026-11-25T07:16:32.020Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261125T071455Z"
+    "holder": "codex-hourly-20261125T081756Z",
+    "status": "held",
+    "acquired_at": "2026-11-25T08:18:36.228Z",
+    "lease_expires_at": "2026-11-25T08:38:36.228Z"
   },
   "last_run_summary": "One master merge reconciled; internal segment-offload shutdown fix.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-25T07:15:59.163Z",
-    "released_at": "2026-11-25T07:16:32.020Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261125T071455Z"
+    "holder": "codex-hourly-20261125T081756Z",
+    "status": "held",
+    "acquired_at": "2026-11-25T08:18:36.228Z",
+    "lease_expires_at": "2026-11-25T08:38:36.228Z"
   },
   "recent_runs": [
     {
