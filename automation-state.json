@@ -1400,6 +1400,13 @@
       "processed_by_run": "run-20261111T050122Z-opus48-cloud",
       "processed_at": "2026-11-11T05:08:01Z"
     },
+    "20214": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-25T00:05:51Z",
+      "upstream_merge_sha": "8a9266e3726e3034757b72cf55c66621eb35152d",
+      "upstream_url": "https://github.com/apache/pinot/pull/20214",
+      "note": "Internal realtime table shutdown fix: the ingestion-delay tracker cleans up without preventing consumer shutdown. No setup, metrics contract, or documented table-deletion procedure changed."
+    },
     "20216": {
       "upstream_pr": 20216,
       "upstream_url": "https://github.com/apache/pinot/pull/20216",
@@ -2166,20 +2173,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "pending",
-  "last_run_id": "codex-hourly-20261124T232412Z",
+  "last_run_id": "codex-hourly-20261125T001912Z",
   "lock": {
-    "holder": "codex-hourly-20261125T001912Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-25T00:20:06.221Z",
-    "lease_expires_at": "2026-11-25T00:40:06.221Z"
+    "released_at": "2026-11-25T00:20:34.763Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261125T001912Z"
   },
-  "last_run_summary": "Existing docs #1218 remains open; exact-head validation still shows in progress.",
+  "last_run_summary": "Existing docs #1218 remains in progress; skipped #20214 as an internal shutdown fix.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-hourly-20261125T001912Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-25T00:20:06.221Z",
-    "lease_expires_at": "2026-11-25T00:40:06.221Z"
+    "released_at": "2026-11-25T00:20:34.763Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261125T001912Z"
   },
   "recent_runs": [
     {
@@ -3221,6 +3232,22 @@
       "finished_utc": "2026-11-24T23:25:21.715Z",
       "result": "pending",
       "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [
+        1218
+      ],
+      "checkpoint": "2026-11-24T21:14:37Z",
+      "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261125T001912Z",
+      "started_utc": "2026-11-25T00:19:12.996Z",
+      "finished_utc": "2026-11-25T00:20:34.763Z",
+      "result": "pending",
+      "new_prs": [
+        20214
+      ],
       "docs_prs_created": [],
       "docs_prs_merged": [],
       "pending_docs_prs": [
@@ -4465,6 +4492,22 @@
       "finished_utc": "2026-11-24T23:25:21.715Z",
       "result": "pending",
       "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [
+        1218
+      ],
+      "checkpoint": "2026-11-24T21:14:37Z",
+      "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261125T001912Z",
+      "started_utc": "2026-11-25T00:19:12.996Z",
+      "finished_utc": "2026-11-25T00:20:34.763Z",
+      "result": "pending",
+      "new_prs": [
+        20214
+      ],
       "docs_prs_created": [],
       "docs_prs_merged": [],
       "pending_docs_prs": [
@@ -5750,14 +5793,32 @@
       ],
       "checkpoint": "2026-11-24T21:14:37Z",
       "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261125T001912Z",
+      "started_utc": "2026-11-25T00:19:12.996Z",
+      "finished_utc": "2026-11-25T00:20:34.763Z",
+      "result": "pending",
+      "new_prs": [
+        20214
+      ],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [
+        1218
+      ],
+      "checkpoint": "2026-11-24T21:14:37Z",
+      "slack_status": "not_applicable"
     }
   ],
   "last_run": {
-    "run_id": "codex-hourly-20261124T232412Z",
-    "started_utc": "2026-11-24T23:24:12.811Z",
-    "finished_utc": "2026-11-24T23:25:21.715Z",
+    "run_id": "codex-hourly-20261125T001912Z",
+    "started_utc": "2026-11-25T00:19:12.996Z",
+    "finished_utc": "2026-11-25T00:20:34.763Z",
     "result": "pending",
-    "new_prs": [],
+    "new_prs": [
+      20214
+    ],
     "docs_prs_created": [],
     "docs_prs_merged": [],
     "pending_docs_prs": [

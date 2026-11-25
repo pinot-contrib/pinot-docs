@@ -442,3 +442,4 @@
 - 2026-11-24T21:18:26.885Z — Reconciled #20369 and merged docs #1217 covering time-series table permissions and row filters. Verified the upstream comment. Slack: delivered. Checkpoint `2026-11-24T21:14:37Z`; no pending follow-ups.
 - 2026-11-24T22:20:41.184Z — Opened docs #1218 for #19894; the exact-head docs validation status remains in progress. Kept checkpoint `2026-11-24T21:14:37Z` and left the follow-up pending. Slack: delivered.
 - 2026-11-24T23:24:12.811Z — Rechecked the existing docs #1218 for #19894; validation is still in progress. No new docs PR or Slack summary; checkpoint unchanged at `2026-11-24T21:14:37Z`.
+- 2026-11-25T00:19:12.996Z — #1218 remains pending hosted validation. Reconciled and skipped #20214 (internal shutdown fix). Checkpoint stays at `2026-11-24T21:14:37Z`; no new docs PR or Slack summary.
