@@ -41,3 +41,7 @@ GitHub's complete merged-PR inventory and the first-parent history both show no 
 Reconciled [Apache Pinot #20362](https://github.com/apache/pinot/pull/20362). No docs change: Internal table shutdown fix: an interrupt no longer abandons queued segment offloads before the existing timeout. No setting, timeout, or operator procedure changed.
 
 Advanced the shared checkpoint to `2026-11-25T06:33:47Z`. No pending follow-ups, new docs PRs, or Slack summary.
+
+## Hourly check — 2026-11-25T08:17:56.320Z
+
+GitHub's merged-PR inventory and first-parent history agree: no new `master` merges after #20362. The shared checkpoint remains `2026-11-25T06:33:47Z`. No pending follow-ups, new docs PRs, or Slack summary.
