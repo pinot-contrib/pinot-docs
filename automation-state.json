@@ -2024,6 +2024,13 @@
       "upstream_url": "https://github.com/apache/pinot/pull/20334",
       "note": "MV aggregation comments, tests, and internal exception cleanup; SQL behavior and existing rolling-upgrade guidance unchanged."
     },
+    "20335": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-25T05:18:30Z",
+      "upstream_merge_sha": "2160f62f849719c85f5318478da345eeb43d38e1",
+      "upstream_url": "https://github.com/apache/pinot/pull/20335",
+      "note": "Removed unused or duplicate Java constants and switched remaining call sites to existing constants; no documented config or operational behavior changed."
+    },
     "20336": {
       "decision": "docs_created",
       "docs_pr": 1202,
@@ -2187,6 +2194,16 @@
       "upstream_merge_sha": "9d9ec4b1e304bd6b52f538521ea945f55009ec9b",
       "upstream_url": "https://github.com/apache/pinot/pull/20375",
       "note": "Dependency-only AWS SDK BOM patch bump (2.59.5 to 2.59.7); merged diff changes only the Maven version property, with no Pinot documentation change identified."
+    },
+    "20376": {
+      "decision": "pending",
+      "merged_at": "2026-11-25T05:30:33Z",
+      "upstream_merge_sha": "4b27e2223630d15d73ec992525d031a56dd80e9e",
+      "upstream_url": "https://github.com/apache/pinot/pull/20376",
+      "docs_pr": 1220,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1220",
+      "docs_head_sha": "dd33efcfe1642c0cb37c0e3b039ecdb33c06f4b3",
+      "note": "Correct the BIG_DECIMAL range-index dictionary requirement; awaiting hosted checks and merge."
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
