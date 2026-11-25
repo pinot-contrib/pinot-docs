@@ -2193,22 +2193,18 @@
   "last_run_result": "complete",
   "last_run_id": "codex-hourly-20261125T031746Z",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-25T03:18:23.827Z",
-    "released_at": "2026-11-25T03:18:50.793Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261125T031746Z"
+    "holder": "codex-hourly-20261125T041446Z",
+    "status": "held",
+    "acquired_at": "2026-11-25T04:15:23.690Z",
+    "lease_expires_at": "2026-11-25T04:35:23.690Z"
   },
   "last_run_summary": "No post-checkpoint master merges or pending docs follow-ups.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-25T03:18:23.827Z",
-    "released_at": "2026-11-25T03:18:50.793Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261125T031746Z"
+    "holder": "codex-hourly-20261125T041446Z",
+    "status": "held",
+    "acquired_at": "2026-11-25T04:15:23.690Z",
+    "lease_expires_at": "2026-11-25T04:35:23.690Z"
   },
   "recent_runs": [
     {
