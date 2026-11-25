@@ -20,6 +20,20 @@ ConfigurationException: Duplicate key found in /path/to/server.conf at line 10 a
 ```
 {% endhint %}
 
+## Off-heap buffer factory
+
+Pinot can use the Java Foreign Function & Memory (FFM) API for off-heap allocations and file mappings. To opt in, use a server distribution that includes `pinot-foreign-buffers`, run it on Java 25 or later, and set this property in `server.conf` before starting the server:
+
+```properties
+pinot.offheap.buffer.factory=org.apache.pinot.segment.memory.foreign.ForeignPinotBufferFactory
+```
+
+You can also set `PINOT_BUFFER_LIBRARY` to the same class name before starting the process. The server property takes precedence when both are set. If neither is set, the fallback factory remains `UnsafePinotBufferFactory`.
+
+By default, Pinot still uses NIO `ByteBuffer` for buffers up to `Integer.MAX_VALUE` bytes and the selected factory for larger buffers. Set `pinot.offheap.prioritize.bytebuffer=false` to use the selected factory for all buffer sizes.
+
+## Server configuration properties
+
 `server.conf` can have the following properties
 
 | Property                                                                  | Default                                                                                                                              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
