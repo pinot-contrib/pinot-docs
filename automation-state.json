@@ -34,6 +34,16 @@
       "upstream_url": "https://github.com/apache/pinot/pull/18758",
       "note": "Document dictionary-based Lucene text indexing (apache/pinot#18758)"
     },
+    "19021": {
+      "decision": "pending",
+      "merged_at": "2026-11-25T16:55:47Z",
+      "upstream_merge_sha": "df69b9f824f84d7c7f318cade3aedc5ec4e8fbb2",
+      "upstream_url": "https://github.com/apache/pinot/pull/19021",
+      "docs_pr": 1221,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1221",
+      "docs_head_sha": "075b212ed2ae225d2ed9e4cf72dfbee420273b21",
+      "note": "Document the opt-in FFM buffer factory; awaiting hosted checks and merge."
+    },
     "19120": {
       "decision": "docs_created",
       "docs_pr": 1161,
@@ -2160,6 +2170,13 @@
       "upstream_url": "https://github.com/apache/pinot/pull/20358",
       "upstream_merge_sha": "4b3acc77217164641bf841a1f0481af8130cf877",
       "note": "Dependency version bump only; no Pinot documentation contract change."
+    },
+    "20359": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-25T16:53:37Z",
+      "upstream_merge_sha": "7c9dbfec3a22b2ff27450a5429502f504f658002",
+      "upstream_url": "https://github.com/apache/pinot/pull/20359",
+      "note": "Fixes streamed encoding for some plugin pipeline-breaker operator trees; retains the existing stats contract and legacy folding behavior. No new option or response field."
     },
     "20362": {
       "decision": "not_relevant",
