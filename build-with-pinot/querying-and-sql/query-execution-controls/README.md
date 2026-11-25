@@ -10,6 +10,7 @@ The pages here cover the main runtime controls:
 
 - [Query options](query-options.md)
 - [Query quotas](query-quotas.md)
+- [Server response size limits](response-size-limits.md)
 - [Query cancellation](query-cancellation.md)
 - [Cursor pagination](query-using-cursors.md)
 - [Correlation IDs](query-correlation-id.md)
