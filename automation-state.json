@@ -2229,22 +2229,18 @@
   "last_run_result": "complete",
   "last_run_id": "codex-hourly-20261125T131800Z",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-25T13:18:45.744Z",
-    "released_at": "2026-11-25T13:19:09.804Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261125T131800Z"
+    "holder": "codex-hourly-20261125T141932Z",
+    "status": "held",
+    "acquired_at": "2026-11-25T14:20:10.016Z",
+    "lease_expires_at": "2026-11-25T14:40:10.016Z"
   },
   "last_run_summary": "One master merge reconciled; dependency-only jnr-posix patch bump.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-25T13:18:45.744Z",
-    "released_at": "2026-11-25T13:19:09.804Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261125T131800Z"
+    "holder": "codex-hourly-20261125T141932Z",
+    "status": "held",
+    "acquired_at": "2026-11-25T14:20:10.016Z",
+    "lease_expires_at": "2026-11-25T14:40:10.016Z"
   },
   "recent_runs": [
     {
