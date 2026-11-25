@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-25T00:58:24Z",
-  "last_successful_run": "2026-11-25T05:15:29.787Z",
+  "last_processed_merged_at": "2026-11-25T05:30:33Z",
+  "last_successful_run": "2026-11-25T06:19:50.424Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 19894,
-    "upstream_url": "https://github.com/apache/pinot/pull/19894",
-    "docs_pr": 1218,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1218",
+    "upstream_pr": 20376,
+    "upstream_url": "https://github.com/apache/pinot/pull/20376",
+    "docs_pr": 1220,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1220",
     "decision": "docs_created",
-    "note": "Document Lucene 10.6 upgrade, rollback prerequisites, and regex compatibility. Reconciled an existing merge on latest and verified the upstream link."
+    "note": "Correct the range-index guide: BIG_DECIMAL requires a dictionary; RAW forward storage is supported with a standalone dictionary and range index version 2."
   },
   "processed_prs": {
     "18486": {
@@ -2196,32 +2196,41 @@
       "note": "Dependency-only AWS SDK BOM patch bump (2.59.5 to 2.59.7); merged diff changes only the Maven version property, with no Pinot documentation change identified."
     },
     "20376": {
-      "decision": "pending",
+      "decision": "docs_created",
       "merged_at": "2026-11-25T05:30:33Z",
       "upstream_merge_sha": "4b27e2223630d15d73ec992525d031a56dd80e9e",
       "upstream_url": "https://github.com/apache/pinot/pull/20376",
       "docs_pr": 1220,
       "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1220",
       "docs_head_sha": "dd33efcfe1642c0cb37c0e3b039ecdb33c06f4b3",
-      "note": "Correct the BIG_DECIMAL range-index dictionary requirement; awaiting hosted checks and merge."
+      "note": "Correct the range-index guide: BIG_DECIMAL requires a dictionary; RAW forward storage is supported with a standalone dictionary and range index version 2.",
+      "docs_merged_at": "2026-11-25T06:18:50Z",
+      "docs_merge_sha": "d627e3e627c74ad6a3c5814ce46ddde35a41c7c6",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20376#issuecomment-7154665560",
+      "creation_run_id": "codex-hourly-20261125T061618Z",
+      "creation_slack_status": "delivered"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "complete",
-  "last_run_id": "codex-hourly-20261125T051417Z",
+  "last_run_id": "codex-hourly-20261125T061618Z",
   "lock": {
-    "holder": "codex-hourly-20261125T061618Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-25T06:17:37.365Z",
-    "lease_expires_at": "2026-11-25T06:37:37.365Z"
+    "released_at": "2026-11-25T06:19:50.424Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261125T061618Z"
   },
-  "last_run_summary": "No post-checkpoint master merges or pending docs follow-ups.",
+  "last_run_summary": "Reconciled two master merges, skipped one, and merged docs #1220.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-hourly-20261125T061618Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-25T06:17:37.365Z",
-    "lease_expires_at": "2026-11-25T06:37:37.365Z"
+    "released_at": "2026-11-25T06:19:50.424Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261125T061618Z"
   },
   "recent_runs": [
     {
@@ -3355,9 +3364,29 @@
       "pending_docs_prs": [],
       "checkpoint": "2026-11-25T00:58:24Z",
       "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261125T061618Z",
+      "started_utc": "2026-11-25T06:16:18.313Z",
+      "finished_utc": "2026-11-25T06:19:50.424Z",
+      "result": "complete",
+      "new_prs": [
+        20335,
+        20376
+      ],
+      "docs_prs_created": [
+        1220
+      ],
+      "docs_prs_merged": [
+        1220
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-25T05:30:33Z",
+      "slack_status": "delivered",
+      "slack_http_status": 200
     }
   ],
-  "last_run_note": "Kept the checkpoint; no new docs PR or Slack summary.",
+  "last_run_note": "Checkpoint advanced through #20376. Verified upstream comment; Slack delivered.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -4684,6 +4713,26 @@
       "pending_docs_prs": [],
       "checkpoint": "2026-11-25T00:58:24Z",
       "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261125T061618Z",
+      "started_utc": "2026-11-25T06:16:18.313Z",
+      "finished_utc": "2026-11-25T06:19:50.424Z",
+      "result": "complete",
+      "new_prs": [
+        20335,
+        20376
+      ],
+      "docs_prs_created": [
+        1220
+      ],
+      "docs_prs_merged": [
+        1220
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-25T05:30:33Z",
+      "slack_status": "delivered",
+      "slack_http_status": 200
     }
   ],
   "run_history": [
@@ -6047,18 +6096,46 @@
       "pending_docs_prs": [],
       "checkpoint": "2026-11-25T00:58:24Z",
       "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261125T061618Z",
+      "started_utc": "2026-11-25T06:16:18.313Z",
+      "finished_utc": "2026-11-25T06:19:50.424Z",
+      "result": "complete",
+      "new_prs": [
+        20335,
+        20376
+      ],
+      "docs_prs_created": [
+        1220
+      ],
+      "docs_prs_merged": [
+        1220
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-25T05:30:33Z",
+      "slack_status": "delivered",
+      "slack_http_status": 200
     }
   ],
   "last_run": {
-    "run_id": "codex-hourly-20261125T051417Z",
-    "started_utc": "2026-11-25T05:14:17.810Z",
-    "finished_utc": "2026-11-25T05:15:29.787Z",
+    "run_id": "codex-hourly-20261125T061618Z",
+    "started_utc": "2026-11-25T06:16:18.313Z",
+    "finished_utc": "2026-11-25T06:19:50.424Z",
     "result": "complete",
-    "new_prs": [],
-    "docs_prs_created": [],
-    "docs_prs_merged": [],
+    "new_prs": [
+      20335,
+      20376
+    ],
+    "docs_prs_created": [
+      1220
+    ],
+    "docs_prs_merged": [
+      1220
+    ],
     "pending_docs_prs": [],
-    "checkpoint": "2026-11-25T00:58:24Z",
-    "slack_status": "not_applicable"
+    "checkpoint": "2026-11-25T05:30:33Z",
+    "slack_status": "delivered",
+    "slack_http_status": 200
   }
 }
