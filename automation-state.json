@@ -2175,22 +2175,18 @@
   "last_run_result": "pending",
   "last_run_id": "codex-hourly-20261125T001912Z",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-25T00:20:06.221Z",
-    "released_at": "2026-11-25T00:20:34.763Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261125T001912Z"
+    "holder": "codex-hourly-20261125T011914Z",
+    "status": "held",
+    "acquired_at": "2026-11-25T01:20:25.880Z",
+    "lease_expires_at": "2026-11-25T01:40:25.880Z"
   },
   "last_run_summary": "Existing docs #1218 remains in progress; skipped #20214 as an internal shutdown fix.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-25T00:20:06.221Z",
-    "released_at": "2026-11-25T00:20:34.763Z",
-    "lease_expires_at": null,
-    "prev_holder": "codex-hourly-20261125T001912Z"
+    "holder": "codex-hourly-20261125T011914Z",
+    "status": "held",
+    "acquired_at": "2026-11-25T01:20:25.880Z",
+    "lease_expires_at": "2026-11-25T01:40:25.880Z"
   },
   "recent_runs": [
     {
