@@ -23,7 +23,9 @@ A range index is a variant of an [inverted index](inverted-index.md). Instead of
 Range index is supported on:
 
 - Dictionary-enabled columns of any data type except MAP (INT, LONG, FLOAT, DOUBLE, STRING, BIG_DECIMAL, BYTES, BOOLEAN, TIMESTAMP). The dictionary can be paired with either a dictionary-encoded forward index or a RAW forward index with a standalone dictionary.
-- Raw-encoded columns without a dictionary for numeric types (INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL).
+- Raw-encoded columns without a dictionary for `INT`, `LONG`, `FLOAT`, and `DOUBLE`.
+
+Pinot rejects a range index on a `BIG_DECIMAL` column without a dictionary during table-config validation. To keep a RAW forward index on the column, enable a standalone dictionary and use range index version `2` (see the example below).
 
 For [ingestion-aggregated](../ingestion/ingestion-level-aggregations.md) no-dictionary metric columns, a version `2` range index is supported on committed segments. When an older segment lacks min/max metadata for a raw `INT` or `LONG` column, adding the index requires an extra scan of its forward index to recover that range.
 
