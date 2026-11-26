@@ -62,6 +62,8 @@ Congratulations! You've successfully enabled authentication on Apache Pinot. Rea
 
 ### Authentication with Web UI and API
 
+Creating, updating, or deleting ZooKeeper-backed Basic Auth users requires the controller administrator role. An administrator role scoped only to the broker or server does not grant user-management access.
+
 See [Authentication with Web UI and API](basic-auth-access-control.md#authentication-with-web-ui-and-api).
 
 ### Minion and ingestion jobs
