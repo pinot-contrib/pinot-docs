@@ -22,14 +22,19 @@ ZkBasicAuthAccessControl also uses HTTP basic authentication. Enabling ZkBasicAu
 
 Zk Basic auth still supports legacy tokens, which are commonly provided to service accounts, similar to BasicAuthAccessControl.
 
-This is best demonstrated by example of introducing ACLs with a simple admin + user setup. To enable zk authentication on a cluster without interrupting operations, we'll go these steps in sequence:
+Follow these steps to set up ZooKeeper-backed Basic Auth with an initial administrator and separate user accounts.
 
-**1. Default "admin" account when you start controller/broker**
+**1. Configure the initial administrator and start the controller**
 
+```properties
+controller.admin.access.control.factory.class=org.apache.pinot.controller.api.access.ZkBasicAuthAccessControlFactory
+access.control.init.username=admin
+access.control.init.password=<set-a-strong-password>
 ```
-username: admin
-password: admin
-```
+
+On first startup with an empty ZooKeeper user store, the controller requires a nonblank `access.control.init.password` and uses it to create administrator entries for the controller, broker, and server. Set the password through your deployment's secret management, and replace the placeholder before starting. `access.control.init.username` is optional and defaults to `admin`.
+
+These settings only apply to initialization. If the user store already contains users, changing the bootstrap settings does not update those accounts. Use the user console or user-management API to rotate credentials.
 
 **2. Create user in the UI**
 
@@ -39,13 +44,9 @@ The user roles in Pinot have been classified into "user" and "admin." Only the a
 
 the same as BasicAuthControlAccess
 
-**4. Enable ACL enforcement on the controller**
+**4. Verify ACL enforcement on the controller**
 
-```
-controller.admin.access.control.factory.class=org.apache.pinot.controller.api.access.ZkBasicAuthAccessControlFactory
-```
-
-After a controller restart, any access to controller APIs requires authentication information. Whether from internal components, external users, or the Web UI.
+With the factory configured in step 1, internal components, external users, and the Web UI must authenticate to access controller APIs.
 
 The controller applies each user's CRUD permissions to cluster-level endpoints as well as table-specific endpoints. An explicit permission list is restrictive; an empty permission list retains legacy wildcard access. Invalid credentials return HTTP `401`, while an authenticated user without the required permission receives HTTP `403`. Before upgrading controllers, follow the [segment-uploader rolling upgrade requirement](basic-auth-access-control.md#controller-authentication-and-authorization).
 
