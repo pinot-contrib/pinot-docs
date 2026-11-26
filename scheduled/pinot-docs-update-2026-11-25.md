@@ -85,3 +85,9 @@ GitHub's merged-PR inventory and first-parent history agree: no new `master` mer
 - Skipped [Apache Pinot #20359](https://github.com/apache/pinot/pull/20359). Fixes streamed encoding for some plugin pipeline-breaker operator trees; retains the existing stats contract and legacy folding behavior. No new option or response field.
 - Opened and squash-merged [docs #1221](https://github.com/pinot-contrib/pinot-docs/pull/1221) for [Apache Pinot #19021](https://github.com/apache/pinot/pull/19021). Document the opt-in Java FFM buffer factory, Java 25 requirement, startup settings, and unchanged ByteBuffer and Unsafe defaults. Local validation and all four hosted checks passed; verified the [upstream comment](https://github.com/apache/pinot/pull/19021#issuecomment-7169702172).
 - Advanced the shared checkpoint to `2026-11-25T16:55:47Z` with no pending follow-ups. Slack summary delivered (HTTP 200).
+
+## Hourly check — 2026-11-25T18:29:08.254Z
+
+- Opened and squash-merged [docs #1222](https://github.com/pinot-contrib/pinot-docs/pull/1222) for [Apache Pinot #20298](https://github.com/apache/pinot/pull/20298). Clarify when the multi-stage GROUP BY alias option applies and that the controller retry does not change the broker's alias preference. Local validation and all four hosted checks passed; verified the [upstream comment](https://github.com/apache/pinot/pull/20298#issuecomment-7184512860).
+- Skipped [Apache Pinot #20379](https://github.com/apache/pinot/pull/20379). Internal MSE resource-lifecycle fix for completed tasks and mailboxes; no new setting, metric, or operator procedure.
+- Advanced the shared checkpoint to `2026-11-25T21:51:09Z` with no pending follow-ups. Slack summary delivered (HTTP 200).
