@@ -1872,6 +1872,16 @@
       "upstream_url": "https://github.com/apache/pinot/pull/20296",
       "docs_pr": null
     },
+    "20298": {
+      "decision": "pending",
+      "merged_at": "2026-11-25T20:51:13Z",
+      "upstream_merge_sha": "ef3faff13de20d29576b2addcf84140678d95f59",
+      "upstream_url": "https://github.com/apache/pinot/pull/20298",
+      "docs_pr": 1222,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1222",
+      "docs_head_sha": "c7e1c436778a47a8b41dab4197e6eec4217dc8a7",
+      "note": "Clarify multi-stage GROUP BY alias resolution and controller retry; awaiting hosted checks and merge."
+    },
     "20299": {
       "decision": "docs_created",
       "docs_pr": 1196,
@@ -2238,6 +2248,13 @@
       "upstream_comment": "https://github.com/apache/pinot/pull/20376#issuecomment-7154665560",
       "creation_run_id": "codex-hourly-20261125T061618Z",
       "creation_slack_status": "delivered"
+    },
+    "20379": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-25T21:51:09Z",
+      "upstream_merge_sha": "311c056ef5893ac76f83473722a483e4a9454be1",
+      "upstream_url": "https://github.com/apache/pinot/pull/20379",
+      "note": "Internal MSE resource-lifecycle fix for completed tasks and mailboxes; no new setting, metric, or operator procedure."
     },
     "20387": {
       "decision": "not_relevant",
