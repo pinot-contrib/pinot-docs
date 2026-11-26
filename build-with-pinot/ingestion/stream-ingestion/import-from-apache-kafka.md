@@ -738,6 +738,8 @@ Pinot does **not** fall back when the remote fetch succeeds but the descriptor i
 
 Use `ProtoBufCodeGenMessageDecoder` when you have a compiled JAR containing your generated Protobuf Java classes. This decoder uses runtime code generation for improved decoding performance.
 
+The compiled-JAR decoder is disabled unless you set the JVM system property `pinot.protobuf.codegen.decoder.allowed.jar.locations`. For example, start each Pinot server that uses this decoder with `-Dpinot.protobuf.codegen.decoder.allowed.jar.locations=/opt/pinot/protobuf`. The value is a comma-separated list of trusted directories or URI prefixes, and the configured `jarFile` must be inside one of them. Use dedicated locations writable only by trusted operators. If you do not need compiled classes, use the descriptor-based `ProtoBufMessageDecoder` instead.
+
 Required stream config properties:
 
 | Property | Description |
@@ -754,7 +756,7 @@ Example `streamConfigs`:
   "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.protobuf.ProtoBufCodeGenMessageDecoder",
   "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
   "stream.kafka.broker.list": "kafka:9092",
-  "stream.kafka.decoder.prop.jarFile": "/path/to/my-protobuf-classes.jar",
+  "stream.kafka.decoder.prop.jarFile": "/opt/pinot/protobuf/my-protobuf-classes.jar",
   "stream.kafka.decoder.prop.protoClassName": "com.example.proto.MyMessage"
 }
 ```
