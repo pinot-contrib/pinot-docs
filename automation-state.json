@@ -2212,6 +2212,17 @@
       "upstream_url": "https://github.com/apache/pinot/pull/20364",
       "note": "Minion test race fixes only; no production behavior or configuration changed."
     },
+    "20368": {
+      "decision": "pending",
+      "merged_at": "2026-11-26T07:39:49Z",
+      "upstream_merge_sha": "7f1fded61ac16caeb6503cf903727af6fcc023f6",
+      "upstream_url": "https://github.com/apache/pinot/pull/20368",
+      "docs_pr": 1225,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1225",
+      "docs_head_sha": "6c52135762802a8044462249e2bb3f8dac1def18",
+      "note": "Clarify the role required to create, update, or delete ZooKeeper-backed Basic Auth users.",
+      "creation_run_id": "codex-hourly-20261126T083417Z"
+    },
     "20369": {
       "decision": "docs_created",
       "merged_at": "2026-11-24T21:14:37Z",
@@ -2231,6 +2242,39 @@
       "upstream_merge_sha": "3c43f6853cbf2a42d1417766962f08a284f21bc7",
       "upstream_url": "https://github.com/apache/pinot/pull/20370",
       "note": "Existing ZooKeeper Basic Auth docs already state that broker API requests require credentials when enabled. The change enforces that documented requirement without adding a setting or changing setup."
+    },
+    "20371": {
+      "decision": "pending",
+      "merged_at": "2026-11-26T07:38:58Z",
+      "upstream_merge_sha": "c52014a721e778773661f559be16b1cfc201d26d",
+      "upstream_url": "https://github.com/apache/pinot/pull/20371",
+      "docs_pr": 1223,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1223",
+      "docs_head_sha": "ea360e9196b2af227249e1a9968d20ba6f423009",
+      "note": "Explain how plugin authors register custom node classes and deploy their provider.",
+      "creation_run_id": "codex-hourly-20261126T083417Z"
+    },
+    "20372": {
+      "decision": "pending",
+      "merged_at": "2026-11-26T07:39:05Z",
+      "upstream_merge_sha": "3099e0c19bc7e24e42e4f207d6fa47cb9f1586c9",
+      "upstream_url": "https://github.com/apache/pinot/pull/20372",
+      "docs_pr": 1226,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1226",
+      "docs_head_sha": "b941a436db2645806bd05a30d44c4a7aa522ebf9",
+      "note": "Replace outdated setup guidance with the required controller bootstrap configuration for an empty user store.",
+      "creation_run_id": "codex-hourly-20261126T083417Z"
+    },
+    "20373": {
+      "decision": "pending",
+      "merged_at": "2026-11-26T07:39:23Z",
+      "upstream_merge_sha": "2678f0cc5e0bedd2ed0c930cee7f05bb0dd2952d",
+      "upstream_url": "https://github.com/apache/pinot/pull/20373",
+      "docs_pr": 1224,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1224",
+      "docs_head_sha": "d8e57537f6eb3c5cba2b3e2622f71bea7803dae6",
+      "note": "Explain how the broker authorizes lookup dimensions and how custom implementations can provide lookup-specific policy.",
+      "creation_run_id": "codex-hourly-20261126T083417Z"
     },
     "20375": {
       "decision": "not_relevant",
@@ -2253,6 +2297,17 @@
       "upstream_comment": "https://github.com/apache/pinot/pull/20376#issuecomment-7154665560",
       "creation_run_id": "codex-hourly-20261125T061618Z",
       "creation_slack_status": "delivered"
+    },
+    "20378": {
+      "decision": "pending",
+      "merged_at": "2026-11-26T07:45:36Z",
+      "upstream_merge_sha": "c3cf244dd6553e8badde16558ee34688509d7c8c",
+      "upstream_url": "https://github.com/apache/pinot/pull/20378",
+      "docs_pr": 1227,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1227",
+      "docs_head_sha": "ee7f20f060cd0c8aac294125b4fa8308371707e9",
+      "note": "Document the server opt-in and trusted JAR location setting, and align the example with that setup.",
+      "creation_run_id": "codex-hourly-20261126T083417Z"
     },
     "20379": {
       "decision": "not_relevant",
