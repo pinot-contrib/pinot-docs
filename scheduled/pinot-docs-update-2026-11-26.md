@@ -19,3 +19,7 @@ GitHub's merged-PR inventory and first-parent history agreed on five new `master
 - [Pinot #20378](https://github.com/apache/pinot/pull/20378) → [docs #1227](https://github.com/pinot-contrib/pinot-docs/pull/1227): Document the server opt-in and trusted JAR location setting, and align the example with that setup. [Upstream link verified](https://github.com/apache/pinot/pull/20378#issuecomment-7186893645).
 
 All five docs PRs merged; no pending follow-ups. Checkpoint: `2026-11-26T07:45:36Z`. Slack summary: delivered (HTTP 200).
+
+## Hourly check — 2026-11-26T09:38:18.490Z
+
+GitHub's merged-PR inventory and first-parent history agree: no new `master` merges after #20378. The shared checkpoint remains `2026-11-26T07:45:36Z`. No pending follow-ups, new docs PRs, or Slack summary.
