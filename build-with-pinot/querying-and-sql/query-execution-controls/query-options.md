@@ -52,7 +52,9 @@ For a request gateway that must prevent SQL text from overriding trusted request
 
 In the multi-stage engine, `SET preferSelectAliasInGroupBy = true;` makes an unqualified name in `GROUP BY` resolve to a matching `SELECT` alias before an input column with the same name. By default, the input column wins. Qualify the input column with its table alias if you want to refer to that column explicitly.
 
-The broker can set the default with `pinot.broker.multistage.prefer.select.alias.in.group.by` (default `false`). An explicit query option overrides that default.
+The option changes resolution only when the alias would otherwise be shadowed by a column. An alias with no conflicting column, such as `UPPER(col1) AS u` followed by `GROUP BY u`, resolves normally with or without the option. If a conflicting alias that uses another `SELECT` alias or a `JOIN ... USING` column still fails to compile, use a distinct alias that does not match an input column.
+
+The broker can set the default with `pinot.broker.multistage.prefer.select.alias.in.group.by` (default `false`). An explicit query option overrides that default. For multi-stage requests to the controller's `/sql` endpoint that omit the option, the controller can retry compilation with alias preference to find the referenced tables. The retry does not change the option sent to the broker; the broker applies its own default.
 
 ## AND restriction pushdown
 
