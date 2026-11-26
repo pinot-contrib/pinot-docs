@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-25T21:51:09Z",
-  "last_successful_run": "2026-11-26T06:32:43.481Z",
+  "last_successful_run": "2026-11-26T06:35:20.326Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -2271,20 +2271,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "complete",
-  "last_run_id": "codex-hourly-20261125T182908Z",
+  "last_run_id": "codex-hourly-20261126T063415Z",
   "lock": {
-    "holder": "codex-hourly-20261126T063415Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-26T06:34:57.401Z",
-    "lease_expires_at": "2026-11-26T06:54:57.401Z"
+    "released_at": "2026-11-26T06:35:20.326Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261126T063415Z"
   },
-  "last_run_summary": "Reconciled two master merges, skipped one, and merged docs #1222.",
+  "last_run_summary": "No post-checkpoint master merges or pending docs follow-ups.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-hourly-20261126T063415Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-26T06:34:57.401Z",
-    "lease_expires_at": "2026-11-26T06:54:57.401Z"
+    "released_at": "2026-11-26T06:35:20.326Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261126T063415Z"
   },
   "recent_runs": [
     {
@@ -3602,9 +3606,21 @@
       "checkpoint": "2026-11-25T21:51:09Z",
       "slack_status": "delivered",
       "slack_http_status": 200
+    },
+    {
+      "run_id": "codex-hourly-20261126T063415Z",
+      "started_utc": "2026-11-26T06:34:15.299Z",
+      "finished_utc": "2026-11-26T06:35:20.326Z",
+      "result": "complete",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-25T21:51:09Z",
+      "slack_status": "not_applicable"
     }
   ],
-  "last_run_note": "Checkpoint advanced through #20379. Verified upstream comment; Slack delivered.",
+  "last_run_note": "Kept the checkpoint; no new docs PR or Slack summary.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -5115,6 +5131,18 @@
       "checkpoint": "2026-11-25T21:51:09Z",
       "slack_status": "delivered",
       "slack_http_status": 200
+    },
+    {
+      "run_id": "codex-hourly-20261126T063415Z",
+      "started_utc": "2026-11-26T06:34:15.299Z",
+      "finished_utc": "2026-11-26T06:35:20.326Z",
+      "result": "complete",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-25T21:51:09Z",
+      "slack_status": "not_applicable"
     }
   ],
   "run_history": [
@@ -6662,26 +6690,30 @@
       "checkpoint": "2026-11-25T21:51:09Z",
       "slack_status": "delivered",
       "slack_http_status": 200
+    },
+    {
+      "run_id": "codex-hourly-20261126T063415Z",
+      "started_utc": "2026-11-26T06:34:15.299Z",
+      "finished_utc": "2026-11-26T06:35:20.326Z",
+      "result": "complete",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-25T21:51:09Z",
+      "slack_status": "not_applicable"
     }
   ],
   "last_run": {
-    "run_id": "codex-hourly-20261125T182908Z",
-    "started_utc": "2026-11-25T18:29:08.254Z",
-    "finished_utc": "2026-11-26T06:32:43.481Z",
+    "run_id": "codex-hourly-20261126T063415Z",
+    "started_utc": "2026-11-26T06:34:15.299Z",
+    "finished_utc": "2026-11-26T06:35:20.326Z",
     "result": "complete",
-    "new_prs": [
-      20298,
-      20379
-    ],
-    "docs_prs_created": [
-      1222
-    ],
-    "docs_prs_merged": [
-      1222
-    ],
+    "new_prs": [],
+    "docs_prs_created": [],
+    "docs_prs_merged": [],
     "pending_docs_prs": [],
     "checkpoint": "2026-11-25T21:51:09Z",
-    "slack_status": "delivered",
-    "slack_http_status": 200
+    "slack_status": "not_applicable"
   }
 }
