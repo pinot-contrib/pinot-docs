@@ -21,6 +21,8 @@ To build support for your own language, you need to implement the following key 
 * `BaseTimeSeriesOperator` allows you to define and implement your operators.
 * `BaseTimeSeriesBuilder` can be implemented for each aggregation type you want to support.
 
+If your planner emits custom plan nodes, implement `org.apache.pinot.tsdb.spi.plan.serde.TimeSeriesPlanNodeProvider` and return their classes from `getPlanNodeTypes()`. In the plugin JAR, add a `META-INF/services/org.apache.pinot.tsdb.spi.plan.serde.TimeSeriesPlanNodeProvider` file containing the fully qualified name of your provider class. Deploy the plugin JAR where the broker and workers can load it before they serialize or deserialize plans for the language. Pinot already registers the built-in leaf node; M3QL ships its own provider as part of the plugin.
+
 There is an example Plugin implementation in the apache/pinot repo under [pinot-plugins/pinot-timeseries-lang](https://github.com/apache/pinot/tree/master/pinot-plugins/pinot-timeseries-lang).
 
 ## Plugin Implementation Tips
