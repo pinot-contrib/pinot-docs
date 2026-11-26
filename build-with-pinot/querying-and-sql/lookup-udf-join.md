@@ -14,11 +14,11 @@ Lookup UDF is used to get dimension data via primary key from a dimension table 
 
 ## Access control
 
-A query that uses `LOOKUP()` must be authorized for both the table in the `FROM` clause and every dimension table named by the function. Pinot returns HTTP `403` when the requester does not have table access to a referenced dimension table.
+A query that uses `LOOKUP()` must be authorized for the tables it reads and every dimension table referenced by the function, including lookups inside subqueries. Pinot checks access to each resolved `OFFLINE` dimension table and returns HTTP `403` if the requester lacks access.
 
 `LOOKUP()` resolves rows directly by primary key and cannot apply a row-level security (RLS) filter to the dimension table. When broker row- and column-level authorization is enabled with `pinot.broker.enable.row.column.level.auth`, Pinot rejects a lookup query if the requester has an RLS filter configured for its dimension table. Use a regular multi-stage lookup join when the dimension table requires row-level filtering.
 
-Custom broker access-control implementations must implement table authorization for a set of tables through `authorize(RequesterIdentity, Set<String>)`, because a single query can reference the fact table and one or more lookup dimension tables.
+Custom broker access-control implementations can override `authorizeLookupTables(RequesterIdentity, Set<String>)` to apply a separate policy to the resolved `OFFLINE` lookup tables. By default, this hook delegates to `authorize(RequesterIdentity, Set<String>)`.
 
 ## Syntax
 
