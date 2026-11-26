@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-25T21:51:09Z",
-  "last_successful_run": "2026-11-26T07:38:53.550Z",
+  "last_processed_merged_at": "2026-11-26T07:45:36Z",
+  "last_successful_run": "2026-11-26T08:42:02.231Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20298,
-    "upstream_url": "https://github.com/apache/pinot/pull/20298",
-    "docs_pr": 1222,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1222",
+    "upstream_pr": 20378,
+    "upstream_url": "https://github.com/apache/pinot/pull/20378",
+    "docs_pr": 1227,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1227",
     "decision": "docs_created",
-    "note": "Clarify when the multi-stage GROUP BY alias option applies and that the controller retry does not change the broker's alias preference."
+    "note": "Document the server opt-in and trusted JAR location setting, and align the example with that setup."
   },
   "processed_prs": {
     "18486": {
@@ -2213,7 +2213,7 @@
       "note": "Minion test race fixes only; no production behavior or configuration changed."
     },
     "20368": {
-      "decision": "pending",
+      "decision": "docs_created",
       "merged_at": "2026-11-26T07:39:49Z",
       "upstream_merge_sha": "7f1fded61ac16caeb6503cf903727af6fcc023f6",
       "upstream_url": "https://github.com/apache/pinot/pull/20368",
@@ -2221,7 +2221,11 @@
       "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1225",
       "docs_head_sha": "6c52135762802a8044462249e2bb3f8dac1def18",
       "note": "Clarify the role required to create, update, or delete ZooKeeper-backed Basic Auth users.",
-      "creation_run_id": "codex-hourly-20261126T083417Z"
+      "creation_run_id": "codex-hourly-20261126T083417Z",
+      "creation_slack_status": "delivered",
+      "docs_merged_at": "2026-11-26T08:40:43Z",
+      "docs_merge_sha": "debd73b9933fbee5de9b5533853ec865ab1bf543",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20368#issuecomment-7186893535"
     },
     "20369": {
       "decision": "docs_created",
@@ -2244,7 +2248,7 @@
       "note": "Existing ZooKeeper Basic Auth docs already state that broker API requests require credentials when enabled. The change enforces that documented requirement without adding a setting or changing setup."
     },
     "20371": {
-      "decision": "pending",
+      "decision": "docs_created",
       "merged_at": "2026-11-26T07:38:58Z",
       "upstream_merge_sha": "c52014a721e778773661f559be16b1cfc201d26d",
       "upstream_url": "https://github.com/apache/pinot/pull/20371",
@@ -2252,10 +2256,14 @@
       "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1223",
       "docs_head_sha": "ea360e9196b2af227249e1a9968d20ba6f423009",
       "note": "Explain how plugin authors register custom node classes and deploy their provider.",
-      "creation_run_id": "codex-hourly-20261126T083417Z"
+      "creation_run_id": "codex-hourly-20261126T083417Z",
+      "creation_slack_status": "delivered",
+      "docs_merged_at": "2026-11-26T08:39:46Z",
+      "docs_merge_sha": "e95a0d775572a77fd2cf8b7912a1f26f040c0a30",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20371#issuecomment-7186893545"
     },
     "20372": {
-      "decision": "pending",
+      "decision": "docs_created",
       "merged_at": "2026-11-26T07:39:05Z",
       "upstream_merge_sha": "3099e0c19bc7e24e42e4f207d6fa47cb9f1586c9",
       "upstream_url": "https://github.com/apache/pinot/pull/20372",
@@ -2263,10 +2271,14 @@
       "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1226",
       "docs_head_sha": "b941a436db2645806bd05a30d44c4a7aa522ebf9",
       "note": "Replace outdated setup guidance with the required controller bootstrap configuration for an empty user store.",
-      "creation_run_id": "codex-hourly-20261126T083417Z"
+      "creation_run_id": "codex-hourly-20261126T083417Z",
+      "creation_slack_status": "delivered",
+      "docs_merged_at": "2026-11-26T08:40:23Z",
+      "docs_merge_sha": "24df7b729ebbe3b3b76bf7c5ed7f22e5f278a7dc",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20372#issuecomment-7186893514"
     },
     "20373": {
-      "decision": "pending",
+      "decision": "docs_created",
       "merged_at": "2026-11-26T07:39:23Z",
       "upstream_merge_sha": "2678f0cc5e0bedd2ed0c930cee7f05bb0dd2952d",
       "upstream_url": "https://github.com/apache/pinot/pull/20373",
@@ -2274,7 +2286,11 @@
       "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1224",
       "docs_head_sha": "d8e57537f6eb3c5cba2b3e2622f71bea7803dae6",
       "note": "Explain how the broker authorizes lookup dimensions and how custom implementations can provide lookup-specific policy.",
-      "creation_run_id": "codex-hourly-20261126T083417Z"
+      "creation_run_id": "codex-hourly-20261126T083417Z",
+      "creation_slack_status": "delivered",
+      "docs_merged_at": "2026-11-26T08:40:33Z",
+      "docs_merge_sha": "85e9eea13ea54a0ba79dd4497a06b33ea051df46",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20373#issuecomment-7186893604"
     },
     "20375": {
       "decision": "not_relevant",
@@ -2299,7 +2315,7 @@
       "creation_slack_status": "delivered"
     },
     "20378": {
-      "decision": "pending",
+      "decision": "docs_created",
       "merged_at": "2026-11-26T07:45:36Z",
       "upstream_merge_sha": "c3cf244dd6553e8badde16558ee34688509d7c8c",
       "upstream_url": "https://github.com/apache/pinot/pull/20378",
@@ -2307,7 +2323,11 @@
       "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1227",
       "docs_head_sha": "ee7f20f060cd0c8aac294125b4fa8308371707e9",
       "note": "Document the server opt-in and trusted JAR location setting, and align the example with that setup.",
-      "creation_run_id": "codex-hourly-20261126T083417Z"
+      "creation_run_id": "codex-hourly-20261126T083417Z",
+      "creation_slack_status": "delivered",
+      "docs_merged_at": "2026-11-26T08:40:53Z",
+      "docs_merge_sha": "d788ddac092e6073a2435c7d333f106131a0604a",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20378#issuecomment-7186893645"
     },
     "20379": {
       "decision": "not_relevant",
@@ -2326,24 +2346,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "complete",
-  "last_run_id": "codex-hourly-20261126T073746Z",
+  "last_run_id": "codex-hourly-20261126T083417Z",
   "lock": {
-    "holder": "codex-hourly-20261126T083417Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-26T08:37:37.224Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-26T08:57:37.224Z",
-    "prev_holder": "codex-hourly-20261126T073746Z"
+    "released_at": "2026-11-26T08:42:02.231Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261126T083417Z"
   },
-  "last_run_summary": "No post-checkpoint master merges or pending docs follow-ups.",
+  "last_run_summary": "Created 5 docs PRs, merged 5, verified 5 upstream comments.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-hourly-20261126T083417Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-26T08:37:37.224Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-26T08:57:37.224Z",
-    "prev_holder": "codex-hourly-20261126T073746Z"
+    "released_at": "2026-11-26T08:42:02.231Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261126T083417Z"
   },
   "recent_runs": [
     {
@@ -3685,9 +3705,40 @@
       "pending_docs_prs": [],
       "checkpoint": "2026-11-25T21:51:09Z",
       "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261126T083417Z",
+      "started_utc": "2026-11-26T08:34:17.828Z",
+      "finished_utc": "2026-11-26T08:42:02.231Z",
+      "result": "complete",
+      "new_prs": [
+        20371,
+        20372,
+        20373,
+        20368,
+        20378
+      ],
+      "docs_prs_created": [
+        1223,
+        1226,
+        1224,
+        1225,
+        1227
+      ],
+      "docs_prs_merged": [
+        1223,
+        1226,
+        1224,
+        1225,
+        1227
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-26T07:45:36Z",
+      "slack_status": "delivered",
+      "slack_http_status": 200
     }
   ],
-  "last_run_note": "Kept the checkpoint; no new docs PR or Slack summary.",
+  "last_run_note": "0 pending follow-ups. Slack: delivered.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -5222,6 +5273,37 @@
       "pending_docs_prs": [],
       "checkpoint": "2026-11-25T21:51:09Z",
       "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261126T083417Z",
+      "started_utc": "2026-11-26T08:34:17.828Z",
+      "finished_utc": "2026-11-26T08:42:02.231Z",
+      "result": "complete",
+      "new_prs": [
+        20371,
+        20372,
+        20373,
+        20368,
+        20378
+      ],
+      "docs_prs_created": [
+        1223,
+        1226,
+        1224,
+        1225,
+        1227
+      ],
+      "docs_prs_merged": [
+        1223,
+        1226,
+        1224,
+        1225,
+        1227
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-26T07:45:36Z",
+      "slack_status": "delivered",
+      "slack_http_status": 200
     }
   ],
   "run_history": [
@@ -6793,18 +6875,68 @@
       "pending_docs_prs": [],
       "checkpoint": "2026-11-25T21:51:09Z",
       "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261126T083417Z",
+      "started_utc": "2026-11-26T08:34:17.828Z",
+      "finished_utc": "2026-11-26T08:42:02.231Z",
+      "result": "complete",
+      "new_prs": [
+        20371,
+        20372,
+        20373,
+        20368,
+        20378
+      ],
+      "docs_prs_created": [
+        1223,
+        1226,
+        1224,
+        1225,
+        1227
+      ],
+      "docs_prs_merged": [
+        1223,
+        1226,
+        1224,
+        1225,
+        1227
+      ],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-26T07:45:36Z",
+      "slack_status": "delivered",
+      "slack_http_status": 200
     }
   ],
   "last_run": {
-    "run_id": "codex-hourly-20261126T073746Z",
-    "started_utc": "2026-11-26T07:37:46.330Z",
-    "finished_utc": "2026-11-26T07:38:53.550Z",
+    "run_id": "codex-hourly-20261126T083417Z",
+    "started_utc": "2026-11-26T08:34:17.828Z",
+    "finished_utc": "2026-11-26T08:42:02.231Z",
     "result": "complete",
-    "new_prs": [],
-    "docs_prs_created": [],
-    "docs_prs_merged": [],
+    "new_prs": [
+      20371,
+      20372,
+      20373,
+      20368,
+      20378
+    ],
+    "docs_prs_created": [
+      1223,
+      1226,
+      1224,
+      1225,
+      1227
+    ],
+    "docs_prs_merged": [
+      1223,
+      1226,
+      1224,
+      1225,
+      1227
+    ],
     "pending_docs_prs": [],
-    "checkpoint": "2026-11-25T21:51:09Z",
-    "slack_status": "not_applicable"
+    "checkpoint": "2026-11-26T07:45:36Z",
+    "slack_status": "delivered",
+    "slack_http_status": 200
   }
 }
