@@ -144,7 +144,9 @@ SELECT distinctcounthll(col, 8) FROM myTable
 
 ### Multi-value column behavior
 
-You can project multi-value columns as arrays in the MSE. To group by their elements, use `GROUP BY arrayToMv(column)`. The logical planner can group this way above a join or subquery, not just over a table scan. This does not extend `arrayToMv` predicates beyond the table scan. For example, to run:
+In the MSE, a multi-value (MV) column has the SQL type `ARRAY`. You can project an MV column without changes. To filter or group by the elements of an MV column, wrap the column in the `arrayToMv` function. `arrayToMv` and `ARRAY_TO_MV` are two names for the same function.
+
+These queries work in the SSE, but the MSE rejects them:
 
 {% code overflow="wrap" %}
 ```sql
@@ -162,7 +164,7 @@ ORDER BY RandomAirports DESC
 ```
 {% endcode %}
 
-Rewrite the query using `arrayToMv`:
+Rewrite the queries with `arrayToMv`:
 
 {% code overflow="wrap" %}
 ```sql
@@ -174,11 +176,116 @@ GROUP BY arrayToMv(RandomAirports)
 SELECT * FROM airlineStats WHERE arrayToMv(RandomAirports) IN ('SFO', 'JFK')
 
 -- example 3: ORDER BY
-SELECT count(*), arrayToMV(RandomAirports) FROM airlineStats
-GROUP BY arrayToMV(RandomAirports)
-ORDER BY arrayToMV(RandomAirports) DESC
+SELECT count(*), arrayToMv(RandomAirports) FROM airlineStats
+GROUP BY arrayToMv(RandomAirports)
+ORDER BY arrayToMv(RandomAirports) DESC
 ```
 {% endcode %}
+
+#### GROUP BY arrayToMv
+
+`GROUP BY arrayToMv(col)` groups each row by every element of the MV column. It gives the same groups as `GROUP BY col` in the SSE. The query works in every stage of the plan: directly on a table scan, above a join, in a subquery, and with group trimming.
+
+{% code overflow="wrap" %}
+```sql
+SELECT arrayToMv(s.RandomAirports) AS airport, count(*)
+FROM airlineStats AS s
+JOIN carriers AS c ON s.Carrier = c.code
+WHERE c.country = 'US'
+GROUP BY arrayToMv(s.RandomAirports)
+```
+{% endcode %}
+
+The MSE plans the aggregate in one of two ways:
+
+* **Plain aggregate.** The aggregate reads a table scan, directly or through filters and projections. The leaf stage sends the aggregate to the SSE, which groups by each element. This is the plan of earlier releases. The same is true when a `WHERE k IN (subquery)` semi-join runs in the leaf stage.
+* **MV aggregate.** All other aggregates use the MV aggregate. Its LEAF part expands each row into the elements of its MV keys. An exchange sends the elements to the FINAL part, which is a plain aggregate. `EXPLAIN PLAN FOR` shows it as `PinotLogicalMvAggregate`.
+
+With the hint `is_skip_leaf_stage_group_by`, the MSE uses the MV aggregate also on a table scan. The MV aggregate ignores the hint `is_partitioned_by_group_by_keys`. The hint `is_leaf_return_final_result` and group trimming work as for a plain aggregate.
+
+Both plans use these rules:
+
+* A row goes into the group of each of its elements.
+* If an element occurs two times in one row, the row counts two times in the group of that element.
+* An empty array goes into no group. A stored MV value is never empty, but a function such as `filterMv` can return an empty array.
+* When null handling is on (`enableNullHandling=true`), a null MV value goes into one null group.
+* Above a join, a null MV value from an outer join goes into the null group, also when null handling is off.
+* Two or more MV keys give, for each row, the cartesian product of their elements.
+
+As a result, the sum of `count(*)` over all groups can be larger than the number of rows.
+
+A few rows with large arrays can give a very large number of combinations. The MV aggregate expands them in batches and stops when the query is cancelled or times out. A row with more than 2,147,483,647 combinations fails the query with `SERVER_RESOURCE_LIMIT_EXCEEDED`.
+
+You can repeat the group key `arrayToMv(col)` in the SELECT list, in ORDER BY, and in HAVING. There, it refers to the group key. For example, `HAVING arrayToMv(col) = 'SFO'` keeps only the group of `SFO`. A filter on the group key in an outer query does the same.
+
+The filter on the group key stays above the aggregate, so the leaf stage groups every element. If the number of groups is more than `numGroupsLimit`, the leaf stage can drop the group that the filter selects. The response then has `numGroupsLimitReached`.
+
+The argument of `arrayToMv` can also be an array expression, for example `arrayToMv(valueIn(RandomAirports, 'SFO', 'JFK'))`.
+
+`CROSS JOIN UNNEST` gives the same groups, with one difference: `UNNEST` drops a null MV value. `GROUP BY arrayToMv` puts it in the null group.
+
+#### Null MV values
+
+A null MV value comes from a column with column-based null handling, or from the null side of an outer join. For such a value, `arrayToMv(col)` is null. The MSE evaluates `arrayToMv(col) IS NULL`, `arrayToMv(col) IS NOT NULL`, and `CASE WHEN arrayToMv(col) IS NULL ...` on it. A null array forms the null group.
+
+For example, above a `LEFT JOIN`, `CASE WHEN arrayToMv(col) IS NULL THEN 'none' ELSE arrayToMv(col) END` as the group key gives the group `none`.
+
+On a nullable MV column, these expressions fail when the query runs, because the leaf stage cannot run `COALESCE` or `CASE` with a multi-value result:
+
+* `coalesce(arrayToMv(col), 'x')` in a leaf filter or as a group key.
+* `CASE WHEN arrayToMv(col) IS NULL THEN 'x' ELSE arrayToMv(col) END` as a group key on a table scan.
+
+Above a join, `coalesce(arrayToMv(col), 'x')` as a group key fails at planning time, because `coalesce` puts `arrayToMv` inside another expression.
+
+#### Supported uses of arrayToMv
+
+`arrayToMv` is supported in two places only:
+
+1. As a complete GROUP BY key: `GROUP BY arrayToMv(expr)`. Here, `expr` is an MV column or an array expression.
+2. In a WHERE predicate that runs in the leaf stage, which means directly on a table scan.
+
+These uses are not supported:
+
+* `arrayToMv` inside another expression in a group key, for example `GROUP BY lower(arrayToMv(col))`. Directly on a table scan, the SSE evaluates the expression on the MV column. There, `CAST` applies to each element. Most other functions fail when the query runs. Above a join or in a subquery, the query fails at planning time.
+* `arrayToMv` in the SELECT list, if it is not a repeat of a GROUP BY key.
+* `arrayToMv` in a filter above a join or an aggregate, in a JOIN condition, or in a window function.
+* `arrayToMv` in an aggregate argument, for example `sum(arrayToMv(col))`. This works only when the aggregate reads a table scan. An MV key column can also be in an aggregate argument or in the `FILTER (WHERE ...)` clause of an aggregate. Then the MSE uses the plain aggregate. The query then works only on a table scan.
+* `GROUP BY arrayToMv(col)` with `GROUPING SETS`, `ROLLUP`, or `CUBE`. The MSE uses the plain aggregate, so the query works only on a table scan.
+* `GROUP BY arrayToMv(col)` with a `WITHIN GROUP` aggregate, when the query needs the MV aggregate.
+* A plain `GROUP BY col` on an MV column. The error message contains `Use ARRAY_TO_MV() to group by multi-value column`. This is also true when the query groups by both `arrayToMv(col)` and `col`.
+
+Most of these queries fail at planning time with a `QUERY_PLANNING` error. The error message ends with this text:
+
+{% code overflow="wrap" %}
+```text
+ARRAY_TO_MV is supported only: (1) as a complete GROUP BY key, GROUP BY ARRAY_TO_MV(expr), where expr is a multi-value column or an array expression; (2) in WHERE predicates that run in the leaf stage (directly on a table scan). It is not supported nested inside another expression (for example CASE WHEN ARRAY_TO_MV(col) IS NOT NULL ...), in the SELECT list, in aggregate arguments, in filters above a join or an aggregate, in JOIN conditions, or in window functions.
+```
+{% endcode %}
+
+There are two exceptions:
+
+* With a `WITHIN GROUP` aggregate, the message is `GROUP BY ARRAY_TO_MV() is not supported with WITHIN GROUP ordered aggregates in the multi-stage query engine`.
+* A nested group key directly on a table scan fails in the SSE when the query runs. The error message comes from the SSE.
+
+These limits also apply:
+
+* The physical optimizer (`usePhysicalOptimizer=true`) does not use the MV aggregate. With the physical optimizer, `GROUP BY arrayToMv(col)` works only on a table scan.
+* `GROUP BY arrayToMv(col)` with `WHERE k IN (subquery)` needs the dynamic broadcast semi-join. If `pinot.broker.enable.dynamic.filtering.semijoin=false`, the query fails at planning time.
+
+#### Changes from earlier releases
+
+Before the MV aggregate, `GROUP BY arrayToMv(col)` worked only on a table scan. Most queries that worked before keep their plan and their results. These queries change:
+
+| Query | Earlier releases | With the MV aggregate |
+|---|---|---|
+| `GROUP BY arrayToMv(col) HAVING arrayToMv(col) = 'x'`, or an outer filter on the group key | Also returns the other elements of a matching row ([apache/pinot#20295](https://github.com/apache/pinot/issues/20295)) | Returns only the group `x` |
+| `arrayToMv(col) IS NULL`, `IS NOT NULL`, or `CASE WHEN arrayToMv(col) IS NULL` on a null MV value | Folded as if `arrayToMv(col)` is never null ([apache/pinot#20294](https://github.com/apache/pinot/issues/20294)) | Evaluated. A null array is null and forms the null group |
+| `coalesce(arrayToMv(col), 'x')` or `CASE WHEN arrayToMv(col) IS NULL` on a nullable MV column, in the leaf stage | The null check is removed ([apache/pinot#20294](https://github.com/apache/pinot/issues/20294)) | Fails when the query runs |
+| Physical optimizer with `enableNullHandling`: `... LEFT JOIN ... GROUP BY arrayToMv(col) HAVING arrayToMv(col) IS NULL` | Returns no rows | Fails at planning time |
+
+{% hint style="info" %}
+**Rolling upgrades.** Pinot upgrades brokers before servers. A plain aggregate runs on servers from earlier releases. A plan with an MV aggregate fails on those servers with `Caught exception while deserializing stage plan`. Almost all of these queries also failed before the upgrade. The exception is the outer-join query with `IS NULL` and `enableNullHandling`. Before the upgrade, it returns no rows. During the upgrade, it fails until the servers are upgraded.
+{% endhint %}
 
 ## Current limitations
 
