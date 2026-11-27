@@ -22,8 +22,8 @@ Usage: `SUBSTRING(col, beginIndex)` or `SUBSTRING(col, beginIndex, length)`\
 Example: `SELECT SUBSTRING('hello', 2) FROM myTable` returns `'ello'`\
 Example: `SELECT SUBSTRING('hello', 2, 3) FROM myTable` returns `'ell'`
 
-[**CONCAT(col1, col2, seperator)**](concat.md)\
-Concatenate two input strings using the seperator
+[**CONCAT(col1, col2, separator)**](concat.md)\
+Concatenate two input strings using the separator
 
 [**TRIM(col)**](trim.md)\
 trim spaces from both side of the string

@@ -4,11 +4,11 @@ description: This section contains reference documentation for the concat functi
 
 # concat
 
-Concatenate two input strings using the seperator
+Concatenate two input strings using the separator
 
 ## Signature
 
-> CONCAT(col1, col2, seperator)
+> CONCAT(col1, col2, separator)
 
 ## Usage Examples
 

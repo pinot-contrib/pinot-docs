@@ -21,4 +21,4 @@ Returns the count of distinct values. The values are stored using off-heap memor
 ## Note
 
 * For variable length data types such as `STRING` and `BYTES`, _murmur3_ hash values are used to represent the values.
-* Currently it only supports aggregate without group-by. For MV column, it only supports fixes lengh types.
+* Currently it only supports aggregate without group-by. For MV column, it only supports fixes length types.
