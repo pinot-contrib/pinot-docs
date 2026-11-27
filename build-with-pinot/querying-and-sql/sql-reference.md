@@ -317,6 +317,8 @@ GROUP BY ARRAY_TO_MV(e.tags)
 
 Upgrade the brokers and servers before relying on plans that use the new multi-value aggregate. Straightforward leaf-only grouping over a table scan can still use the existing aggregate. The new aggregate is not used with `usePhysicalOptimizer=true`.
 
+For the grouping rules, null values, supported uses, and changes from earlier releases, see [Multi-value column behavior](../../operate-pinot/troubleshooting/troubleshoot-multi-stage-query-engine.md#multi-value-column-behavior).
+
 ### GROUPING SETS, ROLLUP, and CUBE
 
 Both Pinot query engines support grouped subtotal queries. To run a grouping-set query on the multi-stage engine,
