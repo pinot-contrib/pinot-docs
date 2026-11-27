@@ -72,7 +72,7 @@ From the command line, user can further override those keys using flag `-values`
 ```bash
 pinot-admin.sh LaunchDataIngestionJob \
 -jobSpecFile /path/to/job_spec.json \
--propertyFile job.confg \
+-propertyFile job.config \
 -values day=03 hour=04
 ```
 

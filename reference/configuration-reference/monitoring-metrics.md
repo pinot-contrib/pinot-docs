@@ -92,7 +92,7 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | STARTUP_SUCCESS_DURATION_MS | Timer for the total time spent starting the server when startup finishes in a healthy state. | Timer |
 | STARTUP_FAILURE_DURATION_MS | Timer for the total time spent starting the server when startup finishes in an unhealthy state. | Timer |
 | EXECUTION_THREAD_CPU_TIME_NS | time spent by all threads processing query and results (doesn't includes time spent in system activities) |  |
-| SYSTEM_ACTIVITIES_CPU_TIME_NS | time spent in nanoseconds processing query on the servers (only counts system acitivities such as GC, OS paging etc.) |  |
+| SYSTEM_ACTIVITIES_CPU_TIME_NS | time spent in nanoseconds processing query on the servers (only counts system activities such as GC, OS paging etc.) |  |
 | RESPONSE_SER_CPU_TIME_NS | time spent in nanoseconds serializing query response on servers |  |
 | TOTAL_CPU_TIME_NS | total time spent in nanoseconds processing query on the servers |  |
 | HASH_JOIN_TIMES_MAX_ROWS_REACHED | Global multi-stage server meter counting how many hash-join operators hit the configured max-rows guardrail. |  |
@@ -143,12 +143,12 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | UNKNOWN_COLUMN_EXCEPTIONS | Number of queries with unknown columns |  |
 | NO_SERVER_FOUND_EXCEPTIONS | Number of queries for which no server was found to contain its data |  |
 | REQUEST_TIMEOUT_BEFORE_SCATTERED_EXCEPTIONS | Number of times query timed out before even being sent to the servers |  |
-| REQUEST_CHANNEL_LOCK_TIMEOUT_EXCEPTIONS | number of times query failes while trying to acquire lock to server connections |  |
+| REQUEST_CHANNEL_LOCK_TIMEOUT_EXCEPTIONS | number of times query fails while trying to acquire lock to server connections |  |
 | REQUEST_SEND_EXCEPTIONS | Number of queries failed while sending to server |  |
 | RESPONSE_FETCH_EXCEPTIONS | Number of queries failed while handling response from servers |  |
 | DATA_TABLE_DESERIALIZATION_EXCEPTIONS | Number of queries failed while deserializing response data from servers |  |
-| RESPONSE_MERGE_EXCEPTIONS | Number of queries that failed while merging responses from multiple servers. This can be due to schema inconsitency or any other issues |  |
-| BROKER_RESPONSES_WITH_PROCESSING_EXCEPTIONS | Number of queries where atleast one exception occured |  |
+| RESPONSE_MERGE_EXCEPTIONS | Number of queries that failed while merging responses from multiple servers. This can be due to schema inconsistency or any other issues |  |
+| BROKER_RESPONSES_WITH_PROCESSING_EXCEPTIONS | Number of queries where at least one exception occurred |  |
 | BROKER_RESPONSES_WITH_PARTIAL_SERVERS_RESPONDED | Number of queries with incomplete results due to missing responses from servers |  |
 | SECONDARY_WORKLOAD_BROKER_RESPONSES_WITH_PARTIAL_SERVERS_RESPONDED | Number of secondary-workload queries with incomplete results due to missing responses from servers |  |
 | SECONDARY_WORKLOAD_BROKER_RESPONSES_WITH_TIMEOUTS | Number of secondary-workload queries that timed out |  |
