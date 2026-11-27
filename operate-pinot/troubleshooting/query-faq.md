@@ -66,7 +66,7 @@ No. Pagination only works for SELECTION queries.
 
 ### How do I increase timeout for a query ?
 
-You can add this at the end of your query: `option(timeoutMs=X)`. Tthe following example uses a timeout of 20 seconds for the query:
+You can add this at the end of your query: `option(timeoutMs=X)`. The following example uses a timeout of 20 seconds for the query:
 
 ```sql
 SELECT COUNT(*) from myTable option(timeoutMs=20000)

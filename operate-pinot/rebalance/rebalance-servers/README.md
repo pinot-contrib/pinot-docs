@@ -513,7 +513,7 @@ The fields of each entry will consist of:
 | tagName               | Name of the tag                                                                |
 | numSegmentsToDownload | Number of segments that will be downloaded on servers tagged with this tagName |
 | numSegmentsUnchanged  | Number of segments that will remain on the servers tagged with this tagName    |
-| numServerParticipants | Total number of servers tagged wtih tagName                                    |
+| numServerParticipants | Total number of servers tagged with tagName                                    |
 
 ### Example Output
 

@@ -222,7 +222,7 @@ All the options should be prefixed with `-` (hyphen)
 | Option       | Description                                                                                                   |
 | ------------ | ------------------------------------------------------------------------------------------------------------- |
 | jobSpecFile  | Path to[ job spec file.](../reference/configuration-reference/job-specification.md) Only local file paths are supported |
-| propertyFile | Path to properties file. This file can contain properties related to ingestion job or template paramaters     |
+| propertyFile | Path to properties file. This file can contain properties related to ingestion job or template parameters     |
 | values       | list of string containing the values to replace template parameters with                                      |
 
 ### Merge/Rollup Segments
@@ -511,9 +511,9 @@ All the options should be prefixed with `-` (hyphen)
 | zkAddress   | comma-separated host:port string of Zookeeper to connect                                 |
 | clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper. |
 | tableConfig | if set, table configs are validated                                                      |
-| tableNames  | space seperated list of table names. By default, all tables are validated                |
+| tableNames  | space separated list of table names. By default, all tables are validated                |
 | schema      | if set, schemas are validated                                                            |
-| schemaNames | space seperated list of schema names. By default, all schemas are validated              |
+| schemaNames | space separated list of schema names. By default, all schemas are validated              |
 
 ### Validate Segment
 

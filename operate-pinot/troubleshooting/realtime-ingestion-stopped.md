@@ -4,7 +4,7 @@
 
 When observed certain kafka partitioned stopped ingestion due to the segment commit failure.
 
-Sample errrors:
+Sample errors:
 
 ```
 2025/04/13 14:06:28.978 INFO [RealtimeSegmentDataManager_test_realtime_2__2__0__20250413T1148Z] [test_realtime_2__2__0__20250413T1148Z] Controller response {"buildTimeSec":-1,"streamPartitionMsgOffset":null,"status":"FAILED","isSplitCommitType":true} for http://pinot-controller-2.pinot-controller-headless.pinot.svc.cluster.local:9000/segmentUpload?segmentSizeBytes=242027065&reason=rowLimit&buildTimeMillis=47403&streamPartitionMsgOffset=1393724252&instance=Server_pinot-server-0.pinot-server-headless.pinot.svc.cluster.local_8098&name=test_realtime_2__2__0__20250413T1148Z&rowCount=10000000&memoryUsedBytes=519779170

@@ -32,7 +32,7 @@ Similarly to the "first come first serve" scheduling mechanism, this option will
 
 This query scheduling mechanism will periodically grant tokens to each scheduler group, and will select the group to run with the highest number of tokens assigned to it. This can be configured using the following configurations:
 
-* `pinot.query.scheduler.tokens_per_ms` will indicate how many tokens to generate per second for each group. The default value for this is the number of threads avaialble to run queries (which will essentially attempt to schedule more queries than is possible to run)
+* `pinot.query.scheduler.tokens_per_ms` will indicate how many tokens to generate per second for each group. The default value for this is the number of threads available to run queries (which will essentially attempt to schedule more queries than is possible to run)
 * `pinot.query.scheduler.token_lifetime_ms` indicates the lifetime of every allocated token
 
 This scheduler applies a linear decay for groups that have recently been scheduled to avoid starvation and allow groups with light workloads to be scheduled.

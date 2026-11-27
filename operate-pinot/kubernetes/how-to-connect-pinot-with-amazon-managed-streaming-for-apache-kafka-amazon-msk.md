@@ -179,7 +179,7 @@ Sample output:
 ```
 Executing command: AddTable -tableConfigFile /var/pinot/examples/pullRequestMergedEventsAwsMskDemo_realtime_table_config.json -schemaFile /var/pinot/examples/pullRequestMergedEventsAwsMskDemo_schema.json -controllerHost pinot-controller -controllerPort 9000 -exec
 Sending request: http://pinot-controller:9000/schemas to controller: pinot-controller-0.pinot-controller-headless.pinot-quickstart.svc.cluster.local, version: Unknown
-{"status":"Table pullRequestMergedEventsAwsMskDemo_REALTIME succesfully added"}
+{"status":"Table pullRequestMergedEventsAwsMskDemo_REALTIME successfully added"}
 ```
 
 * Then you can open Pinot Query Console to browse the data
