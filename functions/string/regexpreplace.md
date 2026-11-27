@@ -34,7 +34,7 @@ Index of inputStr from where matching should start. Counting starts and 0. Defau
 
 ### `occurrence`
 
-Controls which occurence of the matched pattern must be replaced. Counting starts at 0. Default value is -1 if not specified
+Controls which occurrence of the matched pattern must be replaced. Counting starts at 0. Default value is -1 if not specified
 
 ### `flag`
 
@@ -137,7 +137,7 @@ from myTable
 
 ### Example 8
 
-This example shows how the `occurence` parameter can be used. In the example below, the matchStr regular expression matches against three instances in the input - `healthy`, `wealthy` and `stealthy`. As the occurence is specified to 2, the second occurence (counting from zero)  `stealthy` is replaced with `something`
+This example shows how the `occurrence` parameter can be used. In the example below, the matchStr regular expression matches against three instances in the input - `healthy`, `wealthy` and `stealthy`. As the occurrence is specified to 2, the second occurrence (counting from zero)  `stealthy` is replaced with `something`
 
 ```sql
 select regexpReplace('healthy, wealthy, stealthy and wise','\\w+thy', 'something', 0, 2)  AS value

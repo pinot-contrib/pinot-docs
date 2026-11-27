@@ -9,7 +9,7 @@ Evaluates the 'jsonPath' on jsonField, returns the result as the type 'resultsTy
 
 The function closely mirrors JSONEXTRACTSCALAR, however, since it extracts values from a JSON Index, it allows for additional filtering to be pushed down. 
 
-Compared to JSONEXTRACTSCALAR, this is most useful when extraction is required on a large number of docs, or on large docs. When filtering is highly specific, the original JSONEXTRACTSCALAR implementation is usually faster. For a simple comparsion, see the initial PR [#11739](https://github.com/apache/pinot/pull/11739)
+Compared to JSONEXTRACTSCALAR, this is most useful when extraction is required on a large number of docs, or on large docs. When filtering is highly specific, the original JSONEXTRACTSCALAR implementation is usually faster. For a simple comparison, see the initial PR [#11739](https://github.com/apache/pinot/pull/11739)
 
 ## Signature
 
