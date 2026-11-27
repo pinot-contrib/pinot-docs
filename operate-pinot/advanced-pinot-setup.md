@@ -297,7 +297,7 @@ docker run \
 ```
 Executing command: AddTable -tableConfigFile examples/batch/airlineStats/airlineStats_offline_table_config.json -schemaFile examples/batch/airlineStats/airlineStats_schema.json -controllerHost pinot-controller -controllerPort 9000 -exec
 Sending request: http://pinot-controller:9000/schemas to controller: a413b0013806, version: Unknown
-{"status":"Table airlineStats_OFFLINE succesfully added"}
+{"status":"Table airlineStats_OFFLINE successfully added"}
 ```
 {% endtab %}
 
@@ -390,7 +390,7 @@ docker run \
 ```
 Executing command: AddTable -tableConfigFile examples/docker/table-configs/airlineStats_realtime_table_config.json -schemaFile examples/stream/airlineStats/airlineStats_schema.json -controllerHost pinot-controller -controllerPort 9000 -exec
 Sending request: http://pinot-controller:9000/schemas to controller: 8fbe601012f3, version: Unknown
-{"status":"Table airlineStats_REALTIME succesfully added"}
+{"status":"Table airlineStats_REALTIME successfully added"}
 ```
 {% endtab %}
 

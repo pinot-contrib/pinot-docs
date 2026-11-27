@@ -24,7 +24,7 @@ controller.segmentRelocator.enableLocalTierMigration=true
 // controller.segmentRelocator.initialDelayInSeconds=random [120, 300), by default
 ```
 
-**The tables** specify which data to be put on which storage tiers, as an exmaple below
+**The tables** specify which data to be put on which storage tiers, as an example below
 
 ```
 {

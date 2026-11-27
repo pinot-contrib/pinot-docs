@@ -30,7 +30,7 @@ You can configure the interval for this job using the`controller.realtime.segmen
 
 Pinot supports multi-column partitioning for offline tables. Map multiple columns under [\`tableIndexConfig.segmentPartitionConfig.columnPartitionMap\`](../../reference/configuration-reference/table.md#table-index-config)[.](../../reference/configuration-reference/table.md#second-level-fields) Pinot assigns the input data to each partition according to the partition configuration individually for each column.
 
-The following example partitions the segment based on two columns, `memberID` and `caseNumber`. Note that each partition column is handled separately, so in this case the segment is partitioned on `memberID` (partition ID 1) and also partiitoned on `caseNumber` (partition ID 2).
+The following example partitions the segment based on two columns, `memberID` and `caseNumber`. Note that each partition column is handled separately, so in this case the segment is partitioned on `memberID` (partition ID 1) and also partitioned on `caseNumber` (partition ID 2).
 
 ```json
 "tableIndexConfig": {
