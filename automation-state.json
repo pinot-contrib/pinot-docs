@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-11-27T12:40:10Z",
-  "last_successful_run": "2026-11-28T14:09:06.330Z",
+  "last_successful_run": "2026-11-28T15:11:11.166Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -2388,24 +2388,24 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "complete",
-  "last_run_id": "codex-hourly-20261128T140801Z",
+  "last_run_id": "codex-hourly-20261128T151002Z",
   "lock": {
-    "holder": "codex-hourly-20261128T151002Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-28T15:10:50.080Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-28T15:30:50.080Z",
-    "prev_holder": "codex-hourly-20261128T140801Z"
+    "released_at": "2026-11-28T15:11:11.166Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261128T151002Z"
   },
   "last_run_summary": "No post-checkpoint master merges or pending docs follow-ups.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-hourly-20261128T151002Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-28T15:10:50.080Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-28T15:30:50.080Z",
-    "prev_holder": "codex-hourly-20261128T140801Z"
+    "released_at": "2026-11-28T15:11:11.166Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261128T151002Z"
   },
   "recent_runs": [
     {
@@ -3898,6 +3898,18 @@
       "run_id": "codex-hourly-20261128T140801Z",
       "started_utc": "2026-11-28T14:08:01.687Z",
       "finished_utc": "2026-11-28T14:09:06.330Z",
+      "result": "complete",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-27T12:40:10Z",
+      "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261128T151002Z",
+      "started_utc": "2026-11-28T15:10:02.739Z",
+      "finished_utc": "2026-11-28T15:11:11.166Z",
       "result": "complete",
       "new_prs": [],
       "docs_prs_created": [],
@@ -5593,6 +5605,18 @@
       "run_id": "codex-hourly-20261128T140801Z",
       "started_utc": "2026-11-28T14:08:01.687Z",
       "finished_utc": "2026-11-28T14:09:06.330Z",
+      "result": "complete",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-27T12:40:10Z",
+      "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261128T151002Z",
+      "started_utc": "2026-11-28T15:10:02.739Z",
+      "finished_utc": "2026-11-28T15:11:11.166Z",
       "result": "complete",
       "new_prs": [],
       "docs_prs_created": [],
@@ -7329,12 +7353,24 @@
       "pending_docs_prs": [],
       "checkpoint": "2026-11-27T12:40:10Z",
       "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261128T151002Z",
+      "started_utc": "2026-11-28T15:10:02.739Z",
+      "finished_utc": "2026-11-28T15:11:11.166Z",
+      "result": "complete",
+      "new_prs": [],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-27T12:40:10Z",
+      "slack_status": "not_applicable"
     }
   ],
   "last_run": {
-    "run_id": "codex-hourly-20261128T140801Z",
-    "started_utc": "2026-11-28T14:08:01.687Z",
-    "finished_utc": "2026-11-28T14:09:06.330Z",
+    "run_id": "codex-hourly-20261128T151002Z",
+    "started_utc": "2026-11-28T15:10:02.739Z",
+    "finished_utc": "2026-11-28T15:11:11.166Z",
     "result": "complete",
     "new_prs": [],
     "docs_prs_created": [],
