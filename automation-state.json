@@ -2390,21 +2390,21 @@
   "last_run_result": "complete",
   "last_run_id": "codex-hourly-20261128T060854Z",
   "lock": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-28T06:09:58.916Z",
-    "released_at": "2026-11-28T06:10:24.646Z",
-    "lease_expires_at": null,
+    "holder": "codex-hourly-20261128T070855Z",
+    "status": "held",
+    "acquired_at": "2026-11-28T07:09:39.129Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-28T07:29:39.129Z",
     "prev_holder": "codex-hourly-20261128T060854Z"
   },
   "last_run_summary": "Skipped six pom.xml-only dependency or build-tool version bumps.",
   "run_history_note": "",
   "lease": {
-    "holder": null,
-    "status": "released",
-    "acquired_at": "2026-11-28T06:09:58.916Z",
-    "released_at": "2026-11-28T06:10:24.646Z",
-    "lease_expires_at": null,
+    "holder": "codex-hourly-20261128T070855Z",
+    "status": "held",
+    "acquired_at": "2026-11-28T07:09:39.129Z",
+    "released_at": null,
+    "lease_expires_at": "2026-11-28T07:29:39.129Z",
     "prev_holder": "codex-hourly-20261128T060854Z"
   },
   "recent_runs": [
