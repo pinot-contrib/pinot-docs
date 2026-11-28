@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-11-26T07:45:36Z",
-  "last_successful_run": "2026-11-26T09:39:30.900Z",
+  "last_processed_merged_at": "2026-11-27T12:40:10Z",
+  "last_successful_run": "2026-11-28T06:10:24.646Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -2342,28 +2342,70 @@
       "upstream_merge_sha": "95ec60fa985b6371577562592d6c4bc44e13f732",
       "upstream_url": "https://github.com/apache/pinot/pull/20387",
       "note": "Dependency-only patch bump for jnr-posix from 3.2.8 to 3.2.9; the merged diff only changes the Maven version property."
+    },
+    "20392": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-26T12:31:09Z",
+      "upstream_merge_sha": "3be12a289e8978e117b39e088aab28fed5a23e61",
+      "upstream_url": "https://github.com/apache/pinot/pull/20392",
+      "note": "Only a pom.xml version bump: org.webjars:swagger-ui from 5.35.1 to 5.36.0. No change to documented Pinot configuration, API, or operator workflow."
+    },
+    "20393": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-26T12:30:56Z",
+      "upstream_merge_sha": "021bcfb094b340bd0b688f27274df4b977f9258d",
+      "upstream_url": "https://github.com/apache/pinot/pull/20393",
+      "note": "Only a pom.xml version bump: org.codehaus.mojo:animal-sniffer-annotations from 1.29.1 to 1.29.2. No change to documented Pinot configuration, API, or operator workflow."
+    },
+    "20394": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-26T13:00:48Z",
+      "upstream_merge_sha": "d197e0b5fc4013dc79ebd37039d09a2d958280c2",
+      "upstream_url": "https://github.com/apache/pinot/pull/20394",
+      "note": "Only a pom.xml version bump: org.codehaus.mojo:versions-maven-plugin from 2.25.2 to 2.25.3. No change to documented Pinot configuration, API, or operator workflow."
+    },
+    "20402": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-27T12:39:17Z",
+      "upstream_merge_sha": "4802d636ca329b20a48a917af557756223259b0b",
+      "upstream_url": "https://github.com/apache/pinot/pull/20402",
+      "note": "Only a pom.xml version bump: software.amazon.awssdk:bom from 2.59.7 to 2.59.8. No change to documented Pinot configuration, API, or operator workflow."
+    },
+    "20403": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-27T12:39:56Z",
+      "upstream_merge_sha": "17faa2501c00789016d8a52770b84c9fe1081722",
+      "upstream_url": "https://github.com/apache/pinot/pull/20403",
+      "note": "Only a pom.xml version bump: io.grpc:grpc-bom from 1.85.1 to 1.86.0. No change to documented Pinot configuration, API, or operator workflow."
+    },
+    "20404": {
+      "decision": "not_relevant",
+      "merged_at": "2026-11-27T12:40:10Z",
+      "upstream_merge_sha": "5260361daa917c8773b391c4f60bf24ed78e52dc",
+      "upstream_url": "https://github.com/apache/pinot/pull/20404",
+      "note": "Only a pom.xml version bump: com.github.luben:zstd-jni from 1.5.7-28 to 1.5.7-29. No change to documented Pinot configuration, API, or operator workflow."
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "complete",
-  "last_run_id": "codex-hourly-20261126T093818Z",
+  "last_run_id": "codex-hourly-20261128T060854Z",
   "lock": {
-    "holder": "codex-hourly-20261128T060854Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-28T06:09:58.916Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-28T06:29:58.916Z",
-    "prev_holder": "codex-hourly-20261126T093818Z"
+    "released_at": "2026-11-28T06:10:24.646Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261128T060854Z"
   },
-  "last_run_summary": "No post-checkpoint master merges or pending docs follow-ups.",
+  "last_run_summary": "Skipped six pom.xml-only dependency or build-tool version bumps.",
   "run_history_note": "",
   "lease": {
-    "holder": "codex-hourly-20261128T060854Z",
-    "status": "held",
+    "holder": null,
+    "status": "released",
     "acquired_at": "2026-11-28T06:09:58.916Z",
-    "released_at": null,
-    "lease_expires_at": "2026-11-28T06:29:58.916Z",
-    "prev_holder": "codex-hourly-20261126T093818Z"
+    "released_at": "2026-11-28T06:10:24.646Z",
+    "lease_expires_at": null,
+    "prev_holder": "codex-hourly-20261128T060854Z"
   },
   "recent_runs": [
     {
@@ -3748,9 +3790,28 @@
       "pending_docs_prs": [],
       "checkpoint": "2026-11-26T07:45:36Z",
       "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261128T060854Z",
+      "started_utc": "2026-11-28T06:08:54.692Z",
+      "finished_utc": "2026-11-28T06:10:24.646Z",
+      "result": "complete",
+      "new_prs": [
+        20393,
+        20392,
+        20394,
+        20402,
+        20403,
+        20404
+      ],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-27T12:40:10Z",
+      "slack_status": "not_applicable"
     }
   ],
-  "last_run_note": "Kept the checkpoint; no new docs PR or Slack summary.",
+  "last_run_note": "Advanced the checkpoint after six explicit skips; no docs PRs or Slack summary.",
   "run_log": [
     {
       "run_id": "run-20261107T100112Z-opus48-875",
@@ -5327,6 +5388,25 @@
       "docs_prs_merged": [],
       "pending_docs_prs": [],
       "checkpoint": "2026-11-26T07:45:36Z",
+      "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261128T060854Z",
+      "started_utc": "2026-11-28T06:08:54.692Z",
+      "finished_utc": "2026-11-28T06:10:24.646Z",
+      "result": "complete",
+      "new_prs": [
+        20393,
+        20392,
+        20394,
+        20402,
+        20403,
+        20404
+      ],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-27T12:40:10Z",
       "slack_status": "not_applicable"
     }
   ],
@@ -6942,18 +7022,44 @@
       "pending_docs_prs": [],
       "checkpoint": "2026-11-26T07:45:36Z",
       "slack_status": "not_applicable"
+    },
+    {
+      "run_id": "codex-hourly-20261128T060854Z",
+      "started_utc": "2026-11-28T06:08:54.692Z",
+      "finished_utc": "2026-11-28T06:10:24.646Z",
+      "result": "complete",
+      "new_prs": [
+        20393,
+        20392,
+        20394,
+        20402,
+        20403,
+        20404
+      ],
+      "docs_prs_created": [],
+      "docs_prs_merged": [],
+      "pending_docs_prs": [],
+      "checkpoint": "2026-11-27T12:40:10Z",
+      "slack_status": "not_applicable"
     }
   ],
   "last_run": {
-    "run_id": "codex-hourly-20261126T093818Z",
-    "started_utc": "2026-11-26T09:38:18.490Z",
-    "finished_utc": "2026-11-26T09:39:30.900Z",
+    "run_id": "codex-hourly-20261128T060854Z",
+    "started_utc": "2026-11-28T06:08:54.692Z",
+    "finished_utc": "2026-11-28T06:10:24.646Z",
     "result": "complete",
-    "new_prs": [],
+    "new_prs": [
+      20393,
+      20392,
+      20394,
+      20402,
+      20403,
+      20404
+    ],
     "docs_prs_created": [],
     "docs_prs_merged": [],
     "pending_docs_prs": [],
-    "checkpoint": "2026-11-26T07:45:36Z",
+    "checkpoint": "2026-11-27T12:40:10Z",
     "slack_status": "not_applicable"
   }
 }
